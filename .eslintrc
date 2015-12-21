@@ -5,7 +5,7 @@
     "__DEV__": true,
   },
   "env": {
-     "jest": true,
+     "mocha": true,
    },
   "rules": {
     "react/jsx-quotes": 0,

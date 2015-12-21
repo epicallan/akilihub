@@ -1,17 +1,12 @@
-class Controller {
+import analyzer from '../lib/analyzer.js';
 
-  constructor() {
-    /* const file = path.resolve(__dirname, './content/topic-airtel.json');
-    this.data = analyzer.readInData('');
-    const options = {
-      type: 'topic',
-      poster: 'Airtel Uganda'
-    };
-    this.data = analyzer.cleanUpData(data, options);*/
-    this.data = {
-      test: 'hello',
-    };
+export default class Controller {
+
+  constructor(options) {
+    this.data = analyzer.getData(options);
+  }
+
+  getTopeTweeps() {
+    return analyzer.topFrequentItems(this.data, 'user_name', 5);
   }
 }
-
-export default new Controller();

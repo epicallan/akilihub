@@ -8,9 +8,7 @@ import utils from './utils';
 import _ from 'lodash';
 import Promise from 'bluebird';
 
-const readFile = Promise.promisify(fs.readFile);
-
-export default class Analyzer {
+class Analyzer {
 
   constructor() {
     this.tokenizers = new salient.tokenizers.RegExpTokenizer({
@@ -18,16 +16,13 @@ export default class Analyzer {
     });
     this.classifier = new salient.sentiment.BayesSentimentAnalyser();
     this.POSTagger = new salient.tagging.HmmTagger();
-    this.test = 'hello';
   }
 
-
-  async readInData(file) {
-    const source = await readFile(file);
-    return JSON.parse(source);
+  _readInData(file) {
+    return JSON.parse(fs.readFileSync(file, 'utf8'));
   }
 
-  cleanUpData(raw, options) {
+  _cleanUpData(raw, options) {
     let data = null;
     if (options.type === 'topic' || options.type === 'pages') {
       data = cleanUp.assignIds(raw);
@@ -36,6 +31,11 @@ export default class Analyzer {
     }
     if (options.type === 'topic') data = cleanUp.removeSelfPosts(options.poster, data);
     return data;
+  }
+
+  getData(options) {
+    const data = this._readInData(options.file);
+    return this._cleanUpData(data, options);
   }
 
   getSentiment(sentence) {
@@ -56,7 +56,7 @@ export default class Analyzer {
     return nouns;
   }
 
-  getTopItems(terms, count) {
+  _getTopItems(terms, count) {
     let aggregated = _.countBy(terms, (n) => {
       return n;
     });
@@ -153,7 +153,7 @@ export default class Analyzer {
 
 
   topFrequentItems(data, field, count) {
-    const posters = data.map(post => post[field]);
+    const posters = data.map((post) => post[field]);
     return this._getTopItems(posters, count);
   }
 
@@ -200,3 +200,4 @@ export default class Analyzer {
     return data;
   }
 }
+export default new Analyzer();
