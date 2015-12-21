@@ -12,14 +12,22 @@ I am thinking for more interactive dashboards we could use dc.js
 * pie charts
 * line charts
 
-## TODO
-* Create Plotly.js react components
+### TODO
+* Create plotly.js react components
 * Change home page and css to our current respectively
 * Create a class for formatting data into chart data formats
-* Methods for merging fbk and twitter Data
+* Methods for merging facebook and twitter Data
 * Class for geo-coding locations in twitter data and caching co-ordinates in db
 * Writing mongoose models for the data
 * Writing tests
+
+### Initial Focus
+* visualize current twitter political data on Museveni and Besigye
+* chart to compare terms being used by both candidates
+* geo-plot places where most tweets are coming from
+* geo-plot current campaign trail if we can get the data is available
+* chart plotting tweet activity on both candidates with time as a dimension
+* chart plotting sentiments on both candidates with time and location as a dimension
 
 ### How to Build
 
