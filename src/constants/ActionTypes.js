@@ -3,5 +3,5 @@
 import keyMirror from 'fbjs/lib/keyMirror';
 
 export default keyMirror({
-
+  UGANDA_DECIDES_RECEIVE_DATA: null,
 });

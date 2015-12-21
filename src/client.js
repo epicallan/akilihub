@@ -64,6 +64,7 @@ function run() {
       state: location.state,
       context,
     });
+    console.log(location);
     render(currentState);
   });
 

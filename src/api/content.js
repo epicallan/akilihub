@@ -22,18 +22,26 @@ const fileExists = filename => new Promise(resolve => {
   fs.exists(filename, resolve);
 });
 
+// TODO make the query checking code into middleware
+
 const router = new Router();
+
+// define the about route
+router.get('/api/test', (req, res) => {
+  res.json({ text: 'hello Text' });
+});
+
 
 router.get('/', async (req, res, next) => {
   try {
     const path = req.query.path;
-
     if (!path || path === 'undefined') {
       res.status(400).send({ error: `The 'path' query parameter cannot be empty.` });
       return;
     }
 
     let fileName = join(CONTENT_DIR, (path === '/' ? '/index' : path) + '.jade');
+
     if (!(await fileExists(fileName))) {
       fileName = join(CONTENT_DIR, path + '/index.jade');
     }

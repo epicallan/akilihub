@@ -12,10 +12,14 @@ import { port } from './config';
 
 const server = global.server = express();
 
-//
 // Register Node.js middleware
 // -----------------------------------------------------------------------------
 server.use(express.static(path.join(__dirname, 'public')));
+
+//
+// Register Data analysis API middleware
+// -----------------------------------------------------------------------------
+server.use('/api/data', require('./api/data'));
 
 //
 // Register API middleware
@@ -41,7 +45,8 @@ server.get('*', async (req, res, next) => {
       data.body = ReactDOM.renderToString(component);
       data.css = css.join('');
     });
-
+    /* eslint-disable no-console */
+    console.log('server-side rendering');
     const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
     res.status(statusCode).send('<!doctype html>\n' + html);
   } catch (err) {
