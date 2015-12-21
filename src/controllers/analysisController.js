@@ -6,7 +6,7 @@ export default class Controller {
     this.data = analyzer.getData(options);
   }
 
-  getTopeTweeps() {
+  getTopTweeps() {
     return analyzer.topFrequentItems(this.data, 'user_name', 5);
   }
 }

@@ -13,7 +13,7 @@ const controller = new Controller({
 
 router.get('/social/hello', async(req, res, next) => {
   try {
-    const data = controller.getTopeTweeps();
+    const data = controller.getTopTweeps();
     res.status(200).json(data);
   } catch (err) {
     next(err);
