@@ -31,10 +31,14 @@ class CleanUp {
     return data;
   }
 
+  convertToDateObjs(data) {
+    data.forEach(d => new Date(d.date));
+  }
+
   tweeterData(data) {
     const twitterData = data.map((tweet) => {
       const obj = {};
-      obj.created_at = tweet.created_at;
+      obj.date = new Date(tweet.created_at);
       obj.text = tweet.text;
       obj.user_name = tweet.user.name;
       obj.location = tweet.user.location;

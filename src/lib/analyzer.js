@@ -6,7 +6,16 @@ import salient from 'salient';
 import cleanUp from './cleanUp';
 import utils from './utils';
 import _ from 'lodash';
+import crossfilter from 'crossfilter2';
+import request from 'request';
+import redis from 'redis';
+import bluebird from 'bluebird';
+
 // import Promise from 'bluebird';
+const GOOGLE_API_KEY = 'AIzaSyChXVTkq8bGhAxeJnQnNHfsmWcGcC2GXEE';
+const GEO_CODE_API = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
+bluebird.promisifyAll(redis.RedisClient.prototype);
+bluebird.promisifyAll(redis.Multi.prototype);
 
 class Analyzer {
 
@@ -16,6 +25,11 @@ class Analyzer {
     });
     this.classifier = new salient.sentiment.BayesSentimentAnalyser();
     this.POSTagger = new salient.tagging.HmmTagger();
+    this.client = redis.createClient();
+    this.client.on('error', (err) => {
+      /* eslint-disable no-console */
+      console.error('Error ' + err);
+    });
   }
 
   _readInData(file) {
@@ -32,17 +46,23 @@ class Analyzer {
     if (options.type === 'topic') data = cleanUp.removeSelfPosts(options.poster, data);
     return data;
   }
-
-  getData(options) {
-    const data = this._readInData(options.file);
-    return this._cleanUpData(data, options);
+  _getTopItems(terms, count) {
+    let aggregated = _.countBy(terms, (n) => {
+      return n;
+    });
+    aggregated = _.pairs(aggregated);
+    let myCount = count;
+    if (myCount >= aggregated.length) myCount = aggregated.length / 2;
+    aggregated = _.sortBy(aggregated, (n) => {
+      return n[1];
+    });
+    return aggregated.slice((aggregated.length - myCount), aggregated.length);
   }
-
-  getSentiment(sentence) {
+  _getSentiment(sentence) {
     return this.classifier.classify(sentence);
   }
 
-  getKeyWords(text) {
+  _getKeyWords(text) {
     const nouns = [];
     if (!utils.isEmpty(text)) {
       const concepts = this.tokenizers.tokenize(text);
@@ -56,17 +76,65 @@ class Analyzer {
     return nouns;
   }
 
-  _getTopItems(terms, count) {
-    let aggregated = _.countBy(terms, (n) => {
-      return n;
+  createCrossFilter(raw) {
+    return crossfilter(raw);
+  }
+
+  createCrossfilterDimension(crossfilterData, type) {
+    try {
+      return crossfilterData.dimension(d => d[type]);
+    } catch (e) {
+      /* eslint-disable no-console */
+      console.log(e.stack);
+    }
+  }
+
+  _saveToRedis(obj) {
+    this.client.hmset(obj.location, 'lat', obj.lat, 'lng', obj.lng, redis.print);
+  }
+
+  _getFromRedis(key) {
+    return new Promise((resolve, reject) => {
+      this.client.hget(key, (err, reply) => {
+        resolve(reply);
+        reject(reply);
+      });
     });
-    aggregated = _.pairs(aggregated);
-    let myCount = count;
-    if (myCount >= aggregated.length) myCount = aggregated.length / 2;
-    aggregated = _.sortBy(aggregated, (n) => {
-      return n[1];
+  }
+
+  _geoCodeLocations(location) {
+    const data = location.replace(' ', '+');
+    const url = GEO_CODE_API + data + '&key=' + GOOGLE_API_KEY;
+    return new Promise((resolve, reject) => {
+      request(url, (error, response, body) => {
+        resolve(JSON.parse(body).results[0].geometry.location);
+        reject(error);
+      });
     });
-    return aggregated.slice((aggregated.length - myCount), aggregated.length);
+  }
+
+  async getLocationCoordinates(location) {
+    let coordinates = await this._getFromRedis(location);
+    if (!coordinates || coordinates === undefined) {
+      coordinates = await this._geoCodeLocations(location);
+      this._saveToRedis({
+        location, coordinates,
+      });
+    }
+    return coordinates;
+  }
+
+  groupDimensionByCount(dimension, field) {
+    return dimension.group().reduceSum(d => d[field]);
+  }
+
+  groupDimensionBySum(dimension, field) {
+    return dimension.group().reduceCount(d => d[field]);
+  }
+
+  getData(options) {
+    const data = this._readInData(options.file);
+    return this._cleanUpData(data, options);
   }
 
   fbPostsSentiments(list, field) {
@@ -74,7 +142,7 @@ class Analyzer {
       list.forEach((post) => {
         let sentiment = null;
         if (!utils.isEmpty(post[field])) {
-          sentiment = this._getSentiment(post[field]);
+          sentiment = this.__getSentiment(post[field]);
           post.sentiment = sentiment;
         }
       });
@@ -89,7 +157,7 @@ class Analyzer {
         let sentiments = 0;
         post.comments.forEach((comment) => {
           if (!utils.isEmpty(comment.comment)) {
-            const sentiment = this._getSentiment(comment.comment);
+            const sentiment = this.__getSentiment(comment.comment);
             comment.sentiment = sentiment;
             sentiments += sentiment;
           }
@@ -118,9 +186,9 @@ class Analyzer {
 
   fbPostsTerms(list) {
     list.forEach((post) => {
-      post.terms = this._getKeyWords(post.post);
+      post.terms = this.__getKeyWords(post.post);
       post.comments.forEach((comment) => {
-        comment.terms = this._getKeyWords(comment.comment);
+        comment.terms = this.__getKeyWords(comment.comment);
       });
     });
     return list;
@@ -153,7 +221,7 @@ class Analyzer {
 
 
   topFrequentItems(data, field, count) {
-    const posters = data.map((post) => post[field]);
+    const posters = data.map(post => post[field]);
     return this._getTopItems(posters, count);
   }
 
@@ -167,14 +235,14 @@ class Analyzer {
 
   twTerms(data) {
     data.forEach((tweet) => {
-      tweet.terms = this._getKeyWords(tweet.text);
+      tweet.terms = this.__getKeyWords(tweet.text);
     });
     return data;
   }
 
   tweetSentiments(data) {
     data.forEach((tweet) => {
-      tweet.sentiment = this._getSentiment(tweet.text);
+      tweet.sentiment = this.__getSentiment(tweet.text);
     });
     return data;
   }
