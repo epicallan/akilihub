@@ -6,7 +6,7 @@ import salient from 'salient';
 import cleanUp from './cleanUp';
 import utils from './utils';
 import _ from 'lodash';
-import Promise from 'bluebird';
+// import Promise from 'bluebird';
 
 class Analyzer {
 

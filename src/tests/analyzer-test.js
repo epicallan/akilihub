@@ -23,4 +23,9 @@ describe('analyzer class', () => {
     console.log(prettyjson.render(tweeps));
     expect(tweeps).to.have.length.above(0);
   });
+
+  it('should reduce data by time', () => {
+    const reduced = analyzer.reduceByTime('dates');
+    expect(reduced).to.have.length.above(1);
+  });
 });

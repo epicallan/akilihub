@@ -11,6 +11,7 @@ I am thinking for more interactive dashboards we could use dc.js
 * Bar chart
 * pie charts
 * line charts
+* etc
 
 ### TODO
 * Create plotly.js react components
@@ -25,14 +26,16 @@ I am thinking for more interactive dashboards we could use dc.js
 * visualize current twitter political data on Museveni and Besigye
 * chart to compare terms being used by both candidates
 * geo-plot places where most tweets are coming from
-* geo-plot current campaign trail if we can get the data is available
+* geo-plot current campaign trail if we can get the data
 * chart plotting tweet activity on both candidates with time as a dimension
 * chart plotting sentiments on both candidates with time and location as a dimension
 
 ### How to Build
 
-```shell
-$ npm run build                 # or, `npm run build -- --release`
+```
+shell
+$ npm run build                 
+# or, `npm run build -- --release`
 ```
 
 By default, it builds in *debug* mode. If you need to build in release
