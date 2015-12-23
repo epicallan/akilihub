@@ -1,7 +1,7 @@
 import chai from 'chai';
 import analyzer from '../lib/analyzer';
 import path from 'path';
-// import prettyjson from 'prettyjson';
+import prettyjson from 'prettyjson';
 const expect = chai.expect;
 
 describe('analyzer class', () => {
@@ -28,8 +28,6 @@ describe('analyzer class', () => {
   it('should reduce data using crossfilter dimensions', () => {
     const reduced = analyzer.createCrossfilterDimension(cfData, 'geo_enabled');
     const geoEnabled = reduced.filter(true);
-    /* eslint-disable no-console */
-    // console.log(prettyjson.render(geoEnabled.top(1)));
     expect(geoEnabled.top(2)).to.have.length.above(1);
   });
 
@@ -37,21 +35,22 @@ describe('analyzer class', () => {
     before(async(done) => {
       await analyzer._saveToRedis({
         location: 'masaka',
-        lat: 0.124,
-        lng: 32.57,
+        lat: -0.3267383,
+        lng: 31.7537404,
       });
       done();
     });
-
+    after((done) => {
+      analyzer.deletFromRedis(['jinja', 'masaka'], done);
+    });
     it('should get location co-ordinates', async(done) => {
-      const coordinates = await analyzer._geoCodeLocation('kampala');
+      const coordinates = await analyzer._geoCodeLocation('masaka');
       expect(coordinates.lat).to.be.a('number');
       done();
     });
 
     it('should be able to get from redis', async(done) => {
       const coordinates = await analyzer._getFromRedis('kampala');
-      // console.log(coordinates);
       expect(coordinates).to.be.an('object');
       done();
     });
@@ -60,14 +59,14 @@ describe('analyzer class', () => {
       const payload = [{
         location: 'kampala',
       }, {
-        location: 'wakiso',
+        location: 'jinja',
       }, {
         location: 'masaka',
       }];
       analyzer.getCordinates(payload, (results, error) => {
+        /* eslint-disable no-console */
         if (error) console.log(error);
-        console.log('****results****');
-        console.log(results);
+        console.log(prettyjson.render(results));
         expect(results[0]).to.be.an('object');
       });
     });

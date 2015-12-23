@@ -103,6 +103,17 @@ class Analyzer {
     });
   }
 
+  deletFromRedis(keys, cb) {
+    _async.each(keys, (key, callback) => {
+      this.client.del(key, (err) => {
+        if (err) callback(err);
+        callback();
+      });
+    }, (err) => {
+      if (err) throw new Error('deleting keys error');
+      cb();
+    });
+  }
   _geoCodeLocation(location) {
     const data = location.replace(' ', '+');
     const url = GEO_CODE_API + data + '&key=' + GOOGLE_API_KEY;
@@ -110,11 +121,10 @@ class Analyzer {
       request(url, (error, response, body) => {
         const coordinates = JSON.parse(body).results[0].geometry.location;
         this._saveToRedis({
-          location: location,
           lat: coordinates.lat,
           lng: coordinates.lng,
+          location,
         });
-        console.log(coordinates);
         resolve(coordinates);
         reject(error);
       });
@@ -122,7 +132,7 @@ class Analyzer {
   }
 
   getCordinates(data, cb) {
-    this.getLocationCoordinates(data, (unmapped, error) => {
+    this._getSavedCoordinates(data, (unmapped, error) => {
       if (error) throw new Error('Getting coodinate error');
       _async.each(unmapped, async(d, callback) => {
         const location = d.location;
@@ -137,7 +147,7 @@ class Analyzer {
     });
   }
 
-  getLocationCoordinates(data, cb) {
+  _getSavedCoordinates(data, cb) {
     const unmapped = [];
     _async.each(data, async(d, callback) => {
       const location = d.location;
