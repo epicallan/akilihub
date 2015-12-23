@@ -109,8 +109,30 @@ class Analyzer {
     return new Promise((resolve, reject) => {
       request(url, (error, response, body) => {
         const coordinates = JSON.parse(body).results[0].geometry.location;
+        this._saveToRedis({
+          location: location,
+          lat: coordinates.lat,
+          lng: coordinates.lng,
+        });
+        console.log(coordinates);
         resolve(coordinates);
         reject(error);
+      });
+    });
+  }
+
+  getCordinates(data, cb) {
+    this.getLocationCoordinates(data, (unmapped, error) => {
+      if (error) throw new Error('Getting coodinate error');
+      _async.each(unmapped, async(d, callback) => {
+        const location = d.location;
+        const coordinates = await this._geoCodeLocation(location);
+        if (coordinates) {
+          d.coordinates = coordinates;
+        }
+        callback();
+      }, (err) => {
+        cb(data, err);
       });
     });
   }
@@ -120,7 +142,6 @@ class Analyzer {
     _async.each(data, async(d, callback) => {
       const location = d.location;
       const coordinates = await this._getFromRedis(location);
-      console.log(coordinates);
       if (!coordinates || coordinates === undefined) {
         unmapped.push(d);
       }
@@ -129,7 +150,8 @@ class Analyzer {
       }
       callback();
     }, (error) => {
-      cb(data, error);
+      console.log(unmapped);
+      cb(unmapped, error);
     });
   }
 

@@ -51,7 +51,7 @@ describe('analyzer class', () => {
 
     it('should be able to get from redis', async(done) => {
       const coordinates = await analyzer._getFromRedis('kampala');
-      console.log(coordinates);
+      // console.log(coordinates);
       expect(coordinates).to.be.an('object');
       done();
     });
@@ -64,7 +64,7 @@ describe('analyzer class', () => {
       }, {
         location: 'masaka',
       }];
-      analyzer.getLocationCoordinates(payload, (results, error) => {
+      analyzer.getCordinates(payload, (results, error) => {
         if (error) console.log(error);
         console.log('****results****');
         console.log(results);
