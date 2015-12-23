@@ -10,6 +10,7 @@ import crossfilter from 'crossfilter2';
 import request from 'request';
 import redis from 'redis';
 import bluebird from 'bluebird';
+import _async from 'async';
 
 // import Promise from 'bluebird';
 const GOOGLE_API_KEY = 'AIzaSyChXVTkq8bGhAxeJnQnNHfsmWcGcC2GXEE';
@@ -95,33 +96,41 @@ class Analyzer {
 
   _getFromRedis(key) {
     return new Promise((resolve, reject) => {
-      this.client.hget(key, (err, reply) => {
+      this.client.hgetall(key, (err, reply) => {
         resolve(reply);
         reject(reply);
       });
     });
   }
 
-  _geoCodeLocations(location) {
+  _geoCodeLocation(location) {
     const data = location.replace(' ', '+');
     const url = GEO_CODE_API + data + '&key=' + GOOGLE_API_KEY;
     return new Promise((resolve, reject) => {
       request(url, (error, response, body) => {
-        resolve(JSON.parse(body).results[0].geometry.location);
+        const coordinates = JSON.parse(body).results[0].geometry.location;
+        resolve(coordinates);
         reject(error);
       });
     });
   }
 
-  async getLocationCoordinates(location) {
-    let coordinates = await this._getFromRedis(location);
-    if (!coordinates || coordinates === undefined) {
-      coordinates = await this._geoCodeLocations(location);
-      this._saveToRedis({
-        location, coordinates,
-      });
-    }
-    return coordinates;
+  getLocationCoordinates(data, cb) {
+    const unmapped = [];
+    _async.each(data, async(d, callback) => {
+      const location = d.location;
+      const coordinates = await this._getFromRedis(location);
+      console.log(coordinates);
+      if (!coordinates || coordinates === undefined) {
+        unmapped.push(d);
+      }
+      if (coordinates) {
+        d.coordinates = coordinates;
+      }
+      callback();
+    }, (error) => {
+      cb(data, error);
+    });
   }
 
   groupDimensionByCount(dimension, field) {
