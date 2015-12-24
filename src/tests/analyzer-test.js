@@ -9,7 +9,7 @@ describe('analyzer class', () => {
   let cfData = null;
 
   before('should read in data for tests', (done) => {
-    const filePath = path.resolve(__dirname, '../content/tw-museveni.json');
+    const filePath = path.resolve(__dirname, '../content/museveni.json');
     const options = {
       file: filePath,
       type: 'twitter',
@@ -31,6 +31,17 @@ describe('analyzer class', () => {
     expect(geoEnabled.top(2)).to.have.length.above(1);
   });
 
+  it('should get top terms in tweets', () => {
+    const filtered = analyzer.filterData(data, 'is_retweet', false);
+    const termedTweets = analyzer.twTerms(filtered);
+    const exclude = ['president', 'museveni'];
+    const terms = analyzer.aggregateTerms(termedTweets);
+    const topTerms = analyzer._getTopItems(terms, 15);
+    const refinedTop = analyzer._excludeTerms(topTerms, exclude);
+    /* eslint-disable no-console */
+    console.log(prettyjson.render(refinedTop));
+    expect(refinedTop).to.have.length.above(0);
+  });
   describe('geocoding', () => {
     before(async(done) => {
       await analyzer._saveToRedis({
@@ -55,7 +66,7 @@ describe('analyzer class', () => {
       done();
     });
 
-    it('should get location co-ordinates if available on redis', () => {
+    it('should get location co-ordinates if cached on redis or from google map API', () => {
       const payload = [{
         location: 'kampala',
       }, {
@@ -66,7 +77,7 @@ describe('analyzer class', () => {
       analyzer.getCordinates(payload, (results, error) => {
         /* eslint-disable no-console */
         if (error) console.log(error);
-        console.log(prettyjson.render(results));
+        // console.log(prettyjson.render(results));
         expect(results[0]).to.be.an('object');
       });
     });

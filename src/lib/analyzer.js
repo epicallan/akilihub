@@ -262,8 +262,8 @@ class Analyzer {
 
 
   topFrequentItems(data, field, count) {
-    const posters = data.map(post => post[field]);
-    return this._getTopItems(posters, count);
+    const results = data.map(item => item[field]);
+    return this._getTopItems(results, count);
   }
 
   filterData(data, field, assertion) {
@@ -276,9 +276,35 @@ class Analyzer {
 
   twTerms(data) {
     data.forEach((tweet) => {
-      tweet.terms = this.__getKeyWords(tweet.text);
+      tweet.terms = this._getKeyWords(tweet.text);
     });
     return data;
+  }
+  topTwTerms(data, options) {
+    let myData = data;
+    if (options.filterRetweets) {
+      myData = this.filterData(data, 'is_retweet', false);
+    }
+    const termedTweets = this.twTerms(myData);
+    const terms = this.aggregateTerms(termedTweets);
+    const topTerms = this._getTopItems(terms, options.count);
+    return this._excludeTerms(topTerms, options.exclude);
+  }
+  _excludeTerms(data, exclude) {
+    const filterd = _.filter(data, (obj) => {
+      let isFilterdOut = false;
+      exclude.forEach((n) => {
+        if (obj[0].toLowerCase().trim() === n) isFilterdOut = true;
+      });
+      return !isFilterdOut;
+    });
+    return filterd;
+  }
+  aggregateTerms(data) {
+    const terms = data.map(d => d.terms);
+    const flattenTerms = _.flatten(terms, true);
+    // console.log(flattenTerms);
+    return flattenTerms;
   }
 
   tweetSentiments(data) {

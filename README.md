@@ -26,7 +26,9 @@ Even on the front end we can cache data in session storage
 * Class for geo-coding locations in twitter data and caching co-ordinates in db
 * Writing mongoose models for the data
 * Use a logger instead of console.log
-* Writing tests
+* Writing tests for un-tested code
+* Filter out noise from some of the mined data
+* For twitter data, disregard re-tweets in terms analysis
 
 ### Initial Focus
 * visualize current twitter political data on Museveni and Besigye

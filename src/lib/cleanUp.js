@@ -52,6 +52,7 @@ class CleanUp {
       if (obj.is_reply) {
         obj.in_reply_to_status_id = tweet.in_reply_to_status_id;
       }
+      obj.is_retweet = tweet.retweeted_status !== undefined ? true : false;
       if (tweet.place) {
         obj.coordinates = tweet.place.bounding_box.coordinates;
         obj.country = tweet.place.country;
