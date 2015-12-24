@@ -4,6 +4,7 @@
 import uid from 'uid';
 import utils from './utils';
 
+
 class CleanUp {
 
   removeSelfPosts(poster, data) {

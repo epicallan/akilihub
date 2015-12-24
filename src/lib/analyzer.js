@@ -11,6 +11,7 @@ import request from 'request';
 import redis from 'redis';
 import bluebird from 'bluebird';
 import _async from 'async';
+// import moment from 'moment';
 
 // import Promise from 'bluebird';
 const GOOGLE_API_KEY = 'AIzaSyChXVTkq8bGhAxeJnQnNHfsmWcGcC2GXEE';
@@ -165,8 +166,8 @@ class Analyzer {
     });
   }
 
-  groupDimensionByCount(dimension, field) {
-    return dimension.group().reduceSum(d => d[field]);
+  groupDimensionByCount(dimension, fn) {
+    return dimension.group().reduceSum(fn);
   }
 
   groupDimensionBySum(dimension, field) {
@@ -272,6 +273,13 @@ class Analyzer {
 
   fbTopicsFrequentPosters(data, count) {
     return this.topFrequentItems(data, 'poster', count);
+  }
+
+  groupCountByDate(data) {
+    const list = data.map(d => d.date.getDay());
+    console.log(list[2]);
+    const grp = this._getTopItems(list, 0);
+    return grp;
   }
 
   twTerms(data) {

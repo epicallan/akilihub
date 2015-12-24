@@ -17,6 +17,7 @@ describe('analyzer class', () => {
     data = analyzer.getData(options);
     cfData = analyzer.createCrossFilter(data);
     expect(data).to.have.length.above(0);
+    expect(cfData.size()).to.be.above(0);
     done();
   });
 
@@ -25,23 +26,29 @@ describe('analyzer class', () => {
     expect(tweeps).to.have.length.above(0);
   });
 
-  it('should reduce data using crossfilter dimensions', () => {
+  it('should reduce data using crossfilter dimensions and filter by a field value', () => {
     const reduced = analyzer.createCrossfilterDimension(cfData, 'geo_enabled');
-    const geoEnabled = reduced.filter(true);
-    expect(geoEnabled.top(2)).to.have.length.above(1);
+    // const geoEnabled = reduced.filter(true);
+
+    expect(reduced.top(2)).to.have.length.above(1);
   });
 
-  it('should get top terms in tweets', () => {
-    const filtered = analyzer.filterData(data, 'is_retweet', false);
-    const termedTweets = analyzer.twTerms(filtered);
-    const exclude = ['president', 'museveni'];
-    const terms = analyzer.aggregateTerms(termedTweets);
-    const topTerms = analyzer._getTopItems(terms, 15);
-    const refinedTop = analyzer._excludeTerms(topTerms, exclude);
+  it('should be able to create a time grouping from the dimension', () => {
     /* eslint-disable no-console */
-    console.log(prettyjson.render(refinedTop));
+    // console.log(data[0]);
+    const grp = analyzer.groupCountByDate(data);
+    console.log(prettyjson.render(grp));
+    expect(grp.size()).to.be.above(1);
+  });
+  it('should get top terms in tweets', () => {
+    const refinedTop = analyzer.topTwTerms(data, {
+      filterRetweets: true,
+      exclude: ['president', 'museveni'],
+      count: 10,
+    });
     expect(refinedTop).to.have.length.above(0);
   });
+
   describe('geocoding', () => {
     before(async(done) => {
       await analyzer._saveToRedis({
