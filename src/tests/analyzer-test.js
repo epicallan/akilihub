@@ -9,7 +9,7 @@ describe('analyzer class', () => {
   let cfData = null;
 
   before('should read in data for tests', (done) => {
-    const filePath = path.resolve(__dirname, '../content/museveni.json');
+    const filePath = path.resolve(__dirname, '../content/besigye.json');
     const options = {
       file: filePath,
       type: 'twitter',
@@ -28,18 +28,19 @@ describe('analyzer class', () => {
 
   it('should reduce data using crossfilter dimensions and filter by a field value', () => {
     const reduced = analyzer.createCrossfilterDimension(cfData, 'geo_enabled');
-    // const geoEnabled = reduced.filter(true);
-
     expect(reduced.top(2)).to.have.length.above(1);
   });
 
   it('should be able to create a time grouping from the dimension', () => {
     /* eslint-disable no-console */
-    // console.log(data[0]);
-    const grp = analyzer.groupCountByDate(data);
+    const grp = analyzer.groupCountByDate(data, {
+      time: 'hours',
+      count: 0,
+    });
     console.log(prettyjson.render(grp));
-    expect(grp.size()).to.be.above(1);
+    expect(grp.length).to.be.above(1);
   });
+
   it('should get top terms in tweets', () => {
     const refinedTop = analyzer.topTwTerms(data, {
       filterRetweets: true,
@@ -47,6 +48,15 @@ describe('analyzer class', () => {
       count: 10,
     });
     expect(refinedTop).to.have.length.above(0);
+  });
+
+  it('should get aggregate twitter sentiments', () => {
+    const sentimated = analyzer.tweetSentiments(data);
+    /* eslint-disable no-console */
+    console.log(data[2]);
+    const sentimentCount = analyzer.aggregateTwSentiments(sentimated);
+    console.log(sentimentCount);
+    expect(sentimentCount).to.not.equal(0);
   });
 
   describe('geocoding', () => {
@@ -61,11 +71,12 @@ describe('analyzer class', () => {
     after((done) => {
       analyzer.deletFromRedis(['jinja', 'masaka'], done);
     });
-    it('should get location co-ordinates', async(done) => {
-      const coordinates = await analyzer._geoCodeLocation('masaka');
-      expect(coordinates.lat).to.be.a('number');
-      done();
-    });
+
+    /* it('should get location co-ordinates', async(done) => {
+       const coordinates = await analyzer._geoCodeLocation('masaka');
+       expect(coordinates.lat).to.be.a('number');
+       done();
+     });*/
 
     it('should be able to get from redis', async(done) => {
       const coordinates = await analyzer._getFromRedis('kampala');

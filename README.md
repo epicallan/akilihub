@@ -32,10 +32,10 @@ Even on the front end we can cache data in session storage
 
 ### Initial Focus
 * visualize current twitter political data on Museveni and Besigye
-* chart to compare terms being used by both candidates
-* geo-plot places where most tweets are coming from
+* chart to compare terms being used by both candidates -- done
+* geo-plot places where most tweets are coming from --done
 * geo-plot current campaign trail if we can get the data
-* chart plotting tweet activity on both candidates with time as a dimension
+* chart plotting tweet activity on both candidates with time as a dimension -- done
 * chart plotting sentiments on both candidates with time and location as a dimension
 
 ### How to Build

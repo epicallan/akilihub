@@ -25,6 +25,7 @@ class Analyzer {
     this.tokenizers = new salient.tokenizers.RegExpTokenizer({
       pattern: /\W+/,
     });
+    this.sentiwordClassifier = new salient.sentiment.SentiwordnetAnalyser();
     this.classifier = new salient.sentiment.BayesSentimentAnalyser();
     this.POSTagger = new salient.tagging.HmmTagger();
     this.client = redis.createClient();
@@ -54,14 +55,22 @@ class Analyzer {
     });
     aggregated = _.pairs(aggregated);
     let myCount = count;
-    if (myCount >= aggregated.length) myCount = aggregated.length / 2;
-    aggregated = _.sortBy(aggregated, (n) => {
-      return n[1];
-    });
-    return aggregated.slice((aggregated.length - myCount), aggregated.length);
+    let truncated = null;
+    if (!myCount) {
+      truncated = aggregated;
+    } else {
+      if (myCount >= aggregated.length) myCount = aggregated.length / 2;
+      aggregated = _.sortBy(aggregated, (n) => {
+        return n[1];
+      });
+      truncated = aggregated.slice((aggregated.length - myCount), aggregated.length);
+    }
+    return truncated;
   }
   _getSentiment(sentence) {
-    return this.classifier.classify(sentence);
+    const sentiword = this.sentiwordClassifier.classify(sentence);
+    const simpleBayes = this.classifier.classify(sentence);
+    return sentiword + simpleBayes / 2;
   }
 
   _getKeyWords(text) {
@@ -275,10 +284,25 @@ class Analyzer {
     return this.topFrequentItems(data, 'poster', count);
   }
 
-  groupCountByDate(data) {
-    const list = data.map(d => d.date.getDay());
-    console.log(list[2]);
-    const grp = this._getTopItems(list, 0);
+  groupCountByDate(data, options) {
+    const list = data.map(d => {
+      let result = null;
+      switch (options.time) {
+        case 'hours':
+          result = d.date.getHours();
+          break;
+        case 'minutes':
+          result = d.date.getMinutes();
+          break;
+        case 'days':
+          result = d.date.getDay();
+          break;
+        default:
+          result = d.date;
+      }
+      return result;
+    });
+    const grp = this._getTopItems(list, options.count);
     return grp;
   }
 
@@ -317,7 +341,7 @@ class Analyzer {
 
   tweetSentiments(data) {
     data.forEach((tweet) => {
-      tweet.sentiment = this.__getSentiment(tweet.text);
+      tweet.sentiment = this._getSentiment(tweet.text);
     });
     return data;
   }
@@ -327,7 +351,7 @@ class Analyzer {
     data.forEach((tweet) => {
       sentimentCount += tweet.sentiment;
     });
-    return sentimentCount;
+    return sentimentCount / data.length;
   }
 
   nestTweetReplies(data) {
