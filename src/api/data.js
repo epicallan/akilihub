@@ -1,7 +1,7 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
 
 import express from 'express';
-import Controller from '../controllers/analysisController.js';
+import Controller from './controllers/analysisController.js';
 import path from 'path';
 
 const router = new express.Router();

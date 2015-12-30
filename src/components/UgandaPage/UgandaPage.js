@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import s from './UgandaPage.scss';
 import withStyles from '../../decorators/withStyles';
 import UgandaPageStore from '../../stores/UgandaPageStore';
+import DcCharts from '../Charts/Dc/DcCharts';
 
 function getStateFromStores() {
   return {
@@ -38,7 +39,14 @@ class UgandaDecidesPage extends Component {
     this.context.onSetTitle(title);
     UgandaPageStore.removeChangeListener(this._onChange);
   }
-
+  getDcCharts(data, container) {
+    const dcChart = new DcCharts(data);
+    const dim = dcChart.createDimenion('date');
+    const group = dcChart.createGroup(dim, 'sentiment');
+    /* eslint-disable no-console */
+    console.log(group);
+    return dcChart.lineChart(dim, group, container);
+  }
   _onChange() {
     this.setState(getStateFromStores());
   }
@@ -46,11 +54,11 @@ class UgandaDecidesPage extends Component {
   render() {
     this.context.onSetTitle(this.props.title);
     const content = JSON.stringify(this.state.data);
+    this.getDcCharts(content, 'lineChart');
     return (
       <div className={s.root}>
         <div className={s.container}>
-          {this.props.path === '/' ? null : <h1>{this.props.title}</h1>}
-          <div dangerouslySetInnerHTML={{ __html: content || '' }} />
+          <div id ="lineChart"></div>
         </div>
       </div>
     );

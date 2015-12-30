@@ -22,7 +22,7 @@ server.use(express.static(path.join(__dirname, 'public')));
 server.use('/api/data', require('./api/data'));
 
 //
-// Register API middleware
+// Register content API middleware
 // -----------------------------------------------------------------------------
 server.use('/api/content', require('./api/content'));
 
