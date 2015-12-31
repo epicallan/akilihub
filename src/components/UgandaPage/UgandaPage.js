@@ -62,7 +62,7 @@ class UgandaDecidesPage extends Component {
     return (
       <div className={s.root}>
         <div className={s.container}>
-          <div id ="dcChart"> </div>
+          <div id ="dcChart" className="dc"> </div>
         </div>
       </div>
     );
