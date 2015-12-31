@@ -1,7 +1,7 @@
 /**
- * React Starter Kit (http://www.reactstarterkit.com/)
+ * React Starter Kit (https://www.reactstarterkit.com/)
  *
- * Copyright © 2014-2015 Kriasoft, LLC. All rights reserved.
+ * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE.txt file in the root directory of this source tree.
@@ -73,16 +73,10 @@ const config = {
         ],
         loader: 'babel-loader',
       }, {
-        test: /\.css$/,
-        loaders: [
-          'isomorphic-style-loader',
-          'css-loader',
-        ],
-      }, {
         test: /\.scss$/,
         loaders: [
           'isomorphic-style-loader',
-          'css-loader' + (DEBUG ? 'sourceMap&' : 'minimize&') +
+          'css-loader?' + (DEBUG ? 'sourceMap&' : 'minimize&') +
           'modules&localIdentName=[name]_[local]_[hash:base64:3]',
           'postcss-loader',
         ],
@@ -129,12 +123,17 @@ const clientConfig = merge({}, config, {
     new webpack.DefinePlugin(GLOBALS),
     new AssetsPlugin({
       path: path.join(__dirname, '../build'),
-      filename: 'assets.json',
+      filename: 'assets.js',
+      processOutput: x => `module.exports = ${JSON.stringify(x)};`,
     }),
     ...(!DEBUG ? [
       new webpack.optimize.DedupePlugin(),
       new webpack.optimize.UglifyJsPlugin({
         compress: {
+          // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+          screw_ie8: true,
+
+          // jscs:enable requireCamelCaseOrUpperCaseIdentifiers
           warnings: VERBOSE,
         },
       }),
@@ -156,7 +155,7 @@ const serverConfig = merge({}, config, {
   },
   target: 'node',
   externals: [
-    /^\.\/assets\.json$/,
+    /^\.\/assets$/,
     function filter(context, request, cb) {
       const isExternal =
         request.match(/^[@a-z][a-z\/\.\-0-9]*$/i) &&
