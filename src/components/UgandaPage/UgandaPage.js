@@ -5,6 +5,8 @@ import s from './UgandaPage.scss';
 import withStyles from '../../decorators/withStyles';
 import UgandaPageStore from '../../stores/UgandaPageStore';
 import DcCharts from '../Charts/Dc/DcCharts';
+import testData from './data';
+
 
 function getStateFromStores() {
   return {
@@ -29,23 +31,25 @@ class UgandaDecidesPage extends Component {
   constructor(props) {
     super(props);
     this.state = getStateFromStores();
+    // this.props.path = this.props.title;
   }
 
   componentDidMount() {
     UgandaPageStore.addChangeListener(this._onChange);
+    this.getDcCharts(testData, 'dcChart');
   }
 
   componentWillUnmount() {
     this.context.onSetTitle(title);
     UgandaPageStore.removeChangeListener(this._onChange);
   }
+
   getDcCharts(data, container) {
     const dcChart = new DcCharts(data);
-    const dim = dcChart.createDimenion('date');
+    const dim = dcChart.createDimenion('hour');
     const group = dcChart.createGroup(dim, 'sentiment');
-    /* eslint-disable no-console */
-    console.log(group);
-    return dcChart.lineChart(dim, group, container);
+    dcChart.lineChart(dim, group, container);
+    dcChart.drawAll();
   }
   _onChange() {
     this.setState(getStateFromStores());
@@ -53,12 +57,12 @@ class UgandaDecidesPage extends Component {
 
   render() {
     this.context.onSetTitle(this.props.title);
-    const content = JSON.stringify(this.state.data);
-    this.getDcCharts(content, 'lineChart');
+    // const content = JSON.stringify(this.state.data);
+    // console.log(content);
     return (
       <div className={s.root}>
         <div className={s.container}>
-          <div id ="lineChart"></div>
+          <div id ="dcChart"> </div>
         </div>
       </div>
     );

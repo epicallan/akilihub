@@ -1,10 +1,10 @@
 import chai from 'chai';
-import analyzer from '../lib/analyzer';
+import analyzer from '../api/lib/analyzer';
 import path from 'path';
 import prettyjson from 'prettyjson';
 const expect = chai.expect;
 
-describe('analyzer class', () => {
+describe.skip('analyzer class', () => {
   let data = null;
   let cfData = null;
 
@@ -15,6 +15,7 @@ describe('analyzer class', () => {
       type: 'twitter',
     };
     data = analyzer.getData(options);
+    // console.log(data);
     cfData = analyzer.createCrossFilter(data);
     expect(data).to.have.length.above(0);
     expect(cfData.size()).to.be.above(0);
