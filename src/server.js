@@ -19,7 +19,7 @@ server.use(express.static(path.join(__dirname, 'public')));
 //
 // Register Data analysis API middleware
 // -----------------------------------------------------------------------------
-server.use('/api/data', require('./api/data'));
+server.use('/api', require('./api/serverRoutes'));
 
 //
 // Register content API middleware

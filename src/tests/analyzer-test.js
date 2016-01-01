@@ -4,7 +4,7 @@ import path from 'path';
 import prettyjson from 'prettyjson';
 const expect = chai.expect;
 
-describe.skip('analyzer class', () => {
+describe('analyzer class', () => {
   let data = null;
   let cfData = null;
 
@@ -54,7 +54,7 @@ describe.skip('analyzer class', () => {
   it('should get aggregate twitter sentiments', () => {
     const sentimated = analyzer.tweetSentiments(data);
     /* eslint-disable no-console */
-    console.log(data[2]);
+    console.log(sentimated[2]);
     const sentimentCount = analyzer.aggregateTwSentiments(sentimated);
     console.log(sentimentCount);
     expect(sentimentCount).to.not.equal(0);
@@ -69,18 +69,21 @@ describe.skip('analyzer class', () => {
       });
       done();
     });
+
     after((done) => {
       analyzer.deletFromRedis(['jinja', 'masaka'], done);
     });
 
-    /* it('should get location co-ordinates', async(done) => {
-       const coordinates = await analyzer._geoCodeLocation('masaka');
-       expect(coordinates.lat).to.be.a('number');
-       done();
-     });*/
+    it('should get location co-ordinates', async(done) => {
+      const coordinates = await analyzer._geoCodeLocation('kampala');
+        /* eslint-disable no-console */
+      console.log(coordinates);
+      expect(coordinates.lat).to.be.a('number');
+      done();
+    });
 
     it('should be able to get from redis', async(done) => {
-      const coordinates = await analyzer._getFromRedis('kampala');
+      const coordinates = await analyzer._getFromRedis('masaka');
       expect(coordinates).to.be.an('object');
       done();
     });

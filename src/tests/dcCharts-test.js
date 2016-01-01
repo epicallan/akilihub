@@ -1,7 +1,7 @@
 import chai from 'chai';
 import DcCharts from '../components/Charts/Dc/DcCharts';
 import testData from './fixtures/dcDataFixture';
-import prettyjson from 'prettyjson';
+// import prettyjson from 'prettyjson';
 
 const expect = chai.expect;
 
@@ -16,9 +16,9 @@ describe('dcCharts test', () => {
 
   it('should create a crossfilter dimension and group', () => {
     const dim = dcCharts.createDimenion('hour');
-    console.log(prettyjson.render(dim.top(1)));
+    // console.log(prettyjson.render(dim.top(1)));
     const group = dcCharts.createGroup(dim, 'sentiment');
-    console.log(prettyjson.render(group.all()));
+    // console.log(prettyjson.render(group.all()));
     expect(dim.top(1)).to.be.an('array');
     expect(group.top(1)).to.be.an('array');
   });

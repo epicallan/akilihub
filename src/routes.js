@@ -24,7 +24,7 @@ const router = new Router(on => {
   on('/login', async () => <LoginPage />);
 
   on('/uganda', async() => {
-    const response = await fetch('/api/data/social/hello');
+    const response = await fetch('/api/social/twdata');
     const data = await response.json();
     UgandaDecidesPageActions.getData(data);
     return <UgandaDecidesPage />;

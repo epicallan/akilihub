@@ -9,4 +9,7 @@ export default class Controller {
   getTopTweeps() {
     return analyzer.topFrequentItems(this.data, 'user_name', 5);
   }
+  getSentimatedData() {
+    return analyzer.tweetSentiments(this.data);
+  }
 }

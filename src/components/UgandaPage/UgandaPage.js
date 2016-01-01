@@ -5,7 +5,6 @@ import s from './UgandaPage.scss';
 import withStyles from '../../decorators/withStyles';
 import UgandaPageStore from '../../stores/UgandaPageStore';
 import DcCharts from '../Charts/Dc/DcCharts';
-import testData from './data';
 
 
 function getStateFromStores() {
@@ -36,7 +35,7 @@ class UgandaDecidesPage extends Component {
 
   componentDidMount() {
     UgandaPageStore.addChangeListener(this._onChange);
-    this.getDcCharts(testData, 'dcChart');
+    this.createDcCharts(this.state.data, 'lineChart');
   }
 
   componentWillUnmount() {
@@ -44,7 +43,7 @@ class UgandaDecidesPage extends Component {
     UgandaPageStore.removeChangeListener(this._onChange);
   }
 
-  getDcCharts(data, container) {
+  createDcCharts(data, container) {
     const dcChart = new DcCharts(data);
     const dim = dcChart.createDimenion('hour');
     const group = dcChart.createGroup(dim, 'sentiment');
@@ -57,12 +56,10 @@ class UgandaDecidesPage extends Component {
 
   render() {
     this.context.onSetTitle(this.props.title);
-    // const content = JSON.stringify(this.state.data);
-    // console.log(content);
     return (
       <div className={s.root}>
         <div className={s.container}>
-          <div id ="dcChart" className="dc"> </div>
+          <div id ="lineChart"> </div>
         </div>
       </div>
     );
