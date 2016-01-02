@@ -4,8 +4,9 @@ import React, { Component, PropTypes } from 'react';
 import s from './UgandaPage.scss';
 import withStyles from '../../decorators/withStyles';
 import UgandaPageStore from '../../stores/UgandaPageStore';
-import DcCharts from '../Charts/Dc/DcCharts';
 
+const isBrowser = typeof window !== 'undefined';
+const DcCharts = isBrowser ? require('../Charts/Dc/DcCharts') : undefined;
 
 function getStateFromStores() {
   return {
@@ -35,7 +36,9 @@ class UgandaDecidesPage extends Component {
 
   componentDidMount() {
     UgandaPageStore.addChangeListener(this._onChange);
-    this.createDcCharts(this.state.data, 'lineChart');
+    if (window) {
+      this.createDcCharts(this.state.data, 'lineChart');
+    }
   }
 
   componentWillUnmount() {

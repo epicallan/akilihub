@@ -1,6 +1,10 @@
 import crossfilter from 'crossfilter2';
+// import 'leaflet.markercluster';
+// import dc from 'dc';
+// import 'leaflet';
 import d3 from 'd3';
-import dc from 'dc-addons';
+import dc from '../../../core/dc';
+
 
 export default class DcCharts {
 

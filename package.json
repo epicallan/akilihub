@@ -22,6 +22,8 @@
     "front-matter": "2.0.1",
     "history": "1.16.0",
     "jade": "1.11.0",
+    "leaflet": "^0.7.7",
+    "leaflet.markercluster": "^0.4.0",
     "moment": "^2.10.6",
     "node-fetch": "1.3.3",
     "normalize.css": "3.0.3",
