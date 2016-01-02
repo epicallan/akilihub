@@ -1,10 +1,4 @@
-import crossfilter from 'crossfilter2';
-// import 'leaflet.markercluster';
-// import dc from 'dc';
-// import 'leaflet';
-import d3 from 'd3';
-import dc from '../../../core/dc';
-
+import dc from './dc';
 
 export default class DcCharts {
 
@@ -15,7 +9,7 @@ export default class DcCharts {
         d.hour = new Date(d.date).getHours();
       });
     }
-    this.data = crossfilter(data);
+    this.data = dc.crossfilter(data);
   }
 
   drawAll() {
@@ -40,12 +34,14 @@ export default class DcCharts {
       .fitOnRedraw(true)
       .cluster(true);
   }
+
   pieChart(dim, group, pie) {
     return dc.pieChart('#' + pie)
       .dimension(dim)
       .group(group)
       .width(200)
       .height(200)
+      .zoom(7)
       .renderLabel(true)
       .renderTitle(true)
       .ordering(p => -p.value);
@@ -62,7 +58,7 @@ export default class DcCharts {
         d => d.type,
         d => d.sentiment,
       ])
-      .order(d3.descending)
+      .order(dc.d3.descending)
       .on('renderlet', (chart) => {
         // each time table is rendered remove nasty extra row dc.js insists on adding
         chart.select('tr.dc-table-group').remove();
@@ -75,7 +71,7 @@ export default class DcCharts {
     return chart
       .width(500)
       .height(300)
-      .x(d3.scale.linear().domain(d3.extent(dimension.top(Infinity)), d => d.hour))
+      .x(dc.d3.scale.linear().domain([10, 24]))
       .elasticY(true)
       .brushOn(false)
       .renderDataPoints(true)

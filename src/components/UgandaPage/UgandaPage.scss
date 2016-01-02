@@ -1,7 +1,6 @@
 /* React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
 
 @import '../variables.scss';
-@import 'dc/dc.css';
 
 .root {
 
@@ -11,4 +10,16 @@
   margin: 0 auto;
   padding: 0 0 40px;
   max-width: $max-content-width;
+}
+.holder {
+  width: 850px;
+  margin: 20px auto;
+}
+.holder>div {
+  padding: 30px 0;
+  clear: both;
+}
+.map {
+  width: 600px;
+  height: 400px;
 }

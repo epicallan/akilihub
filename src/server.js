@@ -20,8 +20,6 @@ import { port } from './config';
 
 const server = global.server = express();
 
-//
->>>>>>> 1b030574f9932825a647a1828b54e1e6b9540544
 // Register Node.js middleware
 // -----------------------------------------------------------------------------
 server.use(express.static(path.join(__dirname, 'public')));

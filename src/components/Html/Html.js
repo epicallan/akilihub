@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-/*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
-=======
 /**
  * React Starter Kit (https://www.reactstarterkit.com/)
  *
@@ -9,7 +6,6 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
->>>>>>> 1b030574f9932825a647a1828b54e1e6b9540544
 
 import React, { Component, PropTypes } from 'react';
 import { googleAnalyticsId } from '../../config';
@@ -60,7 +56,7 @@ class Html extends Component {
       <body>
         <div id="app" dangerouslySetInnerHTML={{ __html: this.props.body }} />
         <script src={this.props.entry}></script>
-        <script dangerouslySetInnerHTML={this.trackingCode()} />
+        // <script dangerouslySetInnerHTML={this.trackingCode()} />
       </body>
       </html>
     );

@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-/*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
-=======
+
 /**
  * React Starter Kit (https://www.reactstarterkit.com/)
  *
@@ -9,7 +7,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
->>>>>>> 1b030574f9932825a647a1828b54e1e6b9540544
+
 
 import fetch, { Request, Headers, Response } from 'node-fetch';
 import { host } from '../../config';

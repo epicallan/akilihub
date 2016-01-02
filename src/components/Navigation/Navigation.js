@@ -24,22 +24,13 @@ class Navigation extends Component {
   render() {
     return (
       <div className={cx(s.root, this.props.className)} role="navigation">
-<<<<<<< HEAD
-        <a className={s.link} href="/about" onClick={Link.handleClick}>About</a>
-        <a className={s.link} href="/uganda" onClick={Link.handleClick}>Uganda</a>
-        <a className={s.link} href="/contact" onClick={Link.handleClick}>Contact</a>
-        <span className={s.spacer}> | </span>
-        <a className={s.link} href="/login" onClick={Link.handleClick}>Log in</a>
-        <span className={s.spacer}>or</span>
-        <a className={cx(s.link, s.highlight)} href="/register" onClick={Link.handleClick}>Sign up</a>
-=======
+        <Link className={s.link} to="/uganda">Uganda</Link>
         <Link className={s.link} to="/about">About</Link>
         <Link className={s.link} to="/contact">Contact</Link>
         <span className={s.spacer}> | </span>
         <Link className={s.link} to="/login">Log in</Link>
         <span className={s.spacer}>or</span>
         <Link className={cx(s.link, s.highlight)} to="/register">Sign up</Link>
->>>>>>> 1b030574f9932825a647a1828b54e1e6b9540544
       </div>
     );
   }
