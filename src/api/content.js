@@ -1,4 +1,12 @@
-/*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
+
+/**
+ * React Starter Kit (https://www.reactstarterkit.com/)
+ *
+ * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
 
 import fs from 'fs';
 import { join } from 'path';
@@ -35,13 +43,12 @@ router.get('/api/test', (req, res) => {
 router.get('/', async (req, res, next) => {
   try {
     const path = req.query.path;
+
     if (!path || path === 'undefined') {
       res.status(400).send({ error: `The 'path' query parameter cannot be empty.` });
       return;
     }
-
     let fileName = join(CONTENT_DIR, (path === '/' ? '/index' : path) + '.jade');
-
     if (!(await fileExists(fileName))) {
       fileName = join(CONTENT_DIR, path + '/index.jade');
     }

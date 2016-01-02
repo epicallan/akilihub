@@ -1,4 +1,12 @@
-/*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
+
+/**
+ * React Starter Kit (https://www.reactstarterkit.com/)
+ *
+ * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
 
 import React, { Component, PropTypes } from 'react';
 import cx from 'classnames';
@@ -16,6 +24,7 @@ class Navigation extends Component {
   render() {
     return (
       <div className={cx(s.root, this.props.className)} role="navigation">
+<<<<<<< HEAD
         <a className={s.link} href="/about" onClick={Link.handleClick}>About</a>
         <a className={s.link} href="/uganda" onClick={Link.handleClick}>Uganda</a>
         <a className={s.link} href="/contact" onClick={Link.handleClick}>Contact</a>
@@ -23,6 +32,14 @@ class Navigation extends Component {
         <a className={s.link} href="/login" onClick={Link.handleClick}>Log in</a>
         <span className={s.spacer}>or</span>
         <a className={cx(s.link, s.highlight)} href="/register" onClick={Link.handleClick}>Sign up</a>
+=======
+        <Link className={s.link} to="/about">About</Link>
+        <Link className={s.link} to="/contact">Contact</Link>
+        <span className={s.spacer}> | </span>
+        <Link className={s.link} to="/login">Log in</Link>
+        <span className={s.spacer}>or</span>
+        <Link className={cx(s.link, s.highlight)} to="/register">Sign up</Link>
+>>>>>>> 1b030574f9932825a647a1828b54e1e6b9540544
       </div>
     );
   }

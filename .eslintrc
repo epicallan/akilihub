@@ -5,8 +5,8 @@
     "__DEV__": true,
   },
   "env": {
-     "mocha": true,
-   },
+    "mocha": true,
+  },
   "rules": {
     "react/jsx-quotes": 0,
     "jsx-quotes": [2, "prefer-double"]

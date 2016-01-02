@@ -1,7 +1,7 @@
 /**
- * React Starter Kit (http://www.reactstarterkit.com/)
+ * React Starter Kit (https://www.reactstarterkit.com/)
  *
- * Copyright © 2014-2015 Kriasoft, LLC. All rights reserved.
+ * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE.txt file in the root directory of this source tree.
@@ -63,6 +63,7 @@ async function start() {
       // IMPORTANT: webpack middleware can't access config,
       // so we should provide publicPath by ourselves
       publicPath: webpackConfig[0].output.publicPath,
+
       // Pretty colored output
       stats: webpackConfig[0].stats,
       // For other settings see
@@ -85,14 +86,12 @@ async function start() {
             // including full page reloads if HMR won't work
             files: ['build/content/**/*.*'],
           }, resolve);
-          handleServerBundleComplete = () => runServer();
+
+          handleServerBundleComplete = runServer;
         }
       });
     };
-
-    bundler.compilers
-      .find(x => x.options.target === 'node')
-      .plugin('done', () => handleServerBundleComplete());
+    bundler.plugin('done', () => handleServerBundleComplete());
   });
 }
 

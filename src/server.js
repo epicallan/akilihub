@@ -1,4 +1,12 @@
-/*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
+
+/**
+ * React Starter Kit (https://www.reactstarterkit.com/)
+ *
+ * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
 
 import 'babel-core/polyfill';
 import path from 'path';
@@ -7,22 +15,24 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import Router from './routes';
 import Html from './components/Html';
-import assets from './assets.json';
+import assets from './assets';
 import { port } from './config';
 
 const server = global.server = express();
 
+//
+>>>>>>> 1b030574f9932825a647a1828b54e1e6b9540544
 // Register Node.js middleware
 // -----------------------------------------------------------------------------
 server.use(express.static(path.join(__dirname, 'public')));
 
-//
 // Register Data analysis API middleware
 // -----------------------------------------------------------------------------
 server.use('/api', require('./api/serverRoutes'));
 
-//
-// Register content API middleware
+
+// Register API middleware
+
 // -----------------------------------------------------------------------------
 server.use('/api/content', require('./api/content'));
 
@@ -45,8 +55,6 @@ server.get('*', async (req, res, next) => {
       data.body = ReactDOM.renderToString(component);
       data.css = css.join('');
     });
-    /* eslint-disable no-console */
-    console.log('server-side rendering');
     const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
     res.status(statusCode).send('<!doctype html>\n' + html);
   } catch (err) {
