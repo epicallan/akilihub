@@ -30,6 +30,7 @@ export default class DcCharts {
       .group(grp)
       .width(600)
       .height(400)
+      .zoom(12)
       .fitOnRender(true)
       .fitOnRedraw(true)
       .cluster(true);
@@ -41,7 +42,6 @@ export default class DcCharts {
       .group(group)
       .width(200)
       .height(200)
-      .zoom(7)
       .renderLabel(true)
       .renderTitle(true)
       .ordering(p => -p.value);
@@ -73,7 +73,7 @@ export default class DcCharts {
       .height(300)
       .x(dc.d3.scale.linear().domain([10, 24]))
       .elasticY(true)
-      .brushOn(false)
+      .brushOn(true)
       .renderDataPoints(true)
       .yAxisLabel('Y axis')
       .dimension(dimension)

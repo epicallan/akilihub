@@ -20,11 +20,6 @@ const title = 'Uganda Decides';
 @withStyles(s)
 class UgandaDecidesPage extends Component {
 
-  static propTypes = {
-    path: PropTypes.string.isRequired,
-    title: PropTypes.string,
-  };
-
   static contextTypes = {
     onSetTitle: PropTypes.func.isRequired,
   };
@@ -32,42 +27,49 @@ class UgandaDecidesPage extends Component {
   constructor(props) {
     super(props);
     this.state = getStateFromStores();
-    // this.props.path = this.props.title;
+  }
+
+  componentWillMount() {
+    this.context.onSetTitle(title);
   }
 
   componentDidMount() {
     UgandaPageStore.addChangeListener(this._onChange);
-    // this.createDcCharts(this.state.data, 'lineChart');
-    this.createDcCharts(TestData, { map: 'map', line: 'line' });
+    if (isBrowser) this.createDcCharts({ map: 'map', line: 'line' });
   }
 
   componentWillUnmount() {
     this.context.onSetTitle(title);
+    this.dcMap.map().remove();
     UgandaPageStore.removeChangeListener(this._onChange);
   }
 
-  createDcCharts(data, container) {
-    const dcChart = new Charts(data);
-    const dim = dcChart.createDimenion('hour');
-    const group = dcChart.createGroup(dim, 'sentiment');
-    dcChart.lineChart(dim, group, container.line);
-    const facilities = dcChart.createDimenion('geo');
+  createDcCharts(container) {
+    this.charts = new Charts(TestData);
+    const dim = this.charts.createDimenion('hour');
+    const group = this.charts.createGroup(dim, 'sentiment');
+    this.charts.lineChart(dim, group, container.line);
+    const facilities = this.charts.createDimenion('geo');
     const facilitiesGroup = facilities.group().reduceCount();
-    dcChart.mapChart(facilities, facilitiesGroup, container.map);
-    dcChart.drawAll();
+    this.dcMap = this.charts.mapChart(facilities, facilitiesGroup, container.map);
+    // console.log(this.dcMap);
+    this.charts.drawAll();
   }
   _onChange() {
     this.setState(getStateFromStores());
   }
 
   render() {
-    this.context.onSetTitle(this.props.title);
+    const divStyle = {
+      width: '600px',
+      height: '400px',
+    };
     return (
       <div className={s.root}>
         <div className={s.container}>
           <div className={s.holder}>
             <div id ="line"> </div>
-            <div id ="map" className={s.map}> </div>
+            <div id ="map" style={divStyle} > </div>
           </div>
         </div>
       </div>
