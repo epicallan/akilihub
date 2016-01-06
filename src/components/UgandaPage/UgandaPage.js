@@ -52,7 +52,6 @@ class UgandaDecidesPage extends Component {
     const facilities = this.charts.createDimenion('geo');
     const facilitiesGroup = facilities.group().reduceCount();
     this.dcMap = this.charts.mapChart(facilities, facilitiesGroup, container.map);
-    // console.log(this.dcMap);
     this.charts.drawAll();
   }
   _onChange() {

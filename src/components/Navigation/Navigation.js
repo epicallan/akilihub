@@ -23,15 +23,28 @@ class Navigation extends Component {
 
   render() {
     return (
-      <div className={cx(s.root, this.props.className)} role="navigation">
-        <Link className={s.link} to="/uganda">Uganda</Link>
-        <Link className={s.link} to="/about">About</Link>
-        <Link className={s.link} to="/contact">Contact</Link>
-        <span className={s.spacer}> | </span>
-        <Link className={s.link} to="/login">Log in</Link>
-        <span className={s.spacer}>or</span>
-        <Link className={cx(s.link, s.highlight)} to="/register">Sign up</Link>
-      </div>
+      <nav className={cx('navbar', s.navbar, 'navbar-fixed-top')}>
+        <div className="container">
+            <div className="navbar-header">
+                <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span className="sr-only">Toggle navigation</span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+                </button>
+            </div>
+          <div className={cx(s.root, this.props.className, s.collapse, 'navbar-collapse', 'collapse')} role="navigation">
+              <ul className="nav navbar-nav navbar-center">
+                <li><Link className={s.link} to="/">Home</Link></li>
+                <li><Link className={s.link} to="/uganda">Uganda</Link></li>
+                <li><Link className={s.link} to="/about">About</Link></li>
+              </ul>
+              <ul className="nav navbar-nav navbar-right">
+                <li><Link className={s.link} to="/contact">Contact Us</Link></li>
+              </ul>
+          </div>
+        </div>
+      </nav>
     );
   }
 

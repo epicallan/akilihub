@@ -7,6 +7,9 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
+
+@import '../variables.scss';
+
 .root {
 
 }
@@ -42,4 +45,22 @@
 
 .spacer {
   color: rgba(255, 255, 255, .3);
+}
+.navbar{
+  background-color: $primary-color;
+  border-color: $primary-color;
+}
+
+.nav-scroll{ background-color: rgba(245,245,245,0.5);}
+
+.navbar .link {
+  color: #ffffff;
+}
+
+.collapse {
+  margin-top: 0.5em;
+}
+
+.navbar .link:focus, .navbar .link:hover {
+    color:$light-color;
 }

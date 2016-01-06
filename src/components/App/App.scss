@@ -17,14 +17,19 @@
  * Base styles
  * ========================================================================== */
 
-html {
+html,body {
   color: #222;
+  width: 100%;
   font-weight: 100;
   font-size: 1em; /* ~16px; */
   font-family: $font-family-base;
   line-height: 1.375; /* ~22px */
+  background-color: $primary-color;
 }
-
+.wrapper {
+  color: white;
+  line-height: 1.2;
+}
 
 /*
  * Remove text-shadow in selection highlight:

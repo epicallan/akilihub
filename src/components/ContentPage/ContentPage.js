@@ -9,6 +9,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import s from './ContentPage.scss';
+import cx from 'classnames';
 import withStyles from '../../decorators/withStyles';
 
 @withStyles(s)
@@ -27,8 +28,8 @@ class ContentPage extends Component {
   render() {
     this.context.onSetTitle(this.props.title);
     return (
-      <div className={s.root}>
-        <div className={s.container}>
+      <div className={cx(s.root, 'container-fluid')}>
+        <div>
           {this.props.path === '/' ? null : <h1>{this.props.title}</h1>}
           <div dangerouslySetInnerHTML={{ __html: this.props.content || '' }} />
         </div>

@@ -1,6 +1,25 @@
+
+
+/**variables*/
+
+
+$h2-font: 1.5em;
+$h3-font: 1.2em;
+$h1-font: 2em;
+$large-font: 2.1em;
+$font-weight: 700;
+
+//headers
+h1{font-size:$h1-font}
+h2{font-size:$h2-font}
+h3{font-size:$h3-font}
+
 /*
  * Colors
  * ========================================================================== */
+$primary-color: #5B798E;
+$secondary-color: #B76565;
+$light-color:#d9edf7;
 
 $white-base:            hsl(255, 255, 255);
 $gray-darker:           color(black lightness(+13.5%)); /* #222 */
@@ -13,7 +32,7 @@ $gray-lighter:          color(black lightness(+93.5%)); /* #eee */
  * Typography
  * ========================================================================== */
 
-$font-family-base:      'Segoe UI', 'HelveticaNeue-Light', sans-serif;
+$font-family-base:      'Lato','Segoe UI', 'HelveticaNeue-Light', sans-serif;
 
 /*
  * Layout
