@@ -20,12 +20,12 @@ class Navigation extends Component {
     className: PropTypes.string,
   };
   componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
+    // window.addEventListener('scroll', this.handleScroll);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
-    if (this.nav) this.nav.className.remove(s['nav-scroll']);
+    // window.removeEventListener('scroll', this.handleScroll);
+    // if (this.nav) this.nav.className.remove(s['nav-scroll']);
   }
 
   handleScroll = () => {
@@ -52,7 +52,7 @@ class Navigation extends Component {
                 <Link className={s.link} to="/">Home</Link>
               </li>
               <li>
-                <Link className={s.link} to="/uganda">Uganda</Link>
+                <Link className={s.link} to="/uganda">Data Center</Link>
               </li>
               <li>
                 <Link className={s.link} to="/about">About</Link>

@@ -6,6 +6,7 @@ import cx from 'classnames';
 import withStyles from '../../decorators/withStyles';
 import UgandaPageStore from '../../stores/UgandaPageStore';
 import TestData from './data';
+import Link from '../Link';
 const isBrowser = typeof window !== 'undefined';
 const Charts = isBrowser ? require('../Charts') : undefined;
 
@@ -63,7 +64,7 @@ class UgandaDecidesPage extends Component {
     const dim = this.charts.createDimenion('hour');
     const group = this.charts.createGroup(dim, 'sentiment');
     this.charts.lineChart(dim, group, container.line);
-
+    // leaflet map
     const mapDim = this.charts.createDimenion('geo');
     const facilitiesGroup = mapDim.group().reduceCount();
     this.dcMap = this.charts.mapChart(mapDim, facilitiesGroup, container.map);
@@ -81,48 +82,88 @@ class UgandaDecidesPage extends Component {
 
   render() {
     const divStyle = {
-      width: '600px',
+      width: '500px',
       height: '400px',
     };
     return (
       <div className={cx(s.root, 'container')}>
-        <header className="row spacing-sm">
-          <h2 className ="col-md-6 col-md-offset-3 text-center"> Twitter Data visualization </h2>
-        </header>
-        <section>
-          <div className ="row">
-            <article className="col-md-12 text-justify" dangerouslySetInnerHTML={{ __html: this.props.content || '' }}>
-            </article>
+        <section className= {cx('row', s.content)}>
+          <div className= {cx('col-md-3', s.sidebar)}>
+            <header className={cx(s.spacing, 'row')}>
+              <div className ="col-md-12">
+                <h4>Data Center Home</h4>
+                <hr></hr>
+              </div>
+            </header>
+            <section className = "menue row">
+              <div className="col-md-12">
+                <header>
+                  <h4>Uganda Decides</h4>
+                  <ul>
+                    <li>
+                      <Link className={s.link} to="/uganda">Social Media Activity</Link>
+                    </li>
+                    <li>
+                      <Link className={s.link} to="/uganda">Election Trail</Link>
+                    </li>
+                  </ul>
+                  <hr></hr>
+                </header>
+                <header>
+                  <h4>PlayGround</h4>
+                  <ul>
+                    <li>
+                      <Link className={s.link} to="/uganda">Schools in Uganda</Link>
+                    </li>
+                    <li>
+                      <Link className={s.link} to="/uganda">Umeme Shutdown</Link>
+                    </li>
+                  </ul>
+                  <hr></hr>
+                </header>
+              </div>
+            </section>
           </div>
-        </section>
-        <section className = "charts">
-          <div className="row spacing-sm">
-            <div className="col-md-6 col-md-offset-1">
-                <h3> Line Chart</h3>
-                <div id ="line" className={s.chart}></div>
-            </div>
-            <div className = "col-md-4 ">
-              <h3> Table Chart</h3>
-              <table id ="table" className = {cx(s.chart, 'table', 'table-bordered')}>
-                <thead>
-                  <tr className={s.header}>
-                    <th>Hour</th>
-                    <th>Type</th>
-                    <th>sentiment</th>
-                  </tr>
-                </thead>
-              </table>
-            </div>
-          </div>
-          <div className= "row spacing-sm">
-            <div className = "col-md-8 col-md-offset-1" ref="mapCont">
-              <h3> Map Chart</h3>
-              <div id ="map" className = {s.chart} ref="map" style={divStyle} > </div>
-            </div>
-            <div className = "col-md-3">
-                <h3> Pie Chart</h3>
-                <div id= "pie"></div>
-            </div>
+          <div className= {cx('col-md-9', s.main)}>
+            <header className="row spacing-sm">
+              <h2 className ="col-md-6 col-md-offset-3 text-center"> Twitter Data visualization </h2>
+            </header>
+            <section>
+              <div className ="row">
+                <article className="col-md-12 text-justify" dangerouslySetInnerHTML={{ __html: this.props.content || '' }}>
+                </article>
+              </div>
+            </section>
+            <section className = "charts">
+              <div className="row spacing-sm">
+                <div className="col-md-6">
+                    <h3> Line Chart</h3>
+                    <div id ="line" className={s.chart}></div>
+                </div>
+                <div className = "col-md-6">
+                  <h3> Table Chart</h3>
+                  <table id ="table" className = {cx(s.chart, 'table', 'table-bordered')}>
+                    <thead>
+                      <tr className={s.header}>
+                        <th>Hour</th>
+                        <th>Type</th>
+                        <th>sentiment</th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
+              <div className= "row spacing-sm">
+                <div className = "col-md-8" ref="mapCont">
+                  <h3> Map Chart</h3>
+                  <div id ="map" className = {s.chart} ref="map" style={divStyle} > </div>
+                </div>
+                <div className = "col-md-4">
+                    <h3> Pie Chart</h3>
+                    <div id= "pie"></div>
+                </div>
+              </div>
+            </section>
           </div>
         </section>
       </div>
