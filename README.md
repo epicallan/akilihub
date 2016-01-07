@@ -1,6 +1,6 @@
 ### Getting Started
 
-``
+```
 Just clone the repo and start hacking:
 We are using ploty.js for charting
 I am thinking for more interactive dashboards we could use dc.js
@@ -9,7 +9,7 @@ PS. I want us to do most of the data processing on the backend so that we can
 cache it there say on redis and just export out data sets ready to be visualized
 by our chart functions.
 Even on the front end we can cache data in session storage
-``
+```
 
 ## list of chart types we intend to use
 
@@ -31,7 +31,7 @@ Even on the front end we can cache data in session storage
 * For twitter data, disregard re-tweets in terms analysis
 
 ### Initial Focus
-* visualize current twitter political data on Museveni and Besigye
+* visualize current twitter political data
 * chart to compare terms being used by both candidates -- done
 * geo-plot places where most tweets are coming from --done
 * geo-plot current campaign trail if we can get the data

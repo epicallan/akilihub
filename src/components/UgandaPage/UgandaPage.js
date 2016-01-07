@@ -42,7 +42,8 @@ class UgandaDecidesPage extends Component {
     UgandaPageStore.addChangeListener(this._onChange);
     if (isBrowser) {
       try {
-        this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie' });
+        // this.state.data has data from the server
+        this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie' }, TestData);
       } catch (e) {
         // TODO hack just reload the page this is an error to do with leaflet.js
         window.location.assign(this.path);
@@ -56,8 +57,8 @@ class UgandaDecidesPage extends Component {
     this.dcMap.map().remove();
   }
 
-  createDcCharts(container) {
-    this.charts = new Charts(TestData);
+  createDcCharts(container, data) {
+    this.charts = new Charts(data);
     // line chart
     const dim = this.charts.createDimenion('hour');
     const group = this.charts.createGroup(dim, 'sentiment');
@@ -78,32 +79,31 @@ class UgandaDecidesPage extends Component {
     this.setState(getStateFromStores());
   }
 
-  mapElem() {
+  render() {
     const divStyle = {
       width: '600px',
       height: '400px',
     };
-    return (<div id ="map" ref="map" style={divStyle} > </div>);
-  }
-
-  render() {
     return (
       <div className={cx(s.root, 'container')}>
         <header className="row spacing-sm">
-          <h3> Twitter Data visualization </h3>
+          <h2 className ="col-md-6 col-md-offset-3 text-center"> Twitter Data visualization </h2>
         </header>
         <section>
-          <article className="row spacing-sm">
-            <div dangerouslySetInnerHTML={{ __html: this.props.content || '' }} />
-          </article>
+          <div className ="row">
+            <article className="col-md-12 text-justify" dangerouslySetInnerHTML={{ __html: this.props.content || '' }}>
+            </article>
+          </div>
         </section>
-        <section>
+        <section className = "charts">
           <div className="row spacing-sm">
-            <div className="col-md-6">
-                <div id ="line"></div>
+            <div className="col-md-6 col-md-offset-1">
+                <h3> Line Chart</h3>
+                <div id ="line" className={s.chart}></div>
             </div>
-            <div className = "col-md-6 ">
-              <table id ="table" className= "table table-bordered table-striped">
+            <div className = "col-md-4 ">
+              <h3> Table Chart</h3>
+              <table id ="table" className = {cx(s.chart, 'table', 'table-bordered')}>
                 <thead>
                   <tr className={s.header}>
                     <th>Hour</th>
@@ -115,11 +115,15 @@ class UgandaDecidesPage extends Component {
             </div>
           </div>
           <div className= "row spacing-sm">
-            <div className = "col-md-8" ref="mapCont"> { this.mapElem() } </div>
-            <div className = "col-md-4">
+            <div className = "col-md-8 col-md-offset-1" ref="mapCont">
+              <h3> Map Chart</h3>
+              <div id ="map" className = {s.chart} ref="map" style={divStyle} > </div>
+            </div>
+            <div className = "col-md-3">
+                <h3> Pie Chart</h3>
                 <div id= "pie"></div>
             </div>
-            </div>
+          </div>
         </section>
       </div>
     );
