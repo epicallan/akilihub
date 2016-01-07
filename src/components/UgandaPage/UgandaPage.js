@@ -21,14 +21,17 @@ const title = 'Uganda Decides';
 class UgandaDecidesPage extends Component {
   static propTypes = {
     content: PropTypes.string.isRequired,
+    path: PropTypes.string,
   };
 
   static contextTypes = {
     onSetTitle: PropTypes.func.isRequired,
   };
+
   constructor(props) {
     super(props);
     this.state = getStateFromStores();
+    this.path = props.path;
   }
 
   componentWillMount() {
@@ -37,13 +40,20 @@ class UgandaDecidesPage extends Component {
 
   componentDidMount() {
     UgandaPageStore.addChangeListener(this._onChange);
-    if (isBrowser) this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie' });
+    if (isBrowser) {
+      try {
+        this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie' });
+      } catch (e) {
+        // TODO hack just reload the page this is an error to do with leaflet.js
+        window.location.assign(this.path);
+      }
+    }
   }
 
   componentWillUnmount() {
     this.context.onSetTitle(title);
-    this.dcMap.map().remove();
     UgandaPageStore.removeChangeListener(this._onChange);
+    this.dcMap.map().remove();
   }
 
   createDcCharts(container) {
@@ -52,7 +62,7 @@ class UgandaDecidesPage extends Component {
     const dim = this.charts.createDimenion('hour');
     const group = this.charts.createGroup(dim, 'sentiment');
     this.charts.lineChart(dim, group, container.line);
-    // map
+
     const mapDim = this.charts.createDimenion('geo');
     const facilitiesGroup = mapDim.group().reduceCount();
     this.dcMap = this.charts.mapChart(mapDim, facilitiesGroup, container.map);
@@ -68,11 +78,15 @@ class UgandaDecidesPage extends Component {
     this.setState(getStateFromStores());
   }
 
-  render() {
+  mapElem() {
     const divStyle = {
       width: '600px',
       height: '400px',
     };
+    return (<div id ="map" ref="map" style={divStyle} > </div>);
+  }
+
+  render() {
     return (
       <div className={cx(s.root, 'container')}>
         <header className="row spacing-sm">
@@ -101,9 +115,7 @@ class UgandaDecidesPage extends Component {
             </div>
           </div>
           <div className= "row spacing-sm">
-            <div className = "col-md-8">
-                <div id ="map" style={divStyle} > </div>
-            </div>
+            <div className = "col-md-8" ref="mapCont"> { this.mapElem() } </div>
             <div className = "col-md-4">
                 <div id= "pie"></div>
             </div>
