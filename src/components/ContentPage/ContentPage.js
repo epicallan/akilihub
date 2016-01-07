@@ -28,7 +28,7 @@ class ContentPage extends Component {
   render() {
     this.context.onSetTitle(this.props.title);
     return (
-      <div className={cx(s.root, 'container-fluid')}>
+      <div className={cx(s.root)}>
         <div>
           {this.props.path === '/' ? null : <h1>{this.props.title}</h1>}
           <div dangerouslySetInnerHTML={{ __html: this.props.content || '' }} />

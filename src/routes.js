@@ -29,11 +29,13 @@ const router = new Router(on => {
 
   on('/contact', async () => <ContactPage />);
 
-  on('/uganda', async() => {
+  on('/uganda', async(state) => {
     const response = await fetch('/api/social/twdata');
     const data = await response.json();
+    const res = await fetch(`/api/content?path=${state.path}`);
+    const html = await res.json();
     UgandaDecidesPageActions.getData(data);
-    return <UgandaDecidesPage />;
+    return <UgandaDecidesPage {...html} />;
   });
 
   on('*', async (state) => {

@@ -3,19 +3,11 @@
 @import '../variables.scss';
 
 .root {
-
+  table{
+    width:95%;
+    margin: 0 auto;
+  }
 }
-
-.container {
-  margin: 0 auto;
-  padding: 0 0 40px;
-  max-width: $max-content-width;
-}
-.holder {
-  width: 850px;
-  margin: 20px auto;
-}
-.holder>div {
-  padding: 30px 0;
-  clear: both;
+.header th{
+  color: black
 }

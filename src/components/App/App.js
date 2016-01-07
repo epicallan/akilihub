@@ -56,7 +56,7 @@ class App extends Component {
 
   render() {
     return !this.props.error ? (
-      <div className = { cx(s.wrapper) }>
+      <div className = { cx(s.wrapper, 'container-fluid') }>
         <Header />
         {this.props.children}
         <Feedback />
