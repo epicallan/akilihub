@@ -8,17 +8,16 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-
 import React from 'react';
 import Router from 'react-routing/src/Router';
 import fetch from './core/fetch';
 import App from './components/App';
 import ContentPage from './components/ContentPage';
 import ContactPage from './components/ContactPage';
-import UgandaDecidesPage from './components/UgandaPage';
+import BlogPage from './components/BlogPage';
 import NotFoundPage from './components/NotFoundPage';
 import ErrorPage from './components/ErrorPage';
-
+import DataPage from './components/DataPage';
 import UgandaDecidesPageActions from './actions/UgandaPageActions';
 
 const router = new Router(on => {
@@ -29,13 +28,19 @@ const router = new Router(on => {
 
   on('/contact', async () => <ContactPage />);
 
-  on('/uganda', async(state) => {
+  on('/data', async(state) => {
     const response = await fetch('/api/social/twdata');
     const data = await response.json();
     const res = await fetch(`/api/content?path=${state.path}`);
     const html = await res.json();
     UgandaDecidesPageActions.getData(data);
-    return <UgandaDecidesPage {...html} />;
+    return <DataPage {...html} />;
+  });
+
+  on('/blog', async(state) => {
+    const res = await fetch(`/api/content?path=${state.path}`);
+    const html = await res.json();
+    return <BlogPage {...html} />;
   });
 
   on('*', async (state) => {

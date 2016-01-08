@@ -69,9 +69,9 @@ export default class DcCharts {
     // TODO modularize
     const chart = dc.lineChart('#' + chartId);
     return chart
-      .width(500)
+      .width(450)
       .height(300)
-      .x(dc.d3.scale.linear().domain([10, 24]))
+      .x(dc.d3.scale.linear().domain([10, 20]))
       .elasticY(true)
       .brushOn(true)
       .renderDataPoints(true)

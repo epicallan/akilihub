@@ -52,10 +52,10 @@ class Navigation extends Component {
                 <Link className={s.link} to="/">Home</Link>
               </li>
               <li>
-                <Link className={s.link} to="/uganda">Data Center</Link>
+                <Link className={s.link} to="/data">Data Center</Link>
               </li>
               <li>
-                <Link className={s.link} to="/about">About</Link>
+                <Link className={s.link} to="/blog">Blog</Link>
               </li>
             </ul>
             <ul className="nav navbar-nav navbar-right">
