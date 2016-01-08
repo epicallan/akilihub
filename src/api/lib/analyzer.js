@@ -129,6 +129,7 @@ class Analyzer {
     const url = GEO_CODE_API + data + '&key=' + GOOGLE_API_KEY;
     return new Promise((resolve, reject) => {
       request(url, (error, response, body) => {
+        if (error) throw new Error(error);
         const coordinates = JSON.parse(body).results[0].geometry.location;
         this._saveToRedis({
           lat: coordinates.lat,

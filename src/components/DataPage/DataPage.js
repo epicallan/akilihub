@@ -3,7 +3,6 @@ import s from './DataPage.scss';
 import cx from 'classnames';
 import withStyles from '../../decorators/withStyles';
 import UgandaPageStore from '../../stores/UgandaPageStore';
-import TestData from './data';
 import Link from '../Link';
 const isBrowser = typeof window !== 'undefined';
 const Charts = isBrowser ? require('../Charts') : undefined;
@@ -42,7 +41,7 @@ export default class DataCenterPage extends Component {
     if (isBrowser) {
       try {
         // this.state.data has data from the server
-        this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie' }, TestData);
+        this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie' }, this.state.data);
       } catch (e) {
         // TODO hack just reload the page this is an error to do with leaflet.js
         window.location.assign(this.path);
@@ -122,6 +121,7 @@ export default class DataCenterPage extends Component {
                     <table id ="table" className = {cx(s.chart, 'table', 'table-bordered')}>
                       <thead>
                         <tr className={s.header}>
+                          <th>Tweet</th>
                           <th>Hour</th>
                           <th>Type</th>
                           <th>sentiment</th>

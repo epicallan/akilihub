@@ -9,7 +9,21 @@ export default class Controller {
   getTopTweeps() {
     return analyzer.topFrequentItems(this.data, 'user_name', 5);
   }
-  getSentimatedData() {
-    return analyzer.tweetSentiments(this.data);
+  __addCordinates(data) {
+    return new Promise((resolve, reject) => {
+      analyzer.getCordinates(data, (results, error) => {
+        resolve(results);
+        reject(error);
+      });
+    });
+  }
+
+  getSentimatedData(cb) {
+    this.__addCordinates(this.data).then((res) => {
+      const sentimated = analyzer.tweetSentiments(res);
+      cb(sentimated);
+    }).catch((error) => {
+      throw new Error(error);
+    });
   }
 }

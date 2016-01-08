@@ -54,6 +54,7 @@ export default class DcCharts {
       .dimension(dim)
       .group(() => 'dc.js insists on putting a row here so I remove it using JS')
       .columns([
+        d => d.text,
         d => d.hour,
         d => d.type,
         d => d.sentiment,
