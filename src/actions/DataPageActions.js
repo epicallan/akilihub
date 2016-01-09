@@ -5,15 +5,15 @@
 import Dispatcher from '../core/Dispatcher';
 import constants from '../constants/ActionTypes';
 
-class UgandaPageActions {
+class DataPageActions {
 
   getData(raw) {
     Dispatcher.dispatch({
-      actionType: constants.UGANDA_DECIDES_RECEIVE_DATA,
+      actionType: constants.DATAPAGE_RECEIVE_DATA,
       data: raw,
     });
   }
 
 }
 
-export default new UgandaPageActions();
+export default new DataPageActions();

@@ -5,9 +5,12 @@ export default class DcCharts {
   constructor(data) {
     if (data[0].date) {
       data.forEach(d => {
-        d.date = new Date(d.date);
-        d.hour = new Date(d.date).getHours();
+        const date = new Date(d.date);
+        d.date = date;
+        if (d.approximated_geo || d.geo_enabled) d.geo = `${d.coordinates.lat},${d.coordinates.lng}`;
+        d.hour = date.getHours();
       });
+      // console.log(data[0]);
     }
     this.data = dc.crossfilter(data);
   }
@@ -59,6 +62,7 @@ export default class DcCharts {
         d => d.type,
         d => d.sentiment,
       ])
+      .size(5)
       .order(dc.d3.descending)
       .on('renderlet', (chart) => {
         // each time table is rendered remove nasty extra row dc.js insists on adding

@@ -2,14 +2,17 @@ import React, { Component, PropTypes } from 'react';
 import s from './DataPage.scss';
 import cx from 'classnames';
 import withStyles from '../../decorators/withStyles';
-import UgandaPageStore from '../../stores/UgandaPageStore';
+import DataPageStore from '../../stores/DataPageStore';
 import Link from '../Link';
+import DataPageActions from '../../actions/DataPageActions';
+import fetch from '../../core/fetch';
 const isBrowser = typeof window !== 'undefined';
 const Charts = isBrowser ? require('../Charts') : undefined;
+import testData from './data';
 
 function getStateFromStores() {
   return {
-    data: UgandaPageStore.getStoreState(),
+    data: DataPageStore.getStoreState(),
   };
 }
 
@@ -37,21 +40,22 @@ export default class DataCenterPage extends Component {
   }
 
   componentDidMount() {
-    UgandaPageStore.addChangeListener(this._onChange);
+    DataPageStore.addChangeListener(this._onChange);
     if (isBrowser) {
       try {
         // this.state.data has data from the server
         this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie' }, this.state.data);
       } catch (e) {
         // TODO hack just reload the page this is an error to do with leaflet.js
-        window.location.assign(this.path);
+        // window.location.assign(this.path);
+        console.log(e);
       }
     }
   }
 
   componentWillUnmount() {
     this.context.onSetTitle(title);
-    UgandaPageStore.removeChangeListener(this._onChange);
+    DataPageStore.removeChangeListener(this._onChange);
     this.dcMap.map().remove();
   }
 
@@ -66,7 +70,7 @@ export default class DataCenterPage extends Component {
     const facilitiesGroup = mapDim.group().reduceCount();
     this.dcMap = this.charts.mapChart(mapDim, facilitiesGroup, container.map);
     // pie
-    const pieDim = this.charts.createDimenion('type');
+    const pieDim = this.charts.createDimenion('is_retweet');
     const pieGroup = this.charts.createGroup(pieDim, 'hour');
     this.charts.pieChart(pieDim, pieGroup, container.pie);
     // table
@@ -89,13 +93,13 @@ export default class DataCenterPage extends Component {
         <header className = "row">
             <ul className={cx('nav', 'navbar-nav', 'navbar-center', s.nav)}>
               <li>
-                  <Link className={s.link} to="/blog">Uganda Decides</Link>
+                  <Link className={s.link} to="/blog">Data Decides</Link>
               </li>
               <li>
                   <Link className={s.link} to="/"> Data Explorations</Link>
               </li>
               <li>
-                  <Link className={s.link} to="/uganda">Experimental</Link>
+                  <Link className={s.link} to="/Data">Experimental</Link>
               </li>
             </ul>
         </header>

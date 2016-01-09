@@ -63,7 +63,17 @@ describe('analyzer class', () => {
     // console.log(sentimentCount);
     expect(sentimentCount).to.not.equal(0);
   });
-
+  it('should cache and get json objects from redis', (done) => {
+    /* eslint-disable no-console */
+    analyzer.saveJsonRedis('MyKey', JSON.stringify(data), (res) => {
+      console.log('successful save: ' + res);
+      analyzer.getJsonRedis('MyKey', (redisData) => {
+        console.log(prettyjson.render(redisData[0]));
+        expect(redisData[0]).to.be.an('object');
+        done();
+      }).catch((error) => console.log(error));
+    });
+  });
   describe.skip('geocoding unit tests', () => {
     before(async(done) => {
       await analyzer._saveToRedis({
@@ -80,7 +90,7 @@ describe('analyzer class', () => {
 
     it('should get location co-ordinates', async(done) => {
       const coordinates = await analyzer._geoCodeLocation('kampala');
-        /* eslint-disable no-console */
+      /* eslint-disable no-console */
       console.log(coordinates);
       expect(coordinates.lat).to.be.a('number');
       done();
@@ -107,11 +117,10 @@ describe('analyzer class', () => {
       });
     });
   });
-  describe('geocoding functional test', () => {
+  describe.skip('geocoding functional test', () => {
     it('should get geo-location of different tweets', (done) => {
       analyzer.getCordinates(data, (geoTagged, err) => {
         if (err) console.log(err);
-        console.log('*************TESTS************');
         console.log(prettyjson.render(geoTagged[0]));
         expect(geoTagged[0]).to.be.an('object');
         done();

@@ -9,7 +9,7 @@ export default class Controller {
   getTopTweeps() {
     return analyzer.topFrequentItems(this.data, 'user_name', 5);
   }
-  __addCordinates(data) {
+  _addCordinates(data) {
     return new Promise((resolve, reject) => {
       analyzer.getCordinates(data, (results, error) => {
         resolve(results);
@@ -18,12 +18,16 @@ export default class Controller {
     });
   }
 
-  getSentimatedData(cb) {
-    this.__addCordinates(this.data).then((res) => {
+  cacheSentimatedData(cb) {
+    this._addCordinates(this.data).then((res) => {
       const sentimated = analyzer.tweetSentiments(res);
-      cb(sentimated);
+      analyzer.saveJsonRedis(sentimated, 'sentimated', cb);
     }).catch((error) => {
       throw new Error(error);
     });
+  }
+
+  getSentimatedData(key, cb) {
+    analyzer.getJsonRedis(key, cb);
   }
 }

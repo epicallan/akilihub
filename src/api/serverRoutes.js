@@ -13,8 +13,18 @@ const controller = new Controller({
 
 router.get('/social/twdata', async(req, res, next) => {
   try {
-    controller.getSentimatedData((data) => {
+    controller.getSentimatedData('sentimated', (data) => {
       res.status(200).json(data);
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+// improvise to be added to a background task runner
+router.get('/social/save', async(req, res, next) => {
+  try {
+    controller.cacheSentimatedData((reply) => {
+      res.status(200).send(reply);
     });
   } catch (err) {
     next(err);

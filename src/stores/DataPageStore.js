@@ -41,7 +41,7 @@ const store = new UgandaPageStore();
 
 Dispatcher.register((action) => {
   switch (action.actionType) {
-    case constants.UGANDA_DECIDES_RECEIVE_DATA:
+    case constants.DATAPAGE_RECEIVE_DATA:
       store.getData(action.data);
       store.emitChange();
       break;

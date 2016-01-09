@@ -112,6 +112,19 @@ class Analyzer {
       });
     });
   }
+  saveJsonRedis(data, key, cb) {
+    this.client.set(key, JSON.stringify(data), (err, res) => {
+      if (err) console.log(err);
+      cb(res);
+    });
+  }
+
+  getJsonRedis(key, cb) {
+    this.client.getAsync(key).then((reply) => {
+      const redisData = JSON.parse(reply);
+      cb(redisData);
+    }).catch((error) => { console.log(error); });
+  }
 
   deletFromRedis(keys, cb) {
     _async.each(keys, (key, callback) => {
@@ -125,9 +138,8 @@ class Analyzer {
     });
   }
   _geoCodeLocation(location) {
-    if (!location || location.length < 3) {
-      console.log('not searchable');
-      throw new Error('not searchable, not string');
+    if (!location || location.length < 2) {
+      throw new Error(`this location name is not searchable, its not a string ${location}`);
     }
     const urlPart = location.replace(/[\W_]+/g, '+');
     const url = GEO_CODE_API + urlPart + '&key=' + GOOGLE_API_KEY;
@@ -137,8 +149,7 @@ class Analyzer {
           if (error) throw new Error(error);
           const json = JSON.parse(body);
           if (!json.results[0]) {
-            console.log();
-            reject(new Error(`Location has no co-ordinates ${location}`));
+            reject(new Error(`Location is not geoTaggable ${location}`));
           } else {
             const coordinates = json.results[0].geometry.location;
             this._saveToRedis({
@@ -169,7 +180,7 @@ class Analyzer {
         unmapped.push(d);
       }
       if (coordinates) {
-        d.geo_enabled = true;
+        d.approximated_geo = true;
         d.coordinates = coordinates;
       }
       callback();
@@ -188,10 +199,9 @@ class Analyzer {
         try {
           const location = d.location || d.time_zone;
           d.coordinates = await this._geoCodeLocation(location);
-          d.geo_enabled = true;
+          d.approximated_geo = true;
         } catch (e) {
-          console.log('caught final error ');
-          console.log(prettyjson.render(e.message));
+          console.error(prettyjson.render(e.message));
         }
         callback();
       }, (err) => {

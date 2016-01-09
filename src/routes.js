@@ -18,7 +18,7 @@ import BlogPage from './components/BlogPage';
 import NotFoundPage from './components/NotFoundPage';
 import ErrorPage from './components/ErrorPage';
 import DataPage from './components/DataPage';
-import UgandaDecidesPageActions from './actions/UgandaPageActions';
+import DataPageActions from './actions/DataPageActions';
 import testData from './components/DataPage/data';
 
 const router = new Router(on => {
@@ -30,13 +30,11 @@ const router = new Router(on => {
   on('/contact', async () => <ContactPage />);
 
   on('/data', async(state) => {
-    // const response = await fetch('/api/social/twdata');
-    // const data = await response.json();
-    // console.log(data[0]);
-
     const res = await fetch(`/api/content?path=${state.path}`);
     const html = await res.json();
-    UgandaDecidesPageActions.getData(testData);
+    const response = await fetch('/api/social/twdata');
+    const data = await response.json();
+    DataPageActions.getData(data);
     return <DataPage {...html} />;
   });
 
