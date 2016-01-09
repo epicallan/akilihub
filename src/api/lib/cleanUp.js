@@ -48,16 +48,18 @@ class CleanUp {
       obj.favorite_count = tweet.favorite_count;
       obj.user_id = tweet.user.id;
       obj.id = tweet.id;
-      obj.geo_enabled = false;
       obj.is_reply = tweet.in_reply_to_status_id === null || !tweet.in_reply_to_status_id ? false : true;
       if (obj.is_reply) {
         obj.in_reply_to_status_id = tweet.in_reply_to_status_id;
       }
       obj.is_retweet = tweet.retweeted_status !== undefined ? true : false;
       if (tweet.place) {
-        obj.coordinates = tweet.place.bounding_box.coordinates;
+        obj.bounding_box = tweet.place.bounding_box.coordinates;
+        obj.coordinates = { lat: obj.bounding_box[0][0][1], lng: obj.bounding_box[0][0][0] };
         obj.country = tweet.place.country;
         obj.geo_enabled = true;
+      } else {
+        obj.geo_enabled = false;
       }
       obj.has_hashtags = false;
       if (tweet.entities.hashtags.length) {

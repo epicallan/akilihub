@@ -11,6 +11,7 @@ import request from 'request';
 import redis from 'redis';
 import bluebird from 'bluebird';
 import _async from 'async';
+import prettyjson from 'prettyjson';
 // import moment from 'moment';
 
 // import Promise from 'bluebird';
@@ -30,8 +31,7 @@ class Analyzer {
     this.POSTagger = new salient.tagging.HmmTagger();
     this.client = redis.createClient();
     this.client.on('error', (err) => {
-      /* eslint-disable no-console */
-      console.error('Error ' + err);
+      throw new Error(err);
     });
   }
 
@@ -125,39 +125,41 @@ class Analyzer {
     });
   }
   _geoCodeLocation(location) {
-    const data = location.replace(' ', '+');
-    const url = GEO_CODE_API + data + '&key=' + GOOGLE_API_KEY;
+    if (!location || location.length < 3) {
+      console.log('not searchable');
+      throw new Error('not searchable, not string');
+    }
+    const urlPart = location.replace(/[\W_]+/g, '+');
+    const url = GEO_CODE_API + urlPart + '&key=' + GOOGLE_API_KEY;
     return new Promise((resolve, reject) => {
       request(url, (error, response, body) => {
-        if (error) throw new Error(error);
-        const coordinates = JSON.parse(body).results[0].geometry.location;
-        this._saveToRedis({
-          lat: coordinates.lat,
-          lng: coordinates.lng,
-          location,
-        });
-        resolve(coordinates);
-        reject(error);
-      });
-    });
-  }
-
-  getCordinates(data, cb) {
-    this._getSavedCoordinates(data, (unmapped, error) => {
-      if (error) throw new Error('Getting coodinate error');
-      _async.each(unmapped, async(d, callback) => {
-        const location = d.location;
-        const coordinates = await this._geoCodeLocation(location);
-        if (coordinates) {
-          d.coordinates = coordinates;
+        try {
+          if (error) throw new Error(error);
+          const json = JSON.parse(body);
+          if (!json.results[0]) {
+            console.log();
+            reject(new Error(`Location has no co-ordinates ${location}`));
+          } else {
+            const coordinates = json.results[0].geometry.location;
+            this._saveToRedis({
+              lat: coordinates.lat,
+              lng: coordinates.lng,
+              location,
+            });
+            resolve(coordinates);
+          }
+        } catch (e) {
+          throw new Error(e);
         }
-        callback();
-      }, (err) => {
-        cb(data, err);
       });
     });
   }
-
+  /**
+   * [_getSavedCoordinates gets pre-saved co-ordinates of locations from redis]
+   * @param  {[type]}   data [filtered data that has no geo-cordinates]
+   * @param  {Function} cb
+   * @return {[type]}        [description]
+   */
   _getSavedCoordinates(data, cb) {
     const unmapped = [];
     _async.each(data, async(d, callback) => {
@@ -167,12 +169,34 @@ class Analyzer {
         unmapped.push(d);
       }
       if (coordinates) {
+        d.geo_enabled = true;
         d.coordinates = coordinates;
       }
       callback();
     }, (error) => {
-      console.log(unmapped);
       cb(unmapped, error);
+    });
+  }
+  getCordinates(data, cb) {
+    // filter out data with geo-cordinates
+    const geoFiltered = this._filterResidue(data, 'geo_enabled', true);
+    const { filtered, residue } = geoFiltered;
+    this._getSavedCoordinates(residue, (unmapped, error) => {
+      if (error) throw new Error('Getting coodinate error');
+      // unmapped represents data that has locations that arenot canched in redis
+      _async.each(unmapped, async(d, callback) => {
+        try {
+          const location = d.location || d.time_zone;
+          d.coordinates = await this._geoCodeLocation(location);
+          d.geo_enabled = true;
+        } catch (e) {
+          console.log('caught final error ');
+          console.log(prettyjson.render(e.message));
+        }
+        callback();
+      }, (err) => {
+        cb(data.concat(filtered), err);
+      });
     });
   }
 
@@ -281,6 +305,15 @@ class Analyzer {
     return _.filter(data, d => d[field] === assertion || d[field].length > 0);
   }
 
+  _filterResidue(data, field, assertion) {
+    const residue = [];
+    const filtered = _.filter(data, d => {
+      const isFiltered = d[field] === assertion;
+      if (!isFiltered) residue.push(d);
+      return isFiltered;
+    });
+    return { filtered, residue };
+  }
   fbTopicsFrequentPosters(data, count) {
     return this.topFrequentItems(data, 'poster', count);
   }

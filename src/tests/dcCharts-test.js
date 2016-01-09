@@ -1,15 +1,15 @@
 import chai from 'chai';
-import DcCharts from '../components/Charts/';
-import testData from './fixtures/dcDataFixture';
+// import DcCharts from '../components/Charts/';
+// import testData from './fixtures/dcDataFixture';
 // import prettyjson from 'prettyjson';
 
 const expect = chai.expect;
 
 describe.skip('dcCharts test', () => {
-  let dcCharts = null;
+  const dcCharts = null;
 
   before((done) => {
-    dcCharts = new DcCharts(testData);
+    // dcCharts = new DcChart (testData);
     expect(dcCharts.data.size()).to.be.above(1);
     done();
   });

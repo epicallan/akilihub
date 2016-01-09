@@ -15,7 +15,6 @@ describe('analyzer class', () => {
       type: 'twitter',
     };
     data = analyzer.getData(options);
-    // console.log(data);
     cfData = analyzer.createCrossFilter(data);
     expect(data).to.have.length.above(0);
     expect(cfData.size()).to.be.above(0);
@@ -27,18 +26,23 @@ describe('analyzer class', () => {
     expect(tweeps).to.have.length.above(0);
   });
 
+  it('should return filtered tweets or fb posts by a certain field', () => {
+    /* eslint-disable no-console */
+    const filtered = analyzer.filterData(data, 'geo_enabled', true);
+    // console.log(prettyjson.render(filtered[0]));
+    expect(filtered).to.have.length.above(0);
+  });
+
   it('should reduce data using crossfilter dimensions and filter by a field value', () => {
     const reduced = analyzer.createCrossfilterDimension(cfData, 'geo_enabled');
     expect(reduced.top(2)).to.have.length.above(1);
   });
 
   it('should be able to create a time grouping from the dimension', () => {
-    /* eslint-disable no-console */
     const grp = analyzer.groupCountByDate(data, {
       time: 'hours',
       count: 0,
     });
-    console.log(prettyjson.render(grp));
     expect(grp.length).to.be.above(1);
   });
 
@@ -54,13 +58,13 @@ describe('analyzer class', () => {
   it('should get aggregate twitter sentiments', () => {
     const sentimated = analyzer.tweetSentiments(data);
     /* eslint-disable no-console */
-    console.log(sentimated[2]);
+    // console.log(sentimated[2]);
     const sentimentCount = analyzer.aggregateTwSentiments(sentimated);
-    console.log(sentimentCount);
+    // console.log(sentimentCount);
     expect(sentimentCount).to.not.equal(0);
   });
 
-  describe('geocoding', () => {
+  describe.skip('geocoding unit tests', () => {
     before(async(done) => {
       await analyzer._saveToRedis({
         location: 'masaka',
@@ -99,8 +103,18 @@ describe('analyzer class', () => {
       analyzer.getCordinates(payload, (results, error) => {
         /* eslint-disable no-console */
         if (error) console.log(error);
-        // console.log(prettyjson.render(results));
         expect(results[0]).to.be.an('object');
+      });
+    });
+  });
+  describe('geocoding functional test', () => {
+    it('should get geo-location of different tweets', (done) => {
+      analyzer.getCordinates(data, (geoTagged, err) => {
+        if (err) console.log(err);
+        console.log('*************TESTS************');
+        console.log(prettyjson.render(geoTagged[0]));
+        expect(geoTagged[0]).to.be.an('object');
+        done();
       });
     });
   });
