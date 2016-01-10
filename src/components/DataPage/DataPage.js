@@ -4,11 +4,9 @@ import cx from 'classnames';
 import withStyles from '../../decorators/withStyles';
 import DataPageStore from '../../stores/DataPageStore';
 import Link from '../Link';
-import DataPageActions from '../../actions/DataPageActions';
-import fetch from '../../core/fetch';
 const isBrowser = typeof window !== 'undefined';
 const Charts = isBrowser ? require('../Charts') : undefined;
-import testData from './data';
+// import testData from './data';
 
 function getStateFromStores() {
   return {
@@ -47,7 +45,8 @@ export default class DataCenterPage extends Component {
         this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie' }, this.state.data);
       } catch (e) {
         // TODO hack just reload the page this is an error to do with leaflet.js
-        // window.location.assign(this.path);
+        window.location.assign(this.path);
+        /* eslint-disable no-console */
         console.log(e);
       }
     }

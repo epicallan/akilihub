@@ -6,7 +6,6 @@ import salient from 'salient';
 import cleanUp from './cleanUp';
 import utils from './utils';
 import _ from 'lodash';
-import crossfilter from 'crossfilter2';
 import request from 'request';
 import redis from 'redis';
 import bluebird from 'bluebird';
@@ -87,19 +86,24 @@ class Analyzer {
     return nouns;
   }
 
-  createCrossFilter(raw) {
-    return crossfilter(raw);
+  addToUserMentions(data, names) {
+    data.forEach(d => {
+      names.forEach(name => {
+        const regex = new RegExp('\\b' + name, 'gi');
+        // find if the name is not in the user mentions already
+        const mentions = d.user_mentions.join(' ');
+        const userMentionsMatch = mentions.match(regex);
+        if (!userMentionsMatch) {
+          // check whether the name is with in the tweet
+          const matchArr = d.text.match(regex);
+          if (matchArr) {
+            d.user_mentions.push(name);
+          }
+        }
+      });
+    });
+    return data;
   }
-
-  createCrossfilterDimension(crossfilterData, type) {
-    try {
-      return crossfilterData.dimension(d => d[type]);
-    } catch (e) {
-      /* eslint-disable no-console */
-      console.log(e.stack);
-    }
-  }
-
   _saveToRedis(obj) {
     this.client.hmset(obj.location, 'lat', obj.lat, 'lng', obj.lng, redis.print);
   }
@@ -114,7 +118,7 @@ class Analyzer {
   }
   saveJsonRedis(data, key, cb) {
     this.client.set(key, JSON.stringify(data), (err, res) => {
-      if (err) console.log(err);
+      if (err) throw new Error(err);
       cb(res);
     });
   }
@@ -123,7 +127,9 @@ class Analyzer {
     this.client.getAsync(key).then((reply) => {
       const redisData = JSON.parse(reply);
       cb(redisData);
-    }).catch((error) => { console.log(error); });
+    }).catch((error) => {
+      throw new Error(error);
+    });
   }
 
   deletFromRedis(keys, cb) {
@@ -165,12 +171,6 @@ class Analyzer {
       });
     });
   }
-  /**
-   * [_getSavedCoordinates gets pre-saved co-ordinates of locations from redis]
-   * @param  {[type]}   data [filtered data that has no geo-cordinates]
-   * @param  {Function} cb
-   * @return {[type]}        [description]
-   */
   _getSavedCoordinates(data, cb) {
     const unmapped = [];
     _async.each(data, async(d, callback) => {
@@ -201,6 +201,7 @@ class Analyzer {
           d.coordinates = await this._geoCodeLocation(location);
           d.approximated_geo = true;
         } catch (e) {
+          /* eslint-disable no-console */
           console.error(prettyjson.render(e.message));
         }
         callback();
@@ -208,14 +209,6 @@ class Analyzer {
         cb(data.concat(filtered), err);
       });
     });
-  }
-
-  groupDimensionByCount(dimension, fn) {
-    return dimension.group().reduceSum(fn);
-  }
-
-  groupDimensionBySum(dimension, field) {
-    return dimension.group().reduceCount(d => d[field]);
   }
 
   getData(options) {
@@ -322,7 +315,9 @@ class Analyzer {
       if (!isFiltered) residue.push(d);
       return isFiltered;
     });
-    return { filtered, residue };
+    return {
+      filtered, residue,
+    };
   }
   fbTopicsFrequentPosters(data, count) {
     return this.topFrequentItems(data, 'poster', count);

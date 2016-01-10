@@ -84,9 +84,4 @@ export default class DcCharts {
       .dimension(dimension)
       .group(group);
   }
-
-  getDimenison(attribute) {
-    return this.data.dimension(d => d[attribute]);
-  }
-
 }

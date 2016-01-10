@@ -66,11 +66,15 @@ class CleanUp {
       if (tweet.entities.hashtags.length) {
         obj.has_hashtags = true;
         obj.hastags = tweet.entities.hashtags.map(tag => tag.text);
+      } else {
+        obj.hastags = [];
       }
       obj.has_user_mentions = false;
       if (tweet.entities.user_mentions.length) {
         obj.has_user_mentions = true;
-        obj.user_mentions = tweet.entities.user_mentions.map(user => user.name);
+        obj.user_mentions = tweet.entities.user_mentions.map(user => user.name.toLowerCase());
+      } else {
+        obj.user_mentions = [];
       }
       return obj;
     });
