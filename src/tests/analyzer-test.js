@@ -1,6 +1,6 @@
 import chai from 'chai';
 import analyzer from '../api/lib/analyzer';
-import Cf from '../api/lib/CfHelper';
+import cf from '../api/lib/CfHelper';
 import path from 'path';
 import prettyjson from 'prettyjson';
 const expect = chai.expect;
@@ -71,14 +71,14 @@ describe('analyzer class', () => {
     });
   });
   describe('should create crossfilter groupings from array values', () => {
-    let cf = null;
+    let cfData = null;
     before((done) => {
       data = analyzer.addToUserMentions(data, ['museveni', 'besigye']);
-      cf = new Cf(data);
+      cfData = cf.createCrossFilter(data);
       done();
     });
     it('should have method for getting an array filed group and dimension', () => {
-      const { group } = cf.arrayDimAndGroup('user_mentions');
+      const { group } = cf.arrayDimAndGroup(cfData, 'user_mentions');
       console.log(prettyjson.render(group.all()));
       expect(group).to.be.an('object');
     });

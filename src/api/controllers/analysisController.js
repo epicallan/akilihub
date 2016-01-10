@@ -4,6 +4,7 @@ export default class Controller {
 
   constructor(options) {
     this.data = analyzer.getData(options);
+    // adds names to the user_mentions array
     this.data = analyzer.addToUserMentions(this.data, ['museveni', 'besigye']);
   }
 

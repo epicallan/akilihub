@@ -45,7 +45,7 @@ export default class DataCenterPage extends Component {
         this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie' }, this.state.data);
       } catch (e) {
         // TODO hack just reload the page this is an error to do with leaflet.js
-        window.location.assign(this.path);
+        // window.location.assign(this.path);
         /* eslint-disable no-console */
         console.log(e);
       }
@@ -59,22 +59,21 @@ export default class DataCenterPage extends Component {
   }
 
   createDcCharts(container, data) {
-    this.charts = new Charts(data);
+    const charts = new Charts(data);
     // line chart
-    const dim = this.charts.createDimenion('hour');
-    const group = this.charts.createGroup(dim, 'sentiment');
-    this.charts.lineChart(dim, group, container.line);
+    const lineDim = charts.createDimenion('hour');
+    const lineGroup = charts.createGroup(lineDim, 'sentiment');
+    charts.lineChart(lineDim, lineGroup, container.line);
     // leaflet map
-    const mapDim = this.charts.createDimenion('geo');
+    const mapDim = charts.createDimenion('geo');
     const facilitiesGroup = mapDim.group().reduceCount();
-    this.dcMap = this.charts.mapChart(mapDim, facilitiesGroup, container.map);
+    this.dcMap = charts.mapChart(mapDim, facilitiesGroup, container.map);
     // pie
-    const pieDim = this.charts.createDimenion('is_retweet');
-    const pieGroup = this.charts.createGroup(pieDim, 'hour');
-    this.charts.pieChart(pieDim, pieGroup, container.pie);
+    const { dim, group } = charts.createGroupAndDimArrayField('user_mentions');
+    charts.pieChart(dim, group, container.pie);
     // table
-    this.charts.tableChart(dim, container.table);
-    this.charts.drawAll();
+    charts.tableChart(dim, container.table);
+    charts.drawAll();
   }
   _onChange() {
     this.setState(getStateFromStores());

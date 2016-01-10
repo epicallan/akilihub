@@ -1,21 +1,21 @@
 import crossfilter from 'crossfilter2';
 import _ from 'lodash';
 
-export default class CfHelper {
+class CfHelper {
 
-  constructor(data) {
-    this.cfData = crossfilter(data);
+  createCrossFilter(data) {
+    return crossfilter(data);
   }
 
-  createDimension(type) {
+  createDimension(cfData, type) {
     try {
-      return this.cfData.dimension(d => d[type]);
+      return cfData.dimension(d => d[type]);
     } catch (e) {
       /* eslint-disable no-console */
       console.log(e.stack);
     }
   }
-  createGroup(dim, attr) {
+  createSumGroup(dim, attr) {
     return dim.group().reduceSum(d => d[attr]);
   }
 
@@ -94,14 +94,15 @@ export default class CfHelper {
     this.topGroupPatch(group);
     return group;
   }
-  arrayDimAndGroup(attr) {
+  arrayDimAndGroup(cfData, attr) {
     function reduceInitial() {
       return {};
     }
-    const dim = this.createDimension(attr);
+    const dim = this.createDimension(cfData, attr);
     const rawGrp = dim.groupAll().reduce(this.reduceAdd(attr), this.reduceRemove(attr), reduceInitial).value();
     const group = this.removeLowGroupObjs(rawGrp);
     this.groupPatches(group);
     return { dim, group };
   }
 }
+export default new CfHelper();

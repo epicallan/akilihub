@@ -1,4 +1,5 @@
 import dc from './dc';
+import cf from '../../api/lib/CfHelper';
 
 export default class DcCharts {
 
@@ -10,21 +11,24 @@ export default class DcCharts {
         if (d.approximated_geo || d.geo_enabled) d.geo = `${d.coordinates.lat},${d.coordinates.lng}`;
         d.hour = date.getHours();
       });
-      // console.log(data[0]);
     }
-    this.data = dc.crossfilter(data);
+    this.data = cf.createCrossFilter(data);
   }
 
   drawAll() {
     dc.renderAll();
   }
 
-  createGroup(dim, attribute) {
-    return dim.group().reduceSum(d => d[attribute]);
+  createGroup(dim, attr) {
+    return cf.createSumGroup(dim, attr);
   }
 
   createDimenion(attr) {
-    return this.data.dimension(d => d[attr]);
+    return cf.createDimension(this.data, attr);
+  }
+
+  createGroupAndDimArrayField(attr) {
+    return cf.arrayDimAndGroup(this.data, attr);
   }
 
   mapChart(dim, grp, mapId) {
