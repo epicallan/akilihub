@@ -1,3 +1,6 @@
+/**
+ * cross filter helper
+ */
 import crossfilter from 'crossfilter2';
 import _ from 'lodash';
 

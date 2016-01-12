@@ -45,7 +45,7 @@ export default class DataCenterPage extends Component {
         this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie' }, this.state.data);
       } catch (e) {
         // TODO hack just reload the page this is an error to do with leaflet.js
-        // window.location.assign(this.path);
+        window.location.assign(this.path);
         /* eslint-disable no-console */
         console.log(e);
       }
@@ -114,11 +114,13 @@ export default class DataCenterPage extends Component {
               </article>
               <section className ={s.charts}>
                 <div className="row spacing-sm">
-                  <div className="col-md-6">
+                  <div className="col-md-12">
                       <h3> Line Chart</h3>
                       <div id ="line" className={s.chart}></div>
                   </div>
-                  <div className = "col-md-6">
+                </div>
+                <div className="row spacing-sm">
+                  <div className = "col-md-12">
                     <h3> Table Chart</h3>
                     <table id ="table" className = {cx(s.chart, 'table', 'table-bordered')}>
                       <thead>

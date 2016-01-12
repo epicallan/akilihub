@@ -1,5 +1,5 @@
 import dc from './dc';
-import cf from '../../api/lib/CfHelper';
+import cf from '../../core/CfHelper';
 
 export default class DcCharts {
 
@@ -80,7 +80,7 @@ export default class DcCharts {
     return chart
       .width(450)
       .height(300)
-      .x(dc.d3.scale.linear().domain([10, 20]))
+      .x(dc.d3.scale.linear().domain([5, 24]))
       .elasticY(true)
       .brushOn(true)
       .renderDataPoints(true)

@@ -26,7 +26,7 @@ server.use(express.static(path.join(__dirname, 'public')));
 
 // Register Data analysis API middleware
 // -----------------------------------------------------------------------------
-server.use('/api', require('./api/serverRoutes'));
+server.use('/api', require('./api/routes'));
 
 
 // Register API middleware
