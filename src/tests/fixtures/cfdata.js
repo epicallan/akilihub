@@ -5,7 +5,7 @@ const data = [{
   'date': new Date('10/02/2012'),
 }, {
   'key': 'KEY-2',
-  'state': 'CA',
+  'state': '',
   'topics': ['Health'],
   'date': new Date('10/05/2012'),
 }, {
@@ -15,7 +15,7 @@ const data = [{
   'date': new Date('10/08/2012'),
 }, {
   'key': 'KEY-4',
-  'state': 'WA',
+  'state': '',
   'topics': ['Automotive', 'Science'],
   'date': new Date('10/09/2012'),
 }, {

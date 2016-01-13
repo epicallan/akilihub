@@ -98,7 +98,7 @@
     "lint": "eslint src tools && jscs src tools",
     "csslint": "csscomb src/components --lint --verbose",
     "csscomb": "csscomb src/components --verbose",
-    "test": "mocha ./src/tests/*.js --recursive --compilers js:babel-core/register",
+    "test": "mocha ./src/tests/*.js --recursive --compilers js:babel-core/register --require babel-core/polyfill",
     "tdd": "npm test -- --watch",
     "clean": "babel-node tools/run clean",
     "copy": "babel-node tools/run copy",

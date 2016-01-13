@@ -45,7 +45,7 @@ export default class DataCenterPage extends Component {
         this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie' }, this.state.data);
       } catch (e) {
         // TODO hack just reload the page this is an error to do with leaflet.js
-        window.location.assign(this.path);
+        // window.location.assign(this.path);
         /* eslint-disable no-console */
         console.log(e);
       }
@@ -65,7 +65,7 @@ export default class DataCenterPage extends Component {
     const lineGroup = charts.createGroup(lineDim, 'sentiment');
     charts.lineChart(lineDim, lineGroup, container.line);
     // leaflet map
-    const mapDim = charts.createDimenion('geo');
+    const mapDim = charts.createDimenion('coordinates');
     const facilitiesGroup = mapDim.group().reduceCount();
     this.dcMap = charts.mapChart(mapDim, facilitiesGroup, container.map);
     // pie

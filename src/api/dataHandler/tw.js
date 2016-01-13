@@ -2,8 +2,8 @@
  * Gets data from Twitter model
  */
 import mongodb from 'mongodb';
-import config from '../../config';
-const MONGO_URL = config.MONGO_URL;
+import { MONGO_URL } from '../../config';
+
 const MongoClient = mongodb.MongoClient;
 
 function _connection() {
@@ -15,24 +15,28 @@ function _connection() {
   });
 }
 
-export default async function findAll() {
+async function findAll() {
   try {
     const db = await _connection();
-    return new Promise((resolve) => {
-      resolve(db.collection('twitters').find());
-    });
+    return db.collection('twitters').find({}).toArray();
   } catch (e) {
     throw new Error(e);
   }
 }
 
-export async function findByDate(date) {
+async function findByDate(date) {
   try {
     const db = await _connection();
-    return db.collection('restaurants').find({
-      date
-    });
+    return db.collection('twitters').find({
+      date: {
+        $gt: date,
+      },
+    }).toArray();
   } catch (e) {
     throw new Error(e);
   }
 }
+
+export default {
+  findAll, findByDate,
+};

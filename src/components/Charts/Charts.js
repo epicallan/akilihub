@@ -8,7 +8,6 @@ export default class DcCharts {
       data.forEach(d => {
         const date = new Date(d.date);
         d.date = date;
-        if (d.approximated_geo || d.geo_enabled) d.geo = `${d.coordinates.lat},${d.coordinates.lng}`;
         d.hour = date.getHours();
       });
     }
@@ -32,9 +31,10 @@ export default class DcCharts {
   }
 
   mapChart(dim, grp, mapId) {
+    // cf.purgeGroup(grp);
     return dc.leafletMarkerChart('#' + mapId)
       .dimension(dim)
-      .group(grp)
+      .group(cf.fakeGroup(grp))
       .width(600)
       .height(400)
       .zoom(12)
@@ -43,10 +43,10 @@ export default class DcCharts {
       .cluster(true);
   }
 
-  pieChart(dim, group, pie) {
+  pieChart(dim, grp, pie) {
     return dc.pieChart('#' + pie)
       .dimension(dim)
-      .group(group)
+      .group(grp)
       .width(200)
       .height(200)
       .renderLabel(true)
@@ -80,7 +80,7 @@ export default class DcCharts {
     return chart
       .width(450)
       .height(300)
-      .x(dc.d3.scale.linear().domain([5, 24]))
+      .x(dc.d3.scale.linear().domain(cf.getMinAndMax(group, 'key')))
       .elasticY(true)
       .brushOn(true)
       .renderDataPoints(true)

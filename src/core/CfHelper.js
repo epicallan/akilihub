@@ -9,7 +9,10 @@ class CfHelper {
   createCrossFilter(data) {
     return crossfilter(data);
   }
-
+  getMinAndMax(group, field) {
+    const keys = group.all().map(d => d[field]);
+    return [_.max(keys), _.min(keys)];
+  }
   createDimension(cfData, type) {
     try {
       return cfData.dimension(d => d[type]);
@@ -18,8 +21,23 @@ class CfHelper {
       console.log(e.stack);
     }
   }
+
+  fakeGroup(group) {
+    return {
+      all: function() {
+        return group.all().filter(function(d) {
+          return d.value != 0;
+        });
+      }
+    };
+  }
+
   createSumGroup(dim, attr) {
-    return dim.group().reduceSum(d => d[attr]);
+    const grp = dim.group().reduceSum(d => d[attr]);
+    grp.all = () => {
+      return grp.all().filter(d => d.value !== 0 || d.value !== null);
+    };
+    return grp;
   }
 
   createGroupByCount(dimension, fn) {
@@ -56,7 +74,7 @@ class CfHelper {
 
   allGroupPatch(group) {
     /* eslint-disable func-names */
-    group.all = function () {
+    group.all = function() {
       const newObject = [];
       for (const key in this) {
         if (this.hasOwnProperty(key) && key !== 'all' && key !== 'top') {
@@ -72,7 +90,7 @@ class CfHelper {
 
   topGroupPatch(group) {
     /* eslint-disable func-names */
-    group.top = function (count) {
+    group.top = function(count) {
       const newObject = this.all();
       newObject.sort((a, b) => {
         return b.value - a.value;
@@ -86,7 +104,7 @@ class CfHelper {
     const values = _.values(group);
     const max = _.max(values);
     const transformedGrp = {};
-    _.forOwn(group, function (value, key) {
+    _.forOwn(group, function(value, key) {
       if (value > Math.floor(max / 8)) transformedGrp[key] = value;
     });
     return transformedGrp;
@@ -105,7 +123,9 @@ class CfHelper {
     const rawGrp = dim.groupAll().reduce(this.reduceAdd(attr), this.reduceRemove(attr), reduceInitial).value();
     const group = this.removeLowGroupObjs(rawGrp);
     this.groupPatches(group);
-    return { dim, group };
+    return {
+      dim, group
+    };
   }
 }
 export default new CfHelper();
