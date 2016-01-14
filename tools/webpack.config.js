@@ -25,7 +25,7 @@ const AUTOPREFIXER_BROWSERS = [
   'Safari >= 7.1',
 ];
 const GLOBALS = {
-  'process.env.NODE_ENV': DEBUG ? ''development'' : ''production'',
+  'process.env.NODE_ENV': DEBUG ? 'development' : 'production',
   __DEV__: DEBUG,
 };
 
@@ -180,7 +180,7 @@ const serverConfig = merge({}, config, {
   devtool: 'source-map',
   plugins: [
     new webpack.DefinePlugin(GLOBALS),
-    new webpack.BannerPlugin('require('source-map-support').install();',
+    new webpack.BannerPlugin(require('source-map-support').install()),
       { raw: true, entryOnly: false }),
   ],
 });

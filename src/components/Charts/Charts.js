@@ -61,24 +61,20 @@ export default class DcCharts {
   _Tablefilter = () => {
     // filter all charts when using the datatables search box
     // TODO use react state lifecycle
-    $(':input').on('keyup', () => {
-      const textFilter = (dim, q) => {
-        if (q !== '') {
-          dim.filter((d) => {
-            return d.indexOf(q.toLowerCase()) !== -1;
-          });
-        } else {
-          dim.filterAll();
-        }
-        this._tablesRefresh();
-        // redrawAll
+    const self = this;
+    $(':input').on('keyup', function () {
+      if (this.value !== '') {
+        self.tableDimension.filter((d) => {
+          return d.indexOf(this.value.toLowerCase()) !== -1;
+        });
+        self._tablesRefresh();
         dc.redrawAll();
-      };
-      textFilter(this.tableDimension, this.value);
+      }
     });
   }
   _dataTablesOptions() {
     return {
+      'pageLength': 5,
       'bSort': true,
       columnDefs: [{
         targets: 0,

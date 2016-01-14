@@ -156,7 +156,7 @@ export default class DataCenterPage extends Component {
                 <div className="row spacing-sm">
                   <div className = "col-md-12">
                     <h3> Table Chart</h3>
-                    <table id ="table" className = {cx(s.chart, 'table', 'table-bordered')}>
+                    <table id ="table" className = {cx('table', 'table-hover', 'table-bordered')}>
                       <thead>
                         <tr className={s.header}>
                           <th>Tweet</th>
