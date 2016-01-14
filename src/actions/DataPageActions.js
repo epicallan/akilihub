@@ -13,7 +13,12 @@ class DataPageActions {
       data: raw,
     });
   }
-
+  update(raw) {
+    Dispatcher.dispatch({
+      actionType: constants.DATAPAGE_UPDATE,
+      data: raw,
+    });
+  }
 }
 
 export default new DataPageActions();

@@ -27,7 +27,9 @@ class UgandaPageStore extends EventEmitter {
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   }
-
+  update(newData) {
+    this.data.concat(newData);
+  }
   getData(raw) {
     this.data = raw;
   }
@@ -43,6 +45,10 @@ Dispatcher.register((action) => {
   switch (action.actionType) {
     case constants.DATAPAGE_RECEIVE_DATA:
       store.getData(action.data);
+      store.emitChange();
+      break;
+    case constants.DATAPAGE_UPDATE:
+      store.update(action.data);
       store.emitChange();
       break;
     default:

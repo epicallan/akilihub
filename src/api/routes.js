@@ -15,4 +15,13 @@ router.get('/social/twdata', async(req, res, next) => {
   }
 });
 
+router.get('/social/twdata/:date', async(req, res, next) => {
+  try {
+    const data = await twitterHandler.findByDate(req.params.date);
+    res.status(200).json(data);
+  } catch (err) {
+    next(err);
+  }
+});
+
 export default router;

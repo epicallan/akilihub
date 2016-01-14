@@ -21,8 +21,15 @@ describe('cf helper tests', () => {
     const cfTestData = cf.createCrossFilter(testData);
     const dim = cf.createDimension(cfTestData, 'state');
     const group = dim.group().reduceCount();
-    console.log(prettyjson.render(group.all()));
-    expect(group.all()).to.be.an('array');
+    const fgrp = cf.fakeGroup(group, 'value');
+    expect(fgrp.all()).to.be.an('array');
+  });
+  it('should createDimension', () => {
+    const cfTestData = cf.createCrossFilter(testData);
+    const dim = cfTestData.dimension((d) => d.key + ' ' + d.state);
+    dim.filter('KEY-5 WS');
+    console.log(dim.top(Infinity));
+    expect(dim).to.be.an('object');
   });
   it.skip('should have method for getting an array filed group and dimension', () => {
     const {

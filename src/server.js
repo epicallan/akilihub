@@ -18,6 +18,8 @@ import Html from './components/Html';
 import assets from './assets';
 import { port } from './config';
 
+// const server = global.server = http.createServer(express());
+
 const server = global.server = express();
 
 // Register Node.js middleware

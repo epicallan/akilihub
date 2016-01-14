@@ -15,28 +15,34 @@ class CfHelper {
   }
   createDimension(cfData, type) {
     try {
-      return cfData.dimension(d => d[type]);
+      return cfData.dimension(d => {
+        if (d[type]) return d[type];
+      });
     } catch (e) {
       /* eslint-disable no-console */
       console.log(e.stack);
     }
   }
 
-  fakeGroup(group) {
+  fakeGroup(group, field) {
     return {
-      all: function() {
-        return group.all().filter(function(d) {
-          return d.value != 0;
-        });
-      }
+      all: () => {
+        return group.all().filter(d => d[field].length > 1);
+      },
     };
   }
-
+  purgeNumericalGroup(group, field) {
+    return {
+      all: () => {
+        return group.all().filter(d => !isNaN(parseFloat(d[field])) && isFinite(d[field]));
+      },
+    };
+  }
   createSumGroup(dim, attr) {
     const grp = dim.group().reduceSum(d => d[attr]);
-    grp.all = () => {
+    /* grp.all = () => {
       return grp.all().filter(d => d.value !== 0 || d.value !== null);
-    };
+    }; */
     return grp;
   }
 

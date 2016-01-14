@@ -11,4 +11,4 @@
 export const port = process.env.PORT || 5000;
 export const host = process.env.WEBSITE_HOSTNAME || `localhost:${port}`;
 export const googleAnalyticsId = 'UA-XXXXX-X';
-export const MONGO_URL = 'mongodb://localhost/mine-tw';
+export const MONGO_URL = 'mongodb://localhost/mine-twt';
