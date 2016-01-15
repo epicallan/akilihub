@@ -109,6 +109,6 @@
     "build": "babel-node tools/run build",
     "deploy": "babel-node tools/run deploy",
     "start": "node server.js"
-    "server": "nodemon dist/server.js"
+    "start-server": "nodemon build/server.js"
   }
 }
