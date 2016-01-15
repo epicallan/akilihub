@@ -48,8 +48,8 @@ export default class DataCenterPage extends Component {
       try {
         // console.log(this.state.data[0]);
         // this.state.data has data from the server
-        this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie' }, this.state.data);
-        // this.getNewData();
+        this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie', row: 'row' }, this.state.data);
+        this.getNewData();
       } catch (e) {
         // TODO hack just reload the page this is an error to do with leaflet.js
         // window.location.assign(this.path);
@@ -61,15 +61,7 @@ export default class DataCenterPage extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     console.log('new data: ' + nextState.data.length);
-    this.charts.updateData(nextState.data);
-    this.lineChart.redraw();
-    this.pieChart.redraw();
-    this.table.redraw();
-    const myNode = document.getElementById('map');
-    const clone = myNode.cloneNode(false);
-    myNode.parentNode.replaceChild(clone, myNode);
-    this.dcMap = this.charts.drawMap(clone.id);
-    this.dcMap.render();
+    this.charts.redrawAll();
     return false;
   }
 
@@ -84,24 +76,23 @@ export default class DataCenterPage extends Component {
       const response = await fetch(`/api/social/twdata/${this.lastDate}`);
       const data = await response.json();
       DataPageActions.update(data);
-    }, 120000);
+    }, 60000 * 2);
   }
 
   createDcCharts(container, data) {
     this.charts = new Charts(data);
     this.lastDate = this.charts.lastDate;
-    console.log(this.lastDate);
     // line chart
     const lineDim = this.charts.createDimenion('hour');
     const lineGroup = this.charts.createGroup(lineDim, 'sentiment');
     this.lineChart = this.charts.lineChart(lineDim, lineGroup, container.line);
     // this.lineChart.render();
     // leaflet map
-    this.dcMap = this.charts.drawMap(container.map);
+    this.charts.drawMap(container.map);
+    // row
+    this.charts.drawRawChart(container.row);
     // pie
-    const { dim, group } = this.charts.createGroupAndDimArrayField('user_mentions');
-    this.pieChart = this.charts.pieChart(dim, group, container.pie);
-    // this.pieChart.render();
+    this.charts.drawPieChart(container.pie);
     // table
     // this.table = this.charts.tableChart(dim, container.table);
     this.charts.createDataTable(container.table);
@@ -148,24 +139,13 @@ export default class DataCenterPage extends Component {
               </article>
               <section className ={s.charts}>
                 <div className="row spacing-sm">
-                  <div className="col-md-12">
+                  <div className="col-md-6">
                       <h3> Line Chart</h3>
                       <div id ="line"></div>
                   </div>
-                </div>
-                <div className="row spacing-sm">
-                  <div className = "col-md-12">
-                    <h3> Table Chart</h3>
-                    <table id ="table" className = {cx('table', 'table-hover', 'table-bordered')}>
-                      <thead>
-                        <tr className={s.header}>
-                          <th>Tweet</th>
-                          <th>Hour</th>
-                          <th>Type</th>
-                          <th>sentiment</th>
-                        </tr>
-                      </thead>
-                    </table>
+                  <div className="col-md-6">
+                      <h3> Row Chart</h3>
+                      <div id ="row"></div>
                   </div>
                 </div>
                 <div className= "row spacing-sm">
@@ -178,6 +158,22 @@ export default class DataCenterPage extends Component {
                       <div id= "pie"></div>
                   </div>
                 </div>
+                <div className="row spacing-sm">
+                  <div className = "col-md-11 table-cont">
+                    <h3> Table Chart</h3>
+                    <table id ="table" className = {cx('table', 'table-hover', 'table-bordered')}>
+                      <thead>
+                        <tr className={s.header}>
+                          <th>Tweet</th>
+                          <th>Date</th>
+                          <th>Location</th>
+                          <th>sentiment</th>
+                        </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+
               </section>
             </div>
           </div>

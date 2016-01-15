@@ -23,7 +23,16 @@ class CfHelper {
       console.log(e.stack);
     }
   }
-
+  reduceGroupObjs(group) {
+    // find highest value
+    const topObj = group.top(1);
+    console.log(topObj);
+    return {
+      all: () => {
+        return group.all().filter(d => d.value > Math.floor(topObj[0].value / 3));
+      },
+    };
+  }
   fakeGroup(group, field) {
     return {
       all: () => {
@@ -80,7 +89,7 @@ class CfHelper {
 
   allGroupPatch(group) {
     /* eslint-disable func-names */
-    group.all = function() {
+    group.all = function () {
       const newObject = [];
       for (const key in this) {
         if (this.hasOwnProperty(key) && key !== 'all' && key !== 'top') {
@@ -96,7 +105,7 @@ class CfHelper {
 
   topGroupPatch(group) {
     /* eslint-disable func-names */
-    group.top = function(count) {
+    group.top = function (count) {
       const newObject = this.all();
       newObject.sort((a, b) => {
         return b.value - a.value;
@@ -105,13 +114,13 @@ class CfHelper {
     };
   }
 
-  removeLowGroupObjs(group) {
+  _removeLowGroupObjs(group) {
     // find highest value
     const values = _.values(group);
     const max = _.max(values);
     const transformedGrp = {};
-    _.forOwn(group, function(value, key) {
-      if (value > Math.floor(max / 8)) transformedGrp[key] = value;
+    _.forOwn(group, function (value, key) {
+      if (value > Math.floor(max / 6)) transformedGrp[key] = value;
     });
     return transformedGrp;
   }
@@ -127,11 +136,9 @@ class CfHelper {
     }
     const dim = this.createDimension(cfData, attr);
     const rawGrp = dim.groupAll().reduce(this.reduceAdd(attr), this.reduceRemove(attr), reduceInitial).value();
-    const group = this.removeLowGroupObjs(rawGrp);
+    const group = this._removeLowGroupObjs(rawGrp);
     this.groupPatches(group);
-    return {
-      dim, group
-    };
+    return { dim, group };
   }
 }
 export default new CfHelper();

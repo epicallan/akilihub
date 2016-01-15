@@ -19,10 +19,6 @@ function bundle() {
       if (err) {
         return reject(err);
       }
-<<<<<<< HEAD
-=======
-
->>>>>>> 1b030574f9932825a647a1828b54e1e6b9540544
       console.log(stats.toString(webpackConfig[0].stats));
       resolve();
     });

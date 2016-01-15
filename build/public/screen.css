@@ -1,0 +1,102 @@
+/***dom high level***/
+
+.container-fluid .container {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/***nav****/
+
+.navbar-default {
+  background-color: #5B798E;
+  border-color: #5B798E;
+}
+.nav-scroll {
+  background-color: rgba(245, 245, 245, 0.5);
+}
+.navbar-default .navbar-nav > li > a {
+  color: #ffffff;
+}
+.navbar-collapse {
+  margin-top: 0.5em;
+}
+.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+  color: #d9edf7;
+}
+
+/**utility classes**/
+
+.box {
+  -webkit-border-radius: 3.5px;
+  -moz-border-radius: 3.5px;
+  -ms-border-radius: 3.5px;
+  border-radius: 0.5em;
+}
+.show {
+  display: block;
+}
+.spacing, .copy {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+.spacing-md {
+  margin-top: 6em;
+  margin-bottom: 6em;
+}
+.spacing-sm {
+  margin-top: 5em;
+  margin-bottom: 3em;
+}
+
+/***home page***/
+
+.icon-cover {
+  border: solid;
+  border-radius: 6em;
+  height: 14em;
+}
+.fa-5x {
+  font-size: 13em;
+}
+.main {
+  padding-bottom: 10em;
+  padding-top: 10em;
+}
+.products{background-color: #C78685;}
+.services{background-color: #68B569}
+.section p {
+  line-height: 2em;
+}
+.footer-nav {
+  background-color: white;
+  border-radius: 1em;
+  height: 50px;
+}
+.footer-nav li {
+  display: inline;
+  padding: 4em;
+}
+.footer-nav a {
+  color: white;
+  font-size: 1.1em;
+}
+.social {
+  margin-top: -1em;
+}
+.social a {
+  color: white;
+  font-size: 2.0em;
+  margin-left: 1em;
+}
+.btn {
+  background-color: #B76565;
+  color: white;
+}
+.btn-default.active, .btn-default.focus, .btn-default:active, .btn-default:focus, .btn-default:hover, .open > .dropdown-toggle.btn-default {
+  color: #B76565;
+}
+.modal-content {
+  color: #5B798E;
+}
+
+/*# sourceMappingURL=screen.css.map */

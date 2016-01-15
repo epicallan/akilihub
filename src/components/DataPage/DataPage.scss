@@ -10,7 +10,7 @@
     padding-right: 4em;
   };
   .charts {
-    padding-left: 4em;
+    padding-left: 3em;
   };
   li {
     list-style: none;
@@ -19,7 +19,6 @@
   };
   table {
     margin: 0 auto;
-    width: 85%;
   };
   h2 {
     color: #6B6969;
@@ -54,4 +53,8 @@
 .nav >li>a,
 .sidebar a {
   color: #a94442;
+}
+table{
+  font-size: 0.9em;
+  span{display: none}
 }

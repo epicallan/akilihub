@@ -2,6 +2,8 @@ import dc from './dc';
 import cf from '../../core/CfHelper';
 import 'datatables';
 import $ from 'jquery';
+import moment from 'moment';
+// import './dtplugin';
 
 export default class DcCharts {
 
@@ -16,11 +18,13 @@ export default class DcCharts {
     if (data[0].date) {
       this.lastDate = data[data.length - 1].date;
       data.forEach(d => {
-        const date = new Date(d.date);
+        const momentDate = moment(d.date);
         // const sentiment = d.sentiment.toFixed(1) || d.sentiment;
-        d.date = date;
+        d.date = momentDate.format('ddd MMM Do, HH:mm');
+        d.text = d.text.toLowerCase();
+        d.timeStamp = momentDate.valueOf();
         // d.sentiment = sentiment || 0;
-        d.hour = date.getHours();
+        d.hour = momentDate.hour();
       });
     }
     return data;
@@ -37,12 +41,15 @@ export default class DcCharts {
     this.tableDimension = this.createDimenion('text');
     this.datatable = $('#' + table);
     // initialize datatable
+    // $.fn.dataTable.moment('ddd MMM Do, hA');
     this.datatable.dataTable(this._dataTablesOptions());
     // call RefreshTable when dc-charts are filtered
     for (let i = 0; i < dc.chartRegistry.list().length; i++) {
       const chartI = dc.chartRegistry.list()[i];
       chartI.on('filtered', this._tablesRefresh);
     }
+    // styling
+    $('input,select,.table-cont a').addClass('btn btn-default');
     // initial table refresh/draw
     this._tablesRefresh();
     // table filter
@@ -69,12 +76,18 @@ export default class DcCharts {
         });
         self._tablesRefresh();
         dc.redrawAll();
+      } else {
+        self.tableDimension.filterAll();
       }
     });
+  }
+  redrawAll() {
+    dc.redrawAll();
   }
   _dataTablesOptions() {
     return {
       'pageLength': 5,
+      'order': [[1, 'desc']],
       'bSort': true,
       columnDefs: [{
         targets: 0,
@@ -82,8 +95,7 @@ export default class DcCharts {
         defaultContent: '',
       }, {
         targets: 1,
-        data: d => d.date,
-        type: 'date',
+        data: d => `<span>${d.timeStamp}</span>${d.date}`,
       }, {
         targets: 2,
         data: d => d.location,
@@ -117,6 +129,25 @@ export default class DcCharts {
     return this.mapChart(this.mapDim, mapGroup, container);
   }
 
+  drawRawChart(id) {
+    const { dim, group } = this.createGroupAndDimArrayField('user_mentions');
+    this.row = this.rowChart(dim, group, id);
+  }
+  rowChart(dim, group, rowId) {
+    return dc.rowChart('#' + rowId)
+      .height(300)
+      .width(330)
+      .margins({
+        top: 10,
+        right: 10,
+        bottom: 20,
+        left: 40,
+      })
+      .dimension(dim)
+      .group(group)
+      .ordering(p => -p.value)
+      .elasticX(true);
+  }
   mapChart(dim, grp, mapId) {
     const mapGroup = cf.fakeGroup(grp, 'key');
     // console.log('map count: '+ mapGroup.all().length);
@@ -131,10 +162,18 @@ export default class DcCharts {
       .cluster(true);
   }
 
+  drawPieChart(id) {
+    const dim = this.createDimenion('screen_name');
+    // const { dim, group } = this.createGroupAndDimArrayField('user_mentions');
+    const group = dim.group();
+    // top group patch
+    // cf.topGroupPatch(group)
+    this.pieChart(dim, group, id);
+  }
   pieChart(dim, grp, pie) {
     return dc.pieChart('#' + pie)
       .dimension(dim)
-      .group(grp)
+      .group(cf.reduceGroupObjs(grp))
       .width(200)
       .height(200)
       .renderLabel(true)
