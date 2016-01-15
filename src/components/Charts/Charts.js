@@ -16,7 +16,7 @@ export default class DcCharts {
 
   _dataTransform(data) {
     if (data[0].date) {
-      this.lastDate = data[data.length - 1].date;
+      this.lastDate = data[0].date;
       data.forEach(d => {
         const momentDate = moment(d.date);
         // const sentiment = d.sentiment.toFixed(1) || d.sentiment;
@@ -81,8 +81,10 @@ export default class DcCharts {
       }
     });
   }
-  redrawAll() {
-    dc.redrawAll();
+  reRender() {
+    this.row.render();
+    this.pie.render();
+    this.line.render();
   }
   _dataTablesOptions() {
     return {
@@ -168,7 +170,7 @@ export default class DcCharts {
     const group = dim.group();
     // top group patch
     // cf.topGroupPatch(group)
-    this.pieChart(dim, group, id);
+    this.pie = this.pieChart(dim, group, id);
   }
   pieChart(dim, grp, pie) {
     return dc.pieChart('#' + pie)
@@ -199,6 +201,12 @@ export default class DcCharts {
         // each time table is rendered remove nasty extra row dc.js insists on adding
         chart.select('tr.dc-table-group').remove();
       });
+  }
+  drawLineChart(id) {
+    // line chart
+    const lineDim = this.createDimenion('hour');
+    const lineGroup = this.createGroup(lineDim, 'sentiment');
+    this.line = this.lineChart(lineDim, lineGroup, id);
   }
 
   lineChart(dimension, group, chartId) {

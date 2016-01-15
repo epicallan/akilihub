@@ -26,7 +26,7 @@ class CfHelper {
   reduceGroupObjs(group) {
     // find highest value
     const topObj = group.top(1);
-    console.log(topObj);
+    // console.log(topObj);
     return {
       all: () => {
         return group.all().filter(d => d.value > Math.floor(topObj[0].value / 3));

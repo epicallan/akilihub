@@ -28,7 +28,7 @@ class UgandaPageStore extends EventEmitter {
     this.removeListener(CHANGE_EVENT, callback);
   }
   update(newData) {
-    this.data.concat(newData);
+    this.data.push(...newData);
   }
   getData(raw) {
     this.data = raw;

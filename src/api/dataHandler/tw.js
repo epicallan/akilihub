@@ -18,7 +18,11 @@ function _connection() {
 async function findAll() {
   try {
     const db = await _connection();
-    return db.collection('twitters').find({ 'is_retweet': false }).toArray();
+    return db.collection('twitters').find({
+      'is_retweet': false,
+    }, {}, {
+      limit: 500,
+    }).toArray();
   } catch (e) {
     throw new Error(e);
   }
@@ -32,6 +36,8 @@ async function findByDate(date) {
         $gt: date,
       },
       is_retweet: false,
+    }, {}, {
+      limit: 200,
     }).toArray();
   } catch (e) {
     throw new Error(e);

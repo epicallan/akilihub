@@ -3743,6 +3743,7 @@ module.exports =
       this.path = props.path;
       this.lastDate = null;
       this.getNewData = this.getNewData;
+      this.isAlldata = false;
     }
   
     _createClass(DataCenterPage, [{
@@ -3756,13 +3757,11 @@ module.exports =
         _storesDataPageStore2['default'].addChangeListener(this._onChange);
         if (isBrowser) {
           try {
-            // console.log(this.state.data[0]);
-            // this.state.data has data from the server
             this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie', row: 'row' }, this.state.data);
             this.getNewData();
           } catch (e) {
             // TODO hack just reload the page this is an error to do with leaflet.js
-            // window.location.assign(this.path);
+            if (!e) window.location.assign(this.path);
             /* eslint-disable no-console */
             console.log(e);
           }
@@ -3772,7 +3771,7 @@ module.exports =
       key: 'shouldComponentUpdate',
       value: function shouldComponentUpdate(nextProps, nextState) {
         console.log('new data: ' + nextState.data.length);
-        this.charts.redrawAll();
+        this.charts.reRender();
         return false;
       }
     }, {
@@ -3803,25 +3802,23 @@ module.exports =
               case 5:
                 data = context$3$0.sent;
   
+                this.lastDate = data[0].date;
+                if (!data.length) this.isAlldata = true;
                 _actionsDataPageActions2['default'].update(data);
   
-              case 7:
+              case 9:
               case 'end':
                 return context$3$0.stop();
             }
           }, null, _this2);
-        }, 60000 * 2);
+        }, 7000);
       }
     }, {
       key: 'createDcCharts',
       value: function createDcCharts(container, data) {
         this.charts = new Charts(data);
         this.lastDate = this.charts.lastDate;
-        // line chart
-        var lineDim = this.charts.createDimenion('hour');
-        var lineGroup = this.charts.createGroup(lineDim, 'sentiment');
-        this.lineChart = this.charts.lineChart(lineDim, lineGroup, container.line);
-        // this.lineChart.render();
+        this.drawLineChart(container.line);
         // leaflet map
         this.charts.drawMap(container.map);
         // row
@@ -4161,6 +4158,8 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
+  function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
+  
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
   
   function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
@@ -4205,7 +4204,9 @@ module.exports =
     }, {
       key: 'update',
       value: function update(newData) {
-        this.data.concat(newData);
+        var _data;
+  
+        (_data = this.data).push.apply(_data, _toConsumableArray(newData));
       }
     }, {
       key: 'getData',
@@ -4447,7 +4448,7 @@ module.exports =
       key: '_dataTransform',
       value: function _dataTransform(data) {
         if (data[0].date) {
-          this.lastDate = data[data.length - 1].date;
+          this.lastDate = data[0].date;
           data.forEach(function (d) {
             var momentDate = (0, _moment2['default'])(d.date);
             // const sentiment = d.sentiment.toFixed(1) || d.sentiment;
@@ -4489,9 +4490,11 @@ module.exports =
         this._Tablefilter();
       }
     }, {
-      key: 'redrawAll',
-      value: function redrawAll() {
-        _dc2['default'].redrawAll();
+      key: 'reRender',
+      value: function reRender() {
+        this.row.render();
+        this.pie.render();
+        this.line.render();
       }
     }, {
       key: '_dataTablesOptions',
@@ -4591,7 +4594,7 @@ module.exports =
         var group = dim.group();
         // top group patch
         // cf.topGroupPatch(group)
-        this.pieChart(dim, group, id);
+        this.pie = this.pieChart(dim, group, id);
       }
     }, {
       key: 'pieChart',
@@ -4617,6 +4620,14 @@ module.exports =
           // each time table is rendered remove nasty extra row dc.js insists on adding
           chart.select('tr.dc-table-group').remove();
         });
+      }
+    }, {
+      key: 'drawLineChart',
+      value: function drawLineChart(id) {
+        // line chart
+        var lineDim = this.createDimenion('hour');
+        var lineGroup = this.createGroup(lineDim, 'sentiment');
+        this.line = this.lineChart(lineDim, lineGroup, id);
       }
     }, {
       key: 'lineChart',
@@ -4748,7 +4759,7 @@ module.exports =
       value: function reduceGroupObjs(group) {
         // find highest value
         var topObj = group.top(1);
-        console.log(topObj);
+        // console.log(topObj);
         return {
           all: function all() {
             return group.all().filter(function (d) {
@@ -5182,7 +5193,11 @@ module.exports =
   
         case 3:
           db = context$1$0.sent;
-          return context$1$0.abrupt('return', db.collection('twitters').find({ 'is_retweet': false }).toArray());
+          return context$1$0.abrupt('return', db.collection('twitters').find({
+            'is_retweet': false
+          }, {}, {
+            limit: 500
+          }).toArray());
   
         case 7:
           context$1$0.prev = 7;
@@ -5212,6 +5227,8 @@ module.exports =
               $gt: date
             },
             is_retweet: false
+          }, {}, {
+            limit: 200
           }).toArray());
   
         case 7:

@@ -36,6 +36,7 @@ export default class DataCenterPage extends Component {
     this.path = props.path;
     this.lastDate = null;
     this.getNewData = this.getNewData;
+    this.isAlldata = false;
   }
 
   componentWillMount() {
@@ -46,13 +47,11 @@ export default class DataCenterPage extends Component {
     DataPageStore.addChangeListener(this._onChange);
     if (isBrowser) {
       try {
-        // console.log(this.state.data[0]);
-        // this.state.data has data from the server
         this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie', row: 'row' }, this.state.data);
         this.getNewData();
       } catch (e) {
         // TODO hack just reload the page this is an error to do with leaflet.js
-        // window.location.assign(this.path);
+        if (!e) window.location.assign(this.path);
         /* eslint-disable no-console */
         console.log(e);
       }
@@ -61,7 +60,7 @@ export default class DataCenterPage extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     console.log('new data: ' + nextState.data.length);
-    this.charts.redrawAll();
+    this.charts.reRender();
     return false;
   }
 
@@ -75,18 +74,16 @@ export default class DataCenterPage extends Component {
     setInterval(async () => {
       const response = await fetch(`/api/social/twdata/${this.lastDate}`);
       const data = await response.json();
+      this.lastDate = data[0].date;
+      if (!data.length) this.isAlldata = true;
       DataPageActions.update(data);
-    }, 60000 * 2);
+    }, 7000);
   }
 
   createDcCharts(container, data) {
     this.charts = new Charts(data);
     this.lastDate = this.charts.lastDate;
-    // line chart
-    const lineDim = this.charts.createDimenion('hour');
-    const lineGroup = this.charts.createGroup(lineDim, 'sentiment');
-    this.lineChart = this.charts.lineChart(lineDim, lineGroup, container.line);
-    // this.lineChart.render();
+    this.drawLineChart(container.line);
     // leaflet map
     this.charts.drawMap(container.map);
     // row
