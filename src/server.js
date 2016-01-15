@@ -17,11 +17,13 @@ import Router from './routes';
 import Html from './components/Html';
 import assets from './assets';
 import { port } from './config';
+import compression from 'compression';
 
 // const server = global.server = http.createServer(express());
 
 const server = global.server = express();
 
+server.use(compression());
 // Register Node.js middleware
 // -----------------------------------------------------------------------------
 server.use(express.static(path.join(__dirname, 'public')));
