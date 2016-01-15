@@ -110,6 +110,6 @@
     "build": "babel-node tools/run build",
     "deploy": "babel-node tools/run deploy",
     "start": "babel-node tools/run start",
-    "start-server": "nodemon build/server.js"
+    "start-server": "NODE_ENV=production nodemon build/server.js"
   }
 }

@@ -11,6 +11,7 @@
     "bootstrap": "^3.3.6",
     "bootstrap-sass": "^3.3.6",
     "classnames": "2.2.1",
+    "compression": "^1.6.0",
     "crossfilter2": "^2.0.0-alpha.3",
     "d3": "^3.5.12",
     "datatables": "^1.10.9",
@@ -109,6 +110,6 @@
     "build": "babel-node tools/run build",
     "deploy": "babel-node tools/run deploy",
     "start": "node server.js"
-    "start-server": "nodemon build/server.js"
+    "start-server": "NODE_ENV=production nodemon build/server.js"
   }
 }

@@ -94,22 +94,27 @@ module.exports =
   
   var _config = __webpack_require__(14);
   
+  var _compression = __webpack_require__(81);
+  
+  var _compression2 = _interopRequireDefault(_compression);
+  
   // const server = global.server = http.createServer(express());
   
   var server = global.server = (0, _express2['default'])();
   
+  server.use((0, _compression2['default'])());
   // Register Node.js middleware
   // -----------------------------------------------------------------------------
   server.use(_express2['default']['static'](_path2['default'].join(__dirname, 'public')));
   
   // Register Data analysis API middleware
   // -----------------------------------------------------------------------------
-  server.use('/api', __webpack_require__(81));
+  server.use('/api', __webpack_require__(82));
   
   // Register API middleware
   
   // -----------------------------------------------------------------------------
-  server.use('/api/content', __webpack_require__(84));
+  server.use('/api/content', __webpack_require__(85));
   
   //
   // Register server-side rendering middleware
@@ -1310,7 +1315,7 @@ module.exports =
 
 /***/ },
 /* 14 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
   
   /**
@@ -1327,6 +1332,7 @@ module.exports =
   Object.defineProperty(exports, '__esModule', {
     value: true
   });
+  if (false) process.env.PORT = 80;
   var port = process.env.PORT || 5000;
   exports.port = port;
   var host = process.env.WEBSITE_HOSTNAME || 'localhost:' + port;
@@ -5042,6 +5048,12 @@ module.exports =
 
 /***/ },
 /* 81 */
+/***/ function(module, exports) {
+
+  module.exports = require("compression");
+
+/***/ },
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
   /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
@@ -5060,7 +5072,7 @@ module.exports =
   
   var _express2 = _interopRequireDefault(_express);
   
-  var _dataHandlerTw = __webpack_require__(82);
+  var _dataHandlerTw = __webpack_require__(83);
   
   var _dataHandlerTw2 = _interopRequireDefault(_dataHandlerTw);
   
@@ -5128,7 +5140,7 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 82 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -5142,7 +5154,7 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _mongodb = __webpack_require__(83);
+  var _mongodb = __webpack_require__(84);
   
   var _mongodb2 = _interopRequireDefault(_mongodb);
   
@@ -5220,13 +5232,13 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 83 */
+/* 84 */
 /***/ function(module, exports) {
 
   module.exports = require("mongodb");
 
 /***/ },
-/* 84 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
   
@@ -5249,7 +5261,7 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _fs = __webpack_require__(85);
+  var _fs = __webpack_require__(86);
   
   var _fs2 = _interopRequireDefault(_fs);
   
@@ -5257,15 +5269,15 @@ module.exports =
   
   var _express = __webpack_require__(3);
   
-  var _bluebird = __webpack_require__(86);
+  var _bluebird = __webpack_require__(87);
   
   var _bluebird2 = _interopRequireDefault(_bluebird);
   
-  var _jade = __webpack_require__(87);
+  var _jade = __webpack_require__(88);
   
   var _jade2 = _interopRequireDefault(_jade);
   
-  var _frontMatter = __webpack_require__(88);
+  var _frontMatter = __webpack_require__(89);
   
   var _frontMatter2 = _interopRequireDefault(_frontMatter);
   
@@ -5369,25 +5381,25 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 85 */
+/* 86 */
 /***/ function(module, exports) {
 
   module.exports = require("fs");
 
 /***/ },
-/* 86 */
+/* 87 */
 /***/ function(module, exports) {
 
   module.exports = require("bluebird");
 
 /***/ },
-/* 87 */
+/* 88 */
 /***/ function(module, exports) {
 
   module.exports = require("jade");
 
 /***/ },
-/* 88 */
+/* 89 */
 /***/ function(module, exports) {
 
   module.exports = require("front-matter");
