@@ -5,6 +5,7 @@ import mongodb from 'mongodb';
 import { MONGO_URL } from '../../config';
 
 const MongoClient = mongodb.MongoClient;
+const collection = 'newtweets';
 
 function _connection() {
   return new Promise((resolve, reject) => {
@@ -18,27 +19,29 @@ function _connection() {
 async function findAll() {
   try {
     const db = await _connection();
-    return db.collection('twitters').find({
+    return db.collection(collection).find({
       'is_retweet': false,
     }, {}, {
-      limit: 500,
-    }).toArray();
+      limit: 1000,
+    }).sort({ timeStamp: 1 })
+    .toArray();
   } catch (e) {
     throw new Error(e);
   }
 }
 
-async function findByDate(date) {
+async function findByDate(timeStamp) {
   try {
     const db = await _connection();
-    return db.collection('twitters').find({
-      date: {
-        $gt: date,
+    return db.collection(collection).find({
+      timeStamp: {
+        $gt: parseInt(timeStamp, 10),
       },
       is_retweet: false,
     }, {}, {
-      limit: 200,
-    }).toArray();
+      limit: 500,
+    }).sort({ timeStamp: 1 })
+    .toArray();
   } catch (e) {
     throw new Error(e);
   }

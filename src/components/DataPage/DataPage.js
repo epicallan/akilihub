@@ -12,9 +12,7 @@ const Charts = isBrowser ? require('../Charts') : undefined;
 // import testData from './data';
 
 function getStateFromStores() {
-  return {
-    data: DataPageStore.getStoreState(),
-  };
+  return DataPageStore.getStoreState();
 }
 
 const title = 'Data Center';
@@ -59,8 +57,10 @@ export default class DataCenterPage extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log('new data: ' + nextState.data.length);
+    // console.log(nextState);
+    this.charts.updateData(nextState.newData);
     this.charts.reRender();
+    // this.reRenderMap();
     return false;
   }
 
@@ -71,19 +71,31 @@ export default class DataCenterPage extends Component {
   }
 
   getNewData() {
-    setInterval(async () => {
-      const response = await fetch(`/api/social/twdata/${this.lastDate}`);
+    const interval = setInterval(async () => {
+      console.log(this.state.lastDate);
+      const response = await fetch(`/api/social/twdata/${this.state.lastDate}`);
       const data = await response.json();
-      this.lastDate = data[0].date;
-      if (!data.length) this.isAlldata = true;
-      DataPageActions.update(data);
-    }, 7000);
+      if (!data.length) {
+        console.log('no more data');
+        clearInterval(interval);
+      } else {
+        DataPageActions.update(data);
+      }
+    }, 10000);
+  }
+
+  reRenderMap() {
+    // TODO this is a leaflet hack
+    const myNode = document.getElementById('map');
+    const clone = myNode.cloneNode(false);
+    myNode.parentNode.replaceChild(clone, myNode);
+    this.dcMap = this.charts.drawMap(clone.id);
+    this.dcMap.render();
   }
 
   createDcCharts(container, data) {
     this.charts = new Charts(data);
-    this.lastDate = this.charts.lastDate;
-    this.drawLineChart(container.line);
+    this.charts.drawLineChart(container.line);
     // leaflet map
     this.charts.drawMap(container.map);
     // row
@@ -95,6 +107,7 @@ export default class DataCenterPage extends Component {
     this.charts.createDataTable(container.table);
     // this.table.render();
     this.charts.drawAll();
+    this.charts.drawRangeChart('range');
   }
 
   _onChange = () => {
@@ -139,6 +152,7 @@ export default class DataCenterPage extends Component {
                   <div className="col-md-6">
                       <h3> Line Chart</h3>
                       <div id ="line"></div>
+                      <div id ="range"></div>
                   </div>
                   <div className="col-md-6">
                       <h3> Row Chart</h3>

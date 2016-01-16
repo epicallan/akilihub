@@ -4,13 +4,13 @@ import tw from '../api/dataHandler/tw';
 const expect = chai.expect;
 
 /* eslint-disable func-names  */
-describe.skip('tw dataHandler unit tests', function () {
+describe('tw dataHandler unit tests', function () {
   this.timeout(5000);
   let date = null;
   it('should get all data from mongodb', async(done) => {
     try {
       const cursor = await tw.findAll();
-      date = cursor[cursor.length - 5].date;
+      date = cursor[cursor.length - 5].timeStamp;
       expect(cursor).to.have.length.above(10);
       done();
     } catch (e) {
@@ -22,7 +22,7 @@ describe.skip('tw dataHandler unit tests', function () {
   it('should get data above the last date', async (done) => {
     try {
       const cursor = await tw.findByDate(date);
-      console.log(cursor.length);
+      console.log(' length: ' + cursor.length);
       expect(cursor).to.have.length.above(1);
       done();
     } catch (e) {

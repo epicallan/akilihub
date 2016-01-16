@@ -3703,9 +3703,7 @@ module.exports =
   // import testData from './data';
   
   function getStateFromStores() {
-    return {
-      data: _storesDataPageStore2['default'].getStoreState()
-    };
+    return _storesDataPageStore2['default'].getStoreState();
   }
   
   var title = 'Data Center';
@@ -3770,8 +3768,10 @@ module.exports =
     }, {
       key: 'shouldComponentUpdate',
       value: function shouldComponentUpdate(nextProps, nextState) {
-        console.log('new data: ' + nextState.data.length);
+        // console.log(nextState);
+        this.charts.updateData(nextState.newData);
         this.charts.reRender();
+        // this.reRenderMap();
         return false;
       }
     }, {
@@ -3786,39 +3786,52 @@ module.exports =
       value: function getNewData() {
         var _this2 = this;
   
-        setInterval(function callee$2$0() {
+        var interval = setInterval(function callee$2$0() {
           var response, data;
           return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
             while (1) switch (context$3$0.prev = context$3$0.next) {
               case 0:
-                context$3$0.next = 2;
-                return regeneratorRuntime.awrap((0, _coreFetch2['default'])('/api/social/twdata/' + this.lastDate));
+                console.log(this.state.lastDate);
+                context$3$0.next = 3;
+                return regeneratorRuntime.awrap((0, _coreFetch2['default'])('/api/social/twdata/' + this.state.lastDate));
   
-              case 2:
+              case 3:
                 response = context$3$0.sent;
-                context$3$0.next = 5;
+                context$3$0.next = 6;
                 return regeneratorRuntime.awrap(response.json());
   
-              case 5:
+              case 6:
                 data = context$3$0.sent;
   
-                this.lastDate = data[0].date;
-                if (!data.length) this.isAlldata = true;
-                _actionsDataPageActions2['default'].update(data);
+                if (!data.length) {
+                  console.log('no more data');
+                  clearInterval(interval);
+                } else {
+                  _actionsDataPageActions2['default'].update(data);
+                }
   
-              case 9:
+              case 8:
               case 'end':
                 return context$3$0.stop();
             }
           }, null, _this2);
-        }, 7000);
+        }, 10000);
+      }
+    }, {
+      key: 'reRenderMap',
+      value: function reRenderMap() {
+        // TODO this is a leaflet hack
+        var myNode = document.getElementById('map');
+        var clone = myNode.cloneNode(false);
+        myNode.parentNode.replaceChild(clone, myNode);
+        this.dcMap = this.charts.drawMap(clone.id);
+        this.dcMap.render();
       }
     }, {
       key: 'createDcCharts',
       value: function createDcCharts(container, data) {
         this.charts = new Charts(data);
-        this.lastDate = this.charts.lastDate;
-        this.drawLineChart(container.line);
+        this.charts.drawLineChart(container.line);
         // leaflet map
         this.charts.drawMap(container.map);
         // row
@@ -3830,6 +3843,7 @@ module.exports =
         this.charts.createDataTable(container.table);
         // this.table.render();
         this.charts.drawAll();
+        this.charts.drawRangeChart('range');
       }
     }, {
       key: 'render',
@@ -3921,7 +3935,8 @@ module.exports =
                         null,
                         ' Line Chart'
                       ),
-                      _react2['default'].createElement('div', { id: 'line' })
+                      _react2['default'].createElement('div', { id: 'line' }),
+                      _react2['default'].createElement('div', { id: 'range' })
                     ),
                     _react2['default'].createElement(
                       'div',
@@ -4158,8 +4173,6 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
-  
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
   
   function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
@@ -4184,6 +4197,7 @@ module.exports =
   
       _get(Object.getPrototypeOf(UgandaPageStore.prototype), 'constructor', this).call(this);
       this.data = null;
+      this.newData = null;
     }
   
     _createClass(UgandaPageStore, [{
@@ -4204,19 +4218,22 @@ module.exports =
     }, {
       key: 'update',
       value: function update(newData) {
-        var _data;
-  
-        (_data = this.data).push.apply(_data, _toConsumableArray(newData));
+        this.lastDate = newData[newData.length - 1].timeStamp;
+        this.newData = newData;
+        // this.data = this.data.concat(newData);
       }
     }, {
-      key: 'getData',
-      value: function getData(raw) {
+      key: 'getIntialData',
+      value: function getIntialData(raw) {
         this.data = raw;
+        this.lastDate = this.data[raw.length - 1].timeStamp;
+        // console.log(this.data[0]);
+        // console.log(this.data[raw.length - 1]);
       }
     }, {
       key: 'getStoreState',
       value: function getStoreState() {
-        return this.data;
+        return { 'data': this.data, lastDate: this.lastDate, 'newData': this.newData };
       }
     }]);
   
@@ -4228,7 +4245,7 @@ module.exports =
   _coreDispatcher2['default'].register(function (action) {
     switch (action.actionType) {
       case _constantsActionTypes2['default'].DATAPAGE_RECEIVE_DATA:
-        store.getData(action.data);
+        store.getIntialData(action.data);
         store.emitChange();
         break;
       case _constantsActionTypes2['default'].DATAPAGE_UPDATE:
@@ -4422,6 +4439,7 @@ module.exports =
       this._Tablefilter = function () {
         // filter all charts when using the datatables search box
         // TODO use react state lifecycle
+        /* eslint-disable func-names*/
         var self = _this;
         (0, _jquery2['default'])(':input').on('keyup', function () {
           var _this2 = this;
@@ -4447,27 +4465,23 @@ module.exports =
     _createClass(DcCharts, [{
       key: '_dataTransform',
       value: function _dataTransform(data) {
-        if (data[0].date) {
-          this.lastDate = data[0].date;
-          data.forEach(function (d) {
-            var momentDate = (0, _moment2['default'])(d.date);
-            // const sentiment = d.sentiment.toFixed(1) || d.sentiment;
-            d.date = momentDate.format('ddd MMM Do, HH:mm');
-            d.text = d.text.toLowerCase();
-            d.timeStamp = momentDate.valueOf();
-            // d.sentiment = sentiment || 0;
-            d.hour = momentDate.hour();
-          });
-        }
+        data.forEach(function (d) {
+          var momentDate = (0, _moment2['default'])(new Date(d.date));
+          // const sentiment = d.sentiment ? d.sentiment.toFixed(2) : d.sentiment;
+          d.date = momentDate.format('ddd MMM Do, HH:mm');
+          d.text = d.text.toLowerCase();
+          // d.sentiment = d.sentiment;
+          d.hour = momentDate.hour();
+        });
         return data;
       }
     }, {
       key: 'updateData',
       value: function updateData(raw) {
         var newData = this._dataTransform(raw);
-        this.data.remove();
+        // this.data.remove();
         this.data.add(newData);
-        console.log('updated data');
+        console.log('updated data   ' + this.data.size());
       }
     }, {
       key: 'createDataTable',
@@ -4475,7 +4489,6 @@ module.exports =
         this.tableDimension = this.createDimenion('text');
         this.datatable = (0, _jquery2['default'])('#' + table);
         // initialize datatable
-        // $.fn.dataTable.moment('ddd MMM Do, hA');
         this.datatable.dataTable(this._dataTablesOptions());
         // call RefreshTable when dc-charts are filtered
         for (var i = 0; i < _dc2['default'].chartRegistry.list().length; i++) {
@@ -4492,9 +4505,9 @@ module.exports =
     }, {
       key: 'reRender',
       value: function reRender() {
+        _dc2['default'].redrawAll();
         this.row.render();
-        this.pie.render();
-        this.line.render();
+        this._tablesRefresh();
       }
     }, {
       key: '_dataTablesOptions',
@@ -4525,7 +4538,7 @@ module.exports =
             data: function data(d) {
               return d.sentiment;
             },
-            defaultContent: ''
+            defaultContent: 0
           }]
         };
       }
@@ -4550,14 +4563,6 @@ module.exports =
         return _coreCfHelper2['default'].arrayDimAndGroup(this.data, attr);
       }
     }, {
-      key: 'drawMap',
-      value: function drawMap(container) {
-        if (this.mapDim) this.mapDim.dispose();
-        this.mapDim = this.createDimenion('coordinates');
-        var mapGroup = this.mapDim.group().reduceCount();
-        return this.mapChart(this.mapDim, mapGroup, container);
-      }
-    }, {
       key: 'drawRawChart',
       value: function drawRawChart(id) {
         var _createGroupAndDimArrayField = this.createGroupAndDimArrayField('user_mentions');
@@ -4580,6 +4585,14 @@ module.exports =
         }).elasticX(true);
       }
     }, {
+      key: 'drawMap',
+      value: function drawMap(container) {
+        if (this.mapDim) this.mapDim.dispose();
+        this.mapDim = this.createDimenion('coordinates');
+        var mapGroup = this.mapDim.group().reduceCount();
+        return this.mapChart(this.mapDim, mapGroup, container);
+      }
+    }, {
       key: 'mapChart',
       value: function mapChart(dim, grp, mapId) {
         var mapGroup = _coreCfHelper2['default'].fakeGroup(grp, 'key');
@@ -4590,10 +4603,7 @@ module.exports =
       key: 'drawPieChart',
       value: function drawPieChart(id) {
         var dim = this.createDimenion('screen_name');
-        // const { dim, group } = this.createGroupAndDimArrayField('user_mentions');
         var group = dim.group();
-        // top group patch
-        // cf.topGroupPatch(group)
         this.pie = this.pieChart(dim, group, id);
       }
     }, {
@@ -4601,24 +4611,6 @@ module.exports =
       value: function pieChart(dim, grp, pie) {
         return _dc2['default'].pieChart('#' + pie).dimension(dim).group(_coreCfHelper2['default'].reduceGroupObjs(grp)).width(200).height(200).renderLabel(true).renderTitle(true).ordering(function (p) {
           return -p.value;
-        });
-      }
-    }, {
-      key: 'tableChart',
-      value: function tableChart(dim, table) {
-        return _dc2['default'].dataTable('#' + table).width(768).height(480).dimension(dim).group(function () {
-          return 'dc.js insists on putting a row here so I remove it using JS';
-        }).columns([function (d) {
-          return d.text;
-        }, function (d) {
-          return d.hour;
-        }, function (d) {
-          return d.type;
-        }, function (d) {
-          return d.sentiment;
-        }]).size(5).order(_dc2['default'].d3.descending).on('renderlet', function (chart) {
-          // each time table is rendered remove nasty extra row dc.js insists on adding
-          chart.select('tr.dc-table-group').remove();
         });
       }
     }, {
@@ -4630,10 +4622,28 @@ module.exports =
         this.line = this.lineChart(lineDim, lineGroup, id);
       }
     }, {
+      key: 'drawRangeChart',
+      value: function drawRangeChart(chartId) {
+        var data = [];
+        for (var i = 0; i < 24; i++) {
+          data.push({ hour: i });
+        }
+        var cfData = _coreCfHelper2['default'].createCrossFilter(data);
+        var dim = _coreCfHelper2['default'].createDimension(cfData, 'hour');
+        var group = dim.group();
+        this.range = this.rangeChart(chartId, group, dim);
+        this.range.render();
+      }
+    }, {
       key: 'lineChart',
       value: function lineChart(dimension, group, chartId) {
         var range = _coreCfHelper2['default'].getMinAndMax(group, 'key');
         return _dc2['default'].lineChart('#' + chartId).width(450).height(300).x(_dc2['default'].d3.scale.linear().domain(range)).elasticY(true).elasticX(true).brushOn(true).renderDataPoints(true).yAxisLabel('Y axis').dimension(dimension).group(group);
+      }
+    }, {
+      key: 'rangeChart',
+      value: function rangeChart(chartId, group, dimension) {
+        return _dc2['default'].barChart('#' + chartId).width(450).height(40).dimension(dimension).group(group).centerBar(true).gap(1).x(_dc2['default'].d3.time.scale().domain([0, 24])).alwaysUseRounding(true);
       }
     }]);
   
@@ -5172,6 +5182,7 @@ module.exports =
   var _config = __webpack_require__(14);
   
   var MongoClient = _mongodb2['default'].MongoClient;
+  var collection = 'newtweets';
   
   function _connection() {
     return new Promise(function (resolve, reject) {
@@ -5193,11 +5204,11 @@ module.exports =
   
         case 3:
           db = context$1$0.sent;
-          return context$1$0.abrupt('return', db.collection('twitters').find({
+          return context$1$0.abrupt('return', db.collection(collection).find({
             'is_retweet': false
           }, {}, {
-            limit: 500
-          }).toArray());
+            limit: 1000
+          }).sort({ timeStamp: 1 }).toArray());
   
         case 7:
           context$1$0.prev = 7;
@@ -5211,7 +5222,7 @@ module.exports =
     }, null, this, [[0, 7]]);
   }
   
-  function findByDate(date) {
+  function findByDate(timeStamp) {
     var db;
     return regeneratorRuntime.async(function findByDate$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
@@ -5222,14 +5233,14 @@ module.exports =
   
         case 3:
           db = context$1$0.sent;
-          return context$1$0.abrupt('return', db.collection('twitters').find({
-            date: {
-              $gt: date
+          return context$1$0.abrupt('return', db.collection(collection).find({
+            timeStamp: {
+              $gt: parseInt(timeStamp, 10)
             },
             is_retweet: false
           }, {}, {
-            limit: 200
-          }).toArray());
+            limit: 500
+          }).sort({ timeStamp: 1 }).toArray());
   
         case 7:
           context$1$0.prev = 7;

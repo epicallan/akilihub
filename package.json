@@ -24,7 +24,7 @@
     "flux": "2.1.1",
     "font-awesome": "4.5.0",
     "front-matter": "2.0.1",
-    "history": "1.16.0",
+    "history": "^1.13.1",
     "jade": "1.11.0",
     "jquery": "^2.2.0",
     "leaflet": "^0.7.7",

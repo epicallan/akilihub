@@ -15,33 +15,28 @@ export default class DcCharts {
   }
 
   _dataTransform(data) {
-    if (data[0].date) {
-      this.lastDate = data[0].date;
-      data.forEach(d => {
-        const momentDate = moment(d.date);
-        // const sentiment = d.sentiment.toFixed(1) || d.sentiment;
-        d.date = momentDate.format('ddd MMM Do, HH:mm');
-        d.text = d.text.toLowerCase();
-        d.timeStamp = momentDate.valueOf();
-        // d.sentiment = sentiment || 0;
-        d.hour = momentDate.hour();
-      });
-    }
+    data.forEach(d => {
+      const momentDate = moment(new Date(d.date));
+      // const sentiment = d.sentiment ? d.sentiment.toFixed(2) : d.sentiment;
+      d.date = momentDate.format('ddd MMM Do, HH:mm');
+      d.text = d.text.toLowerCase();
+      // d.sentiment = d.sentiment;
+      d.hour = momentDate.hour();
+    });
     return data;
   }
 
   updateData(raw) {
     const newData = this._dataTransform(raw);
-    this.data.remove();
+    // this.data.remove();
     this.data.add(newData);
-    console.log('updated data');
+    console.log(`updated data   ${this.data.size()}`);
   }
 
   createDataTable(table) {
     this.tableDimension = this.createDimenion('text');
     this.datatable = $('#' + table);
     // initialize datatable
-    // $.fn.dataTable.moment('ddd MMM Do, hA');
     this.datatable.dataTable(this._dataTablesOptions());
     // call RefreshTable when dc-charts are filtered
     for (let i = 0; i < dc.chartRegistry.list().length; i++) {
@@ -68,6 +63,7 @@ export default class DcCharts {
   _Tablefilter = () => {
     // filter all charts when using the datatables search box
     // TODO use react state lifecycle
+    /* eslint-disable func-names*/
     const self = this;
     $(':input').on('keyup', function () {
       if (this.value !== '') {
@@ -82,14 +78,16 @@ export default class DcCharts {
     });
   }
   reRender() {
+    dc.redrawAll();
     this.row.render();
-    this.pie.render();
-    this.line.render();
+    this._tablesRefresh();
   }
   _dataTablesOptions() {
     return {
       'pageLength': 5,
-      'order': [[1, 'desc']],
+      'order': [
+        [1, 'desc'],
+      ],
       'bSort': true,
       columnDefs: [{
         targets: 0,
@@ -105,7 +103,7 @@ export default class DcCharts {
       }, {
         targets: 3,
         data: d => d.sentiment,
-        defaultContent: '',
+        defaultContent: 0,
       }],
     };
   }
@@ -123,12 +121,6 @@ export default class DcCharts {
 
   createGroupAndDimArrayField(attr) {
     return cf.arrayDimAndGroup(this.data, attr);
-  }
-  drawMap(container) {
-    if (this.mapDim) this.mapDim.dispose();
-    this.mapDim = this.createDimenion('coordinates');
-    const mapGroup = this.mapDim.group().reduceCount();
-    return this.mapChart(this.mapDim, mapGroup, container);
   }
 
   drawRawChart(id) {
@@ -150,6 +142,12 @@ export default class DcCharts {
       .ordering(p => -p.value)
       .elasticX(true);
   }
+  drawMap(container) {
+    if (this.mapDim) this.mapDim.dispose();
+    this.mapDim = this.createDimenion('coordinates');
+    const mapGroup = this.mapDim.group().reduceCount();
+    return this.mapChart(this.mapDim, mapGroup, container);
+  }
   mapChart(dim, grp, mapId) {
     const mapGroup = cf.fakeGroup(grp, 'key');
     // console.log('map count: '+ mapGroup.all().length);
@@ -166,12 +164,10 @@ export default class DcCharts {
 
   drawPieChart(id) {
     const dim = this.createDimenion('screen_name');
-    // const { dim, group } = this.createGroupAndDimArrayField('user_mentions');
     const group = dim.group();
-    // top group patch
-    // cf.topGroupPatch(group)
     this.pie = this.pieChart(dim, group, id);
   }
+
   pieChart(dim, grp, pie) {
     return dc.pieChart('#' + pie)
       .dimension(dim)
@@ -183,30 +179,23 @@ export default class DcCharts {
       .ordering(p => -p.value);
   }
 
-  tableChart(dim, table) {
-    return dc.dataTable('#' + table)
-      .width(768)
-      .height(480)
-      .dimension(dim)
-      .group(() => 'dc.js insists on putting a row here so I remove it using JS')
-      .columns([
-        d => d.text,
-        d => d.hour,
-        d => d.type,
-        d => d.sentiment,
-      ])
-      .size(5)
-      .order(dc.d3.descending)
-      .on('renderlet', (chart) => {
-        // each time table is rendered remove nasty extra row dc.js insists on adding
-        chart.select('tr.dc-table-group').remove();
-      });
-  }
   drawLineChart(id) {
     // line chart
     const lineDim = this.createDimenion('hour');
     const lineGroup = this.createGroup(lineDim, 'sentiment');
     this.line = this.lineChart(lineDim, lineGroup, id);
+  }
+
+  drawRangeChart(chartId) {
+    const data = [];
+    for (let i = 0; i < 24; i ++) {
+      data.push({ hour: i });
+    }
+    const cfData = cf.createCrossFilter(data);
+    const dim = cf.createDimension(cfData, 'hour');
+    const group = dim.group();
+    this.range = this.rangeChart(chartId, group, dim);
+    this.range.render();
   }
 
   lineChart(dimension, group, chartId) {
@@ -222,5 +211,17 @@ export default class DcCharts {
       .yAxisLabel('Y axis')
       .dimension(dimension)
       .group(group);
+  }
+
+  rangeChart(chartId, group, dimension) {
+    return dc.barChart('#' + chartId)
+    .width(450)
+    .height(40)
+    .dimension(dimension)
+    .group(group)
+    .centerBar(true)
+    .gap(1)
+    .x(dc.d3.time.scale().domain([0, 24]))
+    .alwaysUseRounding(true);
   }
 }

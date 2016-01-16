@@ -14,6 +14,7 @@ class UgandaPageStore extends EventEmitter {
   constructor() {
     super();
     this.data = null;
+    this.newData = null;
   }
 
   emitChange() {
@@ -28,14 +29,19 @@ class UgandaPageStore extends EventEmitter {
     this.removeListener(CHANGE_EVENT, callback);
   }
   update(newData) {
-    this.data.push(...newData);
+    this.lastDate = newData[newData.length - 1].timeStamp;
+    this.newData = newData;
+    // this.data = this.data.concat(newData);
   }
-  getData(raw) {
+  getIntialData(raw) {
     this.data = raw;
+    this.lastDate = this.data[raw.length - 1].timeStamp;
+    // console.log(this.data[0]);
+    // console.log(this.data[raw.length - 1]);
   }
 
   getStoreState() {
-    return this.data;
+    return { 'data': this.data, lastDate: this.lastDate, 'newData': this.newData };
   }
 }
 
@@ -44,7 +50,7 @@ const store = new UgandaPageStore();
 Dispatcher.register((action) => {
   switch (action.actionType) {
     case constants.DATAPAGE_RECEIVE_DATA:
-      store.getData(action.data);
+      store.getIntialData(action.data);
       store.emitChange();
       break;
     case constants.DATAPAGE_UPDATE:
