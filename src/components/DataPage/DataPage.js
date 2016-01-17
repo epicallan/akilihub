@@ -46,7 +46,6 @@ export default class DataCenterPage extends Component {
     if (isBrowser) {
       try {
         this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie', row: 'row' }, this.state.data);
-        // this.getNewData();
       } catch (e) {
         // TODO hack just reload the page this is an error to do with leaflet.js
         if (!e) window.location.assign(this.path);
@@ -70,18 +69,14 @@ export default class DataCenterPage extends Component {
     this.dcMap.map().remove();
   }
 
-  getNewData() {
-    const interval = setInterval(async () => {
-      const range = `${this.charts.upperLimit},${this.charts.lowerLimit}`;
-      const response = await fetch(`/api/social/twdata/${range}`);
-      const data = await response.json();
-      if (!data.length) {
-        console.log('no more data');
-        clearInterval(interval);
-      } else {
-        DataPageActions.update(data);
-      }
-    }, 10000);
+  async getNewData(unixTime) {
+    const response = await fetch(`/api/social/twdata/${unixTime}`);
+    const data = await response.json();
+    if (!data.length) {
+      console.log('no more data');
+    } else {
+      DataPageActions.update(data);
+    }
   }
 
   createDcCharts(container, data) {
@@ -98,7 +93,7 @@ export default class DataCenterPage extends Component {
     this.charts.createDataTable(container.table);
     // this.table.render();
     this.charts.drawAll();
-    this.charts.drawRangeChart('range');
+    this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
   }
 
   _onChange = () => {
@@ -148,6 +143,12 @@ export default class DataCenterPage extends Component {
                   <div className="col-md-6">
                       <h3> Row Chart</h3>
                       <div id ="row"></div>
+                  </div>
+                </div>
+                <div className="row spacing-sm">
+                  <div className="col-md-12">
+                      <h3> Range Chart</h3>
+                      <div id ="range"></div>
                   </div>
                 </div>
                 <div className= "row spacing-sm">

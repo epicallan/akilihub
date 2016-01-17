@@ -98,7 +98,7 @@ module.exports =
   
   var _compression2 = _interopRequireDefault(_compression);
   
-  // const server = global.server = http.createServer(express());
+  __webpack_require__(82);
   
   var server = global.server = (0, _express2['default'])();
   
@@ -109,12 +109,12 @@ module.exports =
   
   // Register Data analysis API middleware
   // -----------------------------------------------------------------------------
-  server.use('/api', __webpack_require__(82));
+  server.use('/api', __webpack_require__(86));
   
   // Register API middleware
   
   // -----------------------------------------------------------------------------
-  server.use('/api/content', __webpack_require__(85));
+  server.use('/api/content', __webpack_require__(88));
   
   //
   // Register server-side rendering middleware
@@ -3756,7 +3756,6 @@ module.exports =
         if (isBrowser) {
           try {
             this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie', row: 'row' }, this.state.data);
-            // this.getNewData();
           } catch (e) {
             // TODO hack just reload the page this is an error to do with leaflet.js
             if (!e) window.location.assign(this.path);
@@ -3783,39 +3782,33 @@ module.exports =
       }
     }, {
       key: 'getNewData',
-      value: function getNewData() {
-        var _this2 = this;
+      value: function getNewData(unixTime) {
+        var response, data;
+        return regeneratorRuntime.async(function getNewData$(context$2$0) {
+          while (1) switch (context$2$0.prev = context$2$0.next) {
+            case 0:
+              context$2$0.next = 2;
+              return regeneratorRuntime.awrap((0, _coreFetch2['default'])('/api/social/twdata/' + unixTime));
   
-        var interval = setInterval(function callee$2$0() {
-          var range, response, data;
-          return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
-            while (1) switch (context$3$0.prev = context$3$0.next) {
-              case 0:
-                range = this.charts.upperLimit + ',' + this.charts.lowerLimit;
-                context$3$0.next = 3;
-                return regeneratorRuntime.awrap((0, _coreFetch2['default'])('/api/social/twdata/' + range));
+            case 2:
+              response = context$2$0.sent;
+              context$2$0.next = 5;
+              return regeneratorRuntime.awrap(response.json());
   
-              case 3:
-                response = context$3$0.sent;
-                context$3$0.next = 6;
-                return regeneratorRuntime.awrap(response.json());
+            case 5:
+              data = context$2$0.sent;
   
-              case 6:
-                data = context$3$0.sent;
+              if (!data.length) {
+                console.log('no more data');
+              } else {
+                _actionsDataPageActions2['default'].update(data);
+              }
   
-                if (!data.length) {
-                  console.log('no more data');
-                  clearInterval(interval);
-                } else {
-                  _actionsDataPageActions2['default'].update(data);
-                }
-  
-              case 8:
-              case 'end':
-                return context$3$0.stop();
-            }
-          }, null, _this2);
-        }, 10000);
+            case 7:
+            case 'end':
+              return context$2$0.stop();
+          }
+        }, null, this);
       }
     }, {
       key: 'createDcCharts',
@@ -3833,7 +3826,7 @@ module.exports =
         this.charts.createDataTable(container.table);
         // this.table.render();
         this.charts.drawAll();
-        this.charts.drawRangeChart('range');
+        this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
       }
     }, {
       key: 'render',
@@ -3937,6 +3930,20 @@ module.exports =
                         ' Row Chart'
                       ),
                       _react2['default'].createElement('div', { id: 'row' })
+                    )
+                  ),
+                  _react2['default'].createElement(
+                    'div',
+                    { className: 'row spacing-sm' },
+                    _react2['default'].createElement(
+                      'div',
+                      { className: 'col-md-12' },
+                      _react2['default'].createElement(
+                        'h3',
+                        null,
+                        ' Range Chart'
+                      ),
+                      _react2['default'].createElement('div', { id: 'range' })
                     )
                   ),
                   _react2['default'].createElement(
@@ -4215,15 +4222,19 @@ module.exports =
     }, {
       key: 'getIntialData',
       value: function getIntialData(raw) {
-        this.data = raw;
-        this.lastDate = this.data[raw.length - 1].timeStamp;
-        // console.log(this.data[0]);
-        // console.log(this.data[raw.length - 1]);
+        this.data = raw.data;
+        this.aggregate = raw.aggregate;
+        this.lastDate = this.data[this.data.length - 1].timeStamp;
       }
     }, {
       key: 'getStoreState',
       value: function getStoreState() {
-        return { 'data': this.data, lastDate: this.lastDate, 'newData': this.newData };
+        return {
+          data: this.data,
+          lastDate: this.lastDate,
+          newData: this.newData,
+          aggregate: this.aggregate
+        };
       }
     }]);
   
@@ -4455,9 +4466,10 @@ module.exports =
     _createClass(DcCharts, [{
       key: '_dataTransform',
       value: function _dataTransform(data) {
+        this.lowerLimit = data[0].timeStamp;
+        this.upperLimit = data[data.length - 1].timeStamp;
         data.forEach(function (d) {
           var momentDate = (0, _moment2['default'])(new Date(d.date));
-          d.time = d.date;
           // const sentiment = d.sentiment ? d.sentiment.toFixed(2) : d.sentiment;
           d.date = momentDate.format('ddd MMM Do, HH:mm');
           d.text = d.text.toLowerCase();
@@ -4608,42 +4620,41 @@ module.exports =
       key: 'drawLineChart',
       value: function drawLineChart(id) {
         // line chart
-        var lineDim = this.createDimenion('time');
+        var lineDim = this.createDimenion('hour');
         var lineGroup = this.createGroup(lineDim, 'sentiment');
         this.line = this.lineChart(lineDim, lineGroup, id);
       }
     }, {
       key: 'drawRangeChart',
-      value: function drawRangeChart(chartId) {
-        var data = [];
-        for (var i = -1; i < 25; i++) {
-          data.push({ hour: i });
-        }
+      value: function drawRangeChart(chartId, data, cb) {
         var cfData = _coreCfHelper2['default'].createCrossFilter(data);
-        var dim = _coreCfHelper2['default'].createDimension(cfData, 'hour');
-        var group = dim.group();
+        var dim = _coreCfHelper2['default'].createDimension(cfData, 'key');
+        var group = dim.group().reduceSum(function (d) {
+          return d.value;
+        });
         this.range = this.rangeChart(chartId, group, dim);
-        this.range.margins().bottom = 20;
-        this.range.margins().top = 0;
-        this.range.yAxis().ticks(0);
-        this.range.on('filtered', function (chart, filter) {
-          console.log(filter);
+        this.range.on('renderlet', function (chart) {
+          chart.selectAll('rect').on('click', function (d) {
+            console.log(d.data);
+            var startTime = (0, _moment2['default'])('2016-01-14 00:00').valueOf();
+            console.log(startTime);
+            cb(startTime);
+          });
         });
         this.range.render();
       }
     }, {
       key: 'lineChart',
       value: function lineChart(dimension, group, chartId) {
-        // const range = cf.getMinAndMax(group, 'key');
-        var hour = 60000 * 60;
-        var lower = new Date() - hour * 24 * 2;
-        var upper = new Date() - hour * 24 * 2 - hour * 4;
-        return _dc2['default'].lineChart('#' + chartId).width(450).height(300).x(_dc2['default'].d3.scale.linear().domain([new Date(lower), new Date(upper)])).elasticY(true).elasticX(true).brushOn(true).renderDataPoints(true).yAxisLabel('Y axis').dimension(dimension).group(group);
+        return _dc2['default'].lineChart('#' + chartId).width(450).height(300).x(_dc2['default'].d3.scale.linear().domain([new Date(this.lowerLimit), new Date(this.upperLimit)])).elasticY(true).elasticX(true).brushOn(true).renderDataPoints(true).yAxisLabel('Y axis').xUnits(_dc2['default'].d3.time.hours).dimension(dimension).group(group);
       }
     }, {
       key: 'rangeChart',
       value: function rangeChart(chartId, group, dimension) {
-        return _dc2['default'].barChart('#' + chartId).width(450).height(40).dimension(dimension).group(group).centerBar(true).brushOn(true).gap(1).filter(_dc2['default'].filters.RangedFilter(7, 10)).x(_dc2['default'].d3.scale.linear().domain([0, 24]));
+        /* eslint-disable new-cap*/
+        // .filter(dc.filters.RangedFilter(new Date(this.lowerLimit), new Date(this.upperLimit)))
+        // const range = cf.getMinAndMax(group, 'key');
+        return _dc2['default'].barChart('#' + chartId).width(200).height(300).margins({ top: 15, right: 10, bottom: 20, left: 10 }).dimension(dimension).group(group).centerBar(true).brushOn(false).elasticX(true).elasticY(true).xUnits(_dc2['default'].units.fp.precision(4)).gap(20).x(_dc2['default'].d3.scale.linear().domain([13, 16]));
       }
     }]);
   
@@ -5077,6 +5088,167 @@ module.exports =
 /* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
+  'use strict';
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  var _twJob = __webpack_require__(83);
+  
+  var _twJob2 = _interopRequireDefault(_twJob);
+  
+  // TODO put in a separate work thread
+  
+  try {
+    // initial run
+    console.log('running job...');
+    (0, _twJob2['default'])();
+    setInterval(function () {
+      (0, _twJob2['default'])();
+    }, 60000 * 60);
+  } catch (e) {
+    console.log(e);
+  }
+
+/***/ },
+/* 83 */
+/***/ function(module, exports, __webpack_require__) {
+
+  /**
+   * Gets data from Twitter model
+   */
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  var _mongodb = __webpack_require__(84);
+  
+  var _mongodb2 = _interopRequireDefault(_mongodb);
+  
+  var _redis = __webpack_require__(85);
+  
+  var _redis2 = _interopRequireDefault(_redis);
+  
+  var _config = __webpack_require__(14);
+  
+  var _crossfilter2 = __webpack_require__(74);
+  
+  var _crossfilter22 = _interopRequireDefault(_crossfilter2);
+  
+  var client = _redis2['default'].createClient();
+  
+  var MongoClient = _mongodb2['default'].MongoClient;
+  var collection = 'newtweets';
+  
+  function _connection() {
+    return new Promise(function (resolve, reject) {
+      MongoClient.connect(_config.MONGO_URL, function (err, db) {
+        resolve(db);
+        reject(err);
+      });
+    });
+  }
+  
+  function findData() {
+    var db;
+    return regeneratorRuntime.async(function findData$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          context$1$0.prev = 0;
+          context$1$0.next = 3;
+          return regeneratorRuntime.awrap(_connection());
+  
+        case 3:
+          db = context$1$0.sent;
+          return context$1$0.abrupt('return', db.collection(collection).find({
+            'is_retweet': false
+          }, { timeStamp: 1, _id: 0 }).toArray());
+  
+        case 7:
+          context$1$0.prev = 7;
+          context$1$0.t0 = context$1$0['catch'](0);
+          throw new Error(context$1$0.t0);
+  
+        case 10:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, this, [[0, 7]]);
+  }
+  
+  function aggregateData() {
+    var data, cfData, dim, group;
+    return regeneratorRuntime.async(function aggregateData$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          context$1$0.next = 2;
+          return regeneratorRuntime.awrap(findData());
+  
+        case 2:
+          data = context$1$0.sent;
+  
+          data.forEach(function (d) {
+            d.date = new Date(d.timeStamp).getDate();
+          });
+          cfData = (0, _crossfilter22['default'])(data);
+          dim = cfData.dimension(function (d) {
+            return d.date;
+          });
+          group = dim.group().reduceCount();
+          return context$1$0.abrupt('return', group.all());
+  
+        case 8:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, this);
+  }
+  
+  exports['default'] = function job() {
+    var data;
+    return regeneratorRuntime.async(function job$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          context$1$0.next = 2;
+          return regeneratorRuntime.awrap(aggregateData());
+  
+        case 2:
+          data = context$1$0.sent;
+  
+          client.set('tw', JSON.stringify(data), function (err, res) {
+            if (err) throw new Error(err);
+            /* eslint-disable no-console*/
+            console.log('completed job ' + new Date() + ' ' + res);
+          });
+  
+        case 4:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, this);
+  };
+  
+  module.exports = exports['default'];
+
+/***/ },
+/* 84 */
+/***/ function(module, exports) {
+
+  module.exports = require("mongodb");
+
+/***/ },
+/* 85 */
+/***/ function(module, exports) {
+
+  module.exports = require("redis");
+
+/***/ },
+/* 86 */
+/***/ function(module, exports, __webpack_require__) {
+
   /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
   
   'use strict';
@@ -5093,20 +5265,55 @@ module.exports =
   
   var _express2 = _interopRequireDefault(_express);
   
-  var _dataHandlerTw = __webpack_require__(83);
+  var _dataHandlerTw = __webpack_require__(87);
   
   var _dataHandlerTw2 = _interopRequireDefault(_dataHandlerTw);
   
   var router = new _express2['default'].Router();
   
   router.get('/social/twdata', function callee$0$0(req, res, next) {
-    var data;
+    var data, aggregate;
     return regeneratorRuntime.async(function callee$0$0$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
           context$1$0.prev = 0;
           context$1$0.next = 3;
           return regeneratorRuntime.awrap(_dataHandlerTw2['default'].findAll());
+  
+        case 3:
+          data = context$1$0.sent;
+          context$1$0.next = 6;
+          return regeneratorRuntime.awrap(_dataHandlerTw2['default'].getFromRedis());
+  
+        case 6:
+          aggregate = context$1$0.sent;
+  
+          // console.log(aggregate);
+          res.status(200).json({ data: data, aggregate: JSON.parse(aggregate) });
+          context$1$0.next = 13;
+          break;
+  
+        case 10:
+          context$1$0.prev = 10;
+          context$1$0.t0 = context$1$0['catch'](0);
+  
+          next(context$1$0.t0);
+  
+        case 13:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, _this, [[0, 10]]);
+  });
+  
+  router.get('/social/twdata/:date', function callee$0$0(req, res, next) {
+    var data;
+    return regeneratorRuntime.async(function callee$0$0$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          context$1$0.prev = 0;
+          context$1$0.next = 3;
+          return regeneratorRuntime.awrap(_dataHandlerTw2['default'].findByDate(req.params.date));
   
         case 3:
           data = context$1$0.sent;
@@ -5128,41 +5335,11 @@ module.exports =
     }, null, _this, [[0, 7]]);
   });
   
-  router.get('/social/twdata/:range', function callee$0$0(req, res, next) {
-    var range, data;
-    return regeneratorRuntime.async(function callee$0$0$(context$1$0) {
-      while (1) switch (context$1$0.prev = context$1$0.next) {
-        case 0:
-          context$1$0.prev = 0;
-          range = req.params.range.split(',');
-          context$1$0.next = 4;
-          return regeneratorRuntime.awrap(_dataHandlerTw2['default'].findByDate(range[0], range[1]));
-  
-        case 4:
-          data = context$1$0.sent;
-  
-          res.status(200).json(data);
-          context$1$0.next = 11;
-          break;
-  
-        case 8:
-          context$1$0.prev = 8;
-          context$1$0.t0 = context$1$0['catch'](0);
-  
-          next(context$1$0.t0);
-  
-        case 11:
-        case 'end':
-          return context$1$0.stop();
-      }
-    }, null, _this, [[0, 8]]);
-  });
-  
   exports['default'] = router;
   module.exports = exports['default'];
 
 /***/ },
-/* 83 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -5182,8 +5359,15 @@ module.exports =
   
   var _config = __webpack_require__(14);
   
+  var _redis = __webpack_require__(85);
+  
+  var _redis2 = _interopRequireDefault(_redis);
+  
+  var client = _redis2['default'].createClient();
+  
   var MongoClient = _mongodb2['default'].MongoClient;
   var collection = 'newtweets';
+  var hour = 60000 * 60;
   
   function _connection() {
     return new Promise(function (resolve, reject) {
@@ -5194,8 +5378,17 @@ module.exports =
     });
   }
   
+  function getFromRedis() {
+    return new Promise(function (resolve, reject) {
+      client.get('tw', function (err, reply) {
+        resolve(reply);
+        reject(err);
+      });
+    });
+  }
+  
   function findAll() {
-    var db, now, hour, time;
+    var db, now, time;
     return regeneratorRuntime.async(function findAll$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
@@ -5206,28 +5399,26 @@ module.exports =
         case 3:
           db = context$1$0.sent;
           now = new Date().getTime();
-          hour = 60000 * 60;
-          time = now - hour * 24 * 2;
+          time = now - hour * 24 * 2 - hour * 15;
           return context$1$0.abrupt('return', db.collection(collection).find({
-            'is_retweet': false
-          }, {
-            $gt: time
+            'is_retweet': false,
+            timeStamp: { $gt: time }
           }).sort({ timeStamp: 1 }).toArray());
   
-        case 10:
-          context$1$0.prev = 10;
+        case 9:
+          context$1$0.prev = 9;
           context$1$0.t0 = context$1$0['catch'](0);
           throw new Error(context$1$0.t0);
   
-        case 13:
+        case 12:
         case 'end':
           return context$1$0.stop();
       }
-    }, null, this, [[0, 10]]);
+    }, null, this, [[0, 9]]);
   }
   
-  function findByDate(start, end) {
-    var db;
+  function findByDate(start) {
+    var db, end;
     return regeneratorRuntime.async(function findByDate$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
@@ -5237,43 +5428,32 @@ module.exports =
   
         case 3:
           db = context$1$0.sent;
+          end = parseInt(start, 10) + hour * 24;
           return context$1$0.abrupt('return', db.collection(collection).find({
             timeStamp: {
-              $gt: parseInt(start, 10),
-              $lt: parseInt(end, 10)
+              $gte: parseInt(start, 10),
+              $lt: end
             },
             is_retweet: false
-          }, {}, {
-            limit: 500
-          }).sort({ timeStamp: 1 }).toArray());
+          }, {}).sort({ timeStamp: 1 }).toArray());
   
-        case 7:
-          context$1$0.prev = 7;
+        case 8:
+          context$1$0.prev = 8;
           context$1$0.t0 = context$1$0['catch'](0);
           throw new Error(context$1$0.t0);
   
-        case 10:
+        case 11:
         case 'end':
           return context$1$0.stop();
       }
-    }, null, this, [[0, 7]]);
+    }, null, this, [[0, 8]]);
   }
   
-  exports['default'] = {
-    findAll: findAll, findByDate: findByDate
-  };
+  exports['default'] = { findAll: findAll, findByDate: findByDate, getFromRedis: getFromRedis };
   module.exports = exports['default'];
 
-  // TODO just hack
-
 /***/ },
-/* 84 */
-/***/ function(module, exports) {
-
-  module.exports = require("mongodb");
-
-/***/ },
-/* 85 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
   
@@ -5296,7 +5476,7 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _fs = __webpack_require__(86);
+  var _fs = __webpack_require__(89);
   
   var _fs2 = _interopRequireDefault(_fs);
   
@@ -5304,15 +5484,15 @@ module.exports =
   
   var _express = __webpack_require__(3);
   
-  var _bluebird = __webpack_require__(87);
+  var _bluebird = __webpack_require__(90);
   
   var _bluebird2 = _interopRequireDefault(_bluebird);
   
-  var _jade = __webpack_require__(88);
+  var _jade = __webpack_require__(91);
   
   var _jade2 = _interopRequireDefault(_jade);
   
-  var _frontMatter = __webpack_require__(89);
+  var _frontMatter = __webpack_require__(92);
   
   var _frontMatter2 = _interopRequireDefault(_frontMatter);
   
@@ -5416,25 +5596,25 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 86 */
+/* 89 */
 /***/ function(module, exports) {
 
   module.exports = require("fs");
 
 /***/ },
-/* 87 */
+/* 90 */
 /***/ function(module, exports) {
 
   module.exports = require("bluebird");
 
 /***/ },
-/* 88 */
+/* 91 */
 /***/ function(module, exports) {
 
   module.exports = require("jade");
 
 /***/ },
-/* 89 */
+/* 92 */
 /***/ function(module, exports) {
 
   module.exports = require("front-matter");

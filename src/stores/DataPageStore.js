@@ -34,14 +34,18 @@ class UgandaPageStore extends EventEmitter {
     // this.data = this.data.concat(newData);
   }
   getIntialData(raw) {
-    this.data = raw;
-    this.lastDate = this.data[raw.length - 1].timeStamp;
-    // console.log(this.data[0]);
-    // console.log(this.data[raw.length - 1]);
+    this.data = raw.data;
+    this.aggregate = raw.aggregate;
+    this.lastDate = this.data[this.data.length - 1].timeStamp;
   }
 
   getStoreState() {
-    return { 'data': this.data, lastDate: this.lastDate, 'newData': this.newData };
+    return {
+      data: this.data,
+      lastDate: this.lastDate,
+      newData: this.newData,
+      aggregate: this.aggregate,
+    };
   }
 }
 

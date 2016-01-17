@@ -5,20 +5,20 @@ import twitterHandler from './dataHandler/tw';
 
 const router = new express.Router();
 
-
 router.get('/social/twdata', async(req, res, next) => {
   try {
     const data = await twitterHandler.findAll();
-    res.status(200).json(data);
+    const aggregate = await twitterHandler.getFromRedis();
+    // console.log(aggregate);
+    res.status(200).json({ data, aggregate: JSON.parse(aggregate) });
   } catch (err) {
     next(err);
   }
 });
 
-router.get('/social/twdata/:range', async(req, res, next) => {
+router.get('/social/twdata/:date', async(req, res, next) => {
   try {
-    const range = req.params.range.split(',');
-    const data = await twitterHandler.findByDate(range[0], range[1]);
+    const data = await twitterHandler.findByDate(req.params.date);
     res.status(200).json(data);
   } catch (err) {
     next(err);

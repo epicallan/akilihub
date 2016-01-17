@@ -18,8 +18,7 @@ import Html from './components/Html';
 import assets from './assets';
 import { port } from './config';
 import compression from 'compression';
-
-// const server = global.server = http.createServer(express());
+import './api/jobs';
 
 const server = global.server = express();
 

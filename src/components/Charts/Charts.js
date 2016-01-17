@@ -15,9 +15,10 @@ export default class DcCharts {
   }
 
   _dataTransform(data) {
+    this.lowerLimit = data[0].timeStamp;
+    this.upperLimit = data[data.length - 1].timeStamp;
     data.forEach(d => {
       const momentDate = moment(new Date(d.date));
-      d.time = d.date;
       // const sentiment = d.sentiment ? d.sentiment.toFixed(2) : d.sentiment;
       d.date = momentDate.format('ddd MMM Do, HH:mm');
       d.text = d.text.toLowerCase();
@@ -182,57 +183,58 @@ export default class DcCharts {
 
   drawLineChart(id) {
     // line chart
-    const lineDim = this.createDimenion('time');
+    const lineDim = this.createDimenion('hour');
     const lineGroup = this.createGroup(lineDim, 'sentiment');
     this.line = this.lineChart(lineDim, lineGroup, id);
   }
 
-  drawRangeChart(chartId) {
-    const data = [];
-    for (let i = -1; i < 25; i ++) {
-      data.push({ hour: i });
-    }
+  drawRangeChart(chartId, data, cb) {
     const cfData = cf.createCrossFilter(data);
-    const dim = cf.createDimension(cfData, 'hour');
-    const group = dim.group();
+    const dim = cf.createDimension(cfData, 'key');
+    const group = dim.group().reduceSum(d => d.value);
     this.range = this.rangeChart(chartId, group, dim);
-    this.range.margins().bottom = 20;
-    this.range.margins().top = 0;
-    this.range.yAxis().ticks(0);
-    this.range.on('filtered', function(chart, filter){
-      console.log(filter);
+    this.range.on('renderlet', (chart) => {
+      chart.selectAll('rect').on('click', (d) => {
+        console.log(d.data);
+        const startTime = moment(`2016-01-14 00:00`).valueOf();
+        console.log(startTime);
+        cb(startTime);
+      });
     });
     this.range.render();
   }
 
   lineChart(dimension, group, chartId) {
-    // const range = cf.getMinAndMax(group, 'key');
-    const hour = 60000 * 60;
-    const lower = new Date - (hour * 24) * 2;
-    const upper = new Date - (hour * 24) * 2 - (hour * 4);
     return dc.lineChart('#' + chartId)
       .width(450)
       .height(300)
-      .x(dc.d3.scale.linear().domain([new Date(lower), new Date(upper)]))
+      .x(dc.d3.scale.linear().domain([new Date(this.lowerLimit), new Date(this.upperLimit)]))
       .elasticY(true)
       .elasticX(true)
       .brushOn(true)
       .renderDataPoints(true)
       .yAxisLabel('Y axis')
+      .xUnits(dc.d3.time.hours)
       .dimension(dimension)
       .group(group);
   }
 
   rangeChart(chartId, group, dimension) {
+    /* eslint-disable new-cap*/
+    // .filter(dc.filters.RangedFilter(new Date(this.lowerLimit), new Date(this.upperLimit)))
+    // const range = cf.getMinAndMax(group, 'key');
     return dc.barChart('#' + chartId)
-    .width(450)
-    .height(40)
+    .width(200)
+    .height(300)
+    .margins({ top: 15, right: 10, bottom: 20, left: 10 })
     .dimension(dimension)
     .group(group)
     .centerBar(true)
-    .brushOn(true)
-    .gap(1)
-    .filter(dc.filters.RangedFilter(7, 10))
-    .x(dc.d3.scale.linear().domain([0, 24]));
+    .brushOn(false)
+    .elasticX(true)
+    .elasticY(true)
+    .xUnits(dc.units.fp.precision(4))
+    .gap(20)
+    .x(dc.d3.scale.linear().domain([13, 16]));
   }
 }

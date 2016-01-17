@@ -3,9 +3,12 @@
  */
 import mongodb from 'mongodb';
 import { MONGO_URL } from '../../config';
+import redis from 'redis';
+const client = redis.createClient();
 
 const MongoClient = mongodb.MongoClient;
 const collection = 'newtweets';
+const hour = 60000 * 60;
 
 function _connection() {
   return new Promise((resolve, reject) => {
@@ -16,17 +19,23 @@ function _connection() {
   });
 }
 
+function getFromRedis() {
+  return new Promise((resolve, reject) => {
+    client.get('tw', (err, reply) => {
+      resolve(reply);
+      reject(err);
+    });
+  });
+}
+
 async function findAll() {
   try {
     const db = await _connection();
     const now = new Date().getTime();
-    // TODO just hack
-    const hour = 60000 * 60;
-    const time = now - (hour * 24) * 2;
+    const time = now - (hour * 24) * 2 - hour * 15;
     return db.collection(collection).find({
       'is_retweet': false,
-    }, {
-      $gt: time,
+      timeStamp: { $gt: time },
     }).sort({ timeStamp: 1 })
     .toArray();
   } catch (e) {
@@ -34,24 +43,21 @@ async function findAll() {
   }
 }
 
-async function findByDate(start, end) {
+async function findByDate(start) {
   try {
     const db = await _connection();
+    const end = parseInt(start, 10) + hour * 24;
     return db.collection(collection).find({
       timeStamp: {
-        $gt: parseInt(start, 10),
-        $lt: parseInt(end, 10),
+        $gte: parseInt(start, 10),
+        $lt: end,
       },
       is_retweet: false,
-    }, {}, {
-      limit: 500,
-    }).sort({ timeStamp: 1 })
+    }, {}).sort({ timeStamp: 1 })
     .toArray();
   } catch (e) {
     throw new Error(e);
   }
 }
 
-export default {
-  findAll, findByDate,
-};
+export default { findAll, findByDate, getFromRedis };
