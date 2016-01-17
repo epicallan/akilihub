@@ -3826,7 +3826,8 @@ module.exports =
         this.charts.createDataTable(container.table);
         // this.table.render();
         this.charts.drawAll();
-        this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
+        // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
+        this.charts.rangeChart('range');
       }
     }, {
       key: 'render',
@@ -4420,6 +4421,10 @@ module.exports =
   
   var _moment2 = _interopRequireDefault(_moment);
   
+  var _c3 = __webpack_require__(93);
+  
+  var _c32 = _interopRequireDefault(_c3);
+  
   // import './dtplugin';
   
   var DcCharts = (function () {
@@ -4624,25 +4629,23 @@ module.exports =
         var lineGroup = this.createGroup(lineDim, 'sentiment');
         this.line = this.lineChart(lineDim, lineGroup, id);
       }
-    }, {
-      key: 'drawRangeChart',
-      value: function drawRangeChart(chartId, data, cb) {
-        var cfData = _coreCfHelper2['default'].createCrossFilter(data);
-        var dim = _coreCfHelper2['default'].createDimension(cfData, 'key');
-        var group = dim.group().reduceSum(function (d) {
-          return d.value;
-        });
+  
+      /* drawRangeChart(chartId, data, cb) {
+        const cfData = cf.createCrossFilter(data);
+        const dim = cf.createDimension(cfData, 'key');
+        const group = dim.group().reduceSum(d => d.value);
         this.range = this.rangeChart(chartId, group, dim);
-        this.range.on('renderlet', function (chart) {
-          chart.selectAll('rect').on('click', function (d) {
+        this.range.on('renderlet', (chart) => {
+          chart.selectAll('rect').on('click', (d) => {
             console.log(d.data);
-            var startTime = (0, _moment2['default'])('2016-01-14 00:00').valueOf();
+            const startTime = moment(`2016-01-14 00:00`).valueOf();
             console.log(startTime);
             cb(startTime);
           });
         });
         this.range.render();
       }
+      */
     }, {
       key: 'lineChart',
       value: function lineChart(dimension, group, chartId) {
@@ -4650,11 +4653,40 @@ module.exports =
       }
     }, {
       key: 'rangeChart',
-      value: function rangeChart(chartId, group, dimension) {
+      value: function rangeChart(chartId) {
         /* eslint-disable new-cap*/
         // .filter(dc.filters.RangedFilter(new Date(this.lowerLimit), new Date(this.upperLimit)))
         // const range = cf.getMinAndMax(group, 'key');
-        return _dc2['default'].barChart('#' + chartId).width(200).height(300).margins({ top: 15, right: 10, bottom: 20, left: 10 }).dimension(dimension).group(group).centerBar(true).brushOn(false).elasticX(true).elasticY(true).xUnits(_dc2['default'].units.fp.precision(4)).gap(20).x(_dc2['default'].d3.scale.linear().domain([13, 16]));
+        _c32['default'].generate({
+          bindto: '#' + chartId,
+          data: {
+            columns: [['data1', 30, 200, 100, 400, 150, 250], ['data2', 50, 20, 10, 40, 15, 25]],
+            axes: {
+              data2: 'y2'
+            },
+            types: {
+              data2: 'bar'
+            }
+          },
+          axis: {
+            y: {
+              label: {
+                text: 'Y Label',
+                position: 'outer-middle'
+              },
+              tick: {
+                format: _dc2['default'].d3.format("$,") // ADD
+              }
+            },
+            y2: {
+              show: true,
+              label: {
+                text: 'Y2 Label',
+                position: 'outer-middle'
+              }
+            }
+          }
+        });
       }
     }]);
   
@@ -5037,6 +5069,7 @@ module.exports =
             _react2['default'].createElement('link', { rel: 'stylesheet', href: '//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css' }),
             _react2['default'].createElement('link', { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', crossOrigin: 'anonymous' }),
             _react2['default'].createElement('link', { rel: 'stylesheet', href: 'http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css' }),
+            _react2['default'].createElement('link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css' }),
             _react2['default'].createElement('style', { id: 'css', dangerouslySetInnerHTML: { __html: this.props.css } })
           ),
           _react2['default'].createElement(
@@ -5618,6 +5651,12 @@ module.exports =
 /***/ function(module, exports) {
 
   module.exports = require("front-matter");
+
+/***/ },
+/* 93 */
+/***/ function(module, exports) {
+
+  module.exports = require("c3");
 
 /***/ }
 /******/ ]);

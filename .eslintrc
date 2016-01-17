@@ -3,7 +3,8 @@
   "extends": "airbnb",
   "globals": {
     "__DEV__": true,
-    "$":true
+    "$":true,
+    "c3":true
   },
   "env": {
     "mocha": true,

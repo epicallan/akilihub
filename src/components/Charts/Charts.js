@@ -3,6 +3,8 @@ import cf from '../../core/CfHelper';
 import 'datatables';
 import $ from 'jquery';
 import moment from 'moment';
+import c3 from 'c3';
+
 // import './dtplugin';
 
 export default class DcCharts {
@@ -188,7 +190,7 @@ export default class DcCharts {
     this.line = this.lineChart(lineDim, lineGroup, id);
   }
 
-  drawRangeChart(chartId, data, cb) {
+  /* drawRangeChart(chartId, data, cb) {
     const cfData = cf.createCrossFilter(data);
     const dim = cf.createDimension(cfData, 'key');
     const group = dim.group().reduceSum(d => d.value);
@@ -203,7 +205,7 @@ export default class DcCharts {
     });
     this.range.render();
   }
-
+*/
   lineChart(dimension, group, chartId) {
     return dc.lineChart('#' + chartId)
       .width(450)
@@ -219,22 +221,42 @@ export default class DcCharts {
       .group(group);
   }
 
-  rangeChart(chartId, group, dimension) {
+  rangeChart(chartId) {
     /* eslint-disable new-cap*/
     // .filter(dc.filters.RangedFilter(new Date(this.lowerLimit), new Date(this.upperLimit)))
     // const range = cf.getMinAndMax(group, 'key');
-    return dc.barChart('#' + chartId)
-    .width(200)
-    .height(300)
-    .margins({ top: 15, right: 10, bottom: 20, left: 10 })
-    .dimension(dimension)
-    .group(group)
-    .centerBar(true)
-    .brushOn(false)
-    .elasticX(true)
-    .elasticY(true)
-    .xUnits(dc.units.fp.precision(4))
-    .gap(20)
-    .x(dc.d3.scale.linear().domain([13, 16]));
+    c3.generate({
+      bindto: '#' + chartId,
+      data: {
+        columns: [
+          ['data1', 30, 200, 100, 400, 150, 250],
+          ['data2', 50, 20, 10, 40, 15, 25]
+        ],
+        axes: {
+          data2: 'y2'
+        },
+        types: {
+          data2: 'bar'
+        }
+      },
+      axis: {
+        y: {
+          label: {
+            text: 'Y Label',
+            position: 'outer-middle'
+          },
+          tick: {
+            format: dc.d3.format("$,") // ADD
+          }
+        },
+        y2: {
+          show: true,
+          label: {
+            text: 'Y2 Label',
+            position: 'outer-middle'
+          }
+        }
+      }
+  });
   }
 }
