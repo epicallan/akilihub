@@ -46,7 +46,7 @@ export default class DataCenterPage extends Component {
     if (isBrowser) {
       try {
         this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie', row: 'row' }, this.state.data);
-        this.getNewData();
+        // this.getNewData();
       } catch (e) {
         // TODO hack just reload the page this is an error to do with leaflet.js
         if (!e) window.location.assign(this.path);
@@ -72,8 +72,8 @@ export default class DataCenterPage extends Component {
 
   getNewData() {
     const interval = setInterval(async () => {
-      console.log(this.state.lastDate);
-      const response = await fetch(`/api/social/twdata/${this.state.lastDate}`);
+      const range = `${this.charts.upperLimit},${this.charts.lowerLimit}`;
+      const response = await fetch(`/api/social/twdata/${range}`);
       const data = await response.json();
       if (!data.length) {
         console.log('no more data');
@@ -82,15 +82,6 @@ export default class DataCenterPage extends Component {
         DataPageActions.update(data);
       }
     }, 10000);
-  }
-
-  reRenderMap() {
-    // TODO this is a leaflet hack
-    const myNode = document.getElementById('map');
-    const clone = myNode.cloneNode(false);
-    myNode.parentNode.replaceChild(clone, myNode);
-    this.dcMap = this.charts.drawMap(clone.id);
-    this.dcMap.render();
   }
 
   createDcCharts(container, data) {
@@ -152,7 +143,7 @@ export default class DataCenterPage extends Component {
                   <div className="col-md-6">
                       <h3> Line Chart</h3>
                       <div id ="line"></div>
-                      <div id ="range"></div>
+                      <div id ="range" className = "spacing-sm"></div>
                   </div>
                   <div className="col-md-6">
                       <h3> Row Chart</h3>

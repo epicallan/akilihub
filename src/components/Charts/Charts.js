@@ -17,6 +17,7 @@ export default class DcCharts {
   _dataTransform(data) {
     data.forEach(d => {
       const momentDate = moment(new Date(d.date));
+      d.time = d.date;
       // const sentiment = d.sentiment ? d.sentiment.toFixed(2) : d.sentiment;
       d.date = momentDate.format('ddd MMM Do, HH:mm');
       d.text = d.text.toLowerCase();
@@ -181,29 +182,38 @@ export default class DcCharts {
 
   drawLineChart(id) {
     // line chart
-    const lineDim = this.createDimenion('hour');
+    const lineDim = this.createDimenion('time');
     const lineGroup = this.createGroup(lineDim, 'sentiment');
     this.line = this.lineChart(lineDim, lineGroup, id);
   }
 
   drawRangeChart(chartId) {
     const data = [];
-    for (let i = 0; i < 24; i ++) {
+    for (let i = -1; i < 25; i ++) {
       data.push({ hour: i });
     }
     const cfData = cf.createCrossFilter(data);
     const dim = cf.createDimension(cfData, 'hour');
     const group = dim.group();
     this.range = this.rangeChart(chartId, group, dim);
+    this.range.margins().bottom = 20;
+    this.range.margins().top = 0;
+    this.range.yAxis().ticks(0);
+    this.range.on('filtered', function(chart, filter){
+      console.log(filter);
+    });
     this.range.render();
   }
 
   lineChart(dimension, group, chartId) {
-    const range = cf.getMinAndMax(group, 'key');
+    // const range = cf.getMinAndMax(group, 'key');
+    const hour = 60000 * 60;
+    const lower = new Date - (hour * 24) * 2;
+    const upper = new Date - (hour * 24) * 2 - (hour * 4);
     return dc.lineChart('#' + chartId)
       .width(450)
       .height(300)
-      .x(dc.d3.scale.linear().domain(range))
+      .x(dc.d3.scale.linear().domain([new Date(lower), new Date(upper)]))
       .elasticY(true)
       .elasticX(true)
       .brushOn(true)
@@ -220,8 +230,9 @@ export default class DcCharts {
     .dimension(dimension)
     .group(group)
     .centerBar(true)
+    .brushOn(true)
     .gap(1)
-    .x(dc.d3.time.scale().domain([0, 24]))
-    .alwaysUseRounding(true);
+    .filter(dc.filters.RangedFilter(7, 10))
+    .x(dc.d3.scale.linear().domain([0, 24]));
   }
 }

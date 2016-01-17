@@ -15,9 +15,10 @@ router.get('/social/twdata', async(req, res, next) => {
   }
 });
 
-router.get('/social/twdata/:date', async(req, res, next) => {
+router.get('/social/twdata/:range', async(req, res, next) => {
   try {
-    const data = await twitterHandler.findByDate(req.params.date);
+    const range = req.params.range.split(',');
+    const data = await twitterHandler.findByDate(range[0], range[1]);
     res.status(200).json(data);
   } catch (err) {
     next(err);

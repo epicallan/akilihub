@@ -3756,7 +3756,7 @@ module.exports =
         if (isBrowser) {
           try {
             this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie', row: 'row' }, this.state.data);
-            this.getNewData();
+            // this.getNewData();
           } catch (e) {
             // TODO hack just reload the page this is an error to do with leaflet.js
             if (!e) window.location.assign(this.path);
@@ -3787,13 +3787,13 @@ module.exports =
         var _this2 = this;
   
         var interval = setInterval(function callee$2$0() {
-          var response, data;
+          var range, response, data;
           return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
             while (1) switch (context$3$0.prev = context$3$0.next) {
               case 0:
-                console.log(this.state.lastDate);
+                range = this.charts.upperLimit + ',' + this.charts.lowerLimit;
                 context$3$0.next = 3;
-                return regeneratorRuntime.awrap((0, _coreFetch2['default'])('/api/social/twdata/' + this.state.lastDate));
+                return regeneratorRuntime.awrap((0, _coreFetch2['default'])('/api/social/twdata/' + range));
   
               case 3:
                 response = context$3$0.sent;
@@ -3816,16 +3816,6 @@ module.exports =
             }
           }, null, _this2);
         }, 10000);
-      }
-    }, {
-      key: 'reRenderMap',
-      value: function reRenderMap() {
-        // TODO this is a leaflet hack
-        var myNode = document.getElementById('map');
-        var clone = myNode.cloneNode(false);
-        myNode.parentNode.replaceChild(clone, myNode);
-        this.dcMap = this.charts.drawMap(clone.id);
-        this.dcMap.render();
       }
     }, {
       key: 'createDcCharts',
@@ -3936,7 +3926,7 @@ module.exports =
                         ' Line Chart'
                       ),
                       _react2['default'].createElement('div', { id: 'line' }),
-                      _react2['default'].createElement('div', { id: 'range' })
+                      _react2['default'].createElement('div', { id: 'range', className: 'spacing-sm' })
                     ),
                     _react2['default'].createElement(
                       'div',
@@ -4467,6 +4457,7 @@ module.exports =
       value: function _dataTransform(data) {
         data.forEach(function (d) {
           var momentDate = (0, _moment2['default'])(new Date(d.date));
+          d.time = d.date;
           // const sentiment = d.sentiment ? d.sentiment.toFixed(2) : d.sentiment;
           d.date = momentDate.format('ddd MMM Do, HH:mm');
           d.text = d.text.toLowerCase();
@@ -4617,7 +4608,7 @@ module.exports =
       key: 'drawLineChart',
       value: function drawLineChart(id) {
         // line chart
-        var lineDim = this.createDimenion('hour');
+        var lineDim = this.createDimenion('time');
         var lineGroup = this.createGroup(lineDim, 'sentiment');
         this.line = this.lineChart(lineDim, lineGroup, id);
       }
@@ -4625,25 +4616,34 @@ module.exports =
       key: 'drawRangeChart',
       value: function drawRangeChart(chartId) {
         var data = [];
-        for (var i = 0; i < 24; i++) {
+        for (var i = -1; i < 25; i++) {
           data.push({ hour: i });
         }
         var cfData = _coreCfHelper2['default'].createCrossFilter(data);
         var dim = _coreCfHelper2['default'].createDimension(cfData, 'hour');
         var group = dim.group();
         this.range = this.rangeChart(chartId, group, dim);
+        this.range.margins().bottom = 20;
+        this.range.margins().top = 0;
+        this.range.yAxis().ticks(0);
+        this.range.on('filtered', function (chart, filter) {
+          console.log(filter);
+        });
         this.range.render();
       }
     }, {
       key: 'lineChart',
       value: function lineChart(dimension, group, chartId) {
-        var range = _coreCfHelper2['default'].getMinAndMax(group, 'key');
-        return _dc2['default'].lineChart('#' + chartId).width(450).height(300).x(_dc2['default'].d3.scale.linear().domain(range)).elasticY(true).elasticX(true).brushOn(true).renderDataPoints(true).yAxisLabel('Y axis').dimension(dimension).group(group);
+        // const range = cf.getMinAndMax(group, 'key');
+        var hour = 60000 * 60;
+        var lower = new Date() - hour * 24 * 2;
+        var upper = new Date() - hour * 24 * 2 - hour * 4;
+        return _dc2['default'].lineChart('#' + chartId).width(450).height(300).x(_dc2['default'].d3.scale.linear().domain([new Date(lower), new Date(upper)])).elasticY(true).elasticX(true).brushOn(true).renderDataPoints(true).yAxisLabel('Y axis').dimension(dimension).group(group);
       }
     }, {
       key: 'rangeChart',
       value: function rangeChart(chartId, group, dimension) {
-        return _dc2['default'].barChart('#' + chartId).width(450).height(40).dimension(dimension).group(group).centerBar(true).gap(1).x(_dc2['default'].d3.time.scale().domain([0, 24])).alwaysUseRounding(true);
+        return _dc2['default'].barChart('#' + chartId).width(450).height(40).dimension(dimension).group(group).centerBar(true).brushOn(true).gap(1).filter(_dc2['default'].filters.RangedFilter(7, 10)).x(_dc2['default'].d3.scale.linear().domain([0, 24]));
       }
     }]);
   
@@ -5128,33 +5128,34 @@ module.exports =
     }, null, _this, [[0, 7]]);
   });
   
-  router.get('/social/twdata/:date', function callee$0$0(req, res, next) {
-    var data;
+  router.get('/social/twdata/:range', function callee$0$0(req, res, next) {
+    var range, data;
     return regeneratorRuntime.async(function callee$0$0$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
           context$1$0.prev = 0;
-          context$1$0.next = 3;
-          return regeneratorRuntime.awrap(_dataHandlerTw2['default'].findByDate(req.params.date));
+          range = req.params.range.split(',');
+          context$1$0.next = 4;
+          return regeneratorRuntime.awrap(_dataHandlerTw2['default'].findByDate(range[0], range[1]));
   
-        case 3:
+        case 4:
           data = context$1$0.sent;
   
           res.status(200).json(data);
-          context$1$0.next = 10;
+          context$1$0.next = 11;
           break;
   
-        case 7:
-          context$1$0.prev = 7;
+        case 8:
+          context$1$0.prev = 8;
           context$1$0.t0 = context$1$0['catch'](0);
   
           next(context$1$0.t0);
   
-        case 10:
+        case 11:
         case 'end':
           return context$1$0.stop();
       }
-    }, null, _this, [[0, 7]]);
+    }, null, _this, [[0, 8]]);
   });
   
   exports['default'] = router;
@@ -5194,7 +5195,7 @@ module.exports =
   }
   
   function findAll() {
-    var db;
+    var db, now, hour, time;
     return regeneratorRuntime.async(function findAll$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
@@ -5204,25 +5205,28 @@ module.exports =
   
         case 3:
           db = context$1$0.sent;
+          now = new Date().getTime();
+          hour = 60000 * 60;
+          time = now - hour * 24 * 2;
           return context$1$0.abrupt('return', db.collection(collection).find({
             'is_retweet': false
-          }, {}, {
-            limit: 1000
+          }, {
+            $gt: time
           }).sort({ timeStamp: 1 }).toArray());
   
-        case 7:
-          context$1$0.prev = 7;
+        case 10:
+          context$1$0.prev = 10;
           context$1$0.t0 = context$1$0['catch'](0);
           throw new Error(context$1$0.t0);
   
-        case 10:
+        case 13:
         case 'end':
           return context$1$0.stop();
       }
-    }, null, this, [[0, 7]]);
+    }, null, this, [[0, 10]]);
   }
   
-  function findByDate(timeStamp) {
+  function findByDate(start, end) {
     var db;
     return regeneratorRuntime.async(function findByDate$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
@@ -5235,7 +5239,8 @@ module.exports =
           db = context$1$0.sent;
           return context$1$0.abrupt('return', db.collection(collection).find({
             timeStamp: {
-              $gt: parseInt(timeStamp, 10)
+              $gt: parseInt(start, 10),
+              $lt: parseInt(end, 10)
             },
             is_retweet: false
           }, {}, {
@@ -5258,6 +5263,8 @@ module.exports =
     findAll: findAll, findByDate: findByDate
   };
   module.exports = exports['default'];
+
+  // TODO just hack
 
 /***/ },
 /* 84 */

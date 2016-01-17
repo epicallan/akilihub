@@ -19,10 +19,14 @@ function _connection() {
 async function findAll() {
   try {
     const db = await _connection();
+    const now = new Date().getTime();
+    // TODO just hack
+    const hour = 60000 * 60;
+    const time = now - (hour * 24) * 2;
     return db.collection(collection).find({
       'is_retweet': false,
-    }, {}, {
-      limit: 1000,
+    }, {
+      $gt: time,
     }).sort({ timeStamp: 1 })
     .toArray();
   } catch (e) {
@@ -30,12 +34,13 @@ async function findAll() {
   }
 }
 
-async function findByDate(timeStamp) {
+async function findByDate(start, end) {
   try {
     const db = await _connection();
     return db.collection(collection).find({
       timeStamp: {
-        $gt: parseInt(timeStamp, 10),
+        $gt: parseInt(start, 10),
+        $lt: parseInt(end, 10),
       },
       is_retweet: false,
     }, {}, {
