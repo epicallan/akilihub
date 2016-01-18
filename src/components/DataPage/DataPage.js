@@ -94,7 +94,8 @@ export default class DataCenterPage extends Component {
     // this.table.render();
     this.charts.drawAll();
     // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
-    this.charts.rangeChart('range');
+    const chart = this.charts.rangeChart('range');
+    console.log(chart);
   }
 
   _onChange = () => {
@@ -139,16 +140,13 @@ export default class DataCenterPage extends Component {
                   <div className="col-md-6">
                       <h3> Line Chart</h3>
                       <div id ="line"></div>
-                      <div id ="range" className = "spacing-sm"></div>
                   </div>
                   <div className="col-md-6">
-                      <h3> Row Chart</h3>
+                      <h3> Row Chart</h3></div>
                       <div id ="row"></div>
                   </div>
-                </div>
                 <div className="row spacing-sm">
-                  <div className="col-md-12">
-                      <h3> Range Chart</h3>
+                  <div className="col-md-6">
                       <div id ="range"></div>
                   </div>
                 </div>

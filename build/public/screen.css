@@ -98,5 +98,7 @@
 .modal-content {
   color: #5B798E;
 }
-
+.clicked{
+  fill: #00ff00;
+}
 /*# sourceMappingURL=screen.css.map */

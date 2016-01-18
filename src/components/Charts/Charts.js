@@ -222,22 +222,41 @@ export default class DcCharts {
   }
 
   rangeChart(chartId) {
-    /* eslint-disable new-cap*/
-    // .filter(dc.filters.RangedFilter(new Date(this.lowerLimit), new Date(this.upperLimit)))
-    // const range = cf.getMinAndMax(group, 'key');
-    c3.generate({
+    return c3.generate({
       bindto: '#' + chartId,
+      onrendered: function () {
+        $('.c3-bar-0').css({
+          stroke: 'rgb(20, 119, 180)',
+          fill: 'rgb(20, 119, 180)',
+          opacity: 0.5,
+        })
+      },
+
       data: {
-        columns: [
-          ['data1', 30, 200, 100, 400, 150, 250],
-          ['data2', 50, 20, 10, 40, 15, 25]
-        ],
-        axes: {
-          data2: 'y2'
+        selection: {
+           enabled: true,
         },
+        x: 'x',
+        columns: [
+          ['x', 14, 15, 16, 17],
+          ['data', 30, 200, 100, 400],
+        ],
         types: {
-          data2: 'bar'
-        }
+          data: 'bar',
+        },
+        bar: {
+          width: {
+            ratio: 0.25
+          },
+        },
+        onclick: function (d, element) {
+          console.log(d);
+          $(element).css({
+            stroke: 'rgb(20, 119, 180)',
+            fill: 'rgb(20, 119, 180)',
+            opacity: 0.5,
+          })
+        },
       },
       axis: {
         y: {
@@ -245,17 +264,7 @@ export default class DcCharts {
             text: 'Y Label',
             position: 'outer-middle'
           },
-          tick: {
-            format: dc.d3.format("$,") // ADD
-          }
         },
-        y2: {
-          show: true,
-          label: {
-            text: 'Y2 Label',
-            position: 'outer-middle'
-          }
-        }
       }
   });
   }

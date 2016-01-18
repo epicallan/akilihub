@@ -84,21 +84,21 @@ module.exports =
   
   var _routes2 = _interopRequireDefault(_routes);
   
-  var _componentsHtml = __webpack_require__(79);
+  var _componentsHtml = __webpack_require__(80);
   
   var _componentsHtml2 = _interopRequireDefault(_componentsHtml);
   
-  var _assets = __webpack_require__(80);
+  var _assets = __webpack_require__(81);
   
   var _assets2 = _interopRequireDefault(_assets);
   
   var _config = __webpack_require__(14);
   
-  var _compression = __webpack_require__(81);
+  var _compression = __webpack_require__(82);
   
   var _compression2 = _interopRequireDefault(_compression);
   
-  __webpack_require__(82);
+  __webpack_require__(83);
   
   var server = global.server = (0, _express2['default'])();
   
@@ -109,12 +109,12 @@ module.exports =
   
   // Register Data analysis API middleware
   // -----------------------------------------------------------------------------
-  server.use('/api', __webpack_require__(86));
+  server.use('/api', __webpack_require__(87));
   
   // Register API middleware
   
   // -----------------------------------------------------------------------------
-  server.use('/api/content', __webpack_require__(88));
+  server.use('/api/content', __webpack_require__(89));
   
   //
   // Register server-side rendering middleware
@@ -3827,7 +3827,8 @@ module.exports =
         // this.table.render();
         this.charts.drawAll();
         // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
-        this.charts.rangeChart('range');
+        var chart = this.charts.rangeChart('range');
+        console.log(chart);
       }
     }, {
       key: 'render',
@@ -3919,8 +3920,7 @@ module.exports =
                         null,
                         ' Line Chart'
                       ),
-                      _react2['default'].createElement('div', { id: 'line' }),
-                      _react2['default'].createElement('div', { id: 'range', className: 'spacing-sm' })
+                      _react2['default'].createElement('div', { id: 'line' })
                     ),
                     _react2['default'].createElement(
                       'div',
@@ -3929,21 +3929,16 @@ module.exports =
                         'h3',
                         null,
                         ' Row Chart'
-                      ),
-                      _react2['default'].createElement('div', { id: 'row' })
-                    )
+                      )
+                    ),
+                    _react2['default'].createElement('div', { id: 'row' })
                   ),
                   _react2['default'].createElement(
                     'div',
                     { className: 'row spacing-sm' },
                     _react2['default'].createElement(
                       'div',
-                      { className: 'col-md-12' },
-                      _react2['default'].createElement(
-                        'h3',
-                        null,
-                        ' Range Chart'
-                      ),
+                      { className: 'col-md-6' },
                       _react2['default'].createElement('div', { id: 'range' })
                     )
                   ),
@@ -4421,7 +4416,7 @@ module.exports =
   
   var _moment2 = _interopRequireDefault(_moment);
   
-  var _c3 = __webpack_require__(93);
+  var _c3 = __webpack_require__(79);
   
   var _c32 = _interopRequireDefault(_c3);
   
@@ -4654,34 +4649,43 @@ module.exports =
     }, {
       key: 'rangeChart',
       value: function rangeChart(chartId) {
-        /* eslint-disable new-cap*/
-        // .filter(dc.filters.RangedFilter(new Date(this.lowerLimit), new Date(this.upperLimit)))
-        // const range = cf.getMinAndMax(group, 'key');
-        _c32['default'].generate({
+        return _c32['default'].generate({
           bindto: '#' + chartId,
+          onrendered: function onrendered() {
+            (0, _jquery2['default'])('.c3-bar-0').css({
+              stroke: 'rgb(20, 119, 180)',
+              fill: 'rgb(20, 119, 180)',
+              opacity: 0.5
+            });
+          },
+  
           data: {
-            columns: [['data1', 30, 200, 100, 400, 150, 250], ['data2', 50, 20, 10, 40, 15, 25]],
-            axes: {
-              data2: 'y2'
+            selection: {
+              enabled: true
             },
+            x: 'x',
+            columns: [['x', 14, 15, 16, 17], ['data', 30, 200, 100, 400]],
             types: {
-              data2: 'bar'
+              data: 'bar'
+            },
+            bar: {
+              width: {
+                ratio: 0.25
+              }
+            },
+            onclick: function onclick(d, element) {
+              console.log(d);
+              (0, _jquery2['default'])(element).css({
+                stroke: 'rgb(20, 119, 180)',
+                fill: 'rgb(20, 119, 180)',
+                opacity: 0.5
+              });
             }
           },
           axis: {
             y: {
               label: {
                 text: 'Y Label',
-                position: 'outer-middle'
-              },
-              tick: {
-                format: _dc2['default'].d3.format("$,") // ADD
-              }
-            },
-            y2: {
-              show: true,
-              label: {
-                text: 'Y2 Label',
                 position: 'outer-middle'
               }
             }
@@ -4993,6 +4997,12 @@ module.exports =
 
 /***/ },
 /* 79 */
+/***/ function(module, exports) {
+
+  module.exports = require("c3");
+
+/***/ },
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -5106,26 +5116,26 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 80 */
+/* 81 */
 /***/ function(module, exports) {
 
   module.exports = require("./assets");
 
 /***/ },
-/* 81 */
+/* 82 */
 /***/ function(module, exports) {
 
   module.exports = require("compression");
 
 /***/ },
-/* 82 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _twJob = __webpack_require__(83);
+  var _twJob = __webpack_require__(84);
   
   var _twJob2 = _interopRequireDefault(_twJob);
   
@@ -5143,7 +5153,7 @@ module.exports =
   }
 
 /***/ },
-/* 83 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -5157,11 +5167,11 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _mongodb = __webpack_require__(84);
+  var _mongodb = __webpack_require__(85);
   
   var _mongodb2 = _interopRequireDefault(_mongodb);
   
-  var _redis = __webpack_require__(85);
+  var _redis = __webpack_require__(86);
   
   var _redis2 = _interopRequireDefault(_redis);
   
@@ -5267,19 +5277,19 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 84 */
+/* 85 */
 /***/ function(module, exports) {
 
   module.exports = require("mongodb");
 
 /***/ },
-/* 85 */
+/* 86 */
 /***/ function(module, exports) {
 
   module.exports = require("redis");
 
 /***/ },
-/* 86 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
   /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
@@ -5298,7 +5308,7 @@ module.exports =
   
   var _express2 = _interopRequireDefault(_express);
   
-  var _dataHandlerTw = __webpack_require__(87);
+  var _dataHandlerTw = __webpack_require__(88);
   
   var _dataHandlerTw2 = _interopRequireDefault(_dataHandlerTw);
   
@@ -5372,7 +5382,7 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 87 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -5386,13 +5396,13 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _mongodb = __webpack_require__(84);
+  var _mongodb = __webpack_require__(85);
   
   var _mongodb2 = _interopRequireDefault(_mongodb);
   
   var _config = __webpack_require__(14);
   
-  var _redis = __webpack_require__(85);
+  var _redis = __webpack_require__(86);
   
   var _redis2 = _interopRequireDefault(_redis);
   
@@ -5432,7 +5442,7 @@ module.exports =
         case 3:
           db = context$1$0.sent;
           now = new Date().getTime();
-          time = now - hour * 24 * 2 - hour * 15;
+          time = now - hour * 24 * 3 - hour * 5;
           return context$1$0.abrupt('return', db.collection(collection).find({
             'is_retweet': false,
             timeStamp: { $gt: time }
@@ -5486,7 +5496,7 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 88 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
   
@@ -5509,7 +5519,7 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _fs = __webpack_require__(89);
+  var _fs = __webpack_require__(90);
   
   var _fs2 = _interopRequireDefault(_fs);
   
@@ -5517,15 +5527,15 @@ module.exports =
   
   var _express = __webpack_require__(3);
   
-  var _bluebird = __webpack_require__(90);
+  var _bluebird = __webpack_require__(91);
   
   var _bluebird2 = _interopRequireDefault(_bluebird);
   
-  var _jade = __webpack_require__(91);
+  var _jade = __webpack_require__(92);
   
   var _jade2 = _interopRequireDefault(_jade);
   
-  var _frontMatter = __webpack_require__(92);
+  var _frontMatter = __webpack_require__(93);
   
   var _frontMatter2 = _interopRequireDefault(_frontMatter);
   
@@ -5629,34 +5639,28 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 89 */
+/* 90 */
 /***/ function(module, exports) {
 
   module.exports = require("fs");
 
 /***/ },
-/* 90 */
+/* 91 */
 /***/ function(module, exports) {
 
   module.exports = require("bluebird");
 
 /***/ },
-/* 91 */
+/* 92 */
 /***/ function(module, exports) {
 
   module.exports = require("jade");
 
 /***/ },
-/* 92 */
-/***/ function(module, exports) {
-
-  module.exports = require("front-matter");
-
-/***/ },
 /* 93 */
 /***/ function(module, exports) {
 
-  module.exports = require("c3");
+  module.exports = require("front-matter");
 
 /***/ }
 /******/ ]);
