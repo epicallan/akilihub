@@ -14,6 +14,8 @@ export default class DcCharts {
     this.charts = null;
     const transformedData = this._dataTransform(data);
     this.data = cf.createCrossFilter(transformedData);
+    this.hourDim = this.createDimenion('hour');
+    // console.log(data[4]);
   }
 
   _dataTransform(data) {
@@ -21,9 +23,14 @@ export default class DcCharts {
     this.upperLimit = data[data.length - 1].timeStamp;
     data.forEach(d => {
       const momentDate = moment(new Date(d.date));
+      d.time = new Date(d.date);
       // const sentiment = d.sentiment ? d.sentiment.toFixed(2) : d.sentiment;
       d.date = momentDate.format('ddd MMM Do, HH:mm');
       d.text = d.text.toLowerCase();
+      ['museveni', 'besigye', 'mbabazi'].forEach((mention) => {
+        const bool = d.user_mentions.some(name => name.indexOf(mention) !== -1);
+        d[mention] = bool ? 1 : 0;
+      });
       // d.sentiment = d.sentiment;
       d.hour = momentDate.hour();
     });
@@ -32,7 +39,7 @@ export default class DcCharts {
 
   updateData(raw) {
     const newData = this._dataTransform(raw);
-    // this.data.remove();
+    this.data.remove();
     this.data.add(newData);
     console.log(`updated data   ${this.data.size()}`);
   }
@@ -69,7 +76,7 @@ export default class DcCharts {
     // TODO use react state lifecycle
     /* eslint-disable func-names*/
     const self = this;
-    $(':input').on('keyup', function () {
+    $(':input').on('keyup', function() {
       if (this.value !== '') {
         self.tableDimension.filter((d) => {
           return d.indexOf(this.value.toLowerCase()) !== -1;
@@ -128,7 +135,9 @@ export default class DcCharts {
   }
 
   drawRawChart(id) {
-    const { dim, group } = this.createGroupAndDimArrayField('user_mentions');
+    const {
+      dim, group
+    } = this.createGroupAndDimArrayField('user_mentions');
     this.row = this.rowChart(dim, group, id);
   }
   rowChart(dim, group, rowId) {
@@ -185,31 +194,56 @@ export default class DcCharts {
 
   drawLineChart(id) {
     // line chart
-    const lineDim = this.createDimenion('hour');
-    const lineGroup = this.createGroup(lineDim, 'sentiment');
-    this.line = this.lineChart(lineDim, lineGroup, id);
+    const lineGroup = this.createGroup(this.hourDim, 'sentiment');
+    this.line = this.lineChart(this.hourDim, lineGroup, id);
   }
 
-  /* drawRangeChart(chartId, data, cb) {
-    const cfData = cf.createCrossFilter(data);
-    const dim = cf.createDimension(cfData, 'key');
-    const group = dim.group().reduceSum(d => d.value);
-    this.range = this.rangeChart(chartId, group, dim);
-    this.range.on('renderlet', (chart) => {
-      chart.selectAll('rect').on('click', (d) => {
-        console.log(d.data);
-        const startTime = moment(`2016-01-14 00:00`).valueOf();
-        console.log(startTime);
-        cb(startTime);
-      });
-    });
-    this.range.render();
+  drawMultiChart(chartId) {
+    try {
+      const museveniGroup = this.hourDim.group().reduceSum(d => d.museveni);
+      const besigyeGroup = this.hourDim.group().reduceSum(d => d.besigye);
+      const mbabaziGroup = this.hourDim.group().reduceSum(d => d.mbabazi);
+      this.multi = this.multiLineChart(this.hourDim, [museveniGroup, besigyeGroup, mbabaziGroup], chartId);
+    } catch (e) {
+      console.log(e);
+    }
   }
-*/
+  multiLineChart(dim, groups, chartId) {
+    const composite = dc.compositeChart('#' + chartId);
+    // console.log([new Date(this.lowerLimit), new Date(this.upperLimit)]);
+    composite.width(450)
+      .height(300)
+      .yAxisLabel('The Y Axis')
+      .renderHorizontalGridLines(true)
+      .x(dc.d3.scale.linear().domain([0, 24]))
+      .xUnits(dc.d3.time.hours)
+      .elasticY(true)
+      .elasticX(true)
+      .compose([
+        dc.lineChart(composite)
+            .dimension(dim)
+            .colors('yellow')
+              .brushOn(true)
+            .group(groups[0], 'museveni')
+            .dashStyle([2, 2]),
+        dc.lineChart(composite)
+            .dimension(dim)
+              .brushOn(true)
+            .colors('blue')
+            .group(groups[1], 'besigye'),
+        dc.lineChart(composite)
+            .dimension(dim)
+            .colors('orange')
+            .dashStyle([2, 2])
+              .brushOn(true)
+            .group(groups[2], 'amama'),
+      ])
+      .render();
+  }
   lineChart(dimension, group, chartId) {
     return dc.lineChart('#' + chartId)
-      .width(450)
-      .height(300)
+      .width(350)
+      .height(250)
       .x(dc.d3.scale.linear().domain([new Date(this.lowerLimit), new Date(this.upperLimit)]))
       .elasticY(true)
       .elasticX(true)
@@ -221,51 +255,44 @@ export default class DcCharts {
       .group(group);
   }
 
-  rangeChart(chartId) {
+  rangeChart(chartId, data, callback) {
+    const styles = {
+      stroke: 'rgb(20, 119, 180)',
+      fill: 'rgb(20, 119, 180)',
+      opacity: 0.5,
+    };
     return c3.generate({
       bindto: '#' + chartId,
-      onrendered: function () {
-        $('.c3-bar-0').css({
-          stroke: 'rgb(20, 119, 180)',
-          fill: 'rgb(20, 119, 180)',
-          opacity: 0.5,
-        })
+      onrendered: () => {
+        $('.c3-bar-0').css(styles);
       },
-
       data: {
-        selection: {
-           enabled: true,
+        json: data,
+        keys: {
+          x: 'key',
+          value: ['value'],
         },
-        x: 'x',
-        columns: [
-          ['x', 14, 15, 16, 17],
-          ['data', 30, 200, 100, 400],
-        ],
-        types: {
-          data: 'bar',
+        type: 'bar',
+      },
+      bar: {
+        width: {
+          ratio: 0.25,
         },
-        bar: {
-          width: {
-            ratio: 0.25
-          },
-        },
-        onclick: function (d, element) {
-          console.log(d);
-          $(element).css({
-            stroke: 'rgb(20, 119, 180)',
-            fill: 'rgb(20, 119, 180)',
-            opacity: 0.5,
-          })
-        },
+      },
+      onclick: (d, element) => {
+        console.log(d);
+        const startTime = moment(`2016-01-14 00:00`).valueOf();
+        callback(startTime);
+        $(element).css(styles);
       },
       axis: {
         y: {
           label: {
             text: 'Y Label',
-            position: 'outer-middle'
+            position: 'outer-middle',
           },
         },
-      }
-  });
+      },
+    });
   }
 }

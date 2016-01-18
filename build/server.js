@@ -3824,11 +3824,12 @@ module.exports =
         // table
         // this.table = this.charts.tableChart(dim, container.table);
         this.charts.createDataTable(container.table);
+        // multiLineChart
+        this.charts.drawMultiChart('multi');
         // this.table.render();
         this.charts.drawAll();
         // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
-        var chart = this.charts.rangeChart('range');
-        console.log(chart);
+        this.charts.rangeChart('range', this.state.aggregate, this.getNewData);
       }
     }, {
       key: 'render',
@@ -3887,7 +3888,7 @@ module.exports =
             { className: (0, _classnames2['default'])('container', _DataPageScss2['default'].container) },
             _react2['default'].createElement(
               'div',
-              { className: (0, _classnames2['default'])('col-md-9', _DataPageScss2['default'].main) },
+              { className: (0, _classnames2['default'])('col-md-12', _DataPageScss2['default'].main) },
               _react2['default'].createElement(
                 'div',
                 { className: 'row spacing' },
@@ -3915,6 +3916,20 @@ module.exports =
                     _react2['default'].createElement(
                       'div',
                       { className: 'col-md-6' },
+                      _react2['default'].createElement('div', { id: 'range' })
+                    ),
+                    _react2['default'].createElement(
+                      'div',
+                      { className: 'col-md-6' },
+                      _react2['default'].createElement('div', { id: 'multi' })
+                    )
+                  ),
+                  _react2['default'].createElement(
+                    'div',
+                    { className: 'row spacing-sm' },
+                    _react2['default'].createElement(
+                      'div',
+                      { className: 'col-md-6' },
                       _react2['default'].createElement(
                         'h3',
                         null,
@@ -3932,15 +3947,6 @@ module.exports =
                       )
                     ),
                     _react2['default'].createElement('div', { id: 'row' })
-                  ),
-                  _react2['default'].createElement(
-                    'div',
-                    { className: 'row spacing-sm' },
-                    _react2['default'].createElement(
-                      'div',
-                      { className: 'col-md-6' },
-                      _react2['default'].createElement('div', { id: 'range' })
-                    )
                   ),
                   _react2['default'].createElement(
                     'div',
@@ -4015,66 +4021,6 @@ module.exports =
                       )
                     )
                   )
-                )
-              )
-            ),
-            _react2['default'].createElement(
-              'div',
-              { className: (0, _classnames2['default'])('col-md-3', _DataPageScss2['default'].sidebar) },
-              _react2['default'].createElement(
-                'header',
-                { className: 'row' },
-                _react2['default'].createElement(
-                  'h3',
-                  null,
-                  'Top Data Journeys'
-                ),
-                _react2['default'].createElement('hr', null)
-              ),
-              _react2['default'].createElement(
-                'section',
-                null,
-                _react2['default'].createElement(
-                  'div',
-                  { className: 'row spacing' },
-                  _react2['default'].createElement(
-                    'header',
-                    null,
-                    _react2['default'].createElement(
-                      _Link2['default'],
-                      { className: _DataPageScss2['default'].link, to: '/blog' },
-                      '#AskMuseveni  Twitter metric '
-                    )
-                  ),
-                  _react2['default'].createElement('hr', null)
-                ),
-                _react2['default'].createElement(
-                  'div',
-                  { className: 'row spacing' },
-                  _react2['default'].createElement(
-                    'header',
-                    null,
-                    _react2['default'].createElement(
-                      _Link2['default'],
-                      { className: _DataPageScss2['default'].link, to: '/blog' },
-                      ' The Aine case Data Map'
-                    )
-                  ),
-                  _react2['default'].createElement('hr', null)
-                ),
-                _react2['default'].createElement(
-                  'div',
-                  { className: 'row spacing' },
-                  _react2['default'].createElement(
-                    'header',
-                    null,
-                    _react2['default'].createElement(
-                      _Link2['default'],
-                      { className: _DataPageScss2['default'].link, to: '/blog' },
-                      ' Who has the most Bots Data '
-                    )
-                  ),
-                  _react2['default'].createElement('hr', null)
                 )
               )
             )
@@ -4461,6 +4407,8 @@ module.exports =
       this.charts = null;
       var transformedData = this._dataTransform(data);
       this.data = _coreCfHelper2['default'].createCrossFilter(transformedData);
+      this.hourDim = this.createDimenion('hour');
+      // console.log(data[4]);
     }
   
     _createClass(DcCharts, [{
@@ -4470,9 +4418,16 @@ module.exports =
         this.upperLimit = data[data.length - 1].timeStamp;
         data.forEach(function (d) {
           var momentDate = (0, _moment2['default'])(new Date(d.date));
+          d.time = new Date(d.date);
           // const sentiment = d.sentiment ? d.sentiment.toFixed(2) : d.sentiment;
           d.date = momentDate.format('ddd MMM Do, HH:mm');
           d.text = d.text.toLowerCase();
+          ['museveni', 'besigye', 'mbabazi'].forEach(function (mention) {
+            var bool = d.user_mentions.some(function (name) {
+              return name.indexOf(mention) !== -1;
+            });
+            d[mention] = bool ? 1 : 0;
+          });
           // d.sentiment = d.sentiment;
           d.hour = momentDate.hour();
         });
@@ -4482,7 +4437,7 @@ module.exports =
       key: 'updateData',
       value: function updateData(raw) {
         var newData = this._dataTransform(raw);
-        // this.data.remove();
+        this.data.remove();
         this.data.add(newData);
         console.log('updated data   ' + this.data.size());
       }
@@ -4620,67 +4575,70 @@ module.exports =
       key: 'drawLineChart',
       value: function drawLineChart(id) {
         // line chart
-        var lineDim = this.createDimenion('hour');
-        var lineGroup = this.createGroup(lineDim, 'sentiment');
-        this.line = this.lineChart(lineDim, lineGroup, id);
+        var lineGroup = this.createGroup(this.hourDim, 'sentiment');
+        this.line = this.lineChart(this.hourDim, lineGroup, id);
       }
-  
-      /* drawRangeChart(chartId, data, cb) {
-        const cfData = cf.createCrossFilter(data);
-        const dim = cf.createDimension(cfData, 'key');
-        const group = dim.group().reduceSum(d => d.value);
-        this.range = this.rangeChart(chartId, group, dim);
-        this.range.on('renderlet', (chart) => {
-          chart.selectAll('rect').on('click', (d) => {
-            console.log(d.data);
-            const startTime = moment(`2016-01-14 00:00`).valueOf();
-            console.log(startTime);
-            cb(startTime);
+    }, {
+      key: 'drawMultiChart',
+      value: function drawMultiChart(chartId) {
+        try {
+          var museveniGroup = this.hourDim.group().reduceSum(function (d) {
+            return d.museveni;
           });
-        });
-        this.range.render();
+          var besigyeGroup = this.hourDim.group().reduceSum(function (d) {
+            return d.besigye;
+          });
+          var mbabaziGroup = this.hourDim.group().reduceSum(function (d) {
+            return d.mbabazi;
+          });
+          this.multi = this.multiLineChart(this.hourDim, [museveniGroup, besigyeGroup, mbabaziGroup], chartId);
+        } catch (e) {
+          console.log(e);
+        }
       }
-      */
+    }, {
+      key: 'multiLineChart',
+      value: function multiLineChart(dim, groups, chartId) {
+        var composite = _dc2['default'].compositeChart('#' + chartId);
+        // console.log([new Date(this.lowerLimit), new Date(this.upperLimit)]);
+        composite.width(450).height(300).yAxisLabel('The Y Axis').renderHorizontalGridLines(true).x(_dc2['default'].d3.scale.linear().domain([0, 24])).xUnits(_dc2['default'].d3.time.hours).elasticY(true).elasticX(true).compose([_dc2['default'].lineChart(composite).dimension(dim).colors('yellow').brushOn(true).group(groups[0], 'museveni').dashStyle([2, 2]), _dc2['default'].lineChart(composite).dimension(dim).brushOn(true).colors('blue').group(groups[1], 'besigye'), _dc2['default'].lineChart(composite).dimension(dim).colors('orange').dashStyle([2, 2]).brushOn(true).group(groups[2], 'amama')]).render();
+      }
     }, {
       key: 'lineChart',
       value: function lineChart(dimension, group, chartId) {
-        return _dc2['default'].lineChart('#' + chartId).width(450).height(300).x(_dc2['default'].d3.scale.linear().domain([new Date(this.lowerLimit), new Date(this.upperLimit)])).elasticY(true).elasticX(true).brushOn(true).renderDataPoints(true).yAxisLabel('Y axis').xUnits(_dc2['default'].d3.time.hours).dimension(dimension).group(group);
+        return _dc2['default'].lineChart('#' + chartId).width(350).height(250).x(_dc2['default'].d3.scale.linear().domain([new Date(this.lowerLimit), new Date(this.upperLimit)])).elasticY(true).elasticX(true).brushOn(true).renderDataPoints(true).yAxisLabel('Y axis').xUnits(_dc2['default'].d3.time.hours).dimension(dimension).group(group);
       }
     }, {
       key: 'rangeChart',
-      value: function rangeChart(chartId) {
+      value: function rangeChart(chartId, data, callback) {
+        var styles = {
+          stroke: 'rgb(20, 119, 180)',
+          fill: 'rgb(20, 119, 180)',
+          opacity: 0.5
+        };
         return _c32['default'].generate({
           bindto: '#' + chartId,
           onrendered: function onrendered() {
-            (0, _jquery2['default'])('.c3-bar-0').css({
-              stroke: 'rgb(20, 119, 180)',
-              fill: 'rgb(20, 119, 180)',
-              opacity: 0.5
-            });
+            (0, _jquery2['default'])('.c3-bar-0').css(styles);
           },
-  
           data: {
-            selection: {
-              enabled: true
+            json: data,
+            keys: {
+              x: 'key',
+              value: ['value']
             },
-            x: 'x',
-            columns: [['x', 14, 15, 16, 17], ['data', 30, 200, 100, 400]],
-            types: {
-              data: 'bar'
-            },
-            bar: {
-              width: {
-                ratio: 0.25
-              }
-            },
-            onclick: function onclick(d, element) {
-              console.log(d);
-              (0, _jquery2['default'])(element).css({
-                stroke: 'rgb(20, 119, 180)',
-                fill: 'rgb(20, 119, 180)',
-                opacity: 0.5
-              });
+            type: 'bar'
+          },
+          bar: {
+            width: {
+              ratio: 0.25
             }
+          },
+          onclick: function onclick(d, element) {
+            console.log(d);
+            var startTime = (0, _moment2['default'])('2016-01-14 00:00').valueOf();
+            callback(startTime);
+            (0, _jquery2['default'])(element).css(styles);
           },
           axis: {
             y: {
@@ -5442,7 +5400,7 @@ module.exports =
         case 3:
           db = context$1$0.sent;
           now = new Date().getTime();
-          time = now - hour * 24 * 3 - hour * 5;
+          time = now - hour * 24 * 3 - hour * 12;
           return context$1$0.abrupt('return', db.collection(collection).find({
             'is_retweet': false,
             timeStamp: { $gt: time }

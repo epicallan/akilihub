@@ -91,11 +91,12 @@ export default class DataCenterPage extends Component {
     // table
     // this.table = this.charts.tableChart(dim, container.table);
     this.charts.createDataTable(container.table);
+    // multiLineChart
+    this.charts.drawMultiChart('multi');
     // this.table.render();
     this.charts.drawAll();
     // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
-    const chart = this.charts.rangeChart('range');
-    console.log(chart);
+    this.charts.rangeChart('range', this.state.aggregate, this.getNewData);
   }
 
   _onChange = () => {
@@ -126,7 +127,7 @@ export default class DataCenterPage extends Component {
         </header>
         <hr></hr>
         <section className= {cx('container', s.container)}>
-          <div className= {cx('col-md-9', s.main)}>
+          <div className= {cx('col-md-12', s.main)}>
             <div className ="row spacing">
               <article className="col-md-12">
                 <header>
@@ -138,6 +139,14 @@ export default class DataCenterPage extends Component {
               <section className ={s.charts}>
                 <div className="row spacing-sm">
                   <div className="col-md-6">
+                      <div id ="range"></div>
+                  </div>
+                  <div className="col-md-6">
+                      <div id ="multi"></div>
+                  </div>
+                </div>
+                <div className="row spacing-sm">
+                  <div className="col-md-6">
                       <h3> Line Chart</h3>
                       <div id ="line"></div>
                   </div>
@@ -145,11 +154,6 @@ export default class DataCenterPage extends Component {
                       <h3> Row Chart</h3></div>
                       <div id ="row"></div>
                   </div>
-                <div className="row spacing-sm">
-                  <div className="col-md-6">
-                      <div id ="range"></div>
-                  </div>
-                </div>
                 <div className= "row spacing-sm">
                   <div className = "col-md-8" ref="mapCont" id="mapCont">
                     <h3> Map Chart</h3>
@@ -178,32 +182,6 @@ export default class DataCenterPage extends Component {
 
               </section>
             </div>
-          </div>
-          <div className= {cx('col-md-3', s.sidebar)}>
-            <header className= "row">
-              <h3>Top Data Journeys</h3>
-              <hr></hr>
-            </header>
-            <section>
-              <div className = "row spacing">
-                <header>
-                  <Link className={s.link} to="/blog">#AskMuseveni  Twitter metric </Link>
-                </header>
-                <hr></hr>
-              </div>
-              <div className = "row spacing">
-                <header>
-                  <Link className={s.link} to="/blog"> The Aine case Data Map</Link>
-                </header>
-                <hr></hr>
-              </div>
-              <div className = "row spacing">
-                <header>
-                  <Link className={s.link} to="/blog"> Who has the most Bots Data </Link>
-                </header>
-                <hr></hr>
-              </div>
-            </section>
           </div>
         </section>
       </div>
