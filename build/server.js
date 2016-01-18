@@ -3825,7 +3825,7 @@ module.exports =
         // this.table = this.charts.tableChart(dim, container.table);
         this.charts.createDataTable(container.table);
         // multiLineChart
-        this.charts.drawMultiChart('multi');
+        this.charts.drawMultiChart({ museveni: 'museveni', besigye: 'besigye', mbabazi: 'mbabazi' });
         // this.table.render();
         this.charts.drawAll();
         // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
@@ -3921,7 +3921,7 @@ module.exports =
                     _react2['default'].createElement(
                       'div',
                       { className: 'col-md-6' },
-                      _react2['default'].createElement('div', { id: 'multi' })
+                      _react2['default'].createElement('div', { id: 'row' })
                     )
                   ),
                   _react2['default'].createElement(
@@ -3929,31 +3929,26 @@ module.exports =
                     { className: 'row spacing-sm' },
                     _react2['default'].createElement(
                       'div',
-                      { className: 'col-md-6' },
-                      _react2['default'].createElement(
-                        'h3',
-                        null,
-                        ' Line Chart'
-                      ),
-                      _react2['default'].createElement('div', { id: 'line' })
+                      { className: 'col-md-4' },
+                      _react2['default'].createElement('div', { id: 'besigye' })
                     ),
                     _react2['default'].createElement(
                       'div',
-                      { className: 'col-md-6' },
-                      _react2['default'].createElement(
-                        'h3',
-                        null,
-                        ' Row Chart'
-                      )
+                      { className: 'col-md-4' },
+                      _react2['default'].createElement('div', { id: 'mbabazi' })
                     ),
-                    _react2['default'].createElement('div', { id: 'row' })
+                    _react2['default'].createElement(
+                      'div',
+                      { className: 'col-md-4' },
+                      _react2['default'].createElement('div', { id: 'museveni' })
+                    )
                   ),
                   _react2['default'].createElement(
                     'div',
                     { className: 'row spacing-sm' },
                     _react2['default'].createElement(
                       'div',
-                      { className: 'col-md-8', ref: 'mapCont', id: 'mapCont' },
+                      { className: 'col-md-6', ref: 'mapCont', id: 'mapCont' },
                       _react2['default'].createElement(
                         'h3',
                         null,
@@ -3967,7 +3962,17 @@ module.exports =
                     ),
                     _react2['default'].createElement(
                       'div',
-                      { className: 'col-md-4' },
+                      { className: 'col-md-3' },
+                      _react2['default'].createElement(
+                        'h3',
+                        null,
+                        ' Line Chart'
+                      ),
+                      _react2['default'].createElement('div', { id: 'line' })
+                    ),
+                    _react2['default'].createElement(
+                      'div',
+                      { className: 'col-md-3' },
                       _react2['default'].createElement(
                         'h3',
                         null,
@@ -4580,7 +4585,7 @@ module.exports =
       }
     }, {
       key: 'drawMultiChart',
-      value: function drawMultiChart(chartId) {
+      value: function drawMultiChart(chartIds) {
         try {
           var museveniGroup = this.hourDim.group().reduceSum(function (d) {
             return d.museveni;
@@ -4591,14 +4596,31 @@ module.exports =
           var mbabaziGroup = this.hourDim.group().reduceSum(function (d) {
             return d.mbabazi;
           });
-          this.multi = this.multiLineChart(this.hourDim, [museveniGroup, besigyeGroup, mbabaziGroup], chartId);
+          var options = [{
+            group: museveniGroup,
+            id: chartIds.museveni
+          }, {
+            group: mbabaziGroup,
+            id: chartIds.mbabazi
+          }, {
+            group: besigyeGroup,
+            id: chartIds.besigye
+          }];
+          this.multi = this.multiLineCharts(this.hourDim, options);
         } catch (e) {
           console.log(e);
         }
       }
     }, {
-      key: 'multiLineChart',
-      value: function multiLineChart(dim, groups, chartId) {
+      key: 'multiLineCharts',
+      value: function multiLineCharts(dim, options) {
+        options.forEach(function (d) {
+          _dc2['default'].lineChart('#' + d.id).width(350).height(250).x(_dc2['default'].d3.scale.linear().domain([0, 24])).elasticY(true).elasticX(true).brushOn(true).renderDataPoints(true).yAxisLabel('Y axis').xUnits(_dc2['default'].d3.time.hours).dimension(dim).group(d.group);
+        });
+      }
+    }, {
+      key: 'compositeLineChart',
+      value: function compositeLineChart(dim, groups, chartId) {
         var composite = _dc2['default'].compositeChart('#' + chartId);
         // console.log([new Date(this.lowerLimit), new Date(this.upperLimit)]);
         composite.width(450).height(300).yAxisLabel('The Y Axis').renderHorizontalGridLines(true).x(_dc2['default'].d3.scale.linear().domain([0, 24])).xUnits(_dc2['default'].d3.time.hours).elasticY(true).elasticX(true).compose([_dc2['default'].lineChart(composite).dimension(dim).colors('yellow').brushOn(true).group(groups[0], 'museveni').dashStyle([2, 2]), _dc2['default'].lineChart(composite).dimension(dim).brushOn(true).colors('blue').group(groups[1], 'besigye'), _dc2['default'].lineChart(composite).dimension(dim).colors('orange').dashStyle([2, 2]).brushOn(true).group(groups[2], 'amama')]).render();

@@ -198,17 +198,43 @@ export default class DcCharts {
     this.line = this.lineChart(this.hourDim, lineGroup, id);
   }
 
-  drawMultiChart(chartId) {
+  drawMultiChart(chartIds) {
     try {
       const museveniGroup = this.hourDim.group().reduceSum(d => d.museveni);
       const besigyeGroup = this.hourDim.group().reduceSum(d => d.besigye);
       const mbabaziGroup = this.hourDim.group().reduceSum(d => d.mbabazi);
-      this.multi = this.multiLineChart(this.hourDim, [museveniGroup, besigyeGroup, mbabaziGroup], chartId);
+      const options = [{
+        group: museveniGroup,
+        id: chartIds.museveni,
+      }, {
+        group: mbabaziGroup,
+        id: chartIds.mbabazi,
+      }, {
+        group: besigyeGroup,
+        id: chartIds.besigye,
+      }];
+      this.multi = this.multiLineCharts(this.hourDim, options);
     } catch (e) {
       console.log(e);
     }
   }
-  multiLineChart(dim, groups, chartId) {
+  multiLineCharts(dim, options) {
+    options.forEach((d) => {
+      dc.lineChart('#' + d.id)
+        .width(350)
+        .height(250)
+        .x(dc.d3.scale.linear().domain([0, 24]))
+        .elasticY(true)
+        .elasticX(true)
+        .brushOn(true)
+        .renderDataPoints(true)
+        .yAxisLabel('Y axis')
+        .xUnits(dc.d3.time.hours)
+        .dimension(dim)
+        .group(d.group);
+    });
+  }
+  compositeLineChart(dim, groups, chartId) {
     const composite = dc.compositeChart('#' + chartId);
     // console.log([new Date(this.lowerLimit), new Date(this.upperLimit)]);
     composite.width(450)
@@ -221,22 +247,22 @@ export default class DcCharts {
       .elasticX(true)
       .compose([
         dc.lineChart(composite)
-            .dimension(dim)
-            .colors('yellow')
-              .brushOn(true)
-            .group(groups[0], 'museveni')
-            .dashStyle([2, 2]),
+        .dimension(dim)
+        .colors('yellow')
+        .brushOn(true)
+        .group(groups[0], 'museveni')
+        .dashStyle([2, 2]),
         dc.lineChart(composite)
-            .dimension(dim)
-              .brushOn(true)
-            .colors('blue')
-            .group(groups[1], 'besigye'),
+        .dimension(dim)
+        .brushOn(true)
+        .colors('blue')
+        .group(groups[1], 'besigye'),
         dc.lineChart(composite)
-            .dimension(dim)
-            .colors('orange')
-            .dashStyle([2, 2])
-              .brushOn(true)
-            .group(groups[2], 'amama'),
+        .dimension(dim)
+        .colors('orange')
+        .dashStyle([2, 2])
+        .brushOn(true)
+        .group(groups[2], 'amama'),
       ])
       .render();
   }

@@ -92,7 +92,7 @@ export default class DataCenterPage extends Component {
     // this.table = this.charts.tableChart(dim, container.table);
     this.charts.createDataTable(container.table);
     // multiLineChart
-    this.charts.drawMultiChart('multi');
+    this.charts.drawMultiChart({ museveni: 'museveni', besigye: 'besigye', mbabazi: 'mbabazi' });
     // this.table.render();
     this.charts.drawAll();
     // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
@@ -142,24 +142,30 @@ export default class DataCenterPage extends Component {
                       <div id ="range"></div>
                   </div>
                   <div className="col-md-6">
-                      <div id ="multi"></div>
+                    <div id ="row"></div>
                   </div>
                 </div>
                 <div className="row spacing-sm">
-                  <div className="col-md-6">
-                      <h3> Line Chart</h3>
-                      <div id ="line"></div>
+                  <div className="col-md-4">
+                      <div id ="besigye"></div>
                   </div>
-                  <div className="col-md-6">
-                      <h3> Row Chart</h3></div>
-                      <div id ="row"></div>
+                  <div className="col-md-4">
+                    <div id ="mbabazi"></div>
                   </div>
+                  <div className="col-md-4">
+                    <div id ="museveni"></div>
+                  </div>
+                </div>
                 <div className= "row spacing-sm">
-                  <div className = "col-md-8" ref="mapCont" id="mapCont">
+                  <div className = "col-md-6" ref="mapCont" id="mapCont">
                     <h3> Map Chart</h3>
                     <div id ="map" className = {s.chart} ref="map" style={divStyle} > </div>
                   </div>
-                  <div className = "col-md-4">
+                  <div className="col-md-3">
+                      <h3> Line Chart</h3>
+                      <div id ="line"></div>
+                  </div>
+                  <div className = "col-md-3">
                       <h3> Pie Chart</h3>
                       <div id= "pie"></div>
                   </div>
