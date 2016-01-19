@@ -68,5 +68,5 @@ server.get('*', async (req, res, next) => {
 // -----------------------------------------------------------------------------
 server.listen(port, () => {
   /* eslint-disable no-console */
-  console.log(`The server is running at http://localhost:${port}/`);
+  console.log(`The server is running at http://localhost:${port}/ PID is ${process.pid}`);
 });

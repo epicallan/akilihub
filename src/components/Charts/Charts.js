@@ -234,6 +234,7 @@ export default class DcCharts {
         .group(d.group);
     });
   }
+
   compositeLineChart(dim, groups, chartId) {
     const composite = dc.compositeChart('#' + chartId);
     // console.log([new Date(this.lowerLimit), new Date(this.upperLimit)]);

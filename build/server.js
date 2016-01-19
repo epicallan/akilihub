@@ -189,7 +189,7 @@ module.exports =
   // -----------------------------------------------------------------------------
   server.listen(_config.port, function () {
     /* eslint-disable no-console */
-    console.log('The server is running at http://localhost:' + _config.port + '/');
+    console.log('The server is running at http://localhost:' + _config.port + '/ PID is ' + process.pid);
   });
 
 /***/ },
@@ -1339,7 +1339,7 @@ module.exports =
   exports.host = host;
   var googleAnalyticsId = 'UA-XXXXX-X';
   exports.googleAnalyticsId = googleAnalyticsId;
-  var MONGO_URL = 'mongodb://localhost/mine-twt';
+  var MONGO_URL = 'mongodb://localhost/mine';
   exports.MONGO_URL = MONGO_URL;
 
 /***/ },
@@ -5164,7 +5164,9 @@ module.exports =
   var client = _redis2['default'].createClient();
   
   var MongoClient = _mongodb2['default'].MongoClient;
-  var collection = 'newtweets';
+  var collection = 'twits';
+  
+  console.log(_config.MONGO_URL);
   
   function _connection() {
     return new Promise(function (resolve, reject) {
@@ -5193,7 +5195,8 @@ module.exports =
         case 7:
           context$1$0.prev = 7;
           context$1$0.t0 = context$1$0['catch'](0);
-          throw new Error(context$1$0.t0);
+  
+          console.log(context$1$0.t0);
   
         case 10:
         case 'end':
@@ -5389,7 +5392,7 @@ module.exports =
   var client = _redis2['default'].createClient();
   
   var MongoClient = _mongodb2['default'].MongoClient;
-  var collection = 'newtweets';
+  var collection = 'twits';
   var hour = 60000 * 60;
   
   function _connection() {
@@ -5411,7 +5414,7 @@ module.exports =
   }
   
   function findAll() {
-    var db, now, time;
+    var db, now, hoursPast, time;
     return regeneratorRuntime.async(function findAll$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
@@ -5421,23 +5424,24 @@ module.exports =
   
         case 3:
           db = context$1$0.sent;
-          now = new Date().getTime();
-          time = now - hour * 24 * 3 - hour * 12;
+          now = new Date();
+          hoursPast = now.getHours();
+          time = now - hour * hoursPast;
           return context$1$0.abrupt('return', db.collection(collection).find({
             'is_retweet': false,
             timeStamp: { $gt: time }
           }).sort({ timeStamp: 1 }).toArray());
   
-        case 9:
-          context$1$0.prev = 9;
+        case 10:
+          context$1$0.prev = 10;
           context$1$0.t0 = context$1$0['catch'](0);
           throw new Error(context$1$0.t0);
   
-        case 12:
+        case 13:
         case 'end':
           return context$1$0.stop();
       }
-    }, null, this, [[0, 9]]);
+    }, null, this, [[0, 10]]);
   }
   
   function findByDate(start) {

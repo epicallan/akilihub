@@ -7,7 +7,7 @@ import redis from 'redis';
 const client = redis.createClient();
 
 const MongoClient = mongodb.MongoClient;
-const collection = 'newtweets';
+const collection = 'twits';
 const hour = 60000 * 60;
 
 function _connection() {
@@ -31,8 +31,9 @@ function getFromRedis() {
 async function findAll() {
   try {
     const db = await _connection();
-    const now = new Date().getTime();
-    const time = now - (hour * 24) * 3 - hour * 12;
+    const now = new Date();
+    const hoursPast = now.getHours();
+    const time = now - (hour * hoursPast);
     return db.collection(collection).find({
       'is_retweet': false,
       timeStamp: { $gt: time },

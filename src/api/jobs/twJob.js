@@ -9,8 +9,9 @@ import crossfilter from 'crossfilter2';
 const client = redis.createClient();
 
 const MongoClient = mongodb.MongoClient;
-const collection = 'newtweets';
+const collection = 'twits';
 
+console.log(MONGO_URL);
 
 function _connection() {
   return new Promise((resolve, reject) => {
@@ -29,7 +30,7 @@ async function findData() {
     }, { timeStamp: 1, _id: 0 })
     .toArray();
   } catch (e) {
-    throw new Error(e);
+    console.log(e);
   }
 }
 
