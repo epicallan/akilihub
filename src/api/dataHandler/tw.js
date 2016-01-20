@@ -64,7 +64,7 @@ async function findAll() {
     return db.collection(collection).find({
       'is_retweet': false,
       timeStamp: { $gt: time },
-    }, { text: 0 })
+    })
       .toArray();
   } catch (e) {
     throw new Error(e);
@@ -81,7 +81,7 @@ async function findByDate(start) {
         $lt: end,
       },
       is_retweet: false,
-    }, { text: 0 })
+    })
     .toArray();
   } catch (e) {
     throw new Error(e);

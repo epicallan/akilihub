@@ -38,7 +38,7 @@ export default class DcCharts {
   }
 
   createDataTable(table) {
-    this.tableDimension = this.createDimenion('hour');
+    this.tableDimension = this.createDimenion('text');
     this.datatable = $('#' + table);
     // initialize datatable
     this.datatable.dataTable(this._dataTablesOptions());
@@ -98,7 +98,7 @@ export default class DcCharts {
       'bSort': true,
       columnDefs: [{
         targets: 0,
-        data: d => d.terms.join(','),
+        data: d => d.text,
         defaultContent: '',
       }, {
         targets: 1,

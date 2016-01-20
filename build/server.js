@@ -3817,7 +3817,7 @@ module.exports =
                       { className: 'col-md-6' },
                       _react2['default'].createElement(
                         'h4',
-                        { className: 'text-center' },
+                        null,
                         'Total volume of tweets For particular dates'
                       ),
                       _react2['default'].createElement('div', { id: 'range' }),
@@ -3832,7 +3832,7 @@ module.exports =
                       { className: 'col-md-6' },
                       _react2['default'].createElement(
                         'h4',
-                        { className: 'text-center' },
+                        null,
                         'Aggregate Volume of Mentions For Each Candidate'
                       ),
                       _react2['default'].createElement('div', { id: 'row' })
@@ -3846,7 +3846,7 @@ module.exports =
                       { className: 'col-md-4' },
                       _react2['default'].createElement(
                         'h4',
-                        { className: 'text-center' },
+                        null,
                         'Twitter Mentions for selected Candidates'
                       ),
                       _react2['default'].createElement('div', { id: 'composite', className: 'row' }),
@@ -3891,7 +3891,7 @@ module.exports =
                       { className: 'col-md-4' },
                       _react2['default'].createElement(
                         'h4',
-                        { className: 'text-center' },
+                        null,
                         'Twitter Trending Hashtags'
                       ),
                       _react2['default'].createElement('div', { id: 'hashtags' })
@@ -3901,7 +3901,7 @@ module.exports =
                       { className: 'col-md-4' },
                       _react2['default'].createElement(
                         'h4',
-                        { className: 'text-center' },
+                        null,
                         'Twitter Most Frequent Terms'
                       ),
                       _react2['default'].createElement('div', { id: 'terms' })
@@ -3929,7 +3929,7 @@ module.exports =
                       { className: 'col-md-4' },
                       _react2['default'].createElement(
                         'h4',
-                        { className: 'text-center' },
+                        null,
                         ' Most Active Twitter users '
                       ),
                       _react2['default'].createElement('div', { id: 'pie' })
@@ -4700,7 +4700,7 @@ module.exports =
           return context$1$0.abrupt('return', db.collection(collection).find({
             'is_retweet': false,
             timeStamp: { $gt: time }
-          }, { text: 0 }).toArray());
+          }).toArray());
   
         case 10:
           context$1$0.prev = 10;
@@ -4732,7 +4732,7 @@ module.exports =
               $lt: end
             },
             is_retweet: false
-          }, { text: 0 }).toArray());
+          }).toArray());
   
         case 8:
           context$1$0.prev = 8;
@@ -5206,7 +5206,7 @@ module.exports =
     }, {
       key: 'createDataTable',
       value: function createDataTable(table) {
-        this.tableDimension = this.createDimenion('hour');
+        this.tableDimension = this.createDimenion('text');
         this.datatable = (0, _jquery2['default'])('#' + table);
         // initialize datatable
         this.datatable.dataTable(this._dataTablesOptions());
@@ -5242,7 +5242,7 @@ module.exports =
           columnDefs: [{
             targets: 0,
             data: function data(d) {
-              return d.terms.join(',');
+              return d.text;
             },
             defaultContent: ''
           }, {

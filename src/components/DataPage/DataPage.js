@@ -158,20 +158,20 @@ export default class DataCenterPage extends Component {
               <section className ={s.charts}>
                 <div className="row spacing-sm">
                   <div className="col-md-6">
-                    <h4 className = "text-center">Total volume of tweets For particular dates</h4>
+                    <h4>Total volume of tweets For particular dates</h4>
                     <div id ="range"></div>
                     <i className ="small">
                        * please note there could be tweets that were not mined for some dates due to server problems
                      </i>
                   </div>
                   <div className="col-md-6">
-                    <h4 className = "text-center">Aggregate Volume of Mentions For Each Candidate</h4>
+                    <h4>Aggregate Volume of Mentions For Each Candidate</h4>
                     <div id ="row"></div>
                   </div>
                 </div>
                 <div className="row spacing-sm">
                   <div className="col-md-4">
-                      <h4 className = "text-center">Twitter Mentions for selected Candidates</h4>
+                      <h4 >Twitter Mentions for selected Candidates</h4>
                       <div id ="composite" className ="row"></div>
                       <div className = {cx(s.legend, 'row')}>
                         <div className = {s.yellow}><small>museveni<i></i></small></div>
@@ -180,11 +180,11 @@ export default class DataCenterPage extends Component {
                       </div>
                   </div>
                   <div className="col-md-4">
-                    <h4 className = "text-center">Twitter Trending Hashtags</h4>
+                    <h4>Twitter Trending Hashtags</h4>
                     <div id ="hashtags"></div>
                   </div>
                   <div className="col-md-4">
-                    <h4 className = "text-center">Twitter Most Frequent Terms</h4>
+                    <h4 >Twitter Most Frequent Terms</h4>
                     <div id ="terms"></div>
                   </div>
                 </div>
@@ -194,7 +194,7 @@ export default class DataCenterPage extends Component {
                     <div id ="map" className = {s.chart} ref="map" style={divStyle} > </div>
                   </div>
                   <div className = "col-md-4">
-                      <h4 className = "text-center"> Most Active Twitter users </h4>
+                      <h4> Most Active Twitter users </h4>
                       <div id= "pie"></div>
                   </div>
                 </div>
