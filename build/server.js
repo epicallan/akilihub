@@ -1333,7 +1333,7 @@ module.exports =
   Object.defineProperty(exports, '__esModule', {
     value: true
   });
-  var port = process.env.PORT || 80;
+  var port = process.env.PORT || 500;
   exports.port = port;
   var host = process.env.WEBSITE_HOSTNAME || 'localhost:' + port;
   exports.host = host;
