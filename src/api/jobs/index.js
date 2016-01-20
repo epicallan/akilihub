@@ -4,7 +4,6 @@ import twJob from './twJob';
 
 try {
   // initial run
-  console.log('running job...');
   twJob();
   setInterval(() => {
     twJob();

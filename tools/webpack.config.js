@@ -64,6 +64,12 @@ const config = {
   },
 
   module: {
+    worker: {
+      output: {
+        filename: 'hash.worker.js',
+        chunkFilename: '[id].hash.worker.js',
+      },
+    },
     loaders: [
       {
         test: /\.jsx?$/,

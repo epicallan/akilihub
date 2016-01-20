@@ -84,21 +84,21 @@ module.exports =
   
   var _routes2 = _interopRequireDefault(_routes);
   
-  var _componentsHtml = __webpack_require__(80);
+  var _componentsHtml = __webpack_require__(81);
   
   var _componentsHtml2 = _interopRequireDefault(_componentsHtml);
   
-  var _assets = __webpack_require__(81);
+  var _assets = __webpack_require__(82);
   
   var _assets2 = _interopRequireDefault(_assets);
   
   var _config = __webpack_require__(14);
   
-  var _compression = __webpack_require__(82);
+  var _compression = __webpack_require__(83);
   
   var _compression2 = _interopRequireDefault(_compression);
   
-  __webpack_require__(83);
+  __webpack_require__(84);
   
   var server = global.server = (0, _express2['default'])();
   
@@ -109,12 +109,12 @@ module.exports =
   
   // Register Data analysis API middleware
   // -----------------------------------------------------------------------------
-  server.use('/api', __webpack_require__(87));
+  server.use('/api', __webpack_require__(88));
   
   // Register API middleware
   
   // -----------------------------------------------------------------------------
-  server.use('/api/content', __webpack_require__(89));
+  server.use('/api/content', __webpack_require__(90));
   
   //
   // Register server-side rendering middleware
@@ -3661,6 +3661,8 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
+  function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
+  
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
   
   function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
@@ -3689,16 +3691,18 @@ module.exports =
   
   var _Link2 = _interopRequireDefault(_Link);
   
-  var _coreFetch = __webpack_require__(12);
-  
-  var _coreFetch2 = _interopRequireDefault(_coreFetch);
-  
   var _actionsDataPageActions = __webpack_require__(66);
   
   var _actionsDataPageActions2 = _interopRequireDefault(_actionsDataPageActions);
   
+  var _workerWorker = __webpack_require__(67);
+  
+  var _workerWorker2 = _interopRequireDefault(_workerWorker);
+  
+  // import Worker from 'worker?name=fetch!../../core';
+  
   var isBrowser = typeof window !== 'undefined';
-  var Charts = isBrowser ? __webpack_require__(67) : undefined;
+  var Charts = isBrowser ? __webpack_require__(68) : undefined;
   
   // import testData from './data';
   
@@ -3783,38 +3787,33 @@ module.exports =
     }, {
       key: 'getNewData',
       value: function getNewData(unixTime) {
-        var response, data;
-        return regeneratorRuntime.async(function getNewData$(context$2$0) {
-          while (1) switch (context$2$0.prev = context$2$0.next) {
-            case 0:
-              context$2$0.next = 2;
-              return regeneratorRuntime.awrap((0, _coreFetch2['default'])('/api/social/twdata/' + unixTime));
-  
-            case 2:
-              response = context$2$0.sent;
-              context$2$0.next = 5;
-              return regeneratorRuntime.awrap(response.json());
-  
-            case 5:
-              data = context$2$0.sent;
-  
-              if (!data.length) {
-                console.log('no more data');
-              } else {
-                _actionsDataPageActions2['default'].update(data);
-              }
-  
-            case 7:
-            case 'end':
-              return context$2$0.stop();
-          }
-        }, null, this);
+        var workerData = [];
+        var counter = 0;
+        var hour = 60000 * 60;
+        var onMessage = function onMessage(worker) {
+          worker.onmessage = function (event) {
+            workerData.push.apply(workerData, _toConsumableArray(event.data));
+            counter++;
+            console.log(counter);
+            // if (!counter) console.log(workerData);
+            if (counter === 4) {
+              console.log(workerData.length);
+              _actionsDataPageActions2['default'].update(workerData);
+              console.log('Message received from worker');
+            }
+          };
+        };
+        for (var i = 0; i < 4; i++) {
+          var worker = new _workerWorker2['default']();
+          worker.postMessage(unixTime + 6 * i * hour);
+          onMessage(worker);
+        }
       }
     }, {
       key: 'createDcCharts',
       value: function createDcCharts(container, data) {
         this.charts = new Charts(data);
-        this.charts.drawLineChart(container.line);
+        // this.charts.drawLineChart('sentiment');
         // leaflet map
         this.charts.drawMap(container.map);
         // row
@@ -3825,7 +3824,9 @@ module.exports =
         // this.table = this.charts.tableChart(dim, container.table);
         this.charts.createDataTable(container.table);
         // multiLineChart
-        this.charts.drawMultiChart({ museveni: 'museveni', besigye: 'besigye', mbabazi: 'mbabazi' });
+        this.charts.drawComposite('composite');
+        this.charts.drawHashTags('hashtags');
+        this.charts.drawTerms('terms');
         // this.table.render();
         this.charts.drawAll();
         // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
@@ -3930,17 +3931,17 @@ module.exports =
                     _react2['default'].createElement(
                       'div',
                       { className: 'col-md-4' },
-                      _react2['default'].createElement('div', { id: 'besigye' })
+                      _react2['default'].createElement('div', { id: 'composite' })
                     ),
                     _react2['default'].createElement(
                       'div',
                       { className: 'col-md-4' },
-                      _react2['default'].createElement('div', { id: 'mbabazi' })
+                      _react2['default'].createElement('div', { id: 'hashtags' })
                     ),
                     _react2['default'].createElement(
                       'div',
                       { className: 'col-md-4' },
-                      _react2['default'].createElement('div', { id: 'museveni' })
+                      _react2['default'].createElement('div', { id: 'terms' })
                     )
                   ),
                   _react2['default'].createElement(
@@ -3948,7 +3949,7 @@ module.exports =
                     { className: 'row spacing-sm' },
                     _react2['default'].createElement(
                       'div',
-                      { className: 'col-md-6', ref: 'mapCont', id: 'mapCont' },
+                      { className: 'col-md-8', ref: 'mapCont', id: 'mapCont' },
                       _react2['default'].createElement(
                         'h3',
                         null,
@@ -3962,17 +3963,7 @@ module.exports =
                     ),
                     _react2['default'].createElement(
                       'div',
-                      { className: 'col-md-3' },
-                      _react2['default'].createElement(
-                        'h3',
-                        null,
-                        ' Line Chart'
-                      ),
-                      _react2['default'].createElement('div', { id: 'line' })
-                    ),
-                    _react2['default'].createElement(
-                      'div',
-                      { className: 'col-md-3' },
+                      { className: 'col-md-4' },
                       _react2['default'].createElement(
                         'h3',
                         null,
@@ -4337,6 +4328,14 @@ module.exports =
 /* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
+  module.exports = function() {
+  	return new Worker(__webpack_require__.p + "ec3f176da3543a35b0eb.worker.js");
+  };
+
+/***/ },
+/* 68 */
+/***/ function(module, exports, __webpack_require__) {
+
   'use strict';
   
   Object.defineProperty(exports, '__esModule', {
@@ -4349,25 +4348,25 @@ module.exports =
   
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
   
-  var _dc = __webpack_require__(68);
+  var _dc = __webpack_require__(69);
   
   var _dc2 = _interopRequireDefault(_dc);
   
-  var _coreCfHelper = __webpack_require__(73);
+  var _coreCfHelper = __webpack_require__(74);
   
   var _coreCfHelper2 = _interopRequireDefault(_coreCfHelper);
   
-  __webpack_require__(76);
+  __webpack_require__(77);
   
-  var _jquery = __webpack_require__(77);
+  var _jquery = __webpack_require__(78);
   
   var _jquery2 = _interopRequireDefault(_jquery);
   
-  var _moment = __webpack_require__(78);
+  var _moment = __webpack_require__(79);
   
   var _moment2 = _interopRequireDefault(_moment);
   
-  var _c3 = __webpack_require__(79);
+  var _c3 = __webpack_require__(80);
   
   var _c32 = _interopRequireDefault(_c3);
   
@@ -4378,6 +4377,28 @@ module.exports =
       var _this = this;
   
       _classCallCheck(this, DcCharts);
+  
+      this._addNamesToTweet = function (tweet) {
+        // mutates the tweet by adding new fields
+        _this.mentions.forEach(function (mention) {
+          var bool = tweet.user_mentions.some(function (name) {
+            return name.indexOf(mention) !== -1;
+          });
+          tweet[mention] = bool ? 1 : 0;
+        });
+        return tweet;
+      };
+  
+      this._excludeNamesInTerms = function (tweet) {
+        var mentions = _this.mentions;
+        mentions.push('amamambabazi');
+        tweet.terms.forEach(function (term, index, arr) {
+          var isName = mentions.some(function (mention) {
+            return mention.indexOf(term) !== -1;
+          });
+          if (isName) arr.splice(index, 1);
+        });
+      };
   
       this._tablesRefresh = function () {
         _dc2['default'].events.trigger(function () {
@@ -4410,6 +4431,7 @@ module.exports =
   
       this.lastDate = null;
       this.charts = null;
+      this.mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika'];
       var transformedData = this._dataTransform(data);
       this.data = _coreCfHelper2['default'].createCrossFilter(transformedData);
       this.hourDim = this.createDimenion('hour');
@@ -4419,6 +4441,8 @@ module.exports =
     _createClass(DcCharts, [{
       key: '_dataTransform',
       value: function _dataTransform(data) {
+        var _this3 = this;
+  
         this.lowerLimit = data[0].timeStamp;
         this.upperLimit = data[data.length - 1].timeStamp;
         data.forEach(function (d) {
@@ -4427,14 +4451,10 @@ module.exports =
           // const sentiment = d.sentiment ? d.sentiment.toFixed(2) : d.sentiment;
           d.date = momentDate.format('ddd MMM Do, HH:mm');
           d.text = d.text.toLowerCase();
-          ['museveni', 'besigye', 'mbabazi'].forEach(function (mention) {
-            var bool = d.user_mentions.some(function (name) {
-              return name.indexOf(mention) !== -1;
-            });
-            d[mention] = bool ? 1 : 0;
-          });
           // d.sentiment = d.sentiment;
           d.hour = momentDate.hour();
+          _this3._addNamesToTweet(d);
+          _this3._excludeNamesInTerms(d);
         });
         return data;
       }
@@ -4453,7 +4473,7 @@ module.exports =
         this.datatable = (0, _jquery2['default'])('#' + table);
         // initialize datatable
         this.datatable.dataTable(this._dataTablesOptions());
-        // call RefreshTable when dc-charts are filtered
+        // call RefreshTable wshen dc-charts are filtered
         for (var i = 0; i < _dc2['default'].chartRegistry.list().length; i++) {
           var chartI = _dc2['default'].chartRegistry.list()[i];
           chartI.on('filtered', this._tablesRefresh);
@@ -4471,6 +4491,7 @@ module.exports =
         _dc2['default'].redrawAll();
         this.row.render();
         this._tablesRefresh();
+        this.pie.render();
       }
     }, {
       key: '_dataTablesOptions',
@@ -4526,12 +4547,32 @@ module.exports =
         return _coreCfHelper2['default'].arrayDimAndGroup(this.data, attr);
       }
     }, {
-      key: 'drawRawChart',
-      value: function drawRawChart(id) {
-        var _createGroupAndDimArrayField = this.createGroupAndDimArrayField('user_mentions');
+      key: 'drawHashTags',
+      value: function drawHashTags(id) {
+        var _createGroupAndDimArrayField = this.createGroupAndDimArrayField('hashtags');
   
         var dim = _createGroupAndDimArrayField.dim;
         var group = _createGroupAndDimArrayField.group;
+  
+        this.row = this.rowChart(dim, group, id);
+      }
+    }, {
+      key: 'drawTerms',
+      value: function drawTerms(id) {
+        var _createGroupAndDimArrayField2 = this.createGroupAndDimArrayField('terms');
+  
+        var dim = _createGroupAndDimArrayField2.dim;
+        var group = _createGroupAndDimArrayField2.group;
+  
+        this.row = this.rowChart(dim, group, id);
+      }
+    }, {
+      key: 'drawRawChart',
+      value: function drawRawChart(id) {
+        var _createGroupAndDimArrayField3 = this.createGroupAndDimArrayField('user_mentions');
+  
+        var dim = _createGroupAndDimArrayField3.dim;
+        var group = _createGroupAndDimArrayField3.group;
   
         this.row = this.rowChart(dim, group, id);
       }
@@ -4584,34 +4625,6 @@ module.exports =
         this.line = this.lineChart(this.hourDim, lineGroup, id);
       }
     }, {
-      key: 'drawMultiChart',
-      value: function drawMultiChart(chartIds) {
-        try {
-          var museveniGroup = this.hourDim.group().reduceSum(function (d) {
-            return d.museveni;
-          });
-          var besigyeGroup = this.hourDim.group().reduceSum(function (d) {
-            return d.besigye;
-          });
-          var mbabaziGroup = this.hourDim.group().reduceSum(function (d) {
-            return d.mbabazi;
-          });
-          var options = [{
-            group: museveniGroup,
-            id: chartIds.museveni
-          }, {
-            group: mbabaziGroup,
-            id: chartIds.mbabazi
-          }, {
-            group: besigyeGroup,
-            id: chartIds.besigye
-          }];
-          this.multi = this.multiLineCharts(this.hourDim, options);
-        } catch (e) {
-          console.log(e);
-        }
-      }
-    }, {
       key: 'multiLineCharts',
       value: function multiLineCharts(dim, options) {
         options.forEach(function (d) {
@@ -4619,11 +4632,26 @@ module.exports =
         });
       }
     }, {
+      key: 'drawComposite',
+      value: function drawComposite(id) {
+        var museveniGroup = this.hourDim.group().reduceSum(function (d) {
+          return d.museveni;
+        });
+        var besigyeGroup = this.hourDim.group().reduceSum(function (d) {
+          return d.besigye;
+        });
+        var mbabaziGroup = this.hourDim.group().reduceSum(function (d) {
+          return d.mbabazi;
+        });
+        var groups = [museveniGroup, besigyeGroup, mbabaziGroup];
+        this.compositeLineChart(this.hourDim, groups, id);
+      }
+    }, {
       key: 'compositeLineChart',
       value: function compositeLineChart(dim, groups, chartId) {
         var composite = _dc2['default'].compositeChart('#' + chartId);
         // console.log([new Date(this.lowerLimit), new Date(this.upperLimit)]);
-        composite.width(450).height(300).yAxisLabel('The Y Axis').renderHorizontalGridLines(true).x(_dc2['default'].d3.scale.linear().domain([0, 24])).xUnits(_dc2['default'].d3.time.hours).elasticY(true).elasticX(true).compose([_dc2['default'].lineChart(composite).dimension(dim).colors('yellow').brushOn(true).group(groups[0], 'museveni').dashStyle([2, 2]), _dc2['default'].lineChart(composite).dimension(dim).brushOn(true).colors('blue').group(groups[1], 'besigye'), _dc2['default'].lineChart(composite).dimension(dim).colors('orange').dashStyle([2, 2]).brushOn(true).group(groups[2], 'amama')]).render();
+        composite.width(450).height(300).yAxisLabel('The Y Axis').renderHorizontalGridLines(true).x(_dc2['default'].d3.scale.linear().domain([0, 24])).xUnits(_dc2['default'].d3.time.hours).elasticY(true).elasticX(true).brushOn(false).compose([_dc2['default'].lineChart(composite).dimension(dim).colors('yellow').brushOn(true).group(groups[0], 'museveni'), _dc2['default'].lineChart(composite).dimension(dim).brushOn(true).colors('blue').group(groups[1], 'besigye'), _dc2['default'].lineChart(composite).dimension(dim).colors('orange').group(groups[2], 'amama')]).render();
       }
     }, {
       key: 'lineChart',
@@ -4641,7 +4669,7 @@ module.exports =
         return _c32['default'].generate({
           bindto: '#' + chartId,
           onrendered: function onrendered() {
-            (0, _jquery2['default'])('.c3-bar-0').css(styles);
+            (0, _jquery2['default'])('.c3-bar-' + (data.length - 1)).css(styles);
           },
           data: {
             json: data,
@@ -4649,18 +4677,19 @@ module.exports =
               x: 'key',
               value: ['value']
             },
-            type: 'bar'
+            type: 'bar',
+            onclick: function onclick(d, element) {
+              /*  if (_.indexOf(active, d.x)){
+                 }*/
+              (0, _jquery2['default'])(element).css(styles);
+              var startTime = (0, _moment2['default'])('2016-01-' + d.x + ' 00:00').valueOf();
+              setTimeout(callback(startTime), 50);
+            }
           },
           bar: {
             width: {
               ratio: 0.25
             }
-          },
-          onclick: function onclick(d, element) {
-            console.log(d);
-            var startTime = (0, _moment2['default'])('2016-01-14 00:00').valueOf();
-            callback(startTime);
-            (0, _jquery2['default'])(element).css(styles);
           },
           axis: {
             y: {
@@ -4681,7 +4710,7 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 68 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -4692,17 +4721,17 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _dc2 = __webpack_require__(69);
+  var _dc2 = __webpack_require__(70);
   
   var _dc3 = _interopRequireDefault(_dc2);
   
-  var _leaflet = __webpack_require__(70);
+  var _leaflet = __webpack_require__(71);
   
   var _leaflet2 = _interopRequireDefault(_leaflet);
   
-  __webpack_require__(71);
+  __webpack_require__(72);
   
-  var _dcAddons = __webpack_require__(72);
+  var _dcAddons = __webpack_require__(73);
   
   var _dcAddons2 = _interopRequireDefault(_dcAddons);
   
@@ -4711,31 +4740,31 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 69 */
+/* 70 */
 /***/ function(module, exports) {
 
   module.exports = require("dc");
 
 /***/ },
-/* 70 */
+/* 71 */
 /***/ function(module, exports) {
 
   module.exports = require("leaflet");
 
 /***/ },
-/* 71 */
+/* 72 */
 /***/ function(module, exports) {
 
   module.exports = require("leaflet.markercluster");
 
 /***/ },
-/* 72 */
+/* 73 */
 /***/ function(module, exports) {
 
   module.exports = require("dc-addons");
 
 /***/ },
-/* 73 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -4753,11 +4782,11 @@ module.exports =
   
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
   
-  var _crossfilter2 = __webpack_require__(74);
+  var _crossfilter2 = __webpack_require__(75);
   
   var _crossfilter22 = _interopRequireDefault(_crossfilter2);
   
-  var _lodash = __webpack_require__(75);
+  var _lodash = __webpack_require__(76);
   
   var _lodash2 = _interopRequireDefault(_lodash);
   
@@ -4946,43 +4975,43 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 74 */
+/* 75 */
 /***/ function(module, exports) {
 
   module.exports = require("crossfilter2");
 
 /***/ },
-/* 75 */
+/* 76 */
 /***/ function(module, exports) {
 
   module.exports = require("lodash");
 
 /***/ },
-/* 76 */
+/* 77 */
 /***/ function(module, exports) {
 
   module.exports = require("datatables");
 
 /***/ },
-/* 77 */
+/* 78 */
 /***/ function(module, exports) {
 
   module.exports = require("jquery");
 
 /***/ },
-/* 78 */
+/* 79 */
 /***/ function(module, exports) {
 
   module.exports = require("moment");
 
 /***/ },
-/* 79 */
+/* 80 */
 /***/ function(module, exports) {
 
   module.exports = require("c3");
 
 /***/ },
-/* 80 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -5096,26 +5125,26 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 81 */
+/* 82 */
 /***/ function(module, exports) {
 
   module.exports = require("./assets");
 
 /***/ },
-/* 82 */
+/* 83 */
 /***/ function(module, exports) {
 
   module.exports = require("compression");
 
 /***/ },
-/* 83 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _twJob = __webpack_require__(84);
+  var _twJob = __webpack_require__(85);
   
   var _twJob2 = _interopRequireDefault(_twJob);
   
@@ -5123,7 +5152,6 @@ module.exports =
   
   try {
     // initial run
-    console.log('running job...');
     (0, _twJob2['default'])();
     setInterval(function () {
       (0, _twJob2['default'])();
@@ -5133,7 +5161,7 @@ module.exports =
   }
 
 /***/ },
-/* 84 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -5147,17 +5175,17 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _mongodb = __webpack_require__(85);
+  var _mongodb = __webpack_require__(86);
   
   var _mongodb2 = _interopRequireDefault(_mongodb);
   
-  var _redis = __webpack_require__(86);
+  var _redis = __webpack_require__(87);
   
   var _redis2 = _interopRequireDefault(_redis);
   
   var _config = __webpack_require__(14);
   
-  var _crossfilter2 = __webpack_require__(74);
+  var _crossfilter2 = __webpack_require__(75);
   
   var _crossfilter22 = _interopRequireDefault(_crossfilter2);
   
@@ -5260,19 +5288,19 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 85 */
+/* 86 */
 /***/ function(module, exports) {
 
   module.exports = require("mongodb");
 
 /***/ },
-/* 86 */
+/* 87 */
 /***/ function(module, exports) {
 
   module.exports = require("redis");
 
 /***/ },
-/* 87 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
   /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
@@ -5291,7 +5319,7 @@ module.exports =
   
   var _express2 = _interopRequireDefault(_express);
   
-  var _dataHandlerTw = __webpack_require__(88);
+  var _dataHandlerTw = __webpack_require__(89);
   
   var _dataHandlerTw2 = _interopRequireDefault(_dataHandlerTw);
   
@@ -5365,7 +5393,7 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 88 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -5379,13 +5407,13 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _mongodb = __webpack_require__(85);
+  var _mongodb = __webpack_require__(86);
   
   var _mongodb2 = _interopRequireDefault(_mongodb);
   
   var _config = __webpack_require__(14);
   
-  var _redis = __webpack_require__(86);
+  var _redis = __webpack_require__(87);
   
   var _redis2 = _interopRequireDefault(_redis);
   
@@ -5426,7 +5454,7 @@ module.exports =
           db = context$1$0.sent;
           now = new Date();
           hoursPast = now.getHours();
-          time = now - hour * hoursPast;
+          time = now - hour * hoursPast * 2;
           return context$1$0.abrupt('return', db.collection(collection).find({
             'is_retweet': false,
             timeStamp: { $gt: time }
@@ -5455,10 +5483,10 @@ module.exports =
   
         case 3:
           db = context$1$0.sent;
-          end = parseInt(start, 10) + hour * 24;
+          end = parseInt(start, 10) + hour * 6;
           return context$1$0.abrupt('return', db.collection(collection).find({
             timeStamp: {
-              $gte: parseInt(start, 10),
+              $gt: parseInt(start, 10),
               $lt: end
             },
             is_retweet: false
@@ -5480,7 +5508,7 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 89 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
   
@@ -5503,7 +5531,7 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _fs = __webpack_require__(90);
+  var _fs = __webpack_require__(91);
   
   var _fs2 = _interopRequireDefault(_fs);
   
@@ -5511,15 +5539,15 @@ module.exports =
   
   var _express = __webpack_require__(3);
   
-  var _bluebird = __webpack_require__(91);
+  var _bluebird = __webpack_require__(92);
   
   var _bluebird2 = _interopRequireDefault(_bluebird);
   
-  var _jade = __webpack_require__(92);
+  var _jade = __webpack_require__(93);
   
   var _jade2 = _interopRequireDefault(_jade);
   
-  var _frontMatter = __webpack_require__(93);
+  var _frontMatter = __webpack_require__(94);
   
   var _frontMatter2 = _interopRequireDefault(_frontMatter);
   
@@ -5623,25 +5651,25 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 90 */
+/* 91 */
 /***/ function(module, exports) {
 
   module.exports = require("fs");
 
 /***/ },
-/* 91 */
+/* 92 */
 /***/ function(module, exports) {
 
   module.exports = require("bluebird");
 
 /***/ },
-/* 92 */
+/* 93 */
 /***/ function(module, exports) {
 
   module.exports = require("jade");
 
 /***/ },
-/* 93 */
+/* 94 */
 /***/ function(module, exports) {
 
   module.exports = require("front-matter");

@@ -4,8 +4,10 @@ import cx from 'classnames';
 import withStyles from '../../decorators/withStyles';
 import DataPageStore from '../../stores/DataPageStore';
 import Link from '../Link';
-import fetch from '../../core/fetch';
 import DataPageActions from '../../actions/DataPageActions';
+import Worker from 'worker!../../worker';
+// import Worker from 'worker?name=fetch!../../core';
+
 const isBrowser = typeof window !== 'undefined';
 const Charts = isBrowser ? require('../Charts') : undefined;
 
@@ -69,19 +71,33 @@ export default class DataCenterPage extends Component {
     this.dcMap.map().remove();
   }
 
-  async getNewData(unixTime) {
-    const response = await fetch(`/api/social/twdata/${unixTime}`);
-    const data = await response.json();
-    if (!data.length) {
-      console.log('no more data');
-    } else {
-      DataPageActions.update(data);
+  getNewData(unixTime) {
+    const workerData = [];
+    let counter = 0;
+    const hour = 60000 * 60;
+    const onMessage = (worker) => {
+      worker.onmessage = (event) => {
+        workerData.push(...event.data);
+        counter ++;
+        console.log(counter);
+        // if (!counter) console.log(workerData);
+        if (counter === 4) {
+          console.log(workerData.length);
+          DataPageActions.update(workerData);
+          console.log('Message received from worker');
+        }
+      };
+    };
+    for (let i = 0; i < 4; i++) {
+      const worker = new Worker;
+      worker.postMessage(unixTime + 6 * i * hour);
+      onMessage(worker);
     }
   }
 
   createDcCharts(container, data) {
     this.charts = new Charts(data);
-    this.charts.drawLineChart(container.line);
+    // this.charts.drawLineChart('sentiment');
     // leaflet map
     this.charts.drawMap(container.map);
     // row
@@ -92,7 +108,9 @@ export default class DataCenterPage extends Component {
     // this.table = this.charts.tableChart(dim, container.table);
     this.charts.createDataTable(container.table);
     // multiLineChart
-    this.charts.drawMultiChart({ museveni: 'museveni', besigye: 'besigye', mbabazi: 'mbabazi' });
+    this.charts.drawComposite('composite');
+    this.charts.drawHashTags('hashtags');
+    this.charts.drawTerms('terms');
     // this.table.render();
     this.charts.drawAll();
     // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
@@ -147,25 +165,21 @@ export default class DataCenterPage extends Component {
                 </div>
                 <div className="row spacing-sm">
                   <div className="col-md-4">
-                      <div id ="besigye"></div>
+                      <div id ="composite"></div>
                   </div>
                   <div className="col-md-4">
-                    <div id ="mbabazi"></div>
+                    <div id ="hashtags"></div>
                   </div>
                   <div className="col-md-4">
-                    <div id ="museveni"></div>
+                    <div id ="terms"></div>
                   </div>
                 </div>
                 <div className= "row spacing-sm">
-                  <div className = "col-md-6" ref="mapCont" id="mapCont">
+                  <div className = "col-md-8" ref="mapCont" id="mapCont">
                     <h3> Map Chart</h3>
                     <div id ="map" className = {s.chart} ref="map" style={divStyle} > </div>
                   </div>
-                  <div className="col-md-3">
-                      <h3> Line Chart</h3>
-                      <div id ="line"></div>
-                  </div>
-                  <div className = "col-md-3">
+                  <div className = "col-md-4">
                       <h3> Pie Chart</h3>
                       <div id= "pie"></div>
                   </div>

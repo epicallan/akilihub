@@ -33,7 +33,7 @@ async function findAll() {
     const db = await _connection();
     const now = new Date();
     const hoursPast = now.getHours();
-    const time = now - (hour * hoursPast);
+    const time = now - (hour * hoursPast * 2);
     return db.collection(collection).find({
       'is_retweet': false,
       timeStamp: { $gt: time },
@@ -47,10 +47,10 @@ async function findAll() {
 async function findByDate(start) {
   try {
     const db = await _connection();
-    const end = parseInt(start, 10) + hour * 24;
+    const end = parseInt(start, 10) + hour * 6;
     return db.collection(collection).find({
       timeStamp: {
-        $gte: parseInt(start, 10),
+        $gt: parseInt(start, 10),
         $lt: end,
       },
       is_retweet: false,

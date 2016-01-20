@@ -21,6 +21,7 @@ import DataPage from './components/DataPage';
 import DataPageActions from './actions/DataPageActions';
 // import testData from './components/DataPage/data';
 
+
 const router = new Router(on => {
   on('*', async (state, next) => {
     const component = await next();

@@ -5,6 +5,7 @@ import $ from 'jquery';
 import moment from 'moment';
 import c3 from 'c3';
 
+
 // import './dtplugin';
 
 export default class DcCharts {
@@ -12,6 +13,7 @@ export default class DcCharts {
   constructor(data) {
     this.lastDate = null;
     this.charts = null;
+    this.mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika'];
     const transformedData = this._dataTransform(data);
     this.data = cf.createCrossFilter(transformedData);
     this.hourDim = this.createDimenion('hour');
@@ -27,16 +29,29 @@ export default class DcCharts {
       // const sentiment = d.sentiment ? d.sentiment.toFixed(2) : d.sentiment;
       d.date = momentDate.format('ddd MMM Do, HH:mm');
       d.text = d.text.toLowerCase();
-      ['museveni', 'besigye', 'mbabazi'].forEach((mention) => {
-        const bool = d.user_mentions.some(name => name.indexOf(mention) !== -1);
-        d[mention] = bool ? 1 : 0;
-      });
       // d.sentiment = d.sentiment;
       d.hour = momentDate.hour();
+      this._addNamesToTweet(d);
+      this._excludeNamesInTerms(d);
     });
     return data;
   }
-
+  _addNamesToTweet = (tweet) => {
+    // mutates the tweet by adding new fields
+    this.mentions.forEach((mention) => {
+      const bool = tweet.user_mentions.some(name => name.indexOf(mention) !== -1);
+      tweet[mention] = bool ? 1 : 0;
+    });
+    return tweet;
+  }
+  _excludeNamesInTerms = (tweet) => {
+    const mentions = this.mentions;
+    mentions.push('amamambabazi');
+    tweet.terms.forEach((term, index, arr) => {
+      const isName = mentions.some(mention => mention.indexOf(term) !== -1);
+      if (isName) arr.splice(index, 1);
+    });
+  }
   updateData(raw) {
     const newData = this._dataTransform(raw);
     this.data.remove();
@@ -49,7 +64,7 @@ export default class DcCharts {
     this.datatable = $('#' + table);
     // initialize datatable
     this.datatable.dataTable(this._dataTablesOptions());
-    // call RefreshTable when dc-charts are filtered
+    // call RefreshTable wshen dc-charts are filtered
     for (let i = 0; i < dc.chartRegistry.list().length; i++) {
       const chartI = dc.chartRegistry.list()[i];
       chartI.on('filtered', this._tablesRefresh);
@@ -76,7 +91,7 @@ export default class DcCharts {
     // TODO use react state lifecycle
     /* eslint-disable func-names*/
     const self = this;
-    $(':input').on('keyup', function() {
+    $(':input').on('keyup', function () {
       if (this.value !== '') {
         self.tableDimension.filter((d) => {
           return d.indexOf(this.value.toLowerCase()) !== -1;
@@ -92,6 +107,7 @@ export default class DcCharts {
     dc.redrawAll();
     this.row.render();
     this._tablesRefresh();
+    this.pie.render();
   }
   _dataTablesOptions() {
     return {
@@ -133,11 +149,16 @@ export default class DcCharts {
   createGroupAndDimArrayField(attr) {
     return cf.arrayDimAndGroup(this.data, attr);
   }
-
+  drawHashTags(id) {
+    const { dim, group } = this.createGroupAndDimArrayField('hashtags');
+    this.row = this.rowChart(dim, group, id);
+  }
+  drawTerms(id) {
+    const { dim, group } = this.createGroupAndDimArrayField('terms');
+    this.row = this.rowChart(dim, group, id);
+  }
   drawRawChart(id) {
-    const {
-      dim, group
-    } = this.createGroupAndDimArrayField('user_mentions');
+    const { dim, group } = this.createGroupAndDimArrayField('user_mentions');
     this.row = this.rowChart(dim, group, id);
   }
   rowChart(dim, group, rowId) {
@@ -198,26 +219,6 @@ export default class DcCharts {
     this.line = this.lineChart(this.hourDim, lineGroup, id);
   }
 
-  drawMultiChart(chartIds) {
-    try {
-      const museveniGroup = this.hourDim.group().reduceSum(d => d.museveni);
-      const besigyeGroup = this.hourDim.group().reduceSum(d => d.besigye);
-      const mbabaziGroup = this.hourDim.group().reduceSum(d => d.mbabazi);
-      const options = [{
-        group: museveniGroup,
-        id: chartIds.museveni,
-      }, {
-        group: mbabaziGroup,
-        id: chartIds.mbabazi,
-      }, {
-        group: besigyeGroup,
-        id: chartIds.besigye,
-      }];
-      this.multi = this.multiLineCharts(this.hourDim, options);
-    } catch (e) {
-      console.log(e);
-    }
-  }
   multiLineCharts(dim, options) {
     options.forEach((d) => {
       dc.lineChart('#' + d.id)
@@ -234,6 +235,13 @@ export default class DcCharts {
         .group(d.group);
     });
   }
+  drawComposite(id) {
+    const museveniGroup = this.hourDim.group().reduceSum(d => d.museveni);
+    const besigyeGroup = this.hourDim.group().reduceSum(d => d.besigye);
+    const mbabaziGroup = this.hourDim.group().reduceSum(d => d.mbabazi);
+    const groups = [museveniGroup, besigyeGroup, mbabaziGroup];
+    this.compositeLineChart(this.hourDim, groups, id);
+  }
 
   compositeLineChart(dim, groups, chartId) {
     const composite = dc.compositeChart('#' + chartId);
@@ -246,13 +254,13 @@ export default class DcCharts {
       .xUnits(dc.d3.time.hours)
       .elasticY(true)
       .elasticX(true)
+      .brushOn(false)
       .compose([
         dc.lineChart(composite)
         .dimension(dim)
         .colors('yellow')
         .brushOn(true)
-        .group(groups[0], 'museveni')
-        .dashStyle([2, 2]),
+        .group(groups[0], 'museveni'),
         dc.lineChart(composite)
         .dimension(dim)
         .brushOn(true)
@@ -261,8 +269,6 @@ export default class DcCharts {
         dc.lineChart(composite)
         .dimension(dim)
         .colors('orange')
-        .dashStyle([2, 2])
-        .brushOn(true)
         .group(groups[2], 'amama'),
       ])
       .render();
@@ -291,7 +297,7 @@ export default class DcCharts {
     return c3.generate({
       bindto: '#' + chartId,
       onrendered: () => {
-        $('.c3-bar-0').css(styles);
+        $(`.c3-bar-${data.length - 1}`).css(styles);
       },
       data: {
         json: data,
@@ -300,17 +306,19 @@ export default class DcCharts {
           value: ['value'],
         },
         type: 'bar',
+        onclick: (d, element) => {
+        /*  if (_.indexOf(active, d.x)){
+
+          }*/
+          $(element).css(styles);
+          const startTime = moment(`2016-01-${d.x} 00:00`).valueOf();
+          setTimeout(callback(startTime), 50);
+        },
       },
       bar: {
         width: {
           ratio: 0.25,
         },
-      },
-      onclick: (d, element) => {
-        console.log(d);
-        const startTime = moment(`2016-01-14 00:00`).valueOf();
-        callback(startTime);
-        $(element).css(styles);
       },
       axis: {
         y: {
