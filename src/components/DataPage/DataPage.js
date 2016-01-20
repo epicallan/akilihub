@@ -6,8 +6,6 @@ import DataPageStore from '../../stores/DataPageStore';
 import Link from '../Link';
 import DataPageActions from '../../actions/DataPageActions';
 import Worker from 'worker!../../worker';
-// import Worker from 'worker?name=fetch!../../core';
-
 const isBrowser = typeof window !== 'undefined';
 const Charts = isBrowser ? require('../Charts') : undefined;
 
@@ -70,27 +68,30 @@ export default class DataCenterPage extends Component {
     DataPageStore.removeChangeListener(this._onChange);
     this.dcMap.map().remove();
   }
+  onTimeClick = () => {
 
+  }
   getNewData(unixTime) {
     const workerData = [];
     let counter = 0;
     const hour = 60000 * 60;
     const onMessage = (worker) => {
       worker.onmessage = (event) => {
+        console.log(event.data[0].date);
+        console.log(event.data[event.data.length - 1].date);
         workerData.push(...event.data);
         counter ++;
         console.log(counter);
-        // if (!counter) console.log(workerData);
-        if (counter === 4) {
+        if (counter === 6) {
           console.log(workerData.length);
           DataPageActions.update(workerData);
           console.log('Message received from worker');
         }
       };
     };
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 6; i++) {
       const worker = new Worker;
-      worker.postMessage(unixTime + 6 * i * hour);
+      worker.postMessage(unixTime + 4 * i * hour);
       onMessage(worker);
     }
   }
@@ -121,7 +122,10 @@ export default class DataCenterPage extends Component {
     this.setState(getStateFromStores());
   }
 
-  render() {
+  onTimeClick(range) {
+    console.log(range);
+  }
+  render = () => {
     const divStyle = {
       width: '500px',
       height: '400px',
@@ -133,13 +137,10 @@ export default class DataCenterPage extends Component {
         <header className = "row">
             <ul className={cx('nav', 'navbar-nav', 'navbar-center', s.nav)}>
               <li>
-                  <Link className={s.link} to="/blog">Data Decides</Link>
+                  <Link className={s.link} to="/data">Uganda Decides</Link>
               </li>
               <li>
-                  <Link className={s.link} to="/"> Data Explorations</Link>
-              </li>
-              <li>
-                  <Link className={s.link} to="/Data">Experimental</Link>
+                  <Link className={s.link} to="/data"> Data Explorations</Link>
               </li>
             </ul>
         </header>
@@ -149,7 +150,7 @@ export default class DataCenterPage extends Component {
             <div className ="row spacing">
               <article className="col-md-12">
                 <header>
-                  <h3>Digging into the campaigns social Media Stats</h3>
+                  <h3>Digging into the Uganda campaigns social Media Stats</h3>
                 </header>
                 <div className="text-justify" dangerouslySetInnerHTML={{ __html: this.props.content || '' }}></div>
                 <hr></hr>
@@ -157,36 +158,49 @@ export default class DataCenterPage extends Component {
               <section className ={s.charts}>
                 <div className="row spacing-sm">
                   <div className="col-md-6">
-                      <div id ="range"></div>
+                    <h4 className = "text-center">Total volume of tweets For particular dates</h4>
+                    <div id ="range"></div>
+                    <i className ="small">
+                       * please note there could be tweets that were not mined for some dates due to server problems
+                     </i>
                   </div>
                   <div className="col-md-6">
+                    <h4 className = "text-center">Aggregate Volume of Mentions For Each Candidate</h4>
                     <div id ="row"></div>
                   </div>
                 </div>
                 <div className="row spacing-sm">
                   <div className="col-md-4">
-                      <div id ="composite"></div>
+                      <h4 className = "text-center">Twitter Mentions for selected Candidates</h4>
+                      <div id ="composite" className ="row"></div>
+                      <div className = {cx(s.legend, 'row')}>
+                        <div className = {s.yellow}><small>museveni<i></i></small></div>
+                        <div className = {s.blue}><small>Besigye <i></i></small></div>
+                        <div className = {s.orange}><small>Mbabazi<i></i> </small></div>
+                      </div>
                   </div>
                   <div className="col-md-4">
+                    <h4 className = "text-center">Twitter Trending Hashtags</h4>
                     <div id ="hashtags"></div>
                   </div>
                   <div className="col-md-4">
+                    <h4 className = "text-center">Twitter Most Frequent Terms</h4>
                     <div id ="terms"></div>
                   </div>
                 </div>
                 <div className= "row spacing-sm">
                   <div className = "col-md-8" ref="mapCont" id="mapCont">
-                    <h3> Map Chart</h3>
+                    <h4 className = "text-center"> Geolocating possible source of tweets</h4>
                     <div id ="map" className = {s.chart} ref="map" style={divStyle} > </div>
                   </div>
                   <div className = "col-md-4">
-                      <h3> Pie Chart</h3>
+                      <h4 className = "text-center"> Most Active Twitter users </h4>
                       <div id= "pie"></div>
                   </div>
                 </div>
                 <div className="row spacing-sm">
                   <div className = "col-md-11 table-cont">
-                    <h3> Table Chart</h3>
+                    <h3> Twitter data tables</h3>
                     <table id ="table" className = {cx('table', 'table-hover', 'table-bordered')}>
                       <thead>
                         <tr className={s.header}>

@@ -58,3 +58,23 @@ table{
   font-size: 0.9em;
   span{display: none}
 }
+.legend small{
+  text-align: right;
+}
+.legend i{
+  width: 4em;
+  height: 0.5em;
+  margin-left: 2em;
+  border: solid;
+  text-align: center;
+  display: inline-block;
+}
+.yellow i{
+  color: yellow;
+}
+.blue i{
+  color: blue;
+}
+.orange i{
+  color: orange;
+}

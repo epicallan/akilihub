@@ -84,21 +84,21 @@ module.exports =
   
   var _routes2 = _interopRequireDefault(_routes);
   
-  var _componentsHtml = __webpack_require__(81);
+  var _componentsHtml = __webpack_require__(63);
   
   var _componentsHtml2 = _interopRequireDefault(_componentsHtml);
   
-  var _assets = __webpack_require__(82);
+  var _assets = __webpack_require__(64);
   
   var _assets2 = _interopRequireDefault(_assets);
   
   var _config = __webpack_require__(14);
   
-  var _compression = __webpack_require__(83);
+  var _compression = __webpack_require__(65);
   
   var _compression2 = _interopRequireDefault(_compression);
   
-  __webpack_require__(84);
+  __webpack_require__(66);
   
   var server = global.server = (0, _express2['default'])();
   
@@ -109,12 +109,12 @@ module.exports =
   
   // Register Data analysis API middleware
   // -----------------------------------------------------------------------------
-  server.use('/api', __webpack_require__(88));
+  server.use('/api', __webpack_require__(71));
   
   // Register API middleware
   
   // -----------------------------------------------------------------------------
-  server.use('/api/content', __webpack_require__(90));
+  server.use('/api/content', __webpack_require__(73));
   
   //
   // Register server-side rendering middleware
@@ -286,7 +286,7 @@ module.exports =
   
   var _componentsDataPage2 = _interopRequireDefault(_componentsDataPage);
   
-  var _actionsDataPageActions = __webpack_require__(66);
+  var _actionsDataPageActions = __webpack_require__(58);
   
   var _actionsDataPageActions2 = _interopRequireDefault(_actionsDataPageActions);
   
@@ -3671,7 +3671,7 @@ module.exports =
   
   var _react2 = _interopRequireDefault(_react);
   
-  var _DataPageScss = __webpack_require__(58);
+  var _DataPageScss = __webpack_require__(78);
   
   var _DataPageScss2 = _interopRequireDefault(_DataPageScss);
   
@@ -3683,7 +3683,7 @@ module.exports =
   
   var _decoratorsWithStyles2 = _interopRequireDefault(_decoratorsWithStyles);
   
-  var _storesDataPageStore = __webpack_require__(60);
+  var _storesDataPageStore = __webpack_require__(80);
   
   var _storesDataPageStore2 = _interopRequireDefault(_storesDataPageStore);
   
@@ -3691,18 +3691,16 @@ module.exports =
   
   var _Link2 = _interopRequireDefault(_Link);
   
-  var _actionsDataPageActions = __webpack_require__(66);
+  var _actionsDataPageActions = __webpack_require__(58);
   
   var _actionsDataPageActions2 = _interopRequireDefault(_actionsDataPageActions);
   
-  var _workerWorker = __webpack_require__(67);
+  var _workerWorker = __webpack_require__(82);
   
   var _workerWorker2 = _interopRequireDefault(_workerWorker);
   
-  // import Worker from 'worker?name=fetch!../../core';
-  
   var isBrowser = typeof window !== 'undefined';
-  var Charts = isBrowser ? __webpack_require__(68) : undefined;
+  var Charts = isBrowser ? __webpack_require__(83) : undefined;
   
   // import testData from './data';
   
@@ -3737,8 +3735,256 @@ module.exports =
   
       _get(Object.getPrototypeOf(_DataCenterPage.prototype), 'constructor', this).call(this, props);
   
+      this.onTimeClick = function () {};
+  
       this._onChange = function () {
         _this.setState(getStateFromStores());
+      };
+  
+      this.render = function () {
+        var divStyle = {
+          width: '500px',
+          height: '400px'
+        };
+        return _react2['default'].createElement(
+          'div',
+          { className: (0, _classnames2['default'])(_DataPageScss2['default'].root, 'container-fluid') },
+          _react2['default'].createElement(
+            'h2',
+            { className: _DataPageScss2['default'].logo },
+            ' AKILIHUB Data Innovation Center'
+          ),
+          _react2['default'].createElement('hr', null),
+          _react2['default'].createElement(
+            'header',
+            { className: 'row' },
+            _react2['default'].createElement(
+              'ul',
+              { className: (0, _classnames2['default'])('nav', 'navbar-nav', 'navbar-center', _DataPageScss2['default'].nav) },
+              _react2['default'].createElement(
+                'li',
+                null,
+                _react2['default'].createElement(
+                  _Link2['default'],
+                  { className: _DataPageScss2['default'].link, to: '/data' },
+                  'Uganda Decides'
+                )
+              ),
+              _react2['default'].createElement(
+                'li',
+                null,
+                _react2['default'].createElement(
+                  _Link2['default'],
+                  { className: _DataPageScss2['default'].link, to: '/data' },
+                  ' Data Explorations'
+                )
+              )
+            )
+          ),
+          _react2['default'].createElement('hr', null),
+          _react2['default'].createElement(
+            'section',
+            { className: (0, _classnames2['default'])('container', _DataPageScss2['default'].container) },
+            _react2['default'].createElement(
+              'div',
+              { className: (0, _classnames2['default'])('col-md-12', _DataPageScss2['default'].main) },
+              _react2['default'].createElement(
+                'div',
+                { className: 'row spacing' },
+                _react2['default'].createElement(
+                  'article',
+                  { className: 'col-md-12' },
+                  _react2['default'].createElement(
+                    'header',
+                    null,
+                    _react2['default'].createElement(
+                      'h3',
+                      null,
+                      'Digging into the Uganda campaigns social Media Stats'
+                    )
+                  ),
+                  _react2['default'].createElement('div', { className: 'text-justify', dangerouslySetInnerHTML: { __html: _this.props.content || '' } }),
+                  _react2['default'].createElement('hr', null)
+                ),
+                _react2['default'].createElement(
+                  'section',
+                  { className: _DataPageScss2['default'].charts },
+                  _react2['default'].createElement(
+                    'div',
+                    { className: 'row spacing-sm' },
+                    _react2['default'].createElement(
+                      'div',
+                      { className: 'col-md-6' },
+                      _react2['default'].createElement(
+                        'h4',
+                        { className: 'text-center' },
+                        'Total volume of tweets For particular dates'
+                      ),
+                      _react2['default'].createElement('div', { id: 'range' }),
+                      _react2['default'].createElement(
+                        'i',
+                        { className: 'small' },
+                        '* please note there could be tweets that were not mined for some dates due to server problems'
+                      )
+                    ),
+                    _react2['default'].createElement(
+                      'div',
+                      { className: 'col-md-6' },
+                      _react2['default'].createElement(
+                        'h4',
+                        { className: 'text-center' },
+                        'Aggregate Volume of Mentions For Each Candidate'
+                      ),
+                      _react2['default'].createElement('div', { id: 'row' })
+                    )
+                  ),
+                  _react2['default'].createElement(
+                    'div',
+                    { className: 'row spacing-sm' },
+                    _react2['default'].createElement(
+                      'div',
+                      { className: 'col-md-4' },
+                      _react2['default'].createElement(
+                        'h4',
+                        { className: 'text-center' },
+                        'Twitter Mentions for selected Candidates'
+                      ),
+                      _react2['default'].createElement('div', { id: 'composite', className: 'row' }),
+                      _react2['default'].createElement(
+                        'div',
+                        { className: (0, _classnames2['default'])(_DataPageScss2['default'].legend, 'row') },
+                        _react2['default'].createElement(
+                          'div',
+                          { className: _DataPageScss2['default'].yellow },
+                          _react2['default'].createElement(
+                            'small',
+                            null,
+                            'museveni',
+                            _react2['default'].createElement('i', null)
+                          )
+                        ),
+                        _react2['default'].createElement(
+                          'div',
+                          { className: _DataPageScss2['default'].blue },
+                          _react2['default'].createElement(
+                            'small',
+                            null,
+                            'Besigye ',
+                            _react2['default'].createElement('i', null)
+                          )
+                        ),
+                        _react2['default'].createElement(
+                          'div',
+                          { className: _DataPageScss2['default'].orange },
+                          _react2['default'].createElement(
+                            'small',
+                            null,
+                            'Mbabazi',
+                            _react2['default'].createElement('i', null),
+                            ' '
+                          )
+                        )
+                      )
+                    ),
+                    _react2['default'].createElement(
+                      'div',
+                      { className: 'col-md-4' },
+                      _react2['default'].createElement(
+                        'h4',
+                        { className: 'text-center' },
+                        'Twitter Trending Hashtags'
+                      ),
+                      _react2['default'].createElement('div', { id: 'hashtags' })
+                    ),
+                    _react2['default'].createElement(
+                      'div',
+                      { className: 'col-md-4' },
+                      _react2['default'].createElement(
+                        'h4',
+                        { className: 'text-center' },
+                        'Twitter Most Frequent Terms'
+                      ),
+                      _react2['default'].createElement('div', { id: 'terms' })
+                    )
+                  ),
+                  _react2['default'].createElement(
+                    'div',
+                    { className: 'row spacing-sm' },
+                    _react2['default'].createElement(
+                      'div',
+                      { className: 'col-md-8', ref: 'mapCont', id: 'mapCont' },
+                      _react2['default'].createElement(
+                        'h4',
+                        { className: 'text-center' },
+                        ' Geolocating possible source of tweets'
+                      ),
+                      _react2['default'].createElement(
+                        'div',
+                        { id: 'map', className: _DataPageScss2['default'].chart, ref: 'map', style: divStyle },
+                        ' '
+                      )
+                    ),
+                    _react2['default'].createElement(
+                      'div',
+                      { className: 'col-md-4' },
+                      _react2['default'].createElement(
+                        'h4',
+                        { className: 'text-center' },
+                        ' Most Active Twitter users '
+                      ),
+                      _react2['default'].createElement('div', { id: 'pie' })
+                    )
+                  ),
+                  _react2['default'].createElement(
+                    'div',
+                    { className: 'row spacing-sm' },
+                    _react2['default'].createElement(
+                      'div',
+                      { className: 'col-md-11 table-cont' },
+                      _react2['default'].createElement(
+                        'h3',
+                        null,
+                        ' Twitter data tables'
+                      ),
+                      _react2['default'].createElement(
+                        'table',
+                        { id: 'table', className: (0, _classnames2['default'])('table', 'table-hover', 'table-bordered') },
+                        _react2['default'].createElement(
+                          'thead',
+                          null,
+                          _react2['default'].createElement(
+                            'tr',
+                            { className: _DataPageScss2['default'].header },
+                            _react2['default'].createElement(
+                              'th',
+                              null,
+                              'Tweet'
+                            ),
+                            _react2['default'].createElement(
+                              'th',
+                              null,
+                              'Date'
+                            ),
+                            _react2['default'].createElement(
+                              'th',
+                              null,
+                              'Location'
+                            ),
+                            _react2['default'].createElement(
+                              'th',
+                              null,
+                              'sentiment'
+                            )
+                          )
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        );
       };
   
       this.state = getStateFromStores();
@@ -3792,20 +4038,21 @@ module.exports =
         var hour = 60000 * 60;
         var onMessage = function onMessage(worker) {
           worker.onmessage = function (event) {
+            console.log(event.data[0].date);
+            console.log(event.data[event.data.length - 1].date);
             workerData.push.apply(workerData, _toConsumableArray(event.data));
             counter++;
             console.log(counter);
-            // if (!counter) console.log(workerData);
-            if (counter === 4) {
+            if (counter === 6) {
               console.log(workerData.length);
               _actionsDataPageActions2['default'].update(workerData);
               console.log('Message received from worker');
             }
           };
         };
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < 6; i++) {
           var worker = new _workerWorker2['default']();
-          worker.postMessage(unixTime + 6 * i * hour);
+          worker.postMessage(unixTime + 4 * i * hour);
           onMessage(worker);
         }
       }
@@ -3833,195 +4080,9 @@ module.exports =
         this.charts.rangeChart('range', this.state.aggregate, this.getNewData);
       }
     }, {
-      key: 'render',
-      value: function render() {
-        var divStyle = {
-          width: '500px',
-          height: '400px'
-        };
-        return _react2['default'].createElement(
-          'div',
-          { className: (0, _classnames2['default'])(_DataPageScss2['default'].root, 'container-fluid') },
-          _react2['default'].createElement(
-            'h2',
-            { className: _DataPageScss2['default'].logo },
-            ' AKILIHUB Data Innovation Center'
-          ),
-          _react2['default'].createElement('hr', null),
-          _react2['default'].createElement(
-            'header',
-            { className: 'row' },
-            _react2['default'].createElement(
-              'ul',
-              { className: (0, _classnames2['default'])('nav', 'navbar-nav', 'navbar-center', _DataPageScss2['default'].nav) },
-              _react2['default'].createElement(
-                'li',
-                null,
-                _react2['default'].createElement(
-                  _Link2['default'],
-                  { className: _DataPageScss2['default'].link, to: '/blog' },
-                  'Data Decides'
-                )
-              ),
-              _react2['default'].createElement(
-                'li',
-                null,
-                _react2['default'].createElement(
-                  _Link2['default'],
-                  { className: _DataPageScss2['default'].link, to: '/' },
-                  ' Data Explorations'
-                )
-              ),
-              _react2['default'].createElement(
-                'li',
-                null,
-                _react2['default'].createElement(
-                  _Link2['default'],
-                  { className: _DataPageScss2['default'].link, to: '/Data' },
-                  'Experimental'
-                )
-              )
-            )
-          ),
-          _react2['default'].createElement('hr', null),
-          _react2['default'].createElement(
-            'section',
-            { className: (0, _classnames2['default'])('container', _DataPageScss2['default'].container) },
-            _react2['default'].createElement(
-              'div',
-              { className: (0, _classnames2['default'])('col-md-12', _DataPageScss2['default'].main) },
-              _react2['default'].createElement(
-                'div',
-                { className: 'row spacing' },
-                _react2['default'].createElement(
-                  'article',
-                  { className: 'col-md-12' },
-                  _react2['default'].createElement(
-                    'header',
-                    null,
-                    _react2['default'].createElement(
-                      'h3',
-                      null,
-                      'Digging into the campaigns social Media Stats'
-                    )
-                  ),
-                  _react2['default'].createElement('div', { className: 'text-justify', dangerouslySetInnerHTML: { __html: this.props.content || '' } }),
-                  _react2['default'].createElement('hr', null)
-                ),
-                _react2['default'].createElement(
-                  'section',
-                  { className: _DataPageScss2['default'].charts },
-                  _react2['default'].createElement(
-                    'div',
-                    { className: 'row spacing-sm' },
-                    _react2['default'].createElement(
-                      'div',
-                      { className: 'col-md-6' },
-                      _react2['default'].createElement('div', { id: 'range' })
-                    ),
-                    _react2['default'].createElement(
-                      'div',
-                      { className: 'col-md-6' },
-                      _react2['default'].createElement('div', { id: 'row' })
-                    )
-                  ),
-                  _react2['default'].createElement(
-                    'div',
-                    { className: 'row spacing-sm' },
-                    _react2['default'].createElement(
-                      'div',
-                      { className: 'col-md-4' },
-                      _react2['default'].createElement('div', { id: 'composite' })
-                    ),
-                    _react2['default'].createElement(
-                      'div',
-                      { className: 'col-md-4' },
-                      _react2['default'].createElement('div', { id: 'hashtags' })
-                    ),
-                    _react2['default'].createElement(
-                      'div',
-                      { className: 'col-md-4' },
-                      _react2['default'].createElement('div', { id: 'terms' })
-                    )
-                  ),
-                  _react2['default'].createElement(
-                    'div',
-                    { className: 'row spacing-sm' },
-                    _react2['default'].createElement(
-                      'div',
-                      { className: 'col-md-8', ref: 'mapCont', id: 'mapCont' },
-                      _react2['default'].createElement(
-                        'h3',
-                        null,
-                        ' Map Chart'
-                      ),
-                      _react2['default'].createElement(
-                        'div',
-                        { id: 'map', className: _DataPageScss2['default'].chart, ref: 'map', style: divStyle },
-                        ' '
-                      )
-                    ),
-                    _react2['default'].createElement(
-                      'div',
-                      { className: 'col-md-4' },
-                      _react2['default'].createElement(
-                        'h3',
-                        null,
-                        ' Pie Chart'
-                      ),
-                      _react2['default'].createElement('div', { id: 'pie' })
-                    )
-                  ),
-                  _react2['default'].createElement(
-                    'div',
-                    { className: 'row spacing-sm' },
-                    _react2['default'].createElement(
-                      'div',
-                      { className: 'col-md-11 table-cont' },
-                      _react2['default'].createElement(
-                        'h3',
-                        null,
-                        ' Table Chart'
-                      ),
-                      _react2['default'].createElement(
-                        'table',
-                        { id: 'table', className: (0, _classnames2['default'])('table', 'table-hover', 'table-bordered') },
-                        _react2['default'].createElement(
-                          'thead',
-                          null,
-                          _react2['default'].createElement(
-                            'tr',
-                            { className: _DataPageScss2['default'].header },
-                            _react2['default'].createElement(
-                              'th',
-                              null,
-                              'Tweet'
-                            ),
-                            _react2['default'].createElement(
-                              'th',
-                              null,
-                              'Date'
-                            ),
-                            _react2['default'].createElement(
-                              'th',
-                              null,
-                              'Location'
-                            ),
-                            _react2['default'].createElement(
-                              'th',
-                              null,
-                              'sentiment'
-                            )
-                          )
-                        )
-                      )
-                    )
-                  )
-                )
-              )
-            )
-          )
-        );
+      key: 'onTimeClick',
+      value: function onTimeClick(range) {
+        console.log(range);
       }
     }]);
   
@@ -4037,8 +4098,830 @@ module.exports =
 /* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
+  /**
+   * Data source action dispatched as aresult of getting data from data base
+   */
   
-      var content = __webpack_require__(59);
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+  
+  var _coreDispatcher = __webpack_require__(59);
+  
+  var _coreDispatcher2 = _interopRequireDefault(_coreDispatcher);
+  
+  var _constantsActionTypes = __webpack_require__(61);
+  
+  var _constantsActionTypes2 = _interopRequireDefault(_constantsActionTypes);
+  
+  var DataPageActions = (function () {
+    function DataPageActions() {
+      _classCallCheck(this, DataPageActions);
+    }
+  
+    _createClass(DataPageActions, [{
+      key: 'getData',
+      value: function getData(raw) {
+        _coreDispatcher2['default'].dispatch({
+          actionType: _constantsActionTypes2['default'].DATAPAGE_RECEIVE_DATA,
+          data: raw
+        });
+      }
+    }, {
+      key: 'update',
+      value: function update(raw) {
+        _coreDispatcher2['default'].dispatch({
+          actionType: _constantsActionTypes2['default'].DATAPAGE_UPDATE,
+          data: raw
+        });
+      }
+    }]);
+  
+    return DataPageActions;
+  })();
+  
+  exports['default'] = new DataPageActions();
+  module.exports = exports['default'];
+
+/***/ },
+/* 59 */
+/***/ function(module, exports, __webpack_require__) {
+
+  /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
+  
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  
+  var _flux = __webpack_require__(60);
+  
+  var dispatcher = new _flux.Dispatcher();
+  
+  exports['default'] = dispatcher;
+  module.exports = exports['default'];
+
+/***/ },
+/* 60 */
+/***/ function(module, exports) {
+
+  module.exports = require("flux");
+
+/***/ },
+/* 61 */
+/***/ function(module, exports, __webpack_require__) {
+
+  /**
+   * React Starter Kit (https://www.reactstarterkit.com/)
+   *
+   * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE.txt file in the root directory of this source tree.
+   */
+  
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  var _fbjsLibKeyMirror = __webpack_require__(62);
+  
+  var _fbjsLibKeyMirror2 = _interopRequireDefault(_fbjsLibKeyMirror);
+  
+  exports['default'] = (0, _fbjsLibKeyMirror2['default'])({
+    DATAPAGE_RECEIVE_DATA: null,
+    DATAPAGE_UPDATE: null
+  });
+  module.exports = exports['default'];
+
+/***/ },
+/* 62 */
+/***/ function(module, exports) {
+
+  module.exports = require("fbjs/lib/keyMirror");
+
+/***/ },
+/* 63 */
+/***/ function(module, exports, __webpack_require__) {
+
+  /**
+   * React Starter Kit (https://www.reactstarterkit.com/)
+   *
+   * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE.txt file in the root directory of this source tree.
+   */
+  
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+  
+  var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+  
+  function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+  
+  var _react = __webpack_require__(4);
+  
+  var _react2 = _interopRequireDefault(_react);
+  
+  var _config = __webpack_require__(14);
+  
+  var Html = (function (_Component) {
+    _inherits(Html, _Component);
+  
+    function Html() {
+      _classCallCheck(this, Html);
+  
+      _get(Object.getPrototypeOf(Html.prototype), 'constructor', this).apply(this, arguments);
+    }
+  
+    _createClass(Html, [{
+      key: 'trackingCode',
+      value: function trackingCode() {
+        return { __html: '(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=' + 'function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;' + 'e=o.createElement(i);r=o.getElementsByTagName(i)[0];' + 'e.src=\'https://www.google-analytics.com/analytics.js\';' + 'r.parentNode.insertBefore(e,r)}(window,document,\'script\',\'ga\'));' + ('ga(\'create\',\'' + _config.googleAnalyticsId + '\',\'auto\');ga(\'send\',\'pageview\');')
+        };
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        return _react2['default'].createElement(
+          'html',
+          { className: 'no-js', lang: '' },
+          _react2['default'].createElement(
+            'head',
+            null,
+            _react2['default'].createElement('meta', { charSet: 'utf-8' }),
+            _react2['default'].createElement('meta', { httpEquiv: 'X-UA-Compatible', content: 'IE=edge' }),
+            _react2['default'].createElement(
+              'title',
+              null,
+              this.props.title
+            ),
+            _react2['default'].createElement('meta', { name: 'description', content: this.props.description }),
+            _react2['default'].createElement('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' }),
+            _react2['default'].createElement('link', { href: 'https://fonts.googleapis.com/css?family=Lato\' rel=\'stylesheet\' type=\'text/css' }),
+            _react2['default'].createElement('link', { rel: 'apple-touch-icon', href: 'apple-touch-icon.png' }),
+            _react2['default'].createElement('link', { rel: 'stylesheet', href: 'screen.css' }),
+            _react2['default'].createElement('link', { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' }),
+            _react2['default'].createElement('link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.min.css' }),
+            _react2['default'].createElement('link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css' }),
+            _react2['default'].createElement('link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.css' }),
+            _react2['default'].createElement('link', { rel: 'stylesheet', href: '//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css' }),
+            _react2['default'].createElement('link', { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', crossOrigin: 'anonymous' }),
+            _react2['default'].createElement('link', { rel: 'stylesheet', href: 'http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css' }),
+            _react2['default'].createElement('link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css' }),
+            _react2['default'].createElement('style', { id: 'css', dangerouslySetInnerHTML: { __html: this.props.css } })
+          ),
+          _react2['default'].createElement(
+            'body',
+            null,
+            _react2['default'].createElement('div', { id: 'app', dangerouslySetInnerHTML: { __html: this.props.body } }),
+            _react2['default'].createElement('script', { src: this.props.entry })
+          )
+        );
+      }
+    }], [{
+      key: 'propTypes',
+      value: {
+        title: _react.PropTypes.string,
+        description: _react.PropTypes.string,
+        css: _react.PropTypes.string,
+        body: _react.PropTypes.string.isRequired,
+        entry: _react.PropTypes.string.isRequired
+      },
+      enumerable: true
+    }, {
+      key: 'defaultProps',
+      value: {
+        title: '',
+        description: ''
+      },
+      enumerable: true
+    }]);
+  
+    return Html;
+  })(_react.Component);
+  
+  exports['default'] = Html;
+  module.exports = exports['default'];
+
+/***/ },
+/* 64 */
+/***/ function(module, exports) {
+
+  module.exports = require("./assets");
+
+/***/ },
+/* 65 */
+/***/ function(module, exports) {
+
+  module.exports = require("compression");
+
+/***/ },
+/* 66 */
+/***/ function(module, exports, __webpack_require__) {
+
+  'use strict';
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  var _twJob = __webpack_require__(67);
+  
+  var _twJob2 = _interopRequireDefault(_twJob);
+  
+  // TODO put in a separate work thread
+  
+  try {
+    // initial run
+    (0, _twJob2['default'])();
+    setInterval(function () {
+      (0, _twJob2['default'])();
+    }, 60000 * 60);
+  } catch (e) {
+    console.log(e);
+  }
+
+/***/ },
+/* 67 */
+/***/ function(module, exports, __webpack_require__) {
+
+  /**
+   * Gets data from Twitter model
+   */
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  var _mongodb = __webpack_require__(68);
+  
+  var _mongodb2 = _interopRequireDefault(_mongodb);
+  
+  var _redis = __webpack_require__(69);
+  
+  var _redis2 = _interopRequireDefault(_redis);
+  
+  var _config = __webpack_require__(14);
+  
+  var _crossfilter2 = __webpack_require__(70);
+  
+  var _crossfilter22 = _interopRequireDefault(_crossfilter2);
+  
+  var client = _redis2['default'].createClient();
+  
+  var MongoClient = _mongodb2['default'].MongoClient;
+  var collection = 'twits';
+  
+  console.log(_config.MONGO_URL);
+  
+  function _connection() {
+    return new Promise(function (resolve, reject) {
+      MongoClient.connect(_config.MONGO_URL, function (err, db) {
+        resolve(db);
+        reject(err);
+      });
+    });
+  }
+  
+  function findData() {
+    var db;
+    return regeneratorRuntime.async(function findData$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          context$1$0.prev = 0;
+          context$1$0.next = 3;
+          return regeneratorRuntime.awrap(_connection());
+  
+        case 3:
+          db = context$1$0.sent;
+          return context$1$0.abrupt('return', db.collection(collection).find({
+            'is_retweet': false
+          }, { timeStamp: 1, _id: 0 }).toArray());
+  
+        case 7:
+          context$1$0.prev = 7;
+          context$1$0.t0 = context$1$0['catch'](0);
+  
+          console.log(context$1$0.t0);
+  
+        case 10:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, this, [[0, 7]]);
+  }
+  
+  function aggregateData() {
+    var data, cfData, dim, group;
+    return regeneratorRuntime.async(function aggregateData$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          context$1$0.next = 2;
+          return regeneratorRuntime.awrap(findData());
+  
+        case 2:
+          data = context$1$0.sent;
+  
+          data.forEach(function (d) {
+            d.date = new Date(d.timeStamp).getDate();
+          });
+          cfData = (0, _crossfilter22['default'])(data);
+          dim = cfData.dimension(function (d) {
+            return d.date;
+          });
+          group = dim.group().reduceCount();
+          return context$1$0.abrupt('return', group.all());
+  
+        case 8:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, this);
+  }
+  
+  exports['default'] = function job() {
+    var data;
+    return regeneratorRuntime.async(function job$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          context$1$0.next = 2;
+          return regeneratorRuntime.awrap(aggregateData());
+  
+        case 2:
+          data = context$1$0.sent;
+  
+          client.set('tw', JSON.stringify(data), function (err, res) {
+            if (err) throw new Error(err);
+            /* eslint-disable no-console*/
+            console.log('completed job ' + new Date() + ' ' + res);
+          });
+  
+        case 4:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, this);
+  };
+  
+  module.exports = exports['default'];
+
+/***/ },
+/* 68 */
+/***/ function(module, exports) {
+
+  module.exports = require("mongodb");
+
+/***/ },
+/* 69 */
+/***/ function(module, exports) {
+
+  module.exports = require("redis");
+
+/***/ },
+/* 70 */
+/***/ function(module, exports) {
+
+  module.exports = require("crossfilter2");
+
+/***/ },
+/* 71 */
+/***/ function(module, exports, __webpack_require__) {
+
+  /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
+  
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  
+  var _this = this;
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  var _express = __webpack_require__(3);
+  
+  var _express2 = _interopRequireDefault(_express);
+  
+  var _dataHandlerTw = __webpack_require__(72);
+  
+  var _dataHandlerTw2 = _interopRequireDefault(_dataHandlerTw);
+  
+  var router = new _express2['default'].Router();
+  
+  router.get('/social/twdata', function callee$0$0(req, res, next) {
+    var raw, data, aggregate;
+    return regeneratorRuntime.async(function callee$0$0$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          context$1$0.prev = 0;
+          context$1$0.next = 3;
+          return regeneratorRuntime.awrap(_dataHandlerTw2['default'].findAll());
+  
+        case 3:
+          raw = context$1$0.sent;
+          data = _dataHandlerTw2['default'].transform(raw);
+          context$1$0.next = 7;
+          return regeneratorRuntime.awrap(_dataHandlerTw2['default'].getFromRedis());
+  
+        case 7:
+          aggregate = context$1$0.sent;
+  
+          // console.log(aggregate);
+          res.status(200).json({ data: data, aggregate: JSON.parse(aggregate) });
+          context$1$0.next = 14;
+          break;
+  
+        case 11:
+          context$1$0.prev = 11;
+          context$1$0.t0 = context$1$0['catch'](0);
+  
+          next(context$1$0.t0);
+  
+        case 14:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, _this, [[0, 11]]);
+  });
+  
+  router.get('/social/twdata/:date', function callee$0$0(req, res, next) {
+    var raw, data;
+    return regeneratorRuntime.async(function callee$0$0$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          context$1$0.prev = 0;
+          context$1$0.next = 3;
+          return regeneratorRuntime.awrap(_dataHandlerTw2['default'].findByDate(req.params.date));
+  
+        case 3:
+          raw = context$1$0.sent;
+          data = _dataHandlerTw2['default'].transform(raw);
+  
+          res.status(200).json(data);
+          context$1$0.next = 11;
+          break;
+  
+        case 8:
+          context$1$0.prev = 8;
+          context$1$0.t0 = context$1$0['catch'](0);
+  
+          next(context$1$0.t0);
+  
+        case 11:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, _this, [[0, 8]]);
+  });
+  
+  exports['default'] = router;
+  module.exports = exports['default'];
+
+/***/ },
+/* 72 */
+/***/ function(module, exports, __webpack_require__) {
+
+  /**
+   * Gets data from Twitter model
+   */
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  var _mongodb = __webpack_require__(68);
+  
+  var _mongodb2 = _interopRequireDefault(_mongodb);
+  
+  var _config = __webpack_require__(14);
+  
+  var _redis = __webpack_require__(69);
+  
+  var _redis2 = _interopRequireDefault(_redis);
+  
+  var client = _redis2['default'].createClient();
+  
+  var MongoClient = _mongodb2['default'].MongoClient;
+  var collection = 'twits';
+  var hour = 60000 * 60;
+  var mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika'];
+  
+  function _connection() {
+    return new Promise(function (resolve, reject) {
+      MongoClient.connect(_config.MONGO_URL, function (err, db) {
+        resolve(db);
+        reject(err);
+      });
+    });
+  }
+  
+  function getFromRedis() {
+    return new Promise(function (resolve, reject) {
+      client.get('tw', function (err, reply) {
+        resolve(reply);
+        reject(err);
+      });
+    });
+  }
+  
+  function _addNamesToTweet(tweet) {
+    // mutates the tweet by adding new fields
+    mentions.forEach(function (mention) {
+      var bool = tweet.user_mentions.some(function (name) {
+        return name.indexOf(mention) !== -1;
+      });
+      tweet[mention] = bool ? 1 : 0;
+    });
+    return tweet;
+  }
+  
+  function _excludeNamesInTerms(tweet) {
+    mentions.push('amamambabazi');
+    tweet.terms.forEach(function (term, index, arr) {
+      var isName = mentions.some(function (mention) {
+        return mention.indexOf(term) !== -1;
+      });
+      if (isName) arr.splice(index, 1);
+    });
+  }
+  
+  function transform(data) {
+    data.forEach(function (d) {
+      // d.text = d.text.toLowerCase();
+      d.hour = new Date(d.date).getHours();
+      _addNamesToTweet(d);
+      _excludeNamesInTerms(d);
+    });
+    return data;
+  }
+  function findAll() {
+    var db, now, hoursPast, time;
+    return regeneratorRuntime.async(function findAll$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          context$1$0.prev = 0;
+          context$1$0.next = 3;
+          return regeneratorRuntime.awrap(_connection());
+  
+        case 3:
+          db = context$1$0.sent;
+          now = new Date();
+          hoursPast = now.getHours();
+          time = now - hour * hoursPast;
+          return context$1$0.abrupt('return', db.collection(collection).find({
+            'is_retweet': false,
+            timeStamp: { $gt: time }
+          }, { text: 0 }).toArray());
+  
+        case 10:
+          context$1$0.prev = 10;
+          context$1$0.t0 = context$1$0['catch'](0);
+          throw new Error(context$1$0.t0);
+  
+        case 13:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, this, [[0, 10]]);
+  }
+  
+  function findByDate(start) {
+    var db, end;
+    return regeneratorRuntime.async(function findByDate$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          context$1$0.prev = 0;
+          context$1$0.next = 3;
+          return regeneratorRuntime.awrap(_connection());
+  
+        case 3:
+          db = context$1$0.sent;
+          end = parseInt(start, 10) + hour * 4;
+          return context$1$0.abrupt('return', db.collection(collection).find({
+            timeStamp: {
+              $gt: parseInt(start, 10),
+              $lt: end
+            },
+            is_retweet: false
+          }, { text: 0 }).toArray());
+  
+        case 8:
+          context$1$0.prev = 8;
+          context$1$0.t0 = context$1$0['catch'](0);
+          throw new Error(context$1$0.t0);
+  
+        case 11:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, this, [[0, 8]]);
+  }
+  
+  exports['default'] = { findAll: findAll, findByDate: findByDate, getFromRedis: getFromRedis, transform: transform };
+  module.exports = exports['default'];
+
+/***/ },
+/* 73 */
+/***/ function(module, exports, __webpack_require__) {
+
+  
+  /**
+   * React Starter Kit (https://www.reactstarterkit.com/)
+   *
+   * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE.txt file in the root directory of this source tree.
+   */
+  
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  
+  var _this = this;
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  var _fs = __webpack_require__(74);
+  
+  var _fs2 = _interopRequireDefault(_fs);
+  
+  var _path = __webpack_require__(2);
+  
+  var _express = __webpack_require__(3);
+  
+  var _bluebird = __webpack_require__(75);
+  
+  var _bluebird2 = _interopRequireDefault(_bluebird);
+  
+  var _jade = __webpack_require__(76);
+  
+  var _jade2 = _interopRequireDefault(_jade);
+  
+  var _frontMatter = __webpack_require__(77);
+  
+  var _frontMatter2 = _interopRequireDefault(_frontMatter);
+  
+  // A folder with Jade/Markdown/HTML content pages
+  var CONTENT_DIR = (0, _path.join)(__dirname, './content');
+  
+  // Extract 'front matter' metadata and generate HTML
+  var parseJade = function parseJade(path, jadeContent) {
+    var fmContent = (0, _frontMatter2['default'])(jadeContent);
+    var htmlContent = _jade2['default'].render(fmContent.body);
+    return Object.assign({ path: path, content: htmlContent }, fmContent.attributes);
+  };
+  
+  var readFile = _bluebird2['default'].promisify(_fs2['default'].readFile);
+  var fileExists = function fileExists(filename) {
+    return new _bluebird2['default'](function (resolve) {
+      _fs2['default'].exists(filename, resolve);
+    });
+  };
+  
+  // TODO make the query checking code into middleware
+  
+  var router = new _express.Router();
+  
+  // define the about route
+  router.get('/api/test', function (req, res) {
+    res.json({ text: 'hello Text' });
+  });
+  
+  router.get('/', function callee$0$0(req, res, next) {
+    var path, fileName, source, content;
+    return regeneratorRuntime.async(function callee$0$0$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          context$1$0.prev = 0;
+          path = req.query.path;
+  
+          if (!(!path || path === 'undefined')) {
+            context$1$0.next = 5;
+            break;
+          }
+  
+          res.status(400).send({ error: 'The \'path\' query parameter cannot be empty.' });
+          return context$1$0.abrupt('return');
+  
+        case 5:
+          fileName = (0, _path.join)(CONTENT_DIR, (path === '/' ? '/index' : path) + '.jade');
+          context$1$0.next = 8;
+          return regeneratorRuntime.awrap(fileExists(fileName));
+  
+        case 8:
+          if (context$1$0.sent) {
+            context$1$0.next = 10;
+            break;
+          }
+  
+          fileName = (0, _path.join)(CONTENT_DIR, path + '/index.jade');
+  
+        case 10:
+          context$1$0.next = 12;
+          return regeneratorRuntime.awrap(fileExists(fileName));
+  
+        case 12:
+          if (context$1$0.sent) {
+            context$1$0.next = 16;
+            break;
+          }
+  
+          res.status(404).send({ error: 'The page \'' + path + '\' is not found.' });
+          context$1$0.next = 21;
+          break;
+  
+        case 16:
+          context$1$0.next = 18;
+          return regeneratorRuntime.awrap(readFile(fileName, { encoding: 'utf8' }));
+  
+        case 18:
+          source = context$1$0.sent;
+          content = parseJade(path, source);
+  
+          res.status(200).send(content);
+  
+        case 21:
+          context$1$0.next = 26;
+          break;
+  
+        case 23:
+          context$1$0.prev = 23;
+          context$1$0.t0 = context$1$0['catch'](0);
+  
+          next(context$1$0.t0);
+  
+        case 26:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, _this, [[0, 23]]);
+  });
+  
+  exports['default'] = router;
+  module.exports = exports['default'];
+
+/***/ },
+/* 74 */
+/***/ function(module, exports) {
+
+  module.exports = require("fs");
+
+/***/ },
+/* 75 */
+/***/ function(module, exports) {
+
+  module.exports = require("bluebird");
+
+/***/ },
+/* 76 */
+/***/ function(module, exports) {
+
+  module.exports = require("jade");
+
+/***/ },
+/* 77 */
+/***/ function(module, exports) {
+
+  module.exports = require("front-matter");
+
+/***/ },
+/* 78 */
+/***/ function(module, exports, __webpack_require__) {
+
+  
+      var content = __webpack_require__(79);
       var insertCss = __webpack_require__(20);
   
       if (typeof content === 'string') {
@@ -4066,7 +4949,7 @@ module.exports =
     
 
 /***/ },
-/* 59 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
   exports = module.exports = __webpack_require__(19)();
@@ -4074,7 +4957,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "/* React Starter Kit | MIT License | http://www.reactstarterkit.com/ */\n/**variables*/\n\n//headers\nh1{font-size:2em}\nh2{font-size:1.5em}\nh3{font-size:1.2em}\n\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.DataPage_root_1Bn {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n}\n.DataPage_root_1Bn article {padding-left: 4em;padding-right: 4em;}\n.DataPage_root_1Bn .DataPage_charts_2yr {padding-left: 3em;}\n.DataPage_root_1Bn li {list-style: none;padding-top: 0.5em;margin-left: 6em;}\n.DataPage_root_1Bn table {margin: 0 auto;}\n.DataPage_root_1Bn h2 {color: #6B6969;}\n.DataPage_logo_2rV {\n  padding-left: 4em;\n  padding-bottom: 2em;\n  padding-top: 2em;\n}\n.DataPage_container_3Ry {\n  background-color: rgba(204, 204, 204, 0.35);\n}\n.DataPage_main_1GV {\n  margin-right: solid 1px;\n  background-color: white;;\n}\n.DataPage_main_1GV hr {color: #777;}\n.DataPage_main_1GV h3 {color: #374048;padding-bottom: 2em;}\n.DataPage_spacing_pJZ {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.DataPage_sidebar_2cr h3, .DataPage_sidebar_2cr a {\n  padding-left: 1em;\n}\n.DataPage_nav_3s0 >li>a, .DataPage_sidebar_2cr a {\n  color: #a94442;\n}\ntable{\n  font-size: 0.9em;\n}\ntable span{display: none}\n", "", {"version":3,"sources":["/./src/components/DataPage/DataPage.scss","/./src/components/variables.scss"],"names":[],"mappings":"AAAA,uEAAuE;ACEvE,cAAc;;AASd;GACG,aAAkB,CAAC;AACtB,GAAG,eAAkB,CAAC;AACtB,GAAG,eAAkB,CAAC;;AAEtB;;gFAEgF,CAMxB,UAAU,GACV,aAAa,CACb,UAAU,CACV,UAAU,CACV,UAAU;;AAElE;;gFAEgF;;AAIhF;;gFAEgF;;AAIhF;;gFAEgF,EAEhD,gCAAgC,EAChC,2BAA2B,EAC3B,6BAA6B,CAC7B,iCAAiC;;AAEjE;;gFAEgF;ADnDhF;EACE,gBAAgB;EAChB,YAAY;EACZ,wBAAwB;EACxB,qFAA6E;UAA7E,6EAA6E;CAmB9E;AAlBC,4BACE,kBAAkB,mBACC,CACpB;AACD,yCACE,kBAAkB,CACnB;AACD,uBACE,iBAAiB,mBACE,iBACF,CAClB;AACD,0BACE,eAAe,CAChB;AACD,uBACE,eAAe,CAChB;AAEH;EACE,kBAAkB;EAClB,oBAAoB;EACpB,iBAAiB;CAClB;AACD;EACE,4CAA4C;CAC7C;AACD;EACE,wBAAwB;EACxB,wBAAwB;CAQzB;AAPC,uBACE,YAAY,CACb;AACD,uBACE,eAAe,oBACK,CACrB;AAEH;EACE,gBAAgB;EAChB,mBAAmB;CACpB;AACD;EACE,kBAAkB;CACnB;AACD;EAEE,eAAe;CAChB;AACD;EACE,iBAAiB;CAElB;AADC,WAAK,aAAa,CAAC","file":"DataPage.scss","sourcesContent":["/* React Starter Kit | MIT License | http://www.reactstarterkit.com/ */\n@import '../variables.scss';\n.root {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n  article {\n    padding-left: 4em;\n    padding-right: 4em;\n  };\n  .charts {\n    padding-left: 3em;\n  };\n  li {\n    list-style: none;\n    padding-top: 0.5em;\n    margin-left: 6em;\n  };\n  table {\n    margin: 0 auto;\n  };\n  h2 {\n    color: #6B6969;\n  }\n}\n.logo {\n  padding-left: 4em;\n  padding-bottom: 2em;\n  padding-top: 2em;\n}\n.container {\n  background-color: rgba(204, 204, 204, 0.35);\n}\n.main {\n  margin-right: solid 1px;\n  background-color: white;\n  hr {\n    color: #777;\n  };\n  h3 {\n    color: #374048;\n    padding-bottom: 2em;\n  };\n}\n.spacing {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.sidebar h3,.sidebar a {\n  padding-left: 1em;\n}\n.nav >li>a,\n.sidebar a {\n  color: #a94442;\n}\ntable{\n  font-size: 0.9em;\n  span{display: none}\n}\n","\n\n/**variables*/\n\n\n$h2-font: 1.5em;\n$h3-font: 1.2em;\n$h1-font: 2em;\n$large-font: 2.1em;\n$font-weight: 700;\n\n//headers\nh1{font-size:$h1-font}\nh2{font-size:$h2-font}\nh3{font-size:$h3-font}\n\n/*\n * Colors\n * ========================================================================== */\n$primary-color: #5B798E;\n$secondary-color: #B76565;\n$light-color:#d9edf7;\n\n$white-base:            hsl(255, 255, 255);\n$gray-darker:           color(black lightness(+13.5%)); /* #222 */\n$gray-dark:             color(black lightness(+25%));   /* #404040 */\n$gray:                  color(black lightness(+33.5%)); /* #555 */\n$gray-light:            color(black lightness(+46.7%)); /* #777 */\n$gray-lighter:          color(black lightness(+93.5%)); /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n$font-family-base:      'Lato','Segoe UI', 'HelveticaNeue-Light', sans-serif;\n\n/*\n * Layout\n * ========================================================================== */\n\n$max-content-width:     1000px;\n\n/*\n * Media queries breakpoints\n * ========================================================================== */\n\n$screen-xs-min:         480px;  /* Extra small screen / phone */\n$screen-sm-min:         768px;  /* Small screen / tablet */\n$screen-md-min:         992px;  /* Medium screen / desktop */\n$screen-lg-min:         1200px; /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n$animation-swift-out:   .45s cubic-bezier(0.3, 1, 0.4, 1) 0s;\n"],"sourceRoot":"webpack://"}]);
+  exports.push([module.id, "/* React Starter Kit | MIT License | http://www.reactstarterkit.com/ */\n/**variables*/\n\n//headers\nh1{font-size:2em}\nh2{font-size:1.5em}\nh3{font-size:1.2em}\n\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.DataPage_root_1Bn {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n}\n.DataPage_root_1Bn article {padding-left: 4em;padding-right: 4em;}\n.DataPage_root_1Bn .DataPage_charts_2yr {padding-left: 3em;}\n.DataPage_root_1Bn li {list-style: none;padding-top: 0.5em;margin-left: 6em;}\n.DataPage_root_1Bn table {margin: 0 auto;}\n.DataPage_root_1Bn h2 {color: #6B6969;}\n.DataPage_logo_2rV {\n  padding-left: 4em;\n  padding-bottom: 2em;\n  padding-top: 2em;\n}\n.DataPage_container_3Ry {\n  background-color: rgba(204, 204, 204, 0.35);\n}\n.DataPage_main_1GV {\n  margin-right: solid 1px;\n  background-color: white;;\n}\n.DataPage_main_1GV hr {color: #777;}\n.DataPage_main_1GV h3 {color: #374048;padding-bottom: 2em;}\n.DataPage_spacing_pJZ {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.DataPage_sidebar_2cr h3, .DataPage_sidebar_2cr a {\n  padding-left: 1em;\n}\n.DataPage_nav_3s0 >li>a, .DataPage_sidebar_2cr a {\n  color: #a94442;\n}\ntable{\n  font-size: 0.9em;\n}\ntable span{display: none}\n.DataPage_legend_2e1 small{\n  text-align: right;\n}\n.DataPage_legend_2e1 i{\n  width: 4em;\n  height: 0.5em;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.DataPage_yellow_30z i{\n  color: yellow;\n}\n.DataPage_blue_1Bj i{\n  color: blue;\n}\n.DataPage_orange_36J i{\n  color: orange;\n}\n", "", {"version":3,"sources":["/./src/components/DataPage/DataPage.scss","/./src/components/variables.scss"],"names":[],"mappings":"AAAA,uEAAuE;ACEvE,cAAc;;AASd;GACG,aAAkB,CAAC;AACtB,GAAG,eAAkB,CAAC;AACtB,GAAG,eAAkB,CAAC;;AAEtB;;gFAEgF,CAMxB,UAAU,GACV,aAAa,CACb,UAAU,CACV,UAAU,CACV,UAAU;;AAElE;;gFAEgF;;AAIhF;;gFAEgF;;AAIhF;;gFAEgF,EAEhD,gCAAgC,EAChC,2BAA2B,EAC3B,6BAA6B,CAC7B,iCAAiC;;AAEjE;;gFAEgF;ADnDhF;EACE,gBAAgB;EAChB,YAAY;EACZ,wBAAwB;EACxB,qFAA6E;UAA7E,6EAA6E;CAmB9E;AAlBC,4BACE,kBAAkB,mBACC,CACpB;AACD,yCACE,kBAAkB,CACnB;AACD,uBACE,iBAAiB,mBACE,iBACF,CAClB;AACD,0BACE,eAAe,CAChB;AACD,uBACE,eAAe,CAChB;AAEH;EACE,kBAAkB;EAClB,oBAAoB;EACpB,iBAAiB;CAClB;AACD;EACE,4CAA4C;CAC7C;AACD;EACE,wBAAwB;EACxB,wBAAwB;CAQzB;AAPC,uBACE,YAAY,CACb;AACD,uBACE,eAAe,oBACK,CACrB;AAEH;EACE,gBAAgB;EAChB,mBAAmB;CACpB;AACD;EACE,kBAAkB;CACnB;AACD;EAEE,eAAe;CAChB;AACD;EACE,iBAAiB;CAElB;AADC,WAAK,aAAa,CAAC;AAErB;EACE,kBAAkB;CACnB;AACD;EACE,WAAW;EACX,cAAc;EACd,iBAAiB;EACjB,cAAc;EACd,mBAAmB;EACnB,sBAAsB;CACvB;AACD;EACE,cAAc;CACf;AACD;EACE,YAAY;CACb;AACD;EACE,cAAc;CACf","file":"DataPage.scss","sourcesContent":["/* React Starter Kit | MIT License | http://www.reactstarterkit.com/ */\n@import '../variables.scss';\n.root {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n  article {\n    padding-left: 4em;\n    padding-right: 4em;\n  };\n  .charts {\n    padding-left: 3em;\n  };\n  li {\n    list-style: none;\n    padding-top: 0.5em;\n    margin-left: 6em;\n  };\n  table {\n    margin: 0 auto;\n  };\n  h2 {\n    color: #6B6969;\n  }\n}\n.logo {\n  padding-left: 4em;\n  padding-bottom: 2em;\n  padding-top: 2em;\n}\n.container {\n  background-color: rgba(204, 204, 204, 0.35);\n}\n.main {\n  margin-right: solid 1px;\n  background-color: white;\n  hr {\n    color: #777;\n  };\n  h3 {\n    color: #374048;\n    padding-bottom: 2em;\n  };\n}\n.spacing {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.sidebar h3,.sidebar a {\n  padding-left: 1em;\n}\n.nav >li>a,\n.sidebar a {\n  color: #a94442;\n}\ntable{\n  font-size: 0.9em;\n  span{display: none}\n}\n.legend small{\n  text-align: right;\n}\n.legend i{\n  width: 4em;\n  height: 0.5em;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.yellow i{\n  color: yellow;\n}\n.blue i{\n  color: blue;\n}\n.orange i{\n  color: orange;\n}\n","\n\n/**variables*/\n\n\n$h2-font: 1.5em;\n$h3-font: 1.2em;\n$h1-font: 2em;\n$large-font: 2.1em;\n$font-weight: 700;\n\n//headers\nh1{font-size:$h1-font}\nh2{font-size:$h2-font}\nh3{font-size:$h3-font}\n\n/*\n * Colors\n * ========================================================================== */\n$primary-color: #5B798E;\n$secondary-color: #B76565;\n$light-color:#d9edf7;\n\n$white-base:            hsl(255, 255, 255);\n$gray-darker:           color(black lightness(+13.5%)); /* #222 */\n$gray-dark:             color(black lightness(+25%));   /* #404040 */\n$gray:                  color(black lightness(+33.5%)); /* #555 */\n$gray-light:            color(black lightness(+46.7%)); /* #777 */\n$gray-lighter:          color(black lightness(+93.5%)); /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n$font-family-base:      'Lato','Segoe UI', 'HelveticaNeue-Light', sans-serif;\n\n/*\n * Layout\n * ========================================================================== */\n\n$max-content-width:     1000px;\n\n/*\n * Media queries breakpoints\n * ========================================================================== */\n\n$screen-xs-min:         480px;  /* Extra small screen / phone */\n$screen-sm-min:         768px;  /* Small screen / tablet */\n$screen-md-min:         992px;  /* Medium screen / desktop */\n$screen-lg-min:         1200px; /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n$animation-swift-out:   .45s cubic-bezier(0.3, 1, 0.4, 1) 0s;\n"],"sourceRoot":"webpack://"}]);
   
   // exports
   exports.locals = {
@@ -4085,11 +4968,15 @@ module.exports =
   	"main": "DataPage_main_1GV",
   	"spacing": "DataPage_spacing_pJZ",
   	"sidebar": "DataPage_sidebar_2cr",
-  	"nav": "DataPage_nav_3s0"
+  	"nav": "DataPage_nav_3s0",
+  	"legend": "DataPage_legend_2e1",
+  	"yellow": "DataPage_yellow_30z",
+  	"blue": "DataPage_blue_1Bj",
+  	"orange": "DataPage_orange_36J"
   };
 
 /***/ },
-/* 60 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -4112,15 +4999,15 @@ module.exports =
   
   function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
   
-  var _coreDispatcher = __webpack_require__(61);
+  var _coreDispatcher = __webpack_require__(59);
   
   var _coreDispatcher2 = _interopRequireDefault(_coreDispatcher);
   
-  var _constantsActionTypes = __webpack_require__(63);
+  var _constantsActionTypes = __webpack_require__(61);
   
   var _constantsActionTypes2 = _interopRequireDefault(_constantsActionTypes);
   
-  var _events = __webpack_require__(65);
+  var _events = __webpack_require__(81);
   
   var CHANGE_EVENT = 'change';
   
@@ -4200,132 +5087,13 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 61 */
-/***/ function(module, exports, __webpack_require__) {
-
-  /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
-  
-  'use strict';
-  
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });
-  
-  var _flux = __webpack_require__(62);
-  
-  var dispatcher = new _flux.Dispatcher();
-  
-  exports['default'] = dispatcher;
-  module.exports = exports['default'];
-
-/***/ },
-/* 62 */
-/***/ function(module, exports) {
-
-  module.exports = require("flux");
-
-/***/ },
-/* 63 */
-/***/ function(module, exports, __webpack_require__) {
-
-  /**
-   * React Starter Kit (https://www.reactstarterkit.com/)
-   *
-   * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
-   *
-   * This source code is licensed under the MIT license found in the
-   * LICENSE.txt file in the root directory of this source tree.
-   */
-  
-  'use strict';
-  
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });
-  
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-  
-  var _fbjsLibKeyMirror = __webpack_require__(64);
-  
-  var _fbjsLibKeyMirror2 = _interopRequireDefault(_fbjsLibKeyMirror);
-  
-  exports['default'] = (0, _fbjsLibKeyMirror2['default'])({
-    DATAPAGE_RECEIVE_DATA: null,
-    DATAPAGE_UPDATE: null
-  });
-  module.exports = exports['default'];
-
-/***/ },
-/* 64 */
-/***/ function(module, exports) {
-
-  module.exports = require("fbjs/lib/keyMirror");
-
-/***/ },
-/* 65 */
+/* 81 */
 /***/ function(module, exports) {
 
   module.exports = require("events");
 
 /***/ },
-/* 66 */
-/***/ function(module, exports, __webpack_require__) {
-
-  /**
-   * Data source action dispatched as aresult of getting data from data base
-   */
-  
-  'use strict';
-  
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });
-  
-  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-  
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-  
-  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-  
-  var _coreDispatcher = __webpack_require__(61);
-  
-  var _coreDispatcher2 = _interopRequireDefault(_coreDispatcher);
-  
-  var _constantsActionTypes = __webpack_require__(63);
-  
-  var _constantsActionTypes2 = _interopRequireDefault(_constantsActionTypes);
-  
-  var DataPageActions = (function () {
-    function DataPageActions() {
-      _classCallCheck(this, DataPageActions);
-    }
-  
-    _createClass(DataPageActions, [{
-      key: 'getData',
-      value: function getData(raw) {
-        _coreDispatcher2['default'].dispatch({
-          actionType: _constantsActionTypes2['default'].DATAPAGE_RECEIVE_DATA,
-          data: raw
-        });
-      }
-    }, {
-      key: 'update',
-      value: function update(raw) {
-        _coreDispatcher2['default'].dispatch({
-          actionType: _constantsActionTypes2['default'].DATAPAGE_UPDATE,
-          data: raw
-        });
-      }
-    }]);
-  
-    return DataPageActions;
-  })();
-  
-  exports['default'] = new DataPageActions();
-  module.exports = exports['default'];
-
-/***/ },
-/* 67 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
   module.exports = function() {
@@ -4333,7 +5101,7 @@ module.exports =
   };
 
 /***/ },
-/* 68 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -4348,25 +5116,25 @@ module.exports =
   
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
   
-  var _dc = __webpack_require__(69);
+  var _dc = __webpack_require__(84);
   
   var _dc2 = _interopRequireDefault(_dc);
   
-  var _coreCfHelper = __webpack_require__(74);
+  var _coreCfHelper = __webpack_require__(89);
   
   var _coreCfHelper2 = _interopRequireDefault(_coreCfHelper);
   
-  __webpack_require__(77);
+  __webpack_require__(91);
   
-  var _jquery = __webpack_require__(78);
+  var _jquery = __webpack_require__(92);
   
   var _jquery2 = _interopRequireDefault(_jquery);
   
-  var _moment = __webpack_require__(79);
+  var _moment = __webpack_require__(93);
   
   var _moment2 = _interopRequireDefault(_moment);
   
-  var _c3 = __webpack_require__(80);
+  var _c3 = __webpack_require__(94);
   
   var _c32 = _interopRequireDefault(_c3);
   
@@ -4377,28 +5145,6 @@ module.exports =
       var _this = this;
   
       _classCallCheck(this, DcCharts);
-  
-      this._addNamesToTweet = function (tweet) {
-        // mutates the tweet by adding new fields
-        _this.mentions.forEach(function (mention) {
-          var bool = tweet.user_mentions.some(function (name) {
-            return name.indexOf(mention) !== -1;
-          });
-          tweet[mention] = bool ? 1 : 0;
-        });
-        return tweet;
-      };
-  
-      this._excludeNamesInTerms = function (tweet) {
-        var mentions = _this.mentions;
-        mentions.push('amamambabazi');
-        tweet.terms.forEach(function (term, index, arr) {
-          var isName = mentions.some(function (mention) {
-            return mention.indexOf(term) !== -1;
-          });
-          if (isName) arr.splice(index, 1);
-        });
-      };
   
       this._tablesRefresh = function () {
         _dc2['default'].events.trigger(function () {
@@ -4441,20 +5187,11 @@ module.exports =
     _createClass(DcCharts, [{
       key: '_dataTransform',
       value: function _dataTransform(data) {
-        var _this3 = this;
-  
         this.lowerLimit = data[0].timeStamp;
         this.upperLimit = data[data.length - 1].timeStamp;
         data.forEach(function (d) {
           var momentDate = (0, _moment2['default'])(new Date(d.date));
-          d.time = new Date(d.date);
-          // const sentiment = d.sentiment ? d.sentiment.toFixed(2) : d.sentiment;
           d.date = momentDate.format('ddd MMM Do, HH:mm');
-          d.text = d.text.toLowerCase();
-          // d.sentiment = d.sentiment;
-          d.hour = momentDate.hour();
-          _this3._addNamesToTweet(d);
-          _this3._excludeNamesInTerms(d);
         });
         return data;
       }
@@ -4469,7 +5206,7 @@ module.exports =
     }, {
       key: 'createDataTable',
       value: function createDataTable(table) {
-        this.tableDimension = this.createDimenion('text');
+        this.tableDimension = this.createDimenion('hour');
         this.datatable = (0, _jquery2['default'])('#' + table);
         // initialize datatable
         this.datatable.dataTable(this._dataTablesOptions());
@@ -4491,7 +5228,9 @@ module.exports =
         _dc2['default'].redrawAll();
         this.row.render();
         this._tablesRefresh();
-        this.pie.render();
+        // this.pie.render();
+        this.hashtags.render();
+        this.terms.render();
       }
     }, {
       key: '_dataTablesOptions',
@@ -4503,7 +5242,7 @@ module.exports =
           columnDefs: [{
             targets: 0,
             data: function data(d) {
-              return d.text;
+              return d.terms.join(',');
             },
             defaultContent: ''
           }, {
@@ -4554,7 +5293,7 @@ module.exports =
         var dim = _createGroupAndDimArrayField.dim;
         var group = _createGroupAndDimArrayField.group;
   
-        this.row = this.rowChart(dim, group, id);
+        this.hashtags = this.rowChart(dim, group, id);
       }
     }, {
       key: 'drawTerms',
@@ -4564,7 +5303,7 @@ module.exports =
         var dim = _createGroupAndDimArrayField2.dim;
         var group = _createGroupAndDimArrayField2.group;
   
-        this.row = this.rowChart(dim, group, id);
+        this.terms = this.rowChart(dim, group, id);
       }
     }, {
       key: 'drawRawChart',
@@ -4710,7 +5449,7 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 69 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -4721,17 +5460,17 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _dc2 = __webpack_require__(70);
+  var _dc2 = __webpack_require__(85);
   
   var _dc3 = _interopRequireDefault(_dc2);
   
-  var _leaflet = __webpack_require__(71);
+  var _leaflet = __webpack_require__(86);
   
   var _leaflet2 = _interopRequireDefault(_leaflet);
   
-  __webpack_require__(72);
+  __webpack_require__(87);
   
-  var _dcAddons = __webpack_require__(73);
+  var _dcAddons = __webpack_require__(88);
   
   var _dcAddons2 = _interopRequireDefault(_dcAddons);
   
@@ -4740,31 +5479,31 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 70 */
+/* 85 */
 /***/ function(module, exports) {
 
   module.exports = require("dc");
 
 /***/ },
-/* 71 */
+/* 86 */
 /***/ function(module, exports) {
 
   module.exports = require("leaflet");
 
 /***/ },
-/* 72 */
+/* 87 */
 /***/ function(module, exports) {
 
   module.exports = require("leaflet.markercluster");
 
 /***/ },
-/* 73 */
+/* 88 */
 /***/ function(module, exports) {
 
   module.exports = require("dc-addons");
 
 /***/ },
-/* 74 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -4782,11 +5521,11 @@ module.exports =
   
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
   
-  var _crossfilter2 = __webpack_require__(75);
+  var _crossfilter2 = __webpack_require__(70);
   
   var _crossfilter22 = _interopRequireDefault(_crossfilter2);
   
-  var _lodash = __webpack_require__(76);
+  var _lodash = __webpack_require__(90);
   
   var _lodash2 = _interopRequireDefault(_lodash);
   
@@ -4975,704 +5714,34 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 75 */
-/***/ function(module, exports) {
-
-  module.exports = require("crossfilter2");
-
-/***/ },
-/* 76 */
+/* 90 */
 /***/ function(module, exports) {
 
   module.exports = require("lodash");
 
 /***/ },
-/* 77 */
+/* 91 */
 /***/ function(module, exports) {
 
   module.exports = require("datatables");
 
 /***/ },
-/* 78 */
+/* 92 */
 /***/ function(module, exports) {
 
   module.exports = require("jquery");
 
 /***/ },
-/* 79 */
+/* 93 */
 /***/ function(module, exports) {
 
   module.exports = require("moment");
 
 /***/ },
-/* 80 */
-/***/ function(module, exports) {
-
-  module.exports = require("c3");
-
-/***/ },
-/* 81 */
-/***/ function(module, exports, __webpack_require__) {
-
-  /**
-   * React Starter Kit (https://www.reactstarterkit.com/)
-   *
-   * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
-   *
-   * This source code is licensed under the MIT license found in the
-   * LICENSE.txt file in the root directory of this source tree.
-   */
-  
-  'use strict';
-  
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });
-  
-  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-  
-  var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-  
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-  
-  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-  
-  function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-  
-  var _react = __webpack_require__(4);
-  
-  var _react2 = _interopRequireDefault(_react);
-  
-  var _config = __webpack_require__(14);
-  
-  var Html = (function (_Component) {
-    _inherits(Html, _Component);
-  
-    function Html() {
-      _classCallCheck(this, Html);
-  
-      _get(Object.getPrototypeOf(Html.prototype), 'constructor', this).apply(this, arguments);
-    }
-  
-    _createClass(Html, [{
-      key: 'trackingCode',
-      value: function trackingCode() {
-        return { __html: '(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=' + 'function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;' + 'e=o.createElement(i);r=o.getElementsByTagName(i)[0];' + 'e.src=\'https://www.google-analytics.com/analytics.js\';' + 'r.parentNode.insertBefore(e,r)}(window,document,\'script\',\'ga\'));' + ('ga(\'create\',\'' + _config.googleAnalyticsId + '\',\'auto\');ga(\'send\',\'pageview\');')
-        };
-      }
-    }, {
-      key: 'render',
-      value: function render() {
-        return _react2['default'].createElement(
-          'html',
-          { className: 'no-js', lang: '' },
-          _react2['default'].createElement(
-            'head',
-            null,
-            _react2['default'].createElement('meta', { charSet: 'utf-8' }),
-            _react2['default'].createElement('meta', { httpEquiv: 'X-UA-Compatible', content: 'IE=edge' }),
-            _react2['default'].createElement(
-              'title',
-              null,
-              this.props.title
-            ),
-            _react2['default'].createElement('meta', { name: 'description', content: this.props.description }),
-            _react2['default'].createElement('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' }),
-            _react2['default'].createElement('link', { href: 'https://fonts.googleapis.com/css?family=Lato\' rel=\'stylesheet\' type=\'text/css' }),
-            _react2['default'].createElement('link', { rel: 'apple-touch-icon', href: 'apple-touch-icon.png' }),
-            _react2['default'].createElement('link', { rel: 'stylesheet', href: 'screen.css' }),
-            _react2['default'].createElement('link', { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' }),
-            _react2['default'].createElement('link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.min.css' }),
-            _react2['default'].createElement('link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css' }),
-            _react2['default'].createElement('link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.css' }),
-            _react2['default'].createElement('link', { rel: 'stylesheet', href: '//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css' }),
-            _react2['default'].createElement('link', { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', crossOrigin: 'anonymous' }),
-            _react2['default'].createElement('link', { rel: 'stylesheet', href: 'http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css' }),
-            _react2['default'].createElement('link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css' }),
-            _react2['default'].createElement('style', { id: 'css', dangerouslySetInnerHTML: { __html: this.props.css } })
-          ),
-          _react2['default'].createElement(
-            'body',
-            null,
-            _react2['default'].createElement('div', { id: 'app', dangerouslySetInnerHTML: { __html: this.props.body } }),
-            _react2['default'].createElement('script', { src: this.props.entry })
-          )
-        );
-      }
-    }], [{
-      key: 'propTypes',
-      value: {
-        title: _react.PropTypes.string,
-        description: _react.PropTypes.string,
-        css: _react.PropTypes.string,
-        body: _react.PropTypes.string.isRequired,
-        entry: _react.PropTypes.string.isRequired
-      },
-      enumerable: true
-    }, {
-      key: 'defaultProps',
-      value: {
-        title: '',
-        description: ''
-      },
-      enumerable: true
-    }]);
-  
-    return Html;
-  })(_react.Component);
-  
-  exports['default'] = Html;
-  module.exports = exports['default'];
-
-/***/ },
-/* 82 */
-/***/ function(module, exports) {
-
-  module.exports = require("./assets");
-
-/***/ },
-/* 83 */
-/***/ function(module, exports) {
-
-  module.exports = require("compression");
-
-/***/ },
-/* 84 */
-/***/ function(module, exports, __webpack_require__) {
-
-  'use strict';
-  
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-  
-  var _twJob = __webpack_require__(85);
-  
-  var _twJob2 = _interopRequireDefault(_twJob);
-  
-  // TODO put in a separate work thread
-  
-  try {
-    // initial run
-    (0, _twJob2['default'])();
-    setInterval(function () {
-      (0, _twJob2['default'])();
-    }, 60000 * 60);
-  } catch (e) {
-    console.log(e);
-  }
-
-/***/ },
-/* 85 */
-/***/ function(module, exports, __webpack_require__) {
-
-  /**
-   * Gets data from Twitter model
-   */
-  'use strict';
-  
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });
-  
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-  
-  var _mongodb = __webpack_require__(86);
-  
-  var _mongodb2 = _interopRequireDefault(_mongodb);
-  
-  var _redis = __webpack_require__(87);
-  
-  var _redis2 = _interopRequireDefault(_redis);
-  
-  var _config = __webpack_require__(14);
-  
-  var _crossfilter2 = __webpack_require__(75);
-  
-  var _crossfilter22 = _interopRequireDefault(_crossfilter2);
-  
-  var client = _redis2['default'].createClient();
-  
-  var MongoClient = _mongodb2['default'].MongoClient;
-  var collection = 'twits';
-  
-  console.log(_config.MONGO_URL);
-  
-  function _connection() {
-    return new Promise(function (resolve, reject) {
-      MongoClient.connect(_config.MONGO_URL, function (err, db) {
-        resolve(db);
-        reject(err);
-      });
-    });
-  }
-  
-  function findData() {
-    var db;
-    return regeneratorRuntime.async(function findData$(context$1$0) {
-      while (1) switch (context$1$0.prev = context$1$0.next) {
-        case 0:
-          context$1$0.prev = 0;
-          context$1$0.next = 3;
-          return regeneratorRuntime.awrap(_connection());
-  
-        case 3:
-          db = context$1$0.sent;
-          return context$1$0.abrupt('return', db.collection(collection).find({
-            'is_retweet': false
-          }, { timeStamp: 1, _id: 0 }).toArray());
-  
-        case 7:
-          context$1$0.prev = 7;
-          context$1$0.t0 = context$1$0['catch'](0);
-  
-          console.log(context$1$0.t0);
-  
-        case 10:
-        case 'end':
-          return context$1$0.stop();
-      }
-    }, null, this, [[0, 7]]);
-  }
-  
-  function aggregateData() {
-    var data, cfData, dim, group;
-    return regeneratorRuntime.async(function aggregateData$(context$1$0) {
-      while (1) switch (context$1$0.prev = context$1$0.next) {
-        case 0:
-          context$1$0.next = 2;
-          return regeneratorRuntime.awrap(findData());
-  
-        case 2:
-          data = context$1$0.sent;
-  
-          data.forEach(function (d) {
-            d.date = new Date(d.timeStamp).getDate();
-          });
-          cfData = (0, _crossfilter22['default'])(data);
-          dim = cfData.dimension(function (d) {
-            return d.date;
-          });
-          group = dim.group().reduceCount();
-          return context$1$0.abrupt('return', group.all());
-  
-        case 8:
-        case 'end':
-          return context$1$0.stop();
-      }
-    }, null, this);
-  }
-  
-  exports['default'] = function job() {
-    var data;
-    return regeneratorRuntime.async(function job$(context$1$0) {
-      while (1) switch (context$1$0.prev = context$1$0.next) {
-        case 0:
-          context$1$0.next = 2;
-          return regeneratorRuntime.awrap(aggregateData());
-  
-        case 2:
-          data = context$1$0.sent;
-  
-          client.set('tw', JSON.stringify(data), function (err, res) {
-            if (err) throw new Error(err);
-            /* eslint-disable no-console*/
-            console.log('completed job ' + new Date() + ' ' + res);
-          });
-  
-        case 4:
-        case 'end':
-          return context$1$0.stop();
-      }
-    }, null, this);
-  };
-  
-  module.exports = exports['default'];
-
-/***/ },
-/* 86 */
-/***/ function(module, exports) {
-
-  module.exports = require("mongodb");
-
-/***/ },
-/* 87 */
-/***/ function(module, exports) {
-
-  module.exports = require("redis");
-
-/***/ },
-/* 88 */
-/***/ function(module, exports, __webpack_require__) {
-
-  /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
-  
-  'use strict';
-  
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });
-  
-  var _this = this;
-  
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-  
-  var _express = __webpack_require__(3);
-  
-  var _express2 = _interopRequireDefault(_express);
-  
-  var _dataHandlerTw = __webpack_require__(89);
-  
-  var _dataHandlerTw2 = _interopRequireDefault(_dataHandlerTw);
-  
-  var router = new _express2['default'].Router();
-  
-  router.get('/social/twdata', function callee$0$0(req, res, next) {
-    var data, aggregate;
-    return regeneratorRuntime.async(function callee$0$0$(context$1$0) {
-      while (1) switch (context$1$0.prev = context$1$0.next) {
-        case 0:
-          context$1$0.prev = 0;
-          context$1$0.next = 3;
-          return regeneratorRuntime.awrap(_dataHandlerTw2['default'].findAll());
-  
-        case 3:
-          data = context$1$0.sent;
-          context$1$0.next = 6;
-          return regeneratorRuntime.awrap(_dataHandlerTw2['default'].getFromRedis());
-  
-        case 6:
-          aggregate = context$1$0.sent;
-  
-          // console.log(aggregate);
-          res.status(200).json({ data: data, aggregate: JSON.parse(aggregate) });
-          context$1$0.next = 13;
-          break;
-  
-        case 10:
-          context$1$0.prev = 10;
-          context$1$0.t0 = context$1$0['catch'](0);
-  
-          next(context$1$0.t0);
-  
-        case 13:
-        case 'end':
-          return context$1$0.stop();
-      }
-    }, null, _this, [[0, 10]]);
-  });
-  
-  router.get('/social/twdata/:date', function callee$0$0(req, res, next) {
-    var data;
-    return regeneratorRuntime.async(function callee$0$0$(context$1$0) {
-      while (1) switch (context$1$0.prev = context$1$0.next) {
-        case 0:
-          context$1$0.prev = 0;
-          context$1$0.next = 3;
-          return regeneratorRuntime.awrap(_dataHandlerTw2['default'].findByDate(req.params.date));
-  
-        case 3:
-          data = context$1$0.sent;
-  
-          res.status(200).json(data);
-          context$1$0.next = 10;
-          break;
-  
-        case 7:
-          context$1$0.prev = 7;
-          context$1$0.t0 = context$1$0['catch'](0);
-  
-          next(context$1$0.t0);
-  
-        case 10:
-        case 'end':
-          return context$1$0.stop();
-      }
-    }, null, _this, [[0, 7]]);
-  });
-  
-  exports['default'] = router;
-  module.exports = exports['default'];
-
-/***/ },
-/* 89 */
-/***/ function(module, exports, __webpack_require__) {
-
-  /**
-   * Gets data from Twitter model
-   */
-  'use strict';
-  
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });
-  
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-  
-  var _mongodb = __webpack_require__(86);
-  
-  var _mongodb2 = _interopRequireDefault(_mongodb);
-  
-  var _config = __webpack_require__(14);
-  
-  var _redis = __webpack_require__(87);
-  
-  var _redis2 = _interopRequireDefault(_redis);
-  
-  var client = _redis2['default'].createClient();
-  
-  var MongoClient = _mongodb2['default'].MongoClient;
-  var collection = 'twits';
-  var hour = 60000 * 60;
-  
-  function _connection() {
-    return new Promise(function (resolve, reject) {
-      MongoClient.connect(_config.MONGO_URL, function (err, db) {
-        resolve(db);
-        reject(err);
-      });
-    });
-  }
-  
-  function getFromRedis() {
-    return new Promise(function (resolve, reject) {
-      client.get('tw', function (err, reply) {
-        resolve(reply);
-        reject(err);
-      });
-    });
-  }
-  
-  function findAll() {
-    var db, now, hoursPast, time;
-    return regeneratorRuntime.async(function findAll$(context$1$0) {
-      while (1) switch (context$1$0.prev = context$1$0.next) {
-        case 0:
-          context$1$0.prev = 0;
-          context$1$0.next = 3;
-          return regeneratorRuntime.awrap(_connection());
-  
-        case 3:
-          db = context$1$0.sent;
-          now = new Date();
-          hoursPast = now.getHours();
-          time = now - hour * hoursPast * 2;
-          return context$1$0.abrupt('return', db.collection(collection).find({
-            'is_retweet': false,
-            timeStamp: { $gt: time }
-          }).sort({ timeStamp: 1 }).toArray());
-  
-        case 10:
-          context$1$0.prev = 10;
-          context$1$0.t0 = context$1$0['catch'](0);
-          throw new Error(context$1$0.t0);
-  
-        case 13:
-        case 'end':
-          return context$1$0.stop();
-      }
-    }, null, this, [[0, 10]]);
-  }
-  
-  function findByDate(start) {
-    var db, end;
-    return regeneratorRuntime.async(function findByDate$(context$1$0) {
-      while (1) switch (context$1$0.prev = context$1$0.next) {
-        case 0:
-          context$1$0.prev = 0;
-          context$1$0.next = 3;
-          return regeneratorRuntime.awrap(_connection());
-  
-        case 3:
-          db = context$1$0.sent;
-          end = parseInt(start, 10) + hour * 6;
-          return context$1$0.abrupt('return', db.collection(collection).find({
-            timeStamp: {
-              $gt: parseInt(start, 10),
-              $lt: end
-            },
-            is_retweet: false
-          }, {}).sort({ timeStamp: 1 }).toArray());
-  
-        case 8:
-          context$1$0.prev = 8;
-          context$1$0.t0 = context$1$0['catch'](0);
-          throw new Error(context$1$0.t0);
-  
-        case 11:
-        case 'end':
-          return context$1$0.stop();
-      }
-    }, null, this, [[0, 8]]);
-  }
-  
-  exports['default'] = { findAll: findAll, findByDate: findByDate, getFromRedis: getFromRedis };
-  module.exports = exports['default'];
-
-/***/ },
-/* 90 */
-/***/ function(module, exports, __webpack_require__) {
-
-  
-  /**
-   * React Starter Kit (https://www.reactstarterkit.com/)
-   *
-   * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
-   *
-   * This source code is licensed under the MIT license found in the
-   * LICENSE.txt file in the root directory of this source tree.
-   */
-  
-  'use strict';
-  
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });
-  
-  var _this = this;
-  
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-  
-  var _fs = __webpack_require__(91);
-  
-  var _fs2 = _interopRequireDefault(_fs);
-  
-  var _path = __webpack_require__(2);
-  
-  var _express = __webpack_require__(3);
-  
-  var _bluebird = __webpack_require__(92);
-  
-  var _bluebird2 = _interopRequireDefault(_bluebird);
-  
-  var _jade = __webpack_require__(93);
-  
-  var _jade2 = _interopRequireDefault(_jade);
-  
-  var _frontMatter = __webpack_require__(94);
-  
-  var _frontMatter2 = _interopRequireDefault(_frontMatter);
-  
-  // A folder with Jade/Markdown/HTML content pages
-  var CONTENT_DIR = (0, _path.join)(__dirname, './content');
-  
-  // Extract 'front matter' metadata and generate HTML
-  var parseJade = function parseJade(path, jadeContent) {
-    var fmContent = (0, _frontMatter2['default'])(jadeContent);
-    var htmlContent = _jade2['default'].render(fmContent.body);
-    return Object.assign({ path: path, content: htmlContent }, fmContent.attributes);
-  };
-  
-  var readFile = _bluebird2['default'].promisify(_fs2['default'].readFile);
-  var fileExists = function fileExists(filename) {
-    return new _bluebird2['default'](function (resolve) {
-      _fs2['default'].exists(filename, resolve);
-    });
-  };
-  
-  // TODO make the query checking code into middleware
-  
-  var router = new _express.Router();
-  
-  // define the about route
-  router.get('/api/test', function (req, res) {
-    res.json({ text: 'hello Text' });
-  });
-  
-  router.get('/', function callee$0$0(req, res, next) {
-    var path, fileName, source, content;
-    return regeneratorRuntime.async(function callee$0$0$(context$1$0) {
-      while (1) switch (context$1$0.prev = context$1$0.next) {
-        case 0:
-          context$1$0.prev = 0;
-          path = req.query.path;
-  
-          if (!(!path || path === 'undefined')) {
-            context$1$0.next = 5;
-            break;
-          }
-  
-          res.status(400).send({ error: 'The \'path\' query parameter cannot be empty.' });
-          return context$1$0.abrupt('return');
-  
-        case 5:
-          fileName = (0, _path.join)(CONTENT_DIR, (path === '/' ? '/index' : path) + '.jade');
-          context$1$0.next = 8;
-          return regeneratorRuntime.awrap(fileExists(fileName));
-  
-        case 8:
-          if (context$1$0.sent) {
-            context$1$0.next = 10;
-            break;
-          }
-  
-          fileName = (0, _path.join)(CONTENT_DIR, path + '/index.jade');
-  
-        case 10:
-          context$1$0.next = 12;
-          return regeneratorRuntime.awrap(fileExists(fileName));
-  
-        case 12:
-          if (context$1$0.sent) {
-            context$1$0.next = 16;
-            break;
-          }
-  
-          res.status(404).send({ error: 'The page \'' + path + '\' is not found.' });
-          context$1$0.next = 21;
-          break;
-  
-        case 16:
-          context$1$0.next = 18;
-          return regeneratorRuntime.awrap(readFile(fileName, { encoding: 'utf8' }));
-  
-        case 18:
-          source = context$1$0.sent;
-          content = parseJade(path, source);
-  
-          res.status(200).send(content);
-  
-        case 21:
-          context$1$0.next = 26;
-          break;
-  
-        case 23:
-          context$1$0.prev = 23;
-          context$1$0.t0 = context$1$0['catch'](0);
-  
-          next(context$1$0.t0);
-  
-        case 26:
-        case 'end':
-          return context$1$0.stop();
-      }
-    }, null, _this, [[0, 23]]);
-  });
-  
-  exports['default'] = router;
-  module.exports = exports['default'];
-
-/***/ },
-/* 91 */
-/***/ function(module, exports) {
-
-  module.exports = require("fs");
-
-/***/ },
-/* 92 */
-/***/ function(module, exports) {
-
-  module.exports = require("bluebird");
-
-/***/ },
-/* 93 */
-/***/ function(module, exports) {
-
-  module.exports = require("jade");
-
-/***/ },
 /* 94 */
 /***/ function(module, exports) {
 
-  module.exports = require("front-matter");
+  module.exports = require("c3");
 
 /***/ }
 /******/ ]);

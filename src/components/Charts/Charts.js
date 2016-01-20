@@ -25,33 +25,11 @@ export default class DcCharts {
     this.upperLimit = data[data.length - 1].timeStamp;
     data.forEach(d => {
       const momentDate = moment(new Date(d.date));
-      d.time = new Date(d.date);
-      // const sentiment = d.sentiment ? d.sentiment.toFixed(2) : d.sentiment;
       d.date = momentDate.format('ddd MMM Do, HH:mm');
-      d.text = d.text.toLowerCase();
-      // d.sentiment = d.sentiment;
-      d.hour = momentDate.hour();
-      this._addNamesToTweet(d);
-      this._excludeNamesInTerms(d);
     });
     return data;
   }
-  _addNamesToTweet = (tweet) => {
-    // mutates the tweet by adding new fields
-    this.mentions.forEach((mention) => {
-      const bool = tweet.user_mentions.some(name => name.indexOf(mention) !== -1);
-      tweet[mention] = bool ? 1 : 0;
-    });
-    return tweet;
-  }
-  _excludeNamesInTerms = (tweet) => {
-    const mentions = this.mentions;
-    mentions.push('amamambabazi');
-    tweet.terms.forEach((term, index, arr) => {
-      const isName = mentions.some(mention => mention.indexOf(term) !== -1);
-      if (isName) arr.splice(index, 1);
-    });
-  }
+
   updateData(raw) {
     const newData = this._dataTransform(raw);
     this.data.remove();
@@ -60,7 +38,7 @@ export default class DcCharts {
   }
 
   createDataTable(table) {
-    this.tableDimension = this.createDimenion('text');
+    this.tableDimension = this.createDimenion('hour');
     this.datatable = $('#' + table);
     // initialize datatable
     this.datatable.dataTable(this._dataTablesOptions());
@@ -107,7 +85,9 @@ export default class DcCharts {
     dc.redrawAll();
     this.row.render();
     this._tablesRefresh();
-    this.pie.render();
+    // this.pie.render();
+    this.hashtags.render();
+    this.terms.render();
   }
   _dataTablesOptions() {
     return {
@@ -118,7 +98,7 @@ export default class DcCharts {
       'bSort': true,
       columnDefs: [{
         targets: 0,
-        data: d => d.text,
+        data: d => d.terms.join(','),
         defaultContent: '',
       }, {
         targets: 1,
@@ -151,11 +131,11 @@ export default class DcCharts {
   }
   drawHashTags(id) {
     const { dim, group } = this.createGroupAndDimArrayField('hashtags');
-    this.row = this.rowChart(dim, group, id);
+    this.hashtags = this.rowChart(dim, group, id);
   }
   drawTerms(id) {
     const { dim, group } = this.createGroupAndDimArrayField('terms');
-    this.row = this.rowChart(dim, group, id);
+    this.terms = this.rowChart(dim, group, id);
   }
   drawRawChart(id) {
     const { dim, group } = this.createGroupAndDimArrayField('user_mentions');
