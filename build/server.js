@@ -1333,7 +1333,7 @@ module.exports =
   Object.defineProperty(exports, '__esModule', {
     value: true
   });
-  var port = process.env.PORT || 500;
+  var port = process.env.PORT || 5000;
   exports.port = port;
   var host = process.env.WEBSITE_HOSTNAME || 'localhost:' + port;
   exports.host = host;
@@ -3833,7 +3833,7 @@ module.exports =
                       _react2['default'].createElement(
                         'h4',
                         null,
-                        'Aggregate Volume of Mentions For Each Candidate'
+                        'Aggregate Volume of Mentions For Each Candidate Per Hour'
                       ),
                       _react2['default'].createElement('div', { id: 'row' })
                     )
@@ -4687,7 +4687,7 @@ module.exports =
       value: function compositeLineChart(dim, groups, chartId) {
         var composite = _dc2['default'].compositeChart('#' + chartId);
         // console.log([new Date(this.lowerLimit), new Date(this.upperLimit)]);
-        composite.width(450).height(300).yAxisLabel('The Y Axis').renderHorizontalGridLines(true).x(_dc2['default'].d3.scale.linear().domain([0, 24])).xUnits(_dc2['default'].d3.time.hours).elasticY(true).elasticX(true).brushOn(false).compose([_dc2['default'].lineChart(composite).dimension(dim).colors('yellow').brushOn(true).group(groups[0], 'museveni'), _dc2['default'].lineChart(composite).dimension(dim).brushOn(true).colors('blue').group(groups[1], 'besigye'), _dc2['default'].lineChart(composite).dimension(dim).colors('orange').group(groups[2], 'amama')]).render();
+        composite.width(450).height(300).yAxisLabel('Tweets').xAxisLabel('Hours').renderHorizontalGridLines(true).x(_dc2['default'].d3.scale.linear().domain([0, 24])).xUnits(_dc2['default'].d3.time.hours).elasticY(true).elasticX(true).brushOn(false).compose([_dc2['default'].lineChart(composite).dimension(dim).colors('yellow').brushOn(true).group(groups[0], 'museveni'), _dc2['default'].lineChart(composite).dimension(dim).brushOn(true).colors('blue').group(groups[1], 'besigye'), _dc2['default'].lineChart(composite).dimension(dim).colors('orange').group(groups[2], 'amama')]).render();
       }
     }, {
       key: 'lineChart',
@@ -4715,8 +4715,6 @@ module.exports =
             },
             type: 'bar',
             onclick: function onclick(d, element) {
-              /*  if (_.indexOf(active, d.x)){
-                 }*/
               (0, _jquery2['default'])(element).css(styles);
               var startTime = (0, _moment2['default'])('2016-01-' + d.x + ' 00:00').valueOf();
               setTimeout(callback(startTime), 50);
@@ -4728,9 +4726,12 @@ module.exports =
             }
           },
           axis: {
+            x: {
+              text: 'January dates'
+            },
             y: {
               label: {
-                text: 'Y Label',
+                text: 'Total Tweets',
                 position: 'outer-middle'
               }
             }

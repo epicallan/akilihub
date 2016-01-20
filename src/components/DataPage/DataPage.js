@@ -165,7 +165,7 @@ export default class DataCenterPage extends Component {
                      </i>
                   </div>
                   <div className="col-md-6">
-                    <h4>Aggregate Volume of Mentions For Each Candidate</h4>
+                    <h4>Aggregate Volume of Mentions For Each Candidate Per Hour</h4>
                     <div id ="row"></div>
                   </div>
                 </div>

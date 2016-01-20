@@ -228,7 +228,8 @@ export default class DcCharts {
     // console.log([new Date(this.lowerLimit), new Date(this.upperLimit)]);
     composite.width(450)
       .height(300)
-      .yAxisLabel('The Y Axis')
+      .yAxisLabel('Tweets')
+      .xAxisLabel('Hours')
       .renderHorizontalGridLines(true)
       .x(dc.d3.scale.linear().domain([0, 24]))
       .xUnits(dc.d3.time.hours)
@@ -287,9 +288,6 @@ export default class DcCharts {
         },
         type: 'bar',
         onclick: (d, element) => {
-        /*  if (_.indexOf(active, d.x)){
-
-          }*/
           $(element).css(styles);
           const startTime = moment(`2016-01-${d.x} 00:00`).valueOf();
           setTimeout(callback(startTime), 50);
@@ -301,9 +299,12 @@ export default class DcCharts {
         },
       },
       axis: {
+        x: {
+          text: 'January dates',
+        },
         y: {
           label: {
-            text: 'Y Label',
+            text: 'Total Tweets',
             position: 'outer-middle',
           },
         },
