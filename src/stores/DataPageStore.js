@@ -1,7 +1,3 @@
-/**
- * has methods that it inherites from a graph class
- * to morph data into objects different charts can work with
- */
 import Dispatcher from '../core/Dispatcher';
 import constants from '../constants/ActionTypes';
 import { EventEmitter } from 'events';

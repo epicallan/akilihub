@@ -1,5 +1,3 @@
-/*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
-
 import React, { Component, PropTypes } from 'react';
 import s from './BlogPage.scss';
 import cx from 'classnames';
