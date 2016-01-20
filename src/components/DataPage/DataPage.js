@@ -171,7 +171,7 @@ export default class DataCenterPage extends Component {
                 </div>
                 <div className="row spacing-sm">
                   <div className="col-md-4">
-                      <h4 >Twitter Mentions for selected Candidates Per Hour</h4>
+                      <h4 >Twitter Mentions Per Hour</h4>
                       <div id ="composite" className ="row"></div>
                       <div className = {cx(s.legend, 'row')}>
                         <div className = {s.yellow}><small>museveni<i></i></small></div>
