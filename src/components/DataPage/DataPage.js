@@ -161,15 +161,12 @@ export default class DataCenterPage extends Component {
                     <h4>Total volume of tweets For particular dates</h4>
                     <div id ="range"></div>
                     <i className ="small">
-                       * click on a bar to fetch in data for that data
+                       * click on a bar to fetch in data for that date
                      </i>
                   </div>
                   <div className="col-md-6">
                     <h4>Aggregate Volume of Mentions For Each Candidate </h4>
                     <div id ="row"></div>
-                    <i className ="small">
-                       * click on a bar to filter the data by the selected item
-                     </i>
                   </div>
                 </div>
                 <div className="row spacing-sm">
