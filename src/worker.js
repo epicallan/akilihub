@@ -1,6 +1,7 @@
 /*eslint-disable*/
+//TODO quick url fix
 onmessage = function(event) {
-  const url = `http://localhost:3000/api/social/twdata/${event.data}`;
+  const url = `http://akilihub.io/api/social/twdata/${event.data}`;
   get(url).then((data) => {
     postMessage(data);
   }).catch((err) => {
