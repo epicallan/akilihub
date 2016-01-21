@@ -3694,7 +3694,12 @@ module.exports =
                         null,
                         'Total volume of tweets For particular dates'
                       ),
-                      _react2['default'].createElement('div', { id: 'range' })
+                      _react2['default'].createElement('div', { id: 'range' }),
+                      _react2['default'].createElement(
+                        'i',
+                        { className: 'small' },
+                        '* click on a bar to fetch in data for that data'
+                      )
                     ),
                     _react2['default'].createElement(
                       'div',
@@ -3704,7 +3709,12 @@ module.exports =
                         null,
                         'Aggregate Volume of Mentions For Each Candidate '
                       ),
-                      _react2['default'].createElement('div', { id: 'row' })
+                      _react2['default'].createElement('div', { id: 'row' }),
+                      _react2['default'].createElement(
+                        'i',
+                        { className: 'small' },
+                        '* click on a bar to filter the data by the selected item'
+                      )
                     )
                   ),
                   _react2['default'].createElement(
