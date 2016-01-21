@@ -3694,12 +3694,7 @@ module.exports =
                         null,
                         'Total volume of tweets For particular dates'
                       ),
-                      _react2['default'].createElement('div', { id: 'range' }),
-                      _react2['default'].createElement(
-                        'i',
-                        { className: 'small' },
-                        '* please note there could be tweets that were not mined for some dates due to server problems'
-                      )
+                      _react2['default'].createElement('div', { id: 'range' })
                     ),
                     _react2['default'].createElement(
                       'div',

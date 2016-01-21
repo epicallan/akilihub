@@ -111,6 +111,6 @@
     "build": "babel-node tools/run build",
     "deploy": "babel-node tools/run deploy",
     "start": "node server.js"
-    "start-server": "NODE_ENV=production build/server.js"
+    "start-server": "build/server.js"
   }
 }

@@ -160,9 +160,6 @@ export default class DataCenterPage extends Component {
                   <div className="col-md-6">
                     <h4>Total volume of tweets For particular dates</h4>
                     <div id ="range"></div>
-                    <i className ="small">
-                       * please note there could be tweets that were not mined for some dates due to server problems
-                     </i>
                   </div>
                   <div className="col-md-6">
                     <h4>Aggregate Volume of Mentions For Each Candidate </h4>
