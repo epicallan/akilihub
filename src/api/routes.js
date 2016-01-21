@@ -1,5 +1,3 @@
-/*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
-
 import express from 'express';
 import twitterHandler from './dataHandler/tw';
 

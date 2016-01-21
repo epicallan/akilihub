@@ -3936,7 +3936,7 @@ module.exports =
         this.charts = new Charts(data);
         // this.charts.drawLineChart('sentiment');
         // leaflet map
-        this.charts.drawMap(container.map);
+        this.dcMap = this.charts.drawMap(container.map);
         // row
         this.charts.drawRawChart(container.row);
         // pie
@@ -5192,8 +5192,6 @@ module.exports =
 /* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
-  /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
-  
   'use strict';
   
   Object.defineProperty(exports, '__esModule', {

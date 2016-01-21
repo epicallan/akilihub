@@ -100,7 +100,7 @@ export default class DataCenterPage extends Component {
     this.charts = new Charts(data);
     // this.charts.drawLineChart('sentiment');
     // leaflet map
-    this.charts.drawMap(container.map);
+    this.dcMap = this.charts.drawMap(container.map);
     // row
     this.charts.drawRawChart(container.row);
     // pie
