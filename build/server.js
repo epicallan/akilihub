@@ -4511,6 +4511,8 @@ module.exports =
         var dim = _createGroupAndDimArrayField3.dim;
         var group = _createGroupAndDimArrayField3.group;
   
+        console.log(dim.top(2));
+        console.log(group.all());
         this.row = this.rowChart(dim, group, id);
       }
     }, {
@@ -4881,7 +4883,7 @@ module.exports =
         var max = _lodash2['default'].max(values);
         var transformedGrp = {};
         _lodash2['default'].forOwn(group, function (value, key) {
-          if (value > Math.floor(max / 8)) transformedGrp[key] = value;
+          if (value > Math.floor(max / 6)) transformedGrp[key] = value;
         });
         return transformedGrp;
       }

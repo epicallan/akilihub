@@ -140,6 +140,8 @@ export default class DcCharts {
   }
   drawRawChart(id) {
     const { dim, group } = this.createGroupAndDimArrayField('user_mentions');
+    console.log(dim.top(2));
+    console.log(group.all());
     this.row = this.rowChart(dim, group, id);
   }
   rowChart(dim, group, rowId) {
