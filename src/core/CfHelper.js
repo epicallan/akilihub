@@ -67,18 +67,18 @@ class CfHelper {
     return (p, v) => {
       if (!v[attr].length) return p; // skip empty arrays
       v[attr].forEach((val) => {
-        p[val] = (p[val] || 0) + 1; // increment counts
+        if (p[val].length > 2) p[val] = (p[val] || 0) + 1; // increment counts
       });
-      console.log(p);
+      // console.log(p);
       return p;
     };
   }
 
   reduceRemove(attr) {
     return (p, v) => {
-      if (v[attr][0] === '') return p; // skip empty values
+      if (!v[attr].length) return p; // skip empty arrays
       v[attr].forEach((val) => {
-        p[val] = (p[val] || 0) - 1; // decrement counts
+        if (p[val].length > 2) p[val] = (p[val] || 0) - 1; // decrement counts
       });
       return p;
     };
@@ -137,6 +137,7 @@ class CfHelper {
     }
     const dim = this.createDimension(cfData, attr);
     const rawGrp = dim.groupAll().reduce(this.reduceAdd(attr), this.reduceRemove(attr), reduceInitial).value();
+    console.log(rawGrp);
     const group = this._removeLowGroupObjs(rawGrp);
     this.groupPatches(group);
     return { dim, group };

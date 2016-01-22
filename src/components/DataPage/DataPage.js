@@ -116,7 +116,6 @@ export default class DataCenterPage extends Component {
     this.charts.drawComposite('composite');
     this.charts.drawHashTags('hashtags');
     this.charts.drawTerms('terms');
-    this.table.render();
     this.charts.drawAll();
     // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
     this.charts.rangeChart('range', this.state.aggregate, this.getNewData);
