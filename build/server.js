@@ -4823,10 +4823,11 @@ module.exports =
       key: 'reduceAdd',
       value: function reduceAdd(attr) {
         return function (p, v) {
-          if (v[attr][0] === '') return p; // skip empty values
+          if (!v[attr].length) return p; // skip empty arrays
           v[attr].forEach(function (val) {
             p[val] = (p[val] || 0) + 1; // increment counts
           });
+          console.log(p);
           return p;
         };
       }
@@ -4902,8 +4903,8 @@ module.exports =
           return {};
         }
         var dim = this.createDimension(cfData, attr);
+        console.log('attr ' + attr);
         var rawGrp = dim.groupAll().reduce(this.reduceAdd(attr), this.reduceRemove(attr), reduceInitial).value();
-        console.log(rawGrp);
         var group = this._removeLowGroupObjs(rawGrp);
         this.groupPatches(group);
         return { dim: dim, group: group };

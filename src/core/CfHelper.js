@@ -65,10 +65,11 @@ class CfHelper {
 
   reduceAdd(attr) {
     return (p, v) => {
-      if (v[attr][0] === '') return p; // skip empty values
+      if (!v[attr].length) return p; // skip empty arrays
       v[attr].forEach((val) => {
         p[val] = (p[val] || 0) + 1; // increment counts
       });
+      console.log(p);
       return p;
     };
   }
@@ -136,8 +137,8 @@ class CfHelper {
       return {};
     }
     const dim = this.createDimension(cfData, attr);
+    console.log(`attr ${attr}`);
     const rawGrp = dim.groupAll().reduce(this.reduceAdd(attr), this.reduceRemove(attr), reduceInitial).value();
-    console.log(rawGrp);
     const group = this._removeLowGroupObjs(rawGrp);
     this.groupPatches(group);
     return { dim, group };
