@@ -3629,8 +3629,8 @@ module.exports =
         _this.charts.createDataTable(container.table);
         // multiLineChart
         _this.charts.drawComposite('composite');
-        _this.charts.drawHashTags('hashtags');
-        _this.charts.drawTerms('terms');
+        //this.charts.drawHashTags('hashtags');
+        //this.charts.drawTerms('terms');
         // this.table.render();
         _this.charts.drawAll();
         // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
@@ -4881,6 +4881,7 @@ module.exports =
         // find highest value
         var values = _lodash2['default'].values(group);
         var max = _lodash2['default'].max(values);
+        console.log(max);
         var transformedGrp = {};
         _lodash2['default'].forOwn(group, function (value, key) {
           if (value > Math.floor(max / 6)) transformedGrp[key] = value;
