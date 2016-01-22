@@ -3629,9 +3629,9 @@ module.exports =
         _this.charts.createDataTable(container.table);
         // multiLineChart
         _this.charts.drawComposite('composite');
-        //this.charts.drawHashTags('hashtags');
-        //this.charts.drawTerms('terms');
-        // this.table.render();
+        _this.charts.drawHashTags('hashtags');
+        _this.charts.drawTerms('terms');
+        _this.table.render();
         _this.charts.drawAll();
         // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
         _this.charts.rangeChart('range', _this.state.aggregate, _this.getNewData);
@@ -4511,8 +4511,6 @@ module.exports =
         var dim = _createGroupAndDimArrayField3.dim;
         var group = _createGroupAndDimArrayField3.group;
   
-        // console.log(dim.top(2));
-        console.log(group.all());
         this.row = this.rowChart(dim, group, id);
       }
     }, {
@@ -4880,12 +4878,11 @@ module.exports =
       key: '_removeLowGroupObjs',
       value: function _removeLowGroupObjs(group) {
         // find highest value
-        // console.log(group);
         var values = _lodash2['default'].values(group);
         var max = _lodash2['default'].max(values);
         var transformedGrp = {};
         _lodash2['default'].forOwn(group, function (value, key) {
-          if (value > Math.floor(max / 6)) transformedGrp[key] = value;
+          if (value > Math.floor(max / 6.5)) transformedGrp[key] = value;
         });
         return transformedGrp;
       }
@@ -4903,7 +4900,6 @@ module.exports =
           return {};
         }
         var dim = this.createDimension(cfData, attr);
-        console.log('attr ' + attr);
         var rawGrp = dim.groupAll().reduce(this.reduceAdd(attr), this.reduceRemove(attr), reduceInitial).value();
         var group = this._removeLowGroupObjs(rawGrp);
         this.groupPatches(group);

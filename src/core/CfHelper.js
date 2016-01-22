@@ -117,12 +117,11 @@ class CfHelper {
 
   _removeLowGroupObjs(group) {
     // find highest value
-    // console.log(group);
     const values = _.values(group);
     const max = _.max(values);
     const transformedGrp = {};
     _.forOwn(group, function (value, key) {
-      if (value > Math.floor(max / 6)) transformedGrp[key] = value;
+      if (value > Math.floor(max / 6.5)) transformedGrp[key] = value;
     });
     return transformedGrp;
   }
@@ -137,7 +136,6 @@ class CfHelper {
       return {};
     }
     const dim = this.createDimension(cfData, attr);
-    console.log(`attr ${attr}`);
     const rawGrp = dim.groupAll().reduce(this.reduceAdd(attr), this.reduceRemove(attr), reduceInitial).value();
     const group = this._removeLowGroupObjs(rawGrp);
     this.groupPatches(group);
