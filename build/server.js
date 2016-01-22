@@ -4879,9 +4879,9 @@ module.exports =
       key: '_removeLowGroupObjs',
       value: function _removeLowGroupObjs(group) {
         // find highest value
+        console.log(group);
         var values = _lodash2['default'].values(group);
         var max = _lodash2['default'].max(values);
-        console.log(max);
         var transformedGrp = {};
         _lodash2['default'].forOwn(group, function (value, key) {
           if (value > Math.floor(max / 6)) transformedGrp[key] = value;

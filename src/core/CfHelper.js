@@ -116,9 +116,9 @@ class CfHelper {
 
   _removeLowGroupObjs(group) {
     // find highest value
+    console.log(group);
     const values = _.values(group);
     const max = _.max(values);
-    console.log(max);
     const transformedGrp = {};
     _.forOwn(group, function (value, key) {
       if (value > Math.floor(max / 6)) transformedGrp[key] = value;
