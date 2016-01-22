@@ -59,8 +59,8 @@ async function findAll() {
   try {
     const db = await _connection();
     const now = new Date();
-    const hoursPast = now.getHours();
-    const time = now - (hour * hoursPast);
+    // const hoursPast = now.getHours();
+    const time = now - (hour * 45);
     return db.collection(collection).find({
       'is_retweet': false,
       timeStamp: { $gt: time },

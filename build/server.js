@@ -3575,7 +3575,7 @@ module.exports =
   
   var isBrowser = typeof window !== 'undefined';
   var Charts = isBrowser ? __webpack_require__(68) : undefined;
-  
+  // import $ from 'jquery';
   // import testData from './data';
   
   function getStateFromStores() {
@@ -3610,6 +3610,32 @@ module.exports =
       _get(Object.getPrototypeOf(_DataCenterPage.prototype), 'constructor', this).call(this, props);
   
       this.onTimeClick = function () {};
+  
+      this.createDcCharts = function (container, data) {
+        _this.charts = new Charts(data);
+        // this.charts.drawLineChart('sentiment');
+        // leaflet map
+        _this.dcMap = _this.charts.drawMap(container.map);
+        _this.dcMap.on('postRender', function () {
+          document.getElementById('main').setAttribute('style', 'opacity: 1');
+          document.getElementById('loader').remove();
+        });
+        // row
+        _this.charts.drawRawChart(container.row);
+        // pie
+        _this.charts.drawPieChart(container.pie);
+        // table
+        // this.table = this.charts.tableChart(dim, container.table);
+        _this.charts.createDataTable(container.table);
+        // multiLineChart
+        _this.charts.drawComposite('composite');
+        _this.charts.drawHashTags('hashtags');
+        _this.charts.drawTerms('terms');
+        // this.table.render();
+        _this.charts.drawAll();
+        // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
+        _this.charts.rangeChart('range', _this.state.aggregate, _this.getNewData);
+      };
   
       this._onChange = function () {
         _this.setState(getStateFromStores());
@@ -3657,8 +3683,34 @@ module.exports =
           ),
           _react2['default'].createElement('hr', null),
           _react2['default'].createElement(
+            'div',
+            { className: 'row' },
+            _react2['default'].createElement(
+              'div',
+              { id: 'loader', className: (0, _classnames2['default'])(_DataPageScss2['default'].loader, 'col-sm-6', 'col-sm-offset-3') },
+              _react2['default'].createElement(
+                'p',
+                { className: 'text-center' },
+                _react2['default'].createElement(
+                  'span',
+                  { className: (0, _classnames2['default'])(_DataPageScss2['default'].ouro, _DataPageScss2['default'].ouo2) },
+                  _react2['default'].createElement(
+                    'span',
+                    { className: _DataPageScss2['default'].left },
+                    _react2['default'].createElement('span', { className: _DataPageScss2['default'].anim })
+                  ),
+                  _react2['default'].createElement(
+                    'span',
+                    { className: _DataPageScss2['default'].right },
+                    _react2['default'].createElement('span', { className: _DataPageScss2['default'].anim })
+                  )
+                )
+              )
+            )
+          ),
+          _react2['default'].createElement(
             'section',
-            { className: (0, _classnames2['default'])('container', _DataPageScss2['default'].container) },
+            { id: 'main', className: (0, _classnames2['default'])('container', _DataPageScss2['default'].container) },
             _react2['default'].createElement(
               'div',
               { className: (0, _classnames2['default'])('col-md-12', _DataPageScss2['default'].main) },
@@ -3931,29 +3983,6 @@ module.exports =
         }
       }
     }, {
-      key: 'createDcCharts',
-      value: function createDcCharts(container, data) {
-        this.charts = new Charts(data);
-        // this.charts.drawLineChart('sentiment');
-        // leaflet map
-        this.dcMap = this.charts.drawMap(container.map);
-        // row
-        this.charts.drawRawChart(container.row);
-        // pie
-        this.charts.drawPieChart(container.pie);
-        // table
-        // this.table = this.charts.tableChart(dim, container.table);
-        this.charts.createDataTable(container.table);
-        // multiLineChart
-        this.charts.drawComposite('composite');
-        this.charts.drawHashTags('hashtags');
-        this.charts.drawTerms('terms');
-        // this.table.render();
-        this.charts.drawAll();
-        // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
-        this.charts.rangeChart('range', this.state.aggregate, this.getNewData);
-      }
-    }, {
       key: 'onTimeClick',
       value: function onTimeClick(range) {
         console.log(range);
@@ -4009,7 +4038,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:2em}\nh2{font-size:1.5em}\nh3{font-size:1.2em}\n\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.DataPage_root_1Bn {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n}\n.DataPage_root_1Bn article {padding-left: 4em;padding-right: 4em;}\n.DataPage_root_1Bn .DataPage_charts_2yr {padding-left: 3em;}\n.DataPage_root_1Bn li {list-style: none;padding-top: 0.5em;margin-left: 6em;}\n.DataPage_root_1Bn table {margin: 0 auto;}\n.DataPage_root_1Bn h2 {color: #6B6969;}\n.DataPage_logo_2rV {\n  padding-left: 4em;\n  padding-bottom: 2em;\n  padding-top: 2em;\n}\n.DataPage_container_3Ry {\n  background-color: rgba(204, 204, 204, 0.35);\n}\n.DataPage_main_1GV {\n  margin-right: solid 1px;\n  background-color: white;;\n}\n.DataPage_main_1GV hr {color: #777;}\n.DataPage_main_1GV h3 {color: #374048;padding-bottom: 2em;}\n.DataPage_spacing_pJZ {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.DataPage_sidebar_2cr h3, .DataPage_sidebar_2cr a {\n  padding-left: 1em;\n}\n.DataPage_nav_3s0 >li>a, .DataPage_sidebar_2cr a {\n  color: #a94442;\n}\ntable{\n  font-size: 0.9em;\n}\ntable span{display: none}\n.DataPage_legend_2e1 small{\n  text-align: right;\n}\n.DataPage_legend_2e1 i{\n  width: 4em;\n  height: 0.5em;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.DataPage_yellow_30z i{\n  color: yellow;\n}\n.DataPage_blue_1Bj i{\n  color: blue;\n}\n.DataPage_orange_36J i{\n  color: orange;\n}\n", "", {"version":3,"sources":["/./src/components/variables.scss","/./src/components/DataPage/DataPage.scss"],"names":[],"mappings":"AAEA,cAAc;;AASd;GACG,aAAkB,CAAC;AACtB,GAAG,eAAkB,CAAC;AACtB,GAAG,eAAkB,CAAC;;AAEtB;;gFAEgF,CAMxB,UAAU,GACV,aAAa,CACb,UAAU,CACV,UAAU,CACV,UAAU;;AAElE;;gFAEgF;;AAIhF;;gFAEgF;;AAIhF;;gFAEgF,EAEhD,gCAAgC,EAChC,2BAA2B,EAC3B,6BAA6B,CAC7B,iCAAiC;;AAEjE;;gFAEgF;ACpDhF;EACE,gBAAgB;EAChB,YAAY;EACZ,wBAAwB;EACxB,qFAA6E;UAA7E,6EAA6E;CAmB9E;AAlBC,4BACE,kBAAkB,mBACC,CACpB;AACD,yCACE,kBAAkB,CACnB;AACD,uBACE,iBAAiB,mBACE,iBACF,CAClB;AACD,0BACE,eAAe,CAChB;AACD,uBACE,eAAe,CAChB;AAEH;EACE,kBAAkB;EAClB,oBAAoB;EACpB,iBAAiB;CAClB;AACD;EACE,4CAA4C;CAC7C;AACD;EACE,wBAAwB;EACxB,wBAAwB;CAQzB;AAPC,uBACE,YAAY,CACb;AACD,uBACE,eAAe,oBACK,CACrB;AAEH;EACE,gBAAgB;EAChB,mBAAmB;CACpB;AACD;EACE,kBAAkB;CACnB;AACD;EAEE,eAAe;CAChB;AACD;EACE,iBAAiB;CAElB;AADC,WAAK,aAAa,CAAC;AAErB;EACE,kBAAkB;CACnB;AACD;EACE,WAAW;EACX,cAAc;EACd,iBAAiB;EACjB,cAAc;EACd,mBAAmB;EACnB,sBAAsB;CACvB;AACD;EACE,cAAc;CACf;AACD;EACE,YAAY;CACb;AACD;EACE,cAAc;CACf","file":"DataPage.scss","sourcesContent":["\n\n/**variables*/\n\n\n$h2-font: 1.5em;\n$h3-font: 1.2em;\n$h1-font: 2em;\n$large-font: 2.1em;\n$font-weight: 700;\n\n//headers\nh1{font-size:$h1-font}\nh2{font-size:$h2-font}\nh3{font-size:$h3-font}\n\n/*\n * Colors\n * ========================================================================== */\n$primary-color: #5B798E;\n$secondary-color: #B76565;\n$light-color:#d9edf7;\n\n$white-base:            hsl(255, 255, 255);\n$gray-darker:           color(black lightness(+13.5%)); /* #222 */\n$gray-dark:             color(black lightness(+25%));   /* #404040 */\n$gray:                  color(black lightness(+33.5%)); /* #555 */\n$gray-light:            color(black lightness(+46.7%)); /* #777 */\n$gray-lighter:          color(black lightness(+93.5%)); /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n$font-family-base:      'Lato','Segoe UI', 'HelveticaNeue-Light', sans-serif;\n\n/*\n * Layout\n * ========================================================================== */\n\n$max-content-width:     1000px;\n\n/*\n * Media queries breakpoints\n * ========================================================================== */\n\n$screen-xs-min:         480px;  /* Extra small screen / phone */\n$screen-sm-min:         768px;  /* Small screen / tablet */\n$screen-md-min:         992px;  /* Medium screen / desktop */\n$screen-lg-min:         1200px; /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n$animation-swift-out:   .45s cubic-bezier(0.3, 1, 0.4, 1) 0s;\n","@import '../variables.scss';\n.root {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n  article {\n    padding-left: 4em;\n    padding-right: 4em;\n  };\n  .charts {\n    padding-left: 3em;\n  };\n  li {\n    list-style: none;\n    padding-top: 0.5em;\n    margin-left: 6em;\n  };\n  table {\n    margin: 0 auto;\n  };\n  h2 {\n    color: #6B6969;\n  }\n}\n.logo {\n  padding-left: 4em;\n  padding-bottom: 2em;\n  padding-top: 2em;\n}\n.container {\n  background-color: rgba(204, 204, 204, 0.35);\n}\n.main {\n  margin-right: solid 1px;\n  background-color: white;\n  hr {\n    color: #777;\n  };\n  h3 {\n    color: #374048;\n    padding-bottom: 2em;\n  };\n}\n.spacing {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.sidebar h3,.sidebar a {\n  padding-left: 1em;\n}\n.nav >li>a,\n.sidebar a {\n  color: #a94442;\n}\ntable{\n  font-size: 0.9em;\n  span{display: none}\n}\n.legend small{\n  text-align: right;\n}\n.legend i{\n  width: 4em;\n  height: 0.5em;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.yellow i{\n  color: yellow;\n}\n.blue i{\n  color: blue;\n}\n.orange i{\n  color: orange;\n}\n"],"sourceRoot":"webpack://"}]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:2em}\nh2{font-size:1.5em}\nh3{font-size:1.2em}\n\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.DataPage_root_1Bn {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n}\n.DataPage_root_1Bn article {padding-left: 4em;padding-right: 4em;}\n.DataPage_root_1Bn .DataPage_charts_2yr {padding-left: 3em;}\n.DataPage_root_1Bn li {list-style: none;padding-top: 0.5em;margin-left: 6em;}\n.DataPage_root_1Bn table {margin: 0 auto;}\n.DataPage_root_1Bn h2 {color: #6B6969;}\n.DataPage_logo_2rV {\n  padding-left: 4em;\n  padding-bottom: 2em;\n  padding-top: 2em;\n}\n.DataPage_container_3Ry {\n  background-color: rgba(204, 204, 204, 0.35);\n  opacity: 0;\n}\n.DataPage_loader_cqh{\n\n}\n.DataPage_main_1GV {\n  margin-right: solid 1px;\n  background-color: white;;\n}\n.DataPage_main_1GV hr {color: #777;}\n.DataPage_main_1GV h3 {color: #374048;padding-bottom: 2em;}\n.DataPage_spacing_pJZ {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.DataPage_sidebar_2cr h3, .DataPage_sidebar_2cr a {\n  padding-left: 1em;\n}\n.DataPage_nav_3s0 >li>a, .DataPage_sidebar_2cr a {\n  color: #a94442;\n}\ntable{\n  font-size: 0.9em;\n}\ntable span{display: none}\n.DataPage_legend_2e1 small{\n  text-align: right;\n}\n.DataPage_legend_2e1 i{\n  width: 4em;\n  height: 0.5em;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.DataPage_yellow_30z i{\n  color: yellow;\n}\n.DataPage_blue_1Bj i{\n  color: blue;\n}\n.DataPage_orange_36J i{\n  color: orange;\n}\n/**Spinner**/\n.DataPage_ouro_186 {\n    position: relative;\n    display:inline-block;\n    height: 46px;\n    width: 46px;\n    margin: 1em;\n    border-radius: 50%;\n    background: none repeat scroll 0 0 #DDDDDD;\n    overflow:hidden;\n    -webkit-box-shadow: 0 0 10px rgba(0,0,0,.1) inset, 0 0 25px rgba(0,0,255,0.075);\n            box-shadow: 0 0 10px rgba(0,0,0,.1) inset, 0 0 25px rgba(0,0,255,0.075);\n}\n\n.DataPage_ouro_186:after {\n    content: \"\";\n    position: absolute;\n    top: 9px; left: 9px;\n    display: block;\n    height: 28px; width: 28px;\n    background: none repeat scroll 0 0 #F2F2F2;\n    border-radius: 50%;\n    -webkit-box-shadow: 0 0 10px rgba(0,0,0,.1);\n            box-shadow: 0 0 10px rgba(0,0,0,.1);\n}\n.DataPage_ouro_186 > span {\n    position: absolute;\n    height: 100%; width: 50%;\n    overflow: hidden;\n}\n.DataPage_left_zxu  { left:0   }\n.DataPage_right_3NS { left:50% }\n\n.DataPage_anim_2pN {\n    position: absolute;\n    left: 100%; top: 0;\n    height: 100%; width: 100%;\n    border-radius: 999px;\n    background: none repeat scroll 0 0 #508EC3;\n    opacity: 0.8;\n    -webkit-animation: DataPage_ui-spinner-rotate-left_3wP 3s infinite;\n    -o-animation: DataPage_ui-spinner-rotate-left_3wP 3s infinite;\n       animation: DataPage_ui-spinner-rotate-left_3wP 3s infinite;\n    -webkit-transform-origin: 0 50% 0;\n    -ms-transform-origin: 0 50% 0;\n     -o-transform-origin: 0 50% 0;\n        transform-origin: 0 50% 0;\n}\n.DataPage_left_zxu .DataPage_anim_2pN {\n    border-bottom-left-radius: 0;\n    border-top-left-radius: 0;\n}\n.DataPage_right_3NS .DataPage_anim_2pN {\n    border-bottom-right-radius: 0;\n    border-top-right-radius: 0;\n    left: -100%;\n    -webkit-transform-origin: 100% 50% 0;\n    -ms-transform-origin: 100% 50% 0;\n     -o-transform-origin: 100% 50% 0;\n        transform-origin: 100% 50% 0;\n}\n\n/* v2 */\n.DataPage_ouro2_1dI .DataPage_anim_2pN {\n   -webkit-animation-delay:0;\n   -o-animation-delay:0;\n      animation-delay:0;\n}\n.DataPage_ouro2_1dI .DataPage_right_3NS .DataPage_anim_2pN{\n   -webkit-animation-delay: 1.5s;\n   -o-animation-delay: 1.5s;\n      animation-delay: 1.5s;\n}\n\n\n/* round variation */\n.DataPage_round_3jF .DataPage_ouro_186:after {display:none }\n\n/* double variation */\n.DataPage_double_37F .DataPage_ouro_186:after {\n  height: 13px; width: 13px;\n  left: 7px; top: 7px;\n  border: 10px solid #ddd;\n  background: transparent;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n}\n\n@-o-keyframes DataPage_ui-spinner-rotate-right_2Qt{\n  0%{-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  50%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-o-transform:rotate(360deg);transform:rotate(360deg)}\n  100%{-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n\n@keyframes DataPage_ui-spinner-rotate-right_2Qt{\n  0%{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  50%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}\n  100%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n@-o-keyframes DataPage_ui-spinner-rotate-left_3wP{\n  0%{-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-o-transform:rotate(0deg);transform:rotate(0deg)}\n  50%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  100%{-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n@keyframes DataPage_ui-spinner-rotate-left_3wP{\n  0%{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}\n  50%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  100%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n\n@-webkit-keyframes DataPage_ui-spinner-rotate-right_2Qt{\n  0%{-webkit-transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(180deg)}\n  50%{-webkit-transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(360deg)}\n  100%{-webkit-transform:rotate(360deg)}\n}\n@-webkit-keyframes DataPage_ui-spinner-rotate-left_3wP{\n  0%{-webkit-transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(0deg)}\n  50%{-webkit-transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(180deg)}\n  100%{-webkit-transform:rotate(360deg)}\n}\n", "", {"version":3,"sources":["/./src/components/variables.scss","/./src/components/DataPage/DataPage.scss"],"names":[],"mappings":"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","file":"DataPage.scss","sourcesContent":["\n\n/**variables*/\n\n\n$h2-font: 1.5em;\n$h3-font: 1.2em;\n$h1-font: 2em;\n$large-font: 2.1em;\n$font-weight: 700;\n\n//headers\nh1{font-size:$h1-font}\nh2{font-size:$h2-font}\nh3{font-size:$h3-font}\n\n/*\n * Colors\n * ========================================================================== */\n$primary-color: #5B798E;\n$secondary-color: #B76565;\n$light-color:#d9edf7;\n\n$white-base:            hsl(255, 255, 255);\n$gray-darker:           color(black lightness(+13.5%)); /* #222 */\n$gray-dark:             color(black lightness(+25%));   /* #404040 */\n$gray:                  color(black lightness(+33.5%)); /* #555 */\n$gray-light:            color(black lightness(+46.7%)); /* #777 */\n$gray-lighter:          color(black lightness(+93.5%)); /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n$font-family-base:      'Lato','Segoe UI', 'HelveticaNeue-Light', sans-serif;\n\n/*\n * Layout\n * ========================================================================== */\n\n$max-content-width:     1000px;\n\n/*\n * Media queries breakpoints\n * ========================================================================== */\n\n$screen-xs-min:         480px;  /* Extra small screen / phone */\n$screen-sm-min:         768px;  /* Small screen / tablet */\n$screen-md-min:         992px;  /* Medium screen / desktop */\n$screen-lg-min:         1200px; /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n$animation-swift-out:   .45s cubic-bezier(0.3, 1, 0.4, 1) 0s;\n","@import '../variables.scss';\n.root {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n  article {\n    padding-left: 4em;\n    padding-right: 4em;\n  };\n  .charts {\n    padding-left: 3em;\n  };\n  li {\n    list-style: none;\n    padding-top: 0.5em;\n    margin-left: 6em;\n  };\n  table {\n    margin: 0 auto;\n  };\n  h2 {\n    color: #6B6969;\n  }\n}\n.logo {\n  padding-left: 4em;\n  padding-bottom: 2em;\n  padding-top: 2em;\n}\n.container {\n  background-color: rgba(204, 204, 204, 0.35);\n  opacity: 0;\n}\n.loader{\n\n}\n.main {\n  margin-right: solid 1px;\n  background-color: white;\n  hr {\n    color: #777;\n  };\n  h3 {\n    color: #374048;\n    padding-bottom: 2em;\n  };\n}\n.spacing {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.sidebar h3,.sidebar a {\n  padding-left: 1em;\n}\n.nav >li>a,\n.sidebar a {\n  color: #a94442;\n}\ntable{\n  font-size: 0.9em;\n  span{display: none}\n}\n.legend small{\n  text-align: right;\n}\n.legend i{\n  width: 4em;\n  height: 0.5em;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.yellow i{\n  color: yellow;\n}\n.blue i{\n  color: blue;\n}\n.orange i{\n  color: orange;\n}\n/**Spinner**/\n.ouro {\n    position: relative;\n    display:inline-block;\n    height: 46px;\n    width: 46px;\n    margin: 1em;\n    border-radius: 50%;\n    background: none repeat scroll 0 0 #DDDDDD;\n    overflow:hidden;\n    box-shadow: 0 0 10px rgba(0,0,0,.1) inset, 0 0 25px rgba(0,0,255,0.075);\n}\n\n.ouro:after {\n    content: \"\";\n    position: absolute;\n    top: 9px; left: 9px;\n    display: block;\n    height: 28px; width: 28px;\n    background: none repeat scroll 0 0 #F2F2F2;\n    border-radius: 50%;\n    box-shadow: 0 0 10px rgba(0,0,0,.1);\n}\n.ouro > span {\n    position: absolute;\n    height: 100%; width: 50%;\n    overflow: hidden;\n}\n.left  { left:0   }\n.right { left:50% }\n\n.anim {\n    position: absolute;\n    left: 100%; top: 0;\n    height: 100%; width: 100%;\n    border-radius: 999px;\n    background: none repeat scroll 0 0 #508EC3;\n    opacity: 0.8;\n    -webkit-animation: ui-spinner-rotate-left 3s infinite;\n    animation: ui-spinner-rotate-left 3s infinite;\n    -webkit-transform-origin: 0 50% 0;\n    transform-origin: 0 50% 0;\n}\n.left .anim {\n    border-bottom-left-radius: 0;\n    border-top-left-radius: 0;\n}\n.right .anim {\n    border-bottom-right-radius: 0;\n    border-top-right-radius: 0;\n    left: -100%;\n    -webkit-transform-origin: 100% 50% 0;\n    transform-origin: 100% 50% 0;\n}\n\n/* v2 */\n.ouro2 .anim {\n   -webkit-animation-delay:0;\n   animation-delay:0;\n}\n.ouro2 .right .anim{\n   -webkit-animation-delay: 1.5s;\n   animation-delay: 1.5s;\n}\n\n\n/* round variation */\n.round .ouro:after {display:none }\n\n/* double variation */\n.double .ouro:after {\n  height: 13px; width: 13px;\n  left: 7px; top: 7px;\n  border: 10px solid #ddd;\n  background: transparent;\n  box-shadow: none;\n}\n\n@keyframes ui-spinner-rotate-right{\n  0%{transform:rotate(0deg)}\n  25%{transform:rotate(180deg)}\n  50%{transform:rotate(180deg)}\n  75%{transform:rotate(360deg)}\n  100%{transform:rotate(360deg)}\n}\n@keyframes ui-spinner-rotate-left{\n  0%{transform:rotate(0deg)}\n  25%{transform:rotate(0deg)}\n  50%{transform:rotate(180deg)}\n  75%{transform:rotate(180deg)}\n  100%{transform:rotate(360deg)}\n}\n\n@-webkit-keyframes ui-spinner-rotate-right{\n  0%{-webkit-transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(180deg)}\n  50%{-webkit-transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(360deg)}\n  100%{-webkit-transform:rotate(360deg)}\n}\n@-webkit-keyframes ui-spinner-rotate-left{\n  0%{-webkit-transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(0deg)}\n  50%{-webkit-transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(180deg)}\n  100%{-webkit-transform:rotate(360deg)}\n}\n"],"sourceRoot":"webpack://"}]);
   
   // exports
   exports.locals = {
@@ -4017,6 +4046,7 @@ module.exports =
   	"charts": "DataPage_charts_2yr",
   	"logo": "DataPage_logo_2rV",
   	"container": "DataPage_container_3Ry",
+  	"loader": "DataPage_loader_cqh",
   	"main": "DataPage_main_1GV",
   	"spacing": "DataPage_spacing_pJZ",
   	"sidebar": "DataPage_sidebar_2cr",
@@ -4024,7 +4054,16 @@ module.exports =
   	"legend": "DataPage_legend_2e1",
   	"yellow": "DataPage_yellow_30z",
   	"blue": "DataPage_blue_1Bj",
-  	"orange": "DataPage_orange_36J"
+  	"orange": "DataPage_orange_36J",
+  	"ouro": "DataPage_ouro_186",
+  	"left": "DataPage_left_zxu",
+  	"right": "DataPage_right_3NS",
+  	"anim": "DataPage_anim_2pN",
+  	"ui-spinner-rotate-left": "DataPage_ui-spinner-rotate-left_3wP",
+  	"ouro2": "DataPage_ouro2_1dI",
+  	"round": "DataPage_round_3jF",
+  	"double": "DataPage_double_37F",
+  	"ui-spinner-rotate-right": "DataPage_ui-spinner-rotate-right_2Qt"
   };
 
 /***/ },
@@ -5362,7 +5401,7 @@ module.exports =
     return data;
   }
   function findAll() {
-    var db, now, hoursPast, time;
+    var db, now, time;
     return regeneratorRuntime.async(function findAll$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
@@ -5373,23 +5412,22 @@ module.exports =
         case 3:
           db = context$1$0.sent;
           now = new Date();
-          hoursPast = now.getHours();
-          time = now - hour * hoursPast;
+          time = now - hour * 45;
           return context$1$0.abrupt('return', db.collection(collection).find({
             'is_retweet': false,
             timeStamp: { $gt: time }
           }).toArray());
   
-        case 10:
-          context$1$0.prev = 10;
+        case 9:
+          context$1$0.prev = 9;
           context$1$0.t0 = context$1$0['catch'](0);
           throw new Error(context$1$0.t0);
   
-        case 13:
+        case 12:
         case 'end':
           return context$1$0.stop();
       }
-    }, null, this, [[0, 10]]);
+    }, null, this, [[0, 9]]);
   }
   
   function findByDate(start) {
@@ -5426,6 +5464,8 @@ module.exports =
   
   exports['default'] = { findAll: findAll, findByDate: findByDate, getFromRedis: getFromRedis, transform: transform };
   module.exports = exports['default'];
+
+  // const hoursPast = now.getHours();
 
 /***/ },
 /* 90 */

@@ -8,7 +8,7 @@ import DataPageActions from '../../actions/DataPageActions';
 import Worker from 'worker!../../worker';
 const isBrowser = typeof window !== 'undefined';
 const Charts = isBrowser ? require('../Charts') : undefined;
-
+// import $ from 'jquery';
 // import testData from './data';
 
 function getStateFromStores() {
@@ -96,11 +96,15 @@ export default class DataCenterPage extends Component {
     }
   }
 
-  createDcCharts(container, data) {
+  createDcCharts = (container, data) => {
     this.charts = new Charts(data);
     // this.charts.drawLineChart('sentiment');
     // leaflet map
     this.dcMap = this.charts.drawMap(container.map);
+    this.dcMap.on('postRender', () => {
+      document.getElementById('main').setAttribute('style', 'opacity: 1');
+      document.getElementById('loader').remove();
+    });
     // row
     this.charts.drawRawChart(container.row);
     // pie
@@ -145,7 +149,17 @@ export default class DataCenterPage extends Component {
             </ul>
         </header>
         <hr></hr>
-        <section className= {cx('container', s.container)}>
+        <div className= "row">
+          <div id = "loader" className = {cx(s.loader, 'col-sm-6', 'col-sm-offset-3')}>
+            <p className= "text-center">
+              <span className={cx(s.ouro, s.ouo2)}>
+                <span className={s.left}><span className={s.anim}></span></span>
+                <span className={s.right}><span className={s.anim}></span></span>
+              </span>
+            </p>
+          </div>
+        </div>
+        <section id = "main" className= {cx('container', s.container)}>
           <div className= {cx('col-md-12', s.main)}>
             <div className ="row spacing">
               <article className="col-md-12">
