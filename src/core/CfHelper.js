@@ -67,9 +67,9 @@ class CfHelper {
     return (p, v) => {
       if (!v[attr].length) return p; // skip empty arrays
       v[attr].forEach((val) => {
-        if (p[val].length > 2) p[val] = (p[val] || 0) + 1; // increment counts
+        if (p[val] && p[val] !== '') p[val] = (p[val] || 0) + 1; // increment counts
       });
-      // console.log(p);
+      console.log(p);
       return p;
     };
   }
@@ -78,7 +78,7 @@ class CfHelper {
     return (p, v) => {
       if (!v[attr].length) return p; // skip empty arrays
       v[attr].forEach((val) => {
-        if (p[val].length > 2) p[val] = (p[val] || 0) - 1; // decrement counts
+        if (p[val] && p[val] !== '') p[val] = (p[val] || 0) - 1; // decrement counts
       });
       return p;
     };
