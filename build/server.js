@@ -4881,7 +4881,7 @@ module.exports =
         var max = _lodash2['default'].max(values);
         var transformedGrp = {};
         _lodash2['default'].forOwn(group, function (value, key) {
-          if (value > Math.floor(max / 6)) transformedGrp[key] = value;
+          if (value > Math.floor(max / 5.5)) transformedGrp[key] = value;
         });
         return transformedGrp;
       }
