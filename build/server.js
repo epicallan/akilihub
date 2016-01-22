@@ -4388,6 +4388,7 @@ module.exports =
         this.upperLimit = data[data.length - 1].timeStamp;
         data.forEach(function (d) {
           var momentDate = (0, _moment2['default'])(new Date(d.date));
+          d.hour = momentDate.hour();
           d.date = momentDate.format('ddd MMM Do, HH:mm');
         });
         return data;
@@ -5394,14 +5395,14 @@ module.exports =
   function transform(data) {
     data.forEach(function (d) {
       // d.text = d.text.toLowerCase();
-      d.hour = new Date(d.date).getHours();
+      // d.hour = new Date(d.date).getHours();
       _addNamesToTweet(d);
       _excludeNamesInTerms(d);
     });
     return data;
   }
   function findAll() {
-    var db, now, time;
+    var db, now, hoursPast, time;
     return regeneratorRuntime.async(function findAll$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
@@ -5412,22 +5413,23 @@ module.exports =
         case 3:
           db = context$1$0.sent;
           now = new Date();
-          time = now - hour * 45;
+          hoursPast = now.getHours();
+          time = now - hour * hoursPast;
           return context$1$0.abrupt('return', db.collection(collection).find({
             'is_retweet': false,
             timeStamp: { $gt: time }
           }).toArray());
   
-        case 9:
-          context$1$0.prev = 9;
+        case 10:
+          context$1$0.prev = 10;
           context$1$0.t0 = context$1$0['catch'](0);
           throw new Error(context$1$0.t0);
   
-        case 12:
+        case 13:
         case 'end':
           return context$1$0.stop();
       }
-    }, null, this, [[0, 9]]);
+    }, null, this, [[0, 10]]);
   }
   
   function findByDate(start) {
@@ -5464,8 +5466,6 @@ module.exports =
   
   exports['default'] = { findAll: findAll, findByDate: findByDate, getFromRedis: getFromRedis, transform: transform };
   module.exports = exports['default'];
-
-  // const hoursPast = now.getHours();
 
 /***/ },
 /* 90 */

@@ -49,7 +49,7 @@ function _excludeNamesInTerms(tweet) {
 function transform(data) {
   data.forEach((d) => {
     // d.text = d.text.toLowerCase();
-    d.hour = new Date(d.date).getHours();
+    // d.hour = new Date(d.date).getHours();
     _addNamesToTweet(d);
     _excludeNamesInTerms(d);
   });
@@ -59,8 +59,8 @@ async function findAll() {
   try {
     const db = await _connection();
     const now = new Date();
-    // const hoursPast = now.getHours();
-    const time = now - (hour * 45);
+    const hoursPast = now.getHours();
+    const time = now - (hour * hoursPast);
     return db.collection(collection).find({
       'is_retweet': false,
       timeStamp: { $gt: time },

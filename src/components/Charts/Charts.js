@@ -25,6 +25,7 @@ export default class DcCharts {
     this.upperLimit = data[data.length - 1].timeStamp;
     data.forEach(d => {
       const momentDate = moment(new Date(d.date));
+      d.hour = momentDate.hour();
       d.date = momentDate.format('ddd MMM Do, HH:mm');
     });
     return data;
