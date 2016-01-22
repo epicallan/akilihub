@@ -4822,9 +4822,9 @@ module.exports =
         return function (p, v) {
           if (!v[attr].length) return p; // skip empty arrays
           v[attr].forEach(function (val) {
-            if (p[val] && p[val] !== '') p[val] = (p[val] || 0) + 1; // increment counts
+            p[val] = (p[val] || 0) + 1; // increment counts
           });
-          console.log(p);
+          // console.log(p);
           return p;
         };
       }
@@ -4834,7 +4834,7 @@ module.exports =
         return function (p, v) {
           if (!v[attr].length) return p; // skip empty arrays
           v[attr].forEach(function (val) {
-            if (p[val] && p[val] !== '') p[val] = (p[val] || 0) - 1; // decrement counts
+            p[val] = (p[val] || 0) - 1; // decrement counts
           });
           return p;
         };
