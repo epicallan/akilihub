@@ -116,7 +116,7 @@ class CfHelper {
 
   _removeLowGroupObjs(group) {
     // find highest value
-    console.log(group);
+    // console.log(group);
     const values = _.values(group);
     const max = _.max(values);
     const transformedGrp = {};
@@ -137,6 +137,7 @@ class CfHelper {
     }
     const dim = this.createDimension(cfData, attr);
     const rawGrp = dim.groupAll().reduce(this.reduceAdd(attr), this.reduceRemove(attr), reduceInitial).value();
+    console.log(rawGrp);
     const group = this._removeLowGroupObjs(rawGrp);
     this.groupPatches(group);
     return { dim, group };

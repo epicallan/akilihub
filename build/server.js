@@ -4511,7 +4511,7 @@ module.exports =
         var dim = _createGroupAndDimArrayField3.dim;
         var group = _createGroupAndDimArrayField3.group;
   
-        console.log(dim.top(2));
+        // console.log(dim.top(2));
         console.log(group.all());
         this.row = this.rowChart(dim, group, id);
       }
@@ -4879,7 +4879,7 @@ module.exports =
       key: '_removeLowGroupObjs',
       value: function _removeLowGroupObjs(group) {
         // find highest value
-        console.log(group);
+        // console.log(group);
         var values = _lodash2['default'].values(group);
         var max = _lodash2['default'].max(values);
         var transformedGrp = {};
@@ -4903,6 +4903,7 @@ module.exports =
         }
         var dim = this.createDimension(cfData, attr);
         var rawGrp = dim.groupAll().reduce(this.reduceAdd(attr), this.reduceRemove(attr), reduceInitial).value();
+        console.log(rawGrp);
         var group = this._removeLowGroupObjs(rawGrp);
         this.groupPatches(group);
         return { dim: dim, group: group };
