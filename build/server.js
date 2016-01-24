@@ -5463,28 +5463,29 @@ module.exports =
   }
   
   function findAll() {
-    var now, time;
+    var now, hoursPast, time;
     return regeneratorRuntime.async(function findAll$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
           context$1$0.prev = 0;
           now = new Date();
-          time = now - hour * 60;
+          hoursPast = now.getHours();
+          time = now - hour * hoursPast;
           return context$1$0.abrupt('return', _modelsTwitter2['default'].find({
             'is_retweet': false,
             timeStamp: { $gt: time }
           }).exec());
   
-        case 6:
-          context$1$0.prev = 6;
+        case 7:
+          context$1$0.prev = 7;
           context$1$0.t0 = context$1$0['catch'](0);
           throw new Error(context$1$0.t0);
   
-        case 9:
+        case 10:
         case 'end':
           return context$1$0.stop();
       }
-    }, null, this, [[0, 6]]);
+    }, null, this, [[0, 7]]);
   }
   
   function findByDate(start) {
@@ -5513,8 +5514,6 @@ module.exports =
       }
     }, null, this, [[0, 5]]);
   }
-  
-  // const hoursPast = now.getHours();
 
 /***/ },
 /* 92 */
