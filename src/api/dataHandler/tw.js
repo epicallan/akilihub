@@ -1,26 +1,14 @@
-/**
- * Gets data from Twitter model
- */
-import mongodb from 'mongodb';
-import { MONGO_URL } from '../../config';
 import redis from 'redis';
+import Twitter from '../models/Twitter';
+import _async from 'async';
 const client = redis.createClient();
 
-const MongoClient = mongodb.MongoClient;
-const collection = 'twits';
 const hour = 60000 * 60;
 const mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika'];
+let saved = 0;
+let notSaved = 0;
 
-function _connection() {
-  return new Promise((resolve, reject) => {
-    MongoClient.connect(MONGO_URL, (err, db) => {
-      resolve(db);
-      reject(err);
-    });
-  });
-}
-
-function getFromRedis() {
+export function getFromRedis() {
   return new Promise((resolve, reject) => {
     client.get('tw', (err, reply) => {
       resolve(reply);
@@ -46,47 +34,59 @@ function _excludeNamesInTerms(tweet) {
   });
 }
 
-function transform(data) {
+export function saveTweets(data, cb) {
+  _async.each(data, (d, callback) => {
+    const twitter = new Twitter(d);
+    twitter.save((err) => {
+      if (err) {
+        console.log(`error ${err.message} not saved ${d.id}`);
+        notSaved ++;
+      } else {
+        saved ++;
+      }
+      callback();
+    });
+  }, (error) => {
+    if (error) throw new Error(error);
+    cb({ saved, notSaved });
+  });
+}
+
+export function transform(data) {
   data.forEach((d) => {
-    // d.text = d.text.toLowerCase();
-    // d.hour = new Date(d.date).getHours();
+    d.text = d.text.toLowerCase();
     _addNamesToTweet(d);
     _excludeNamesInTerms(d);
   });
   return data;
 }
-async function findAll() {
+export async function findAll() {
   try {
-    const db = await _connection();
     const now = new Date();
-    const hoursPast = now.getHours();
-    const time = now - (hour * hoursPast);
-    return db.collection(collection).find({
+    // const hoursPast = now.getHours();
+    const time = now - (hour * 60);
+    return Twitter.find({
       'is_retweet': false,
       timeStamp: { $gt: time },
     })
-      .toArray();
+    .exec();
   } catch (e) {
     throw new Error(e);
   }
 }
 
-async function findByDate(start) {
+export async function findByDate(start) {
   try {
-    const db = await _connection();
     const end = parseInt(start, 10) + hour * 4;
-    return db.collection(collection).find({
+    return Twitter.find({
       timeStamp: {
         $gt: parseInt(start, 10),
         $lt: end,
       },
       is_retweet: false,
     })
-    .toArray();
+    .exec();
   } catch (e) {
     throw new Error(e);
   }
 }
-
-
-export default { findAll, findByDate, getFromRedis, transform };

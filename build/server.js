@@ -88,9 +88,19 @@ module.exports =
   
   var _compression2 = _interopRequireDefault(_compression);
   
-  __webpack_require__(84);
+  var _bodyParser = __webpack_require__(84);
+  
+  var _bodyParser2 = _interopRequireDefault(_bodyParser);
+  
+  __webpack_require__(85);
+  
+  var _mongoose = __webpack_require__(89);
+  
+  var _mongoose2 = _interopRequireDefault(_mongoose);
   
   var server = global.server = (0, _express2['default'])();
+  
+  server.use(_bodyParser2['default'].json());
   
   server.use((0, _compression2['default'])());
   // Register Node.js middleware
@@ -99,12 +109,17 @@ module.exports =
   
   // Register Data analysis API middleware
   // -----------------------------------------------------------------------------
-  server.use('/api', __webpack_require__(88));
+  server.use('/api', __webpack_require__(90));
   
   // Register API middleware
   
   // -----------------------------------------------------------------------------
-  server.use('/api/content', __webpack_require__(90));
+  server.use('/api/content', __webpack_require__(95));
+  
+  function connect() {
+    var options = { server: { socketOptions: { keepAlive: 1 } } };
+    return _mongoose2['default'].connect(_config.MONGO_URL, options).connection;
+  }
   
   //
   // Register server-side rendering middleware
@@ -173,12 +188,14 @@ module.exports =
       }
     }, null, _this2, [[0, 5]]);
   });
-  
   //
   // Launch the server
   // -----------------------------------------------------------------------------
   server.listen(_config.port, function () {
     /* eslint-disable no-console */
+    connect().on('error', console.log).on('disconnected', connect).once('open', function () {
+      console.log('using mongodb ' + _config.MONGO_URL);
+    });
     console.log('The server is running at http://localhost:' + _config.port + '/ PID is ' + process.pid);
   });
 
@@ -5068,13 +5085,19 @@ module.exports =
 
 /***/ },
 /* 84 */
+/***/ function(module, exports) {
+
+  module.exports = require("body-parser");
+
+/***/ },
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _twJob = __webpack_require__(85);
+  var _twJob = __webpack_require__(86);
   
   var _twJob2 = _interopRequireDefault(_twJob);
   
@@ -5091,7 +5114,7 @@ module.exports =
   }
 
 /***/ },
-/* 85 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -5105,11 +5128,11 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _mongodb = __webpack_require__(86);
+  var _mongodb = __webpack_require__(87);
   
   var _mongodb2 = _interopRequireDefault(_mongodb);
   
-  var _redis = __webpack_require__(87);
+  var _redis = __webpack_require__(88);
   
   var _redis2 = _interopRequireDefault(_redis);
   
@@ -5123,8 +5146,6 @@ module.exports =
   
   var MongoClient = _mongodb2['default'].MongoClient;
   var collection = 'twits';
-  
-  console.log(_config.MONGO_URL);
   
   function _connection() {
     return new Promise(function (resolve, reject) {
@@ -5218,19 +5239,25 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 86 */
+/* 87 */
 /***/ function(module, exports) {
 
   module.exports = require("mongodb");
 
 /***/ },
-/* 87 */
+/* 88 */
 /***/ function(module, exports) {
 
   module.exports = require("redis");
 
 /***/ },
-/* 88 */
+/* 89 */
+/***/ function(module, exports) {
+
+  module.exports = require("mongoose");
+
+/***/ },
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -5241,15 +5268,17 @@ module.exports =
   
   var _this = this;
   
+  function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
+  
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
   var _express = __webpack_require__(3);
   
   var _express2 = _interopRequireDefault(_express);
   
-  var _dataHandlerTw = __webpack_require__(89);
+  var _dataHandlerTw = __webpack_require__(91);
   
-  var _dataHandlerTw2 = _interopRequireDefault(_dataHandlerTw);
+  var twitterHandler = _interopRequireWildcard(_dataHandlerTw);
   
   var router = new _express2['default'].Router();
   
@@ -5260,18 +5289,17 @@ module.exports =
         case 0:
           context$1$0.prev = 0;
           context$1$0.next = 3;
-          return regeneratorRuntime.awrap(_dataHandlerTw2['default'].findAll());
+          return regeneratorRuntime.awrap(twitterHandler.findAll());
   
         case 3:
           raw = context$1$0.sent;
-          data = _dataHandlerTw2['default'].transform(raw);
+          data = twitterHandler.transform(raw);
           context$1$0.next = 7;
-          return regeneratorRuntime.awrap(_dataHandlerTw2['default'].getFromRedis());
+          return regeneratorRuntime.awrap(twitterHandler.getFromRedis());
   
         case 7:
           aggregate = context$1$0.sent;
   
-          // console.log(aggregate);
           res.status(200).json({ data: data, aggregate: JSON.parse(aggregate) });
           context$1$0.next = 14;
           break;
@@ -5296,11 +5324,11 @@ module.exports =
         case 0:
           context$1$0.prev = 0;
           context$1$0.next = 3;
-          return regeneratorRuntime.awrap(_dataHandlerTw2['default'].findByDate(req.params.date));
+          return regeneratorRuntime.awrap(twitterHandler.findByDate(req.params.date));
   
         case 3:
           raw = context$1$0.sent;
-          data = _dataHandlerTw2['default'].transform(raw);
+          data = twitterHandler.transform(raw);
   
           res.status(200).json(data);
           context$1$0.next = 11;
@@ -5319,49 +5347,63 @@ module.exports =
     }, null, _this, [[0, 8]]);
   });
   
+  router.post('/social/twdata', function callee$0$0(req, res, next) {
+    return regeneratorRuntime.async(function callee$0$0$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          try {
+            // console.log(twitterHandler);
+            twitterHandler.saveTweets(req.body, function (result) {
+              res.status(200).json(result);
+            });
+          } catch (err) {
+            if (err) next(err);
+          }
+  
+        case 1:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, _this);
+  });
   exports['default'] = router;
   module.exports = exports['default'];
 
 /***/ },
-/* 89 */
+/* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
-  /**
-   * Gets data from Twitter model
-   */
   'use strict';
   
   Object.defineProperty(exports, '__esModule', {
     value: true
   });
+  exports.getFromRedis = getFromRedis;
+  exports.saveTweets = saveTweets;
+  exports.transform = transform;
+  exports.findAll = findAll;
+  exports.findByDate = findByDate;
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _mongodb = __webpack_require__(86);
-  
-  var _mongodb2 = _interopRequireDefault(_mongodb);
-  
-  var _config = __webpack_require__(14);
-  
-  var _redis = __webpack_require__(87);
+  var _redis = __webpack_require__(88);
   
   var _redis2 = _interopRequireDefault(_redis);
   
+  var _modelsTwitter = __webpack_require__(92);
+  
+  var _modelsTwitter2 = _interopRequireDefault(_modelsTwitter);
+  
+  var _async2 = __webpack_require__(94);
+  
+  var _async3 = _interopRequireDefault(_async2);
+  
   var client = _redis2['default'].createClient();
   
-  var MongoClient = _mongodb2['default'].MongoClient;
-  var collection = 'twits';
   var hour = 60000 * 60;
   var mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika'];
-  
-  function _connection() {
-    return new Promise(function (resolve, reject) {
-      MongoClient.connect(_config.MONGO_URL, function (err, db) {
-        resolve(db);
-        reject(err);
-      });
-    });
-  }
+  var saved = 0;
+  var notSaved = 0;
   
   function getFromRedis() {
     return new Promise(function (resolve, reject) {
@@ -5393,83 +5435,159 @@ module.exports =
     });
   }
   
+  function saveTweets(data, cb) {
+    _async3['default'].each(data, function (d, callback) {
+      var twitter = new _modelsTwitter2['default'](d);
+      twitter.save(function (err) {
+        if (err) {
+          console.log('error ' + err.message + ' not saved ' + d.id);
+          notSaved++;
+        } else {
+          saved++;
+        }
+        callback();
+      });
+    }, function (error) {
+      if (error) throw new Error(error);
+      cb({ saved: saved, notSaved: notSaved });
+    });
+  }
+  
   function transform(data) {
     data.forEach(function (d) {
-      // d.text = d.text.toLowerCase();
-      // d.hour = new Date(d.date).getHours();
+      d.text = d.text.toLowerCase();
       _addNamesToTweet(d);
       _excludeNamesInTerms(d);
     });
     return data;
   }
+  
   function findAll() {
-    var db, now, hoursPast, time;
+    var now, time;
     return regeneratorRuntime.async(function findAll$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
           context$1$0.prev = 0;
-          context$1$0.next = 3;
-          return regeneratorRuntime.awrap(_connection());
-  
-        case 3:
-          db = context$1$0.sent;
           now = new Date();
-          hoursPast = now.getHours();
-          time = now - hour * hoursPast;
-          return context$1$0.abrupt('return', db.collection(collection).find({
+          time = now - hour * 60;
+          return context$1$0.abrupt('return', _modelsTwitter2['default'].find({
             'is_retweet': false,
             timeStamp: { $gt: time }
-          }).toArray());
+          }).exec());
   
-        case 10:
-          context$1$0.prev = 10;
+        case 6:
+          context$1$0.prev = 6;
           context$1$0.t0 = context$1$0['catch'](0);
           throw new Error(context$1$0.t0);
   
-        case 13:
+        case 9:
         case 'end':
           return context$1$0.stop();
       }
-    }, null, this, [[0, 10]]);
+    }, null, this, [[0, 6]]);
   }
   
   function findByDate(start) {
-    var db, end;
+    var end;
     return regeneratorRuntime.async(function findByDate$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
           context$1$0.prev = 0;
-          context$1$0.next = 3;
-          return regeneratorRuntime.awrap(_connection());
-  
-        case 3:
-          db = context$1$0.sent;
           end = parseInt(start, 10) + hour * 4;
-          return context$1$0.abrupt('return', db.collection(collection).find({
+          return context$1$0.abrupt('return', _modelsTwitter2['default'].find({
             timeStamp: {
               $gt: parseInt(start, 10),
               $lt: end
             },
             is_retweet: false
-          }).toArray());
+          }).exec());
   
-        case 8:
-          context$1$0.prev = 8;
+        case 5:
+          context$1$0.prev = 5;
           context$1$0.t0 = context$1$0['catch'](0);
           throw new Error(context$1$0.t0);
   
-        case 11:
+        case 8:
         case 'end':
           return context$1$0.stop();
       }
-    }, null, this, [[0, 8]]);
+    }, null, this, [[0, 5]]);
   }
   
-  exports['default'] = { findAll: findAll, findByDate: findByDate, getFromRedis: getFromRedis, transform: transform };
+  // const hoursPast = now.getHours();
+
+/***/ },
+/* 92 */
+/***/ function(module, exports, __webpack_require__) {
+
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  var _mongoose = __webpack_require__(89);
+  
+  var _mongoose2 = _interopRequireDefault(_mongoose);
+  
+  var _mongooseUniqueValidator = __webpack_require__(93);
+  
+  var _mongooseUniqueValidator2 = _interopRequireDefault(_mongooseUniqueValidator);
+  
+  var Schema = _mongoose2['default'].Schema;
+  
+  var TwitterSchema = new Schema({
+    date: { type: String },
+    text: { type: String, 'default': null, trim: true },
+    user_name: { type: String, trim: true },
+    screen_name: { type: String, trim: true },
+    location: { type: String, 'default': null, trim: true },
+    time_zone: String,
+    sentiment: Number,
+    retweet_count: Number,
+    favorite_count: Number,
+    timeStamp: Number,
+    terms: [String],
+    user_id: String,
+    id: { type: Number, unique: true },
+    is_reply: Boolean,
+    is_retweet: Boolean,
+    approximated_geo: { type: Boolean, 'default': false },
+    geo_enabled: { type: Boolean, 'default': false },
+    has_hashtags: Boolean,
+    hashtags: [String],
+    coordinates: { type: String, 'default': null },
+    has_user_mentions: Boolean,
+    user_mentions: [String]
+  });
+  
+  TwitterSchema.plugin(_mongooseUniqueValidator2['default']);
+  // TwitterSchema.path('terms').required(true, 'Tweet must have terms');
+  /* eslint-disable func-names*/
+  TwitterSchema.pre('save', function (next) {
+    var err = this.validateSync();
+    next(err);
+  });
+  
+  exports['default'] = _mongoose2['default'].model('Twit', TwitterSchema);
   module.exports = exports['default'];
 
 /***/ },
-/* 90 */
+/* 93 */
+/***/ function(module, exports) {
+
+  module.exports = require("mongoose-unique-validator");
+
+/***/ },
+/* 94 */
+/***/ function(module, exports) {
+
+  module.exports = require("async");
+
+/***/ },
+/* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
   
@@ -5492,7 +5610,7 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _fs = __webpack_require__(91);
+  var _fs = __webpack_require__(96);
   
   var _fs2 = _interopRequireDefault(_fs);
   
@@ -5500,15 +5618,15 @@ module.exports =
   
   var _express = __webpack_require__(3);
   
-  var _bluebird = __webpack_require__(92);
+  var _bluebird = __webpack_require__(97);
   
   var _bluebird2 = _interopRequireDefault(_bluebird);
   
-  var _jade = __webpack_require__(93);
+  var _jade = __webpack_require__(98);
   
   var _jade2 = _interopRequireDefault(_jade);
   
-  var _frontMatter = __webpack_require__(94);
+  var _frontMatter = __webpack_require__(99);
   
   var _frontMatter2 = _interopRequireDefault(_frontMatter);
   
@@ -5612,25 +5730,25 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 91 */
+/* 96 */
 /***/ function(module, exports) {
 
   module.exports = require("fs");
 
 /***/ },
-/* 92 */
+/* 97 */
 /***/ function(module, exports) {
 
   module.exports = require("bluebird");
 
 /***/ },
-/* 93 */
+/* 98 */
 /***/ function(module, exports) {
 
   module.exports = require("jade");
 
 /***/ },
-/* 94 */
+/* 99 */
 /***/ function(module, exports) {
 
   module.exports = require("front-matter");

@@ -11,8 +11,6 @@ const client = redis.createClient();
 const MongoClient = mongodb.MongoClient;
 const collection = 'twits';
 
-console.log(MONGO_URL);
-
 function _connection() {
   return new Promise((resolve, reject) => {
     MongoClient.connect(MONGO_URL, (err, db) => {

@@ -6,11 +6,16 @@ import ReactDOM from 'react-dom/server';
 import Router from './routes';
 import Html from './components/Html';
 import assets from './assets';
-import { port } from './config';
+import { port, MONGO_URL } from './config';
 import compression from 'compression';
+import bodyParser from 'body-parser';
 import './api/jobs';
+import mongoose from 'mongoose';
 
 const server = global.server = express();
+
+
+server.use(bodyParser.json());
 
 server.use(compression());
 // Register Node.js middleware
@@ -26,6 +31,11 @@ server.use('/api', require('./api/routes'));
 
 // -----------------------------------------------------------------------------
 server.use('/api/content', require('./api/content'));
+
+function connect() {
+  const options = { server: { socketOptions: { keepAlive: 1 } } };
+  return mongoose.connect(MONGO_URL, options).connection;
+}
 
 //
 // Register server-side rendering middleware
@@ -52,11 +62,16 @@ server.get('*', async (req, res, next) => {
     next(err);
   }
 });
-
 //
 // Launch the server
 // -----------------------------------------------------------------------------
 server.listen(port, () => {
   /* eslint-disable no-console */
+  connect()
+    .on('error', console.log)
+    .on('disconnected', connect)
+    .once('open', () => {
+      console.log(`using mongodb ${MONGO_URL}`);
+    });
   console.log(`The server is running at http://localhost:${port}/ PID is ${process.pid}`);
 });
