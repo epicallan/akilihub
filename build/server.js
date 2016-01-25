@@ -3846,7 +3846,7 @@ module.exports =
                       { className: 'col-md-8', ref: 'mapCont', id: 'mapCont' },
                       _react2['default'].createElement(
                         'h4',
-                        { className: 'text-center' },
+                        null,
                         ' Geolocating possible source of tweets'
                       ),
                       _react2['default'].createElement(

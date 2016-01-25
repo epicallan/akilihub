@@ -205,7 +205,7 @@ export default class DataCenterPage extends Component {
                 </div>
                 <div className={cx('row', 'spacing-sm', s.chart)}>
                   <div className = "col-md-8" ref="mapCont" id="mapCont">
-                    <h4 className = "text-center"> Geolocating possible source of tweets</h4>
+                    <h4> Geolocating possible source of tweets</h4>
                     <div id ="map" className = {s.chart} ref="map" style={divStyle} > </div>
                   </div>
                   <div className = "col-md-4">
