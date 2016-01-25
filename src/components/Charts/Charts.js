@@ -10,10 +10,11 @@ import c3 from 'c3';
 
 export default class DcCharts {
 
-  constructor(data) {
+  constructor(data, rowChartsArgs) {
     this.lastDate = null;
     this.charts = null;
-    this.mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika'];
+    this.rowChartsArgs = rowChartsArgs;
+    this.rowChartsObjs = {};
     const transformedData = this._dataTransform(data);
     this.data = cf.createCrossFilter(transformedData);
     this.hourDim = this.createDimenion('hour');
@@ -35,6 +36,7 @@ export default class DcCharts {
     const newData = this._dataTransform(raw);
     this.data.remove();
     this.data.add(newData);
+    this.drawRowCharts(true);
     console.log(`updated data   ${this.data.size()}`);
   }
 
@@ -84,11 +86,9 @@ export default class DcCharts {
   }
   reRender() {
     dc.redrawAll();
-    this.row.render();
     this._tablesRefresh();
+    this.drawRowCharts(true);
     // this.pie.render();
-    this.hashtags.render();
-    this.terms.render();
   }
   _dataTablesOptions() {
     return {
@@ -130,17 +130,17 @@ export default class DcCharts {
   createGroupAndDimArrayField(attr) {
     return cf.arrayDimAndGroup(this.data, attr);
   }
-  drawHashTags(id) {
-    const { dim, group } = this.createGroupAndDimArrayField('hashtags');
-    this.hashtags = this.rowChart(dim, group, id);
-  }
-  drawTerms(id) {
-    const { dim, group } = this.createGroupAndDimArrayField('terms');
-    this.terms = this.rowChart(dim, group, id);
-  }
-  drawRawChart(id) {
-    const { dim, group } = this.createGroupAndDimArrayField('user_mentions');
-    this.row = this.rowChart(dim, group, id);
+
+  drawRowCharts(isRedraw) {
+    this.rowChartsArgs.forEach((d) => {
+      const { dim, group } = this.createGroupAndDimArrayField(d.field);
+      if (!isRedraw) {
+        this.rowChartsObjs[d.field] = this.rowChart(dim, group, d.id);
+      } else {
+        this.rowChartsObjs[d.field].dimension(dim);
+        this.rowChartsObjs[d.field].group(group);
+      }
+    });
   }
   rowChart(dim, group, rowId) {
     return dc.rowChart('#' + rowId)
@@ -224,9 +224,17 @@ export default class DcCharts {
     this.compositeLineChart(this.hourDim, groups, id);
   }
 
+  lineChartsCompFactory(composite, dim, group, color) {
+    return dc.lineChart(composite)
+    .dimension(dim)
+    .colors(color)
+    .brushOn(true)
+    .group(group);
+  }
+
   compositeLineChart(dim, groups, chartId) {
     const composite = dc.compositeChart('#' + chartId);
-    // console.log([new Date(this.lowerLimit), new Date(this.upperLimit)]);
+    // const self = this;
     composite.width(450)
       .height(300)
       .yAxisLabel('Tweets')
@@ -238,20 +246,9 @@ export default class DcCharts {
       .elasticX(true)
       .brushOn(false)
       .compose([
-        dc.lineChart(composite)
-        .dimension(dim)
-        .colors('yellow')
-        .brushOn(true)
-        .group(groups[0], 'museveni'),
-        dc.lineChart(composite)
-        .dimension(dim)
-        .brushOn(true)
-        .colors('blue')
-        .group(groups[1], 'besigye'),
-        dc.lineChart(composite)
-        .dimension(dim)
-        .colors('orange')
-        .group(groups[2], 'amama'),
+        this.lineChartsCompFactory(composite, dim, groups[0], 'yellow'),
+        this.lineChartsCompFactory(composite, dim, groups[1], 'blue'),
+        this.lineChartsCompFactory(composite, dim, groups[2], 'orange'),
       ])
       .render();
   }

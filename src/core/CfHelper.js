@@ -137,7 +137,7 @@ class CfHelper {
     }
     const dim = this.createDimension(cfData, attr);
     const rawGrp = dim.groupAll().reduce(this.reduceAdd(attr), this.reduceRemove(attr), reduceInitial).value();
-    console.log(rawGrp);
+    // console.log(rawGrp);
     const group = this._removeLowGroupObjs(rawGrp);
     this.groupPatches(group);
     return { dim, group };

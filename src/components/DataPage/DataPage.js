@@ -8,7 +8,6 @@ import DataPageActions from '../../actions/DataPageActions';
 import Worker from 'worker!../../worker';
 import Loader from '../Loader';
 import TimeRange from './TimeRange';
-
 const isBrowser = typeof window !== 'undefined';
 const Charts = isBrowser ? require('../Charts') : undefined;
 // import $ from 'jquery';
@@ -48,7 +47,7 @@ export default class DataCenterPage extends Component {
     DataPageStore.addChangeListener(this._onChange);
     if (isBrowser) {
       try {
-        this.createDcCharts({ map: 'map', line: 'line', table: 'table', pie: 'pie', row: 'row' }, this.state.data);
+        this.createDcCharts(this.state.data);
       } catch (e) {
         // TODO hack just reload the page this is an error to do with leaflet.js
         if (!e) window.location.assign(this.path);
@@ -81,6 +80,7 @@ export default class DataCenterPage extends Component {
     const hour = 60000 * 60;
     const onMessage = (worker) => {
       worker.onmessage = (event) => {
+        if (!event.data.length) return;
         console.log(event.data[0].date);
         console.log(event.data[event.data.length - 1].date);
         workerData.push(...event.data);
@@ -95,31 +95,31 @@ export default class DataCenterPage extends Component {
     };
     for (let i = 0; i < 6; i++) {
       const worker = new Worker;
-      worker.postMessage(unixTime + 4 * i * hour);
+      const time = unixTime + 4 * i * hour;
+      const url = `http://${window.location.host}/api/social/twdata/${time}`;
+      worker.postMessage(url);
       onMessage(worker);
     }
   }
 
-  createDcCharts = (container, data) => {
-    this.charts = new Charts(data);
-    // this.charts.drawLineChart('sentiment');
+  createDcCharts = (data) => {
+    const rowChartsArgs = [
+      { id: 'hashtags', field: 'hashtags' },
+      { id: 'terms', field: 'terms' },
+      { id: 'user_mentions', field: 'user_mentions' },
+    ];
+    this.charts = new Charts(data, rowChartsArgs);
     // leaflet map
-    this.dcMap = this.charts.drawMap(container.map);
+    this.dcMap = this.charts.drawMap('map');
     this.dcMap.on('postRender', () => {
       document.getElementById('main').setAttribute('style', 'opacity: 1');
       document.getElementById('loader').remove();
     });
-    // row
-    this.charts.drawRawChart(container.row);
-    // pie
-    this.charts.drawPieChart(container.pie);
-    // table
-    // this.table = this.charts.tableChart(dim, container.table);
-    this.charts.createDataTable(container.table);
-    // multiLineChart
+    this.charts.drawPieChart('pie');
+    this.charts.createDataTable('table');
+    // row Charts
+    this.charts.drawRowCharts(false);
     this.charts.drawComposite('composite');
-    this.charts.drawHashTags('hashtags');
-    this.charts.drawTerms('terms');
     this.charts.drawAll();
     // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
     this.charts.rangeChart('range', this.state.aggregate, this.getNewData);
@@ -132,6 +132,7 @@ export default class DataCenterPage extends Component {
   onTimeClick(range) {
     console.log(range);
   }
+
   render = () => {
     const divStyle = {
       width: '500px',
@@ -183,7 +184,7 @@ export default class DataCenterPage extends Component {
                   </div>
                   <div className="col-md-6">
                     <h4>Aggregate Volume of Mentions For Each Candidate </h4>
-                    <div id ="row"></div>
+                    <div id ="user_mentions"></div>
                   </div>
                 </div>
                 <div className="row spacing-sm">
