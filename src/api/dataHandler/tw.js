@@ -68,8 +68,8 @@ export function transform(raw) {
 export async function findAll() {
   try {
     const now = new Date();
-    // const hoursPast = now.getHours();
-    const time = now - (hour * 85);
+    const hoursPast = now.getHours();
+    const time = now - (hour * hoursPast);
     return Twitter.find({
       'is_retweet': false,
       timeStamp: { $gt: time },
