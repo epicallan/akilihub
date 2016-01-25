@@ -10,7 +10,7 @@ import Loader from '../Loader';
 import TimeRange from './TimeRange';
 const isBrowser = typeof window !== 'undefined';
 const Charts = isBrowser ? require('../Charts') : undefined;
-// import $ from 'jquery';
+import $ from 'jquery';
 // import testData from './data';
 
 function getStateFromStores() {
@@ -78,6 +78,7 @@ export default class DataCenterPage extends Component {
     const workerData = [];
     let counter = 0;
     const hour = 60000 * 60;
+    $('#loader').show();
     const onMessage = (worker) => {
       worker.onmessage = (event) => {
         if (!event.data.length) return;
@@ -112,9 +113,10 @@ export default class DataCenterPage extends Component {
     // leaflet map
     this.dcMap = this.charts.drawMap('map');
     this.dcMap.on('postRender', () => {
-      document.getElementById('main').setAttribute('style', 'opacity: 1');
-      document.getElementById('loader').remove();
+      $('.' + s.chart).css('opacity', 1);
+      $('#loader').hide();
     });
+    this.dcMap.on('postRedraw', () => { $('#loader').hide(); });
     this.charts.drawPieChart('pie');
     this.charts.createDataTable('table');
     // row Charts
@@ -153,11 +155,6 @@ export default class DataCenterPage extends Component {
             </ul>
         </header>
         <hr></hr>
-        <div className= "row">
-          <div id = "loader" className = {cx(s.loader, 'col-sm-6', 'col-sm-offset-3')}>
-            <Loader />
-          </div>
-        </div>
         <section id = "main" className= {cx('container', s.container)}>
           <div className= {cx('col-md-12', s.main)}>
             <div className ="row spacing">
@@ -169,25 +166,28 @@ export default class DataCenterPage extends Component {
                 <hr></hr>
               </article>
               <section className ={s.charts}>
-               <div className="row spacing-sm">
-                 <div className="col-md-6">
-                  <TimeRange clickHandler = { this.onTimeClick } />
-                  </div>
-                </div>
-                <div className="row spacing-sm">
+               <div className={cx('row', 'spacing-sm', s.chart)}>
                   <div className="col-md-6">
                     <h4>Total volume of tweets For particular dates</h4>
                     <div id ="range"></div>
-                    <i className ="small">
-                       * click on a bar to fetch in data for that date
-                     </i>
+                     <div className={cx('row', s.timeRange)}>
+                       <div className="col-sm-12">
+                         <small> Click on a bar and a select a Time range to fetch in new data</small>
+                         <TimeRange clickHandler = { this.onTimeClick } />
+                       </div>
+                    </div>
                   </div>
-                  <div className="col-md-6">
+                 <div className={cx('row', s.chart)}>
                     <h4>Aggregate Volume of Mentions For Each Candidate </h4>
                     <div id ="user_mentions"></div>
                   </div>
                 </div>
-                <div className="row spacing-sm">
+                <div className= "row">
+                  <div id = "loader" className = {cx(s.loader, 'col-sm-6', 'col-sm-offset-3')}>
+                    <Loader />
+                  </div>
+                </div>
+                <div className={cx('row', 'spacing-sm', s.chart)}>
                   <div className="col-md-4">
                       <h4 >Twitter Mentions Per Hour</h4>
                       <div id ="composite" className ="row"></div>
@@ -206,7 +206,7 @@ export default class DataCenterPage extends Component {
                     <div id ="terms"></div>
                   </div>
                 </div>
-                <div className= "row spacing-sm">
+                <div className={cx('row', 'spacing-sm', s.chart)}>
                   <div className = "col-md-8" ref="mapCont" id="mapCont">
                     <h4 className = "text-center"> Geolocating possible source of tweets</h4>
                     <div id ="map" className = {s.chart} ref="map" style={divStyle} > </div>
@@ -216,7 +216,7 @@ export default class DataCenterPage extends Component {
                       <div id= "pie"></div>
                   </div>
                 </div>
-                <div className="row spacing-sm">
+               <div className={cx('row', 'spacing-sm', s.chart)}>
                   <div className = "col-md-11 table-cont">
                     <h3> Twitter data tables</h3>
                     <table id ="table" className = {cx('table', 'table-hover', 'table-bordered')}>
@@ -231,7 +231,6 @@ export default class DataCenterPage extends Component {
                     </table>
                   </div>
                 </div>
-
               </section>
             </div>
           </div>
