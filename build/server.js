@@ -3588,14 +3588,14 @@ module.exports =
   
   var _TimeRange2 = _interopRequireDefault(_TimeRange);
   
-  var _jquery = __webpack_require__(83);
+  var _jquery = __webpack_require__(73);
   
   var _jquery2 = _interopRequireDefault(_jquery);
   
   // import testData from './data';
   
   var isBrowser = typeof window !== 'undefined';
-  var Charts = isBrowser ? __webpack_require__(73) : undefined;
+  var Charts = isBrowser ? __webpack_require__(74) : undefined;
   function getStateFromStores() {
     return _storesDataPageStore2['default'].getStoreState();
   }
@@ -4559,6 +4559,12 @@ module.exports =
 
 /***/ },
 /* 73 */
+/***/ function(module, exports) {
+
+  module.exports = require("jquery");
+
+/***/ },
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -4573,17 +4579,17 @@ module.exports =
   
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
   
-  var _dc = __webpack_require__(74);
+  var _dc = __webpack_require__(75);
   
   var _dc2 = _interopRequireDefault(_dc);
   
-  var _coreCfHelper = __webpack_require__(79);
+  var _coreCfHelper = __webpack_require__(80);
   
   var _coreCfHelper2 = _interopRequireDefault(_coreCfHelper);
   
-  __webpack_require__(82);
+  __webpack_require__(83);
   
-  var _jquery = __webpack_require__(83);
+  var _jquery = __webpack_require__(73);
   
   var _jquery2 = _interopRequireDefault(_jquery);
   
@@ -4902,7 +4908,7 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 74 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -4913,17 +4919,17 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _dc2 = __webpack_require__(75);
+  var _dc2 = __webpack_require__(76);
   
   var _dc3 = _interopRequireDefault(_dc2);
   
-  var _leaflet = __webpack_require__(76);
+  var _leaflet = __webpack_require__(77);
   
   var _leaflet2 = _interopRequireDefault(_leaflet);
   
-  __webpack_require__(77);
+  __webpack_require__(78);
   
-  var _dcAddons = __webpack_require__(78);
+  var _dcAddons = __webpack_require__(79);
   
   var _dcAddons2 = _interopRequireDefault(_dcAddons);
   
@@ -4932,31 +4938,31 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 75 */
+/* 76 */
 /***/ function(module, exports) {
 
   module.exports = require("dc");
 
 /***/ },
-/* 76 */
+/* 77 */
 /***/ function(module, exports) {
 
   module.exports = require("leaflet");
 
 /***/ },
-/* 77 */
+/* 78 */
 /***/ function(module, exports) {
 
   module.exports = require("leaflet.markercluster");
 
 /***/ },
-/* 78 */
+/* 79 */
 /***/ function(module, exports) {
 
   module.exports = require("dc-addons");
 
 /***/ },
-/* 79 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -4974,11 +4980,11 @@ module.exports =
   
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
   
-  var _crossfilter2 = __webpack_require__(80);
+  var _crossfilter2 = __webpack_require__(81);
   
   var _crossfilter22 = _interopRequireDefault(_crossfilter2);
   
-  var _lodash = __webpack_require__(81);
+  var _lodash = __webpack_require__(82);
   
   var _lodash2 = _interopRequireDefault(_lodash);
   
@@ -5169,28 +5175,22 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 80 */
+/* 81 */
 /***/ function(module, exports) {
 
   module.exports = require("crossfilter2");
 
 /***/ },
-/* 81 */
+/* 82 */
 /***/ function(module, exports) {
 
   module.exports = require("lodash");
 
 /***/ },
-/* 82 */
-/***/ function(module, exports) {
-
-  module.exports = require("datatables");
-
-/***/ },
 /* 83 */
 /***/ function(module, exports) {
 
-  module.exports = require("jquery");
+  module.exports = require("datatables");
 
 /***/ },
 /* 84 */
@@ -5376,7 +5376,7 @@ module.exports =
   
   var _config = __webpack_require__(14);
   
-  var _crossfilter2 = __webpack_require__(80);
+  var _crossfilter2 = __webpack_require__(81);
   
   var _crossfilter22 = _interopRequireDefault(_crossfilter2);
   
