@@ -170,6 +170,9 @@ export default class DataCenterPage extends Component {
                   <div className="col-md-6">
                     <h4>Total volume of tweets For particular dates</h4>
                     <div id ="range"></div>
+                    <div className ={s.timeRange}>
+                      <small> <i>click on a bar to fetch in data for that date </i> </small>
+                    </div>
                   </div>
                  <div className={cx('row', s.chart)}>
                     <h4>Aggregate Volume of Mentions For Each Candidate </h4>

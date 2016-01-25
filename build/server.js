@@ -3732,7 +3732,22 @@ module.exports =
                         null,
                         'Total volume of tweets For particular dates'
                       ),
-                      _react2['default'].createElement('div', { id: 'range' })
+                      _react2['default'].createElement('div', { id: 'range' }),
+                      _react2['default'].createElement(
+                        'div',
+                        { className: _DataPageScss2['default'].timeRange },
+                        _react2['default'].createElement(
+                          'small',
+                          null,
+                          ' ',
+                          _react2['default'].createElement(
+                            'i',
+                            null,
+                            'click on a bar to fetch in data for that date '
+                          ),
+                          ' '
+                        )
+                      )
                     ),
                     _react2['default'].createElement(
                       'div',
