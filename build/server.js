@@ -1855,16 +1855,6 @@ module.exports =
 /* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
-  
-  /**
-   * React Starter Kit (https://www.reactstarterkit.com/)
-   *
-   * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
-   *
-   * This source code is licensed under the MIT license found in the
-   * LICENSE.txt file in the root directory of this source tree.
-   */
-  
   'use strict';
   
   Object.defineProperty(exports, '__esModule', {
@@ -3590,6 +3580,14 @@ module.exports =
   
   var _workerWorker2 = _interopRequireDefault(_workerWorker);
   
+  var _Loader = __webpack_require__(100);
+  
+  var _Loader2 = _interopRequireDefault(_Loader);
+  
+  var _TimeRange = __webpack_require__(103);
+  
+  var _TimeRange2 = _interopRequireDefault(_TimeRange);
+  
   var isBrowser = typeof window !== 'undefined';
   var Charts = isBrowser ? __webpack_require__(68) : undefined;
   // import $ from 'jquery';
@@ -3625,8 +3623,6 @@ module.exports =
       _classCallCheck(this, _DataCenterPage);
   
       _get(Object.getPrototypeOf(_DataCenterPage.prototype), 'constructor', this).call(this, props);
-  
-      this.onTimeClick = function () {};
   
       this.createDcCharts = function (container, data) {
         _this.charts = new Charts(data);
@@ -3704,24 +3700,7 @@ module.exports =
             _react2['default'].createElement(
               'div',
               { id: 'loader', className: (0, _classnames2['default'])(_DataPageScss2['default'].loader, 'col-sm-6', 'col-sm-offset-3') },
-              _react2['default'].createElement(
-                'p',
-                { className: 'text-center' },
-                _react2['default'].createElement(
-                  'span',
-                  { className: (0, _classnames2['default'])(_DataPageScss2['default'].ouro, _DataPageScss2['default'].ouo2) },
-                  _react2['default'].createElement(
-                    'span',
-                    { className: _DataPageScss2['default'].left },
-                    _react2['default'].createElement('span', { className: _DataPageScss2['default'].anim })
-                  ),
-                  _react2['default'].createElement(
-                    'span',
-                    { className: _DataPageScss2['default'].right },
-                    _react2['default'].createElement('span', { className: _DataPageScss2['default'].anim })
-                  )
-                )
-              )
+              _react2['default'].createElement(_Loader2['default'], null)
             )
           ),
           _react2['default'].createElement(
@@ -3751,6 +3730,15 @@ module.exports =
                 _react2['default'].createElement(
                   'section',
                   { className: _DataPageScss2['default'].charts },
+                  _react2['default'].createElement(
+                    'div',
+                    { className: 'row spacing-sm' },
+                    _react2['default'].createElement(
+                      'div',
+                      { className: 'col-md-6' },
+                      _react2['default'].createElement(_TimeRange2['default'], { clickHandler: _this.onTimeClick })
+                    )
+                  ),
                   _react2['default'].createElement(
                     'div',
                     { className: 'row spacing-sm' },
@@ -3973,6 +3961,11 @@ module.exports =
         this.dcMap.map().remove();
       }
     }, {
+      key: 'onTimeClick',
+      value: function onTimeClick(range) {
+        console.log(range);
+      }
+    }, {
       key: 'getNewData',
       value: function getNewData(unixTime) {
         var workerData = [];
@@ -4054,7 +4047,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:2em}\nh2{font-size:1.5em}\nh3{font-size:1.2em}\n\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.DataPage_root_1Bn {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n}\n.DataPage_root_1Bn article {padding-left: 4em;padding-right: 4em;}\n.DataPage_root_1Bn .DataPage_charts_2yr {padding-left: 3em;}\n.DataPage_root_1Bn li {list-style: none;padding-top: 0.5em;margin-left: 6em;}\n.DataPage_root_1Bn table {margin: 0 auto;}\n.DataPage_root_1Bn h2 {color: #6B6969;}\n.DataPage_logo_2rV {\n  padding-left: 4em;\n  padding-bottom: 2em;\n  padding-top: 2em;\n}\n.DataPage_container_3Ry {\n  background-color: rgba(204, 204, 204, 0.35);\n  opacity: 0;\n}\n.DataPage_loader_cqh{\n\n}\n.DataPage_main_1GV {\n  margin-right: solid 1px;\n  background-color: white;;\n}\n.DataPage_main_1GV hr {color: #777;}\n.DataPage_main_1GV h3 {color: #374048;padding-bottom: 2em;}\n.DataPage_spacing_pJZ {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.DataPage_sidebar_2cr h3, .DataPage_sidebar_2cr a {\n  padding-left: 1em;\n}\n.DataPage_nav_3s0 >li>a, .DataPage_sidebar_2cr a {\n  color: #a94442;\n}\ntable{\n  font-size: 0.9em;\n}\ntable span{display: none}\n.DataPage_legend_2e1 small{\n  text-align: right;\n}\n.DataPage_legend_2e1 i{\n  width: 4em;\n  height: 0.5em;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.DataPage_yellow_30z i{\n  color: yellow;\n}\n.DataPage_blue_1Bj i{\n  color: blue;\n}\n.DataPage_orange_36J i{\n  color: orange;\n}\n/**Spinner**/\n.DataPage_ouro_186 {\n    position: relative;\n    display:inline-block;\n    height: 46px;\n    width: 46px;\n    margin: 1em;\n    border-radius: 50%;\n    background: none repeat scroll 0 0 #DDDDDD;\n    overflow:hidden;\n    -webkit-box-shadow: 0 0 10px rgba(0,0,0,.1) inset, 0 0 25px rgba(0,0,255,0.075);\n            box-shadow: 0 0 10px rgba(0,0,0,.1) inset, 0 0 25px rgba(0,0,255,0.075);\n}\n\n.DataPage_ouro_186:after {\n    content: \"\";\n    position: absolute;\n    top: 9px; left: 9px;\n    display: block;\n    height: 28px; width: 28px;\n    background: none repeat scroll 0 0 #F2F2F2;\n    border-radius: 50%;\n    -webkit-box-shadow: 0 0 10px rgba(0,0,0,.1);\n            box-shadow: 0 0 10px rgba(0,0,0,.1);\n}\n.DataPage_ouro_186 > span {\n    position: absolute;\n    height: 100%; width: 50%;\n    overflow: hidden;\n}\n.DataPage_left_zxu  { left:0   }\n.DataPage_right_3NS { left:50% }\n\n.DataPage_anim_2pN {\n    position: absolute;\n    left: 100%; top: 0;\n    height: 100%; width: 100%;\n    border-radius: 999px;\n    background: none repeat scroll 0 0 #508EC3;\n    opacity: 0.8;\n    -webkit-animation: DataPage_ui-spinner-rotate-left_3wP 3s infinite;\n    -o-animation: DataPage_ui-spinner-rotate-left_3wP 3s infinite;\n       animation: DataPage_ui-spinner-rotate-left_3wP 3s infinite;\n    -webkit-transform-origin: 0 50% 0;\n    -ms-transform-origin: 0 50% 0;\n     -o-transform-origin: 0 50% 0;\n        transform-origin: 0 50% 0;\n}\n.DataPage_left_zxu .DataPage_anim_2pN {\n    border-bottom-left-radius: 0;\n    border-top-left-radius: 0;\n}\n.DataPage_right_3NS .DataPage_anim_2pN {\n    border-bottom-right-radius: 0;\n    border-top-right-radius: 0;\n    left: -100%;\n    -webkit-transform-origin: 100% 50% 0;\n    -ms-transform-origin: 100% 50% 0;\n     -o-transform-origin: 100% 50% 0;\n        transform-origin: 100% 50% 0;\n}\n\n/* v2 */\n.DataPage_ouro2_1dI .DataPage_anim_2pN {\n   -webkit-animation-delay:0;\n   -o-animation-delay:0;\n      animation-delay:0;\n}\n.DataPage_ouro2_1dI .DataPage_right_3NS .DataPage_anim_2pN{\n   -webkit-animation-delay: 1.5s;\n   -o-animation-delay: 1.5s;\n      animation-delay: 1.5s;\n}\n\n\n/* round variation */\n.DataPage_round_3jF .DataPage_ouro_186:after {display:none }\n\n/* double variation */\n.DataPage_double_37F .DataPage_ouro_186:after {\n  height: 13px; width: 13px;\n  left: 7px; top: 7px;\n  border: 10px solid #ddd;\n  background: transparent;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n}\n\n@-o-keyframes DataPage_ui-spinner-rotate-right_2Qt{\n  0%{-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  50%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-o-transform:rotate(360deg);transform:rotate(360deg)}\n  100%{-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n\n@keyframes DataPage_ui-spinner-rotate-right_2Qt{\n  0%{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  50%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}\n  100%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n@-o-keyframes DataPage_ui-spinner-rotate-left_3wP{\n  0%{-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-o-transform:rotate(0deg);transform:rotate(0deg)}\n  50%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  100%{-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n@keyframes DataPage_ui-spinner-rotate-left_3wP{\n  0%{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}\n  50%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  100%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n\n@-webkit-keyframes DataPage_ui-spinner-rotate-right_2Qt{\n  0%{-webkit-transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(180deg)}\n  50%{-webkit-transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(360deg)}\n  100%{-webkit-transform:rotate(360deg)}\n}\n@-webkit-keyframes DataPage_ui-spinner-rotate-left_3wP{\n  0%{-webkit-transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(0deg)}\n  50%{-webkit-transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(180deg)}\n  100%{-webkit-transform:rotate(360deg)}\n}\n", "", {"version":3,"sources":["/./src/components/variables.scss","/./src/components/DataPage/DataPage.scss"],"names":[],"mappings":"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","file":"DataPage.scss","sourcesContent":["\n\n/**variables*/\n\n\n$h2-font: 1.5em;\n$h3-font: 1.2em;\n$h1-font: 2em;\n$large-font: 2.1em;\n$font-weight: 700;\n\n//headers\nh1{font-size:$h1-font}\nh2{font-size:$h2-font}\nh3{font-size:$h3-font}\n\n/*\n * Colors\n * ========================================================================== */\n$primary-color: #5B798E;\n$secondary-color: #B76565;\n$light-color:#d9edf7;\n\n$white-base:            hsl(255, 255, 255);\n$gray-darker:           color(black lightness(+13.5%)); /* #222 */\n$gray-dark:             color(black lightness(+25%));   /* #404040 */\n$gray:                  color(black lightness(+33.5%)); /* #555 */\n$gray-light:            color(black lightness(+46.7%)); /* #777 */\n$gray-lighter:          color(black lightness(+93.5%)); /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n$font-family-base:      'Lato','Segoe UI', 'HelveticaNeue-Light', sans-serif;\n\n/*\n * Layout\n * ========================================================================== */\n\n$max-content-width:     1000px;\n\n/*\n * Media queries breakpoints\n * ========================================================================== */\n\n$screen-xs-min:         480px;  /* Extra small screen / phone */\n$screen-sm-min:         768px;  /* Small screen / tablet */\n$screen-md-min:         992px;  /* Medium screen / desktop */\n$screen-lg-min:         1200px; /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n$animation-swift-out:   .45s cubic-bezier(0.3, 1, 0.4, 1) 0s;\n","@import '../variables.scss';\n.root {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n  article {\n    padding-left: 4em;\n    padding-right: 4em;\n  };\n  .charts {\n    padding-left: 3em;\n  };\n  li {\n    list-style: none;\n    padding-top: 0.5em;\n    margin-left: 6em;\n  };\n  table {\n    margin: 0 auto;\n  };\n  h2 {\n    color: #6B6969;\n  }\n}\n.logo {\n  padding-left: 4em;\n  padding-bottom: 2em;\n  padding-top: 2em;\n}\n.container {\n  background-color: rgba(204, 204, 204, 0.35);\n  opacity: 0;\n}\n.loader{\n\n}\n.main {\n  margin-right: solid 1px;\n  background-color: white;\n  hr {\n    color: #777;\n  };\n  h3 {\n    color: #374048;\n    padding-bottom: 2em;\n  };\n}\n.spacing {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.sidebar h3,.sidebar a {\n  padding-left: 1em;\n}\n.nav >li>a,\n.sidebar a {\n  color: #a94442;\n}\ntable{\n  font-size: 0.9em;\n  span{display: none}\n}\n.legend small{\n  text-align: right;\n}\n.legend i{\n  width: 4em;\n  height: 0.5em;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.yellow i{\n  color: yellow;\n}\n.blue i{\n  color: blue;\n}\n.orange i{\n  color: orange;\n}\n/**Spinner**/\n.ouro {\n    position: relative;\n    display:inline-block;\n    height: 46px;\n    width: 46px;\n    margin: 1em;\n    border-radius: 50%;\n    background: none repeat scroll 0 0 #DDDDDD;\n    overflow:hidden;\n    box-shadow: 0 0 10px rgba(0,0,0,.1) inset, 0 0 25px rgba(0,0,255,0.075);\n}\n\n.ouro:after {\n    content: \"\";\n    position: absolute;\n    top: 9px; left: 9px;\n    display: block;\n    height: 28px; width: 28px;\n    background: none repeat scroll 0 0 #F2F2F2;\n    border-radius: 50%;\n    box-shadow: 0 0 10px rgba(0,0,0,.1);\n}\n.ouro > span {\n    position: absolute;\n    height: 100%; width: 50%;\n    overflow: hidden;\n}\n.left  { left:0   }\n.right { left:50% }\n\n.anim {\n    position: absolute;\n    left: 100%; top: 0;\n    height: 100%; width: 100%;\n    border-radius: 999px;\n    background: none repeat scroll 0 0 #508EC3;\n    opacity: 0.8;\n    -webkit-animation: ui-spinner-rotate-left 3s infinite;\n    animation: ui-spinner-rotate-left 3s infinite;\n    -webkit-transform-origin: 0 50% 0;\n    transform-origin: 0 50% 0;\n}\n.left .anim {\n    border-bottom-left-radius: 0;\n    border-top-left-radius: 0;\n}\n.right .anim {\n    border-bottom-right-radius: 0;\n    border-top-right-radius: 0;\n    left: -100%;\n    -webkit-transform-origin: 100% 50% 0;\n    transform-origin: 100% 50% 0;\n}\n\n/* v2 */\n.ouro2 .anim {\n   -webkit-animation-delay:0;\n   animation-delay:0;\n}\n.ouro2 .right .anim{\n   -webkit-animation-delay: 1.5s;\n   animation-delay: 1.5s;\n}\n\n\n/* round variation */\n.round .ouro:after {display:none }\n\n/* double variation */\n.double .ouro:after {\n  height: 13px; width: 13px;\n  left: 7px; top: 7px;\n  border: 10px solid #ddd;\n  background: transparent;\n  box-shadow: none;\n}\n\n@keyframes ui-spinner-rotate-right{\n  0%{transform:rotate(0deg)}\n  25%{transform:rotate(180deg)}\n  50%{transform:rotate(180deg)}\n  75%{transform:rotate(360deg)}\n  100%{transform:rotate(360deg)}\n}\n@keyframes ui-spinner-rotate-left{\n  0%{transform:rotate(0deg)}\n  25%{transform:rotate(0deg)}\n  50%{transform:rotate(180deg)}\n  75%{transform:rotate(180deg)}\n  100%{transform:rotate(360deg)}\n}\n\n@-webkit-keyframes ui-spinner-rotate-right{\n  0%{-webkit-transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(180deg)}\n  50%{-webkit-transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(360deg)}\n  100%{-webkit-transform:rotate(360deg)}\n}\n@-webkit-keyframes ui-spinner-rotate-left{\n  0%{-webkit-transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(0deg)}\n  50%{-webkit-transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(180deg)}\n  100%{-webkit-transform:rotate(360deg)}\n}\n"],"sourceRoot":"webpack://"}]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:2em}\nh2{font-size:1.5em}\nh3{font-size:1.2em}\n\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.DataPage_root_1Bn {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n}\n.DataPage_root_1Bn article {padding-left: 4em;padding-right: 4em;}\n.DataPage_root_1Bn .DataPage_charts_2yr {padding-left: 3em;}\n.DataPage_root_1Bn li {list-style: none;padding-top: 0.5em;margin-left: 6em;}\n.DataPage_root_1Bn table {margin: 0 auto;}\n.DataPage_root_1Bn h2 {color: #6B6969;}\n.DataPage_logo_2rV {\n  padding-left: 4em;\n  padding-bottom: 2em;\n  padding-top: 2em;\n}\n.DataPage_container_3Ry {\n  background-color: rgba(204, 204, 204, 0.35);\n  opacity: 0;\n}\n.DataPage_loader_cqh{\n\n}\n.DataPage_main_1GV {\n  margin-right: solid 1px;\n  background-color: white;;\n}\n.DataPage_main_1GV hr {color: #777;}\n.DataPage_main_1GV h3 {color: #374048;padding-bottom: 2em;}\n.DataPage_spacing_pJZ {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.DataPage_sidebar_2cr h3, .DataPage_sidebar_2cr a {\n  padding-left: 1em;\n}\n.DataPage_nav_3s0 >li>a, .DataPage_sidebar_2cr a {\n  color: #a94442;\n}\ntable{\n  font-size: 0.9em;\n}\ntable span{display: none}\n.DataPage_legend_2e1 small{\n  text-align: right;\n}\n.DataPage_legend_2e1 i{\n  width: 4em;\n  height: 0.5em;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.DataPage_yellow_30z i{\n  color: yellow;\n}\n.DataPage_blue_1Bj i{\n  color: blue;\n}\n.DataPage_orange_36J i{\n  color: orange;\n}\n", "", {"version":3,"sources":["/./src/components/variables.scss","/./src/components/DataPage/DataPage.scss"],"names":[],"mappings":"AAEA,cAAc;;AASd;GACG,aAAkB,CAAC;AACtB,GAAG,eAAkB,CAAC;AACtB,GAAG,eAAkB,CAAC;;AAEtB;;gFAEgF,CAMxB,UAAU,GACV,aAAa,CACb,UAAU,CACV,UAAU,CACV,UAAU;;AAElE;;gFAEgF;;AAIhF;;gFAEgF;;AAIhF;;gFAEgF,EAEhD,gCAAgC,EAChC,2BAA2B,EAC3B,6BAA6B,CAC7B,iCAAiC;;AAEjE;;gFAEgF;ACpDhF;EACE,gBAAgB;EAChB,YAAY;EACZ,wBAAwB;EACxB,qFAA6E;UAA7E,6EAA6E;CAmB9E;AAlBC,4BACE,kBAAkB,mBACC,CACpB;AACD,yCACE,kBAAkB,CACnB;AACD,uBACE,iBAAiB,mBACE,iBACF,CAClB;AACD,0BACE,eAAe,CAChB;AACD,uBACE,eAAe,CAChB;AAEH;EACE,kBAAkB;EAClB,oBAAoB;EACpB,iBAAiB;CAClB;AACD;EACE,4CAA4C;EAC5C,WAAW;CACZ;AACD;;CAEC;AACD;EACE,wBAAwB;EACxB,wBAAwB;CAQzB;AAPC,uBACE,YAAY,CACb;AACD,uBACE,eAAe,oBACK,CACrB;AAEH;EACE,gBAAgB;EAChB,mBAAmB;CACpB;AACD;EACE,kBAAkB;CACnB;AACD;EAEE,eAAe;CAChB;AACD;EACE,iBAAiB;CAElB;AADC,WAAK,aAAa,CAAC;AAErB;EACE,kBAAkB;CACnB;AACD;EACE,WAAW;EACX,cAAc;EACd,iBAAiB;EACjB,cAAc;EACd,mBAAmB;EACnB,sBAAsB;CACvB;AACD;EACE,cAAc;CACf;AACD;EACE,YAAY;CACb;AACD;EACE,cAAc;CACf","file":"DataPage.scss","sourcesContent":["\n\n/**variables*/\n\n\n$h2-font: 1.5em;\n$h3-font: 1.2em;\n$h1-font: 2em;\n$large-font: 2.1em;\n$font-weight: 700;\n\n//headers\nh1{font-size:$h1-font}\nh2{font-size:$h2-font}\nh3{font-size:$h3-font}\n\n/*\n * Colors\n * ========================================================================== */\n$primary-color: #5B798E;\n$secondary-color: #B76565;\n$light-color:#d9edf7;\n\n$white-base:            hsl(255, 255, 255);\n$gray-darker:           color(black lightness(+13.5%)); /* #222 */\n$gray-dark:             color(black lightness(+25%));   /* #404040 */\n$gray:                  color(black lightness(+33.5%)); /* #555 */\n$gray-light:            color(black lightness(+46.7%)); /* #777 */\n$gray-lighter:          color(black lightness(+93.5%)); /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n$font-family-base:      'Lato','Segoe UI', 'HelveticaNeue-Light', sans-serif;\n\n/*\n * Layout\n * ========================================================================== */\n\n$max-content-width:     1000px;\n\n/*\n * Media queries breakpoints\n * ========================================================================== */\n\n$screen-xs-min:         480px;  /* Extra small screen / phone */\n$screen-sm-min:         768px;  /* Small screen / tablet */\n$screen-md-min:         992px;  /* Medium screen / desktop */\n$screen-lg-min:         1200px; /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n$animation-swift-out:   .45s cubic-bezier(0.3, 1, 0.4, 1) 0s;\n","@import '../variables.scss';\n.root {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n  article {\n    padding-left: 4em;\n    padding-right: 4em;\n  };\n  .charts {\n    padding-left: 3em;\n  };\n  li {\n    list-style: none;\n    padding-top: 0.5em;\n    margin-left: 6em;\n  };\n  table {\n    margin: 0 auto;\n  };\n  h2 {\n    color: #6B6969;\n  }\n}\n.logo {\n  padding-left: 4em;\n  padding-bottom: 2em;\n  padding-top: 2em;\n}\n.container {\n  background-color: rgba(204, 204, 204, 0.35);\n  opacity: 0;\n}\n.loader{\n\n}\n.main {\n  margin-right: solid 1px;\n  background-color: white;\n  hr {\n    color: #777;\n  };\n  h3 {\n    color: #374048;\n    padding-bottom: 2em;\n  };\n}\n.spacing {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.sidebar h3,.sidebar a {\n  padding-left: 1em;\n}\n.nav >li>a,\n.sidebar a {\n  color: #a94442;\n}\ntable{\n  font-size: 0.9em;\n  span{display: none}\n}\n.legend small{\n  text-align: right;\n}\n.legend i{\n  width: 4em;\n  height: 0.5em;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.yellow i{\n  color: yellow;\n}\n.blue i{\n  color: blue;\n}\n.orange i{\n  color: orange;\n}\n"],"sourceRoot":"webpack://"}]);
   
   // exports
   exports.locals = {
@@ -4070,16 +4063,7 @@ module.exports =
   	"legend": "DataPage_legend_2e1",
   	"yellow": "DataPage_yellow_30z",
   	"blue": "DataPage_blue_1Bj",
-  	"orange": "DataPage_orange_36J",
-  	"ouro": "DataPage_ouro_186",
-  	"left": "DataPage_left_zxu",
-  	"right": "DataPage_right_3NS",
-  	"anim": "DataPage_anim_2pN",
-  	"ui-spinner-rotate-left": "DataPage_ui-spinner-rotate-left_3wP",
-  	"ouro2": "DataPage_ouro2_1dI",
-  	"round": "DataPage_round_3jF",
-  	"double": "DataPage_double_37F",
-  	"ui-spinner-rotate-right": "DataPage_ui-spinner-rotate-right_2Qt"
+  	"orange": "DataPage_orange_36J"
   };
 
 /***/ },
@@ -5463,29 +5447,28 @@ module.exports =
   }
   
   function findAll() {
-    var now, hoursPast, time;
+    var now, time;
     return regeneratorRuntime.async(function findAll$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
           context$1$0.prev = 0;
           now = new Date();
-          hoursPast = now.getHours();
-          time = now - hour * hoursPast;
+          time = now - hour * 55;
           return context$1$0.abrupt('return', _modelsTwitter2['default'].find({
             'is_retweet': false,
             timeStamp: { $gt: time }
           }).exec());
   
-        case 7:
-          context$1$0.prev = 7;
+        case 6:
+          context$1$0.prev = 6;
           context$1$0.t0 = context$1$0['catch'](0);
           throw new Error(context$1$0.t0);
   
-        case 10:
+        case 9:
         case 'end':
           return context$1$0.stop();
       }
-    }, null, this, [[0, 7]]);
+    }, null, this, [[0, 6]]);
   }
   
   function findByDate(start) {
@@ -5514,6 +5497,8 @@ module.exports =
       }
     }, null, this, [[0, 5]]);
   }
+  
+  // const hoursPast = now.getHours();
 
 /***/ },
 /* 92 */
@@ -5751,6 +5736,275 @@ module.exports =
 /***/ function(module, exports) {
 
   module.exports = require("front-matter");
+
+/***/ },
+/* 100 */
+/***/ function(module, exports, __webpack_require__) {
+
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+  
+  var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+  
+  function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+  
+  var _react = __webpack_require__(4);
+  
+  var _react2 = _interopRequireDefault(_react);
+  
+  var _LoaderScss = __webpack_require__(101);
+  
+  var _LoaderScss2 = _interopRequireDefault(_LoaderScss);
+  
+  var _classnames = __webpack_require__(21);
+  
+  var _classnames2 = _interopRequireDefault(_classnames);
+  
+  var _decoratorsWithStyles = __webpack_require__(25);
+  
+  var _decoratorsWithStyles2 = _interopRequireDefault(_decoratorsWithStyles);
+  
+  var Loader = (function (_Component) {
+    _inherits(Loader, _Component);
+  
+    function Loader() {
+      _classCallCheck(this, _Loader);
+  
+      _get(Object.getPrototypeOf(_Loader.prototype), 'constructor', this).apply(this, arguments);
+    }
+  
+    _createClass(Loader, [{
+      key: 'render',
+      value: function render() {
+        return _react2['default'].createElement(
+          'p',
+          { className: 'text-center' },
+          _react2['default'].createElement(
+            'span',
+            { className: (0, _classnames2['default'])(_LoaderScss2['default'].ouro, _LoaderScss2['default'].ouo2) },
+            _react2['default'].createElement(
+              'span',
+              { className: _LoaderScss2['default'].left },
+              _react2['default'].createElement('span', { className: _LoaderScss2['default'].anim })
+            ),
+            _react2['default'].createElement(
+              'span',
+              { className: _LoaderScss2['default'].right },
+              _react2['default'].createElement('span', { className: _LoaderScss2['default'].anim })
+            )
+          )
+        );
+      }
+    }]);
+  
+    var _Loader = Loader;
+    Loader = (0, _decoratorsWithStyles2['default'])(_LoaderScss2['default'])(Loader) || Loader;
+    return Loader;
+  })(_react.Component);
+  
+  exports['default'] = Loader;
+  module.exports = exports['default'];
+
+/***/ },
+/* 101 */
+/***/ function(module, exports, __webpack_require__) {
+
+  
+      var content = __webpack_require__(102);
+      var insertCss = __webpack_require__(20);
+  
+      if (typeof content === 'string') {
+        content = [[module.id, content, '']];
+      }
+  
+      module.exports = content.locals || {};
+      module.exports._getCss = function() { return content.toString(); };
+      module.exports._insertCss = insertCss.bind(null, content);
+    
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?sourceMap&modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Loader.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?sourceMap&modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Loader.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
+
+/***/ },
+/* 102 */
+/***/ function(module, exports, __webpack_require__) {
+
+  exports = module.exports = __webpack_require__(19)();
+  // imports
+  
+  
+  // module
+  exports.push([module.id, "/**Spinner**/\n.Loader_ouro_2h9 {\n    position: relative;\n    display:inline-block;\n    height: 46px;\n    width: 46px;\n    margin: 1em;\n    border-radius: 50%;\n    background: none repeat scroll 0 0 #DDDDDD;\n    overflow:hidden;\n    -webkit-box-shadow: 0 0 10px rgba(0,0,0,.1) inset, 0 0 25px rgba(0,0,255,0.075);\n            box-shadow: 0 0 10px rgba(0,0,0,.1) inset, 0 0 25px rgba(0,0,255,0.075);\n}\n\n.Loader_ouro_2h9:after {\n    content: \"\";\n    position: absolute;\n    top: 9px; left: 9px;\n    display: block;\n    height: 28px; width: 28px;\n    background: none repeat scroll 0 0 #F2F2F2;\n    border-radius: 50%;\n    -webkit-box-shadow: 0 0 10px rgba(0,0,0,.1);\n            box-shadow: 0 0 10px rgba(0,0,0,.1);\n}\n.Loader_ouro_2h9 > span {\n    position: absolute;\n    height: 100%; width: 50%;\n    overflow: hidden;\n}\n.Loader_left_Occ  { left:0   }\n.Loader_right_2CJ { left:50% }\n\n.Loader_anim_2a7 {\n    position: absolute;\n    left: 100%; top: 0;\n    height: 100%; width: 100%;\n    border-radius: 999px;\n    background: none repeat scroll 0 0 #508EC3;\n    opacity: 0.8;\n    -webkit-animation: Loader_ui-spinner-rotate-left_kH6 3s infinite;\n    -o-animation: Loader_ui-spinner-rotate-left_kH6 3s infinite;\n       animation: Loader_ui-spinner-rotate-left_kH6 3s infinite;\n    -webkit-transform-origin: 0 50% 0;\n    -ms-transform-origin: 0 50% 0;\n     -o-transform-origin: 0 50% 0;\n        transform-origin: 0 50% 0;\n}\n.Loader_left_Occ .Loader_anim_2a7 {\n    border-bottom-left-radius: 0;\n    border-top-left-radius: 0;\n}\n.Loader_right_2CJ .Loader_anim_2a7 {\n    border-bottom-right-radius: 0;\n    border-top-right-radius: 0;\n    left: -100%;\n    -webkit-transform-origin: 100% 50% 0;\n    -ms-transform-origin: 100% 50% 0;\n     -o-transform-origin: 100% 50% 0;\n        transform-origin: 100% 50% 0;\n}\n\n/* v2 */\n.Loader_ouro2_11V .Loader_anim_2a7 {\n   -webkit-animation-delay:0;\n   -o-animation-delay:0;\n      animation-delay:0;\n}\n.Loader_ouro2_11V .Loader_right_2CJ .Loader_anim_2a7{\n   -webkit-animation-delay: 1.5s;\n   -o-animation-delay: 1.5s;\n      animation-delay: 1.5s;\n}\n\n\n/* round variation */\n.Loader_round_1Tl .Loader_ouro_2h9:after {display:none }\n\n/* double variation */\n.Loader_double_2w1 .Loader_ouro_2h9:after {\n  height: 13px; width: 13px;\n  left: 7px; top: 7px;\n  border: 10px solid #ddd;\n  background: transparent;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n}\n\n@-webkit-keyframes Loader_ui-spinner-rotate-right_2-Y{\n  0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}\n  50%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}\n  100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}\n}\n\n@-o-keyframes Loader_ui-spinner-rotate-right_2-Y{\n  0%{-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  50%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-o-transform:rotate(360deg);transform:rotate(360deg)}\n  100%{-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n\n@keyframes Loader_ui-spinner-rotate-right_2-Y{\n  0%{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  50%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}\n  100%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n@-webkit-keyframes Loader_ui-spinner-rotate-left_kH6{\n  0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}\n  50%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}\n  100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}\n}\n@-o-keyframes Loader_ui-spinner-rotate-left_kH6{\n  0%{-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-o-transform:rotate(0deg);transform:rotate(0deg)}\n  50%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  100%{-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n@keyframes Loader_ui-spinner-rotate-left_kH6{\n  0%{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}\n  50%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  100%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n", "", {"version":3,"sources":["/./src/components/Loader/Loader.scss"],"names":[],"mappings":"AAAA,aAAa;AACb;IACI,mBAAmB;IACnB,qBAAqB;IACrB,aAAa;IACb,YAAY;IACZ,YAAY;IACZ,mBAAmB;IACnB,2CAA2C;IAC3C,gBAAgB;IAChB,gFAAwE;YAAxE,wEAAwE;CAC3E;;AAED;IACI,YAAY;IACZ,mBAAmB;IACnB,SAAS,CAAC,UAAU;IACpB,eAAe;IACf,aAAa,CAAC,YAAY;IAC1B,2CAA2C;IAC3C,mBAAmB;IACnB,4CAAoC;YAApC,oCAAoC;CACvC;AACD;IACI,mBAAmB;IACnB,aAAa,CAAC,WAAW;IACzB,iBAAiB;CACpB;AACD,oBAAS,MAAM,IAAI;AACnB,oBAAS,QAAQ,EAAE;;AAEnB;IACI,mBAAmB;IACnB,WAAW,CAAC,OAAO;IACnB,aAAa,CAAC,YAAY;IAC1B,qBAAqB;IACrB,2CAA2C;IAC3C,aAAa;IACb,iEAAsD;IACtD,4DAA8C;OAA9C,yDAA8C;IAC9C,kCAAkC;IAClC,8BAA0B;KAA1B,6BAA0B;QAA1B,0BAA0B;CAC7B;AACD;IACI,6BAA6B;IAC7B,0BAA0B;CAC7B;AACD;IACI,8BAA8B;IAC9B,2BAA2B;IAC3B,YAAY;IACZ,qCAAqC;IACrC,iCAA6B;KAA7B,gCAA6B;QAA7B,6BAA6B;CAChC;;AAED,QAAQ;AACR;GACG,0BAA0B;GAC1B,qBAAkB;MAAlB,kBAAkB;CACpB;AACD;GACG,8BAA8B;GAC9B,yBAAsB;MAAtB,sBAAsB;CACxB;;;AAGD,qBAAqB;AACrB,0CAAoB,YAAY,EAAE;;AAElC,sBAAsB;AACtB;EACE,aAAa,CAAC,YAAY;EAC1B,UAAU,CAAC,SAAS;EACpB,wBAAwB;EACxB,wBAAwB;EACxB,yBAAiB;UAAjB,iBAAiB;CAClB;;AAED;EACE,GAAG,+BAAA,sBAAsB,CAAC;EAC1B,IAAI,iCAAA,wBAAwB,CAAC;EAC7B,IAAI,iCAAA,wBAAwB,CAAC;EAC7B,IAAI,iCAAA,wBAAwB,CAAC;EAC7B,KAAK,iCAAA,wBAAwB,CAAC;CAC/B;;AAND;EACE,GAAG,0BAAA,sBAAsB,CAAC;EAC1B,IAAI,4BAAA,wBAAwB,CAAC;EAC7B,IAAI,4BAAA,wBAAwB,CAAC;EAC7B,IAAI,4BAAA,wBAAwB,CAAC;EAC7B,KAAK,4BAAA,wBAAwB,CAAC;CAC/B;;AAND;EACE,GAAG,+BAAA,0BAAA,sBAAsB,CAAC;EAC1B,IAAI,iCAAA,4BAAA,wBAAwB,CAAC;EAC7B,IAAI,iCAAA,4BAAA,wBAAwB,CAAC;EAC7B,IAAI,iCAAA,4BAAA,wBAAwB,CAAC;EAC7B,KAAK,iCAAA,4BAAA,wBAAwB,CAAC;CAC/B;AACD;EACE,GAAG,+BAAA,sBAAsB,CAAC;EAC1B,IAAI,+BAAA,sBAAsB,CAAC;EAC3B,IAAI,iCAAA,wBAAwB,CAAC;EAC7B,IAAI,iCAAA,wBAAwB,CAAC;EAC7B,KAAK,iCAAA,wBAAwB,CAAC;CAC/B;AAND;EACE,GAAG,0BAAA,sBAAsB,CAAC;EAC1B,IAAI,0BAAA,sBAAsB,CAAC;EAC3B,IAAI,4BAAA,wBAAwB,CAAC;EAC7B,IAAI,4BAAA,wBAAwB,CAAC;EAC7B,KAAK,4BAAA,wBAAwB,CAAC;CAC/B;AAND;EACE,GAAG,+BAAA,0BAAA,sBAAsB,CAAC;EAC1B,IAAI,+BAAA,0BAAA,sBAAsB,CAAC;EAC3B,IAAI,iCAAA,4BAAA,wBAAwB,CAAC;EAC7B,IAAI,iCAAA,4BAAA,wBAAwB,CAAC;EAC7B,KAAK,iCAAA,4BAAA,wBAAwB,CAAC;CAC/B","file":"Loader.scss","sourcesContent":["/**Spinner**/\n.ouro {\n    position: relative;\n    display:inline-block;\n    height: 46px;\n    width: 46px;\n    margin: 1em;\n    border-radius: 50%;\n    background: none repeat scroll 0 0 #DDDDDD;\n    overflow:hidden;\n    box-shadow: 0 0 10px rgba(0,0,0,.1) inset, 0 0 25px rgba(0,0,255,0.075);\n}\n\n.ouro:after {\n    content: \"\";\n    position: absolute;\n    top: 9px; left: 9px;\n    display: block;\n    height: 28px; width: 28px;\n    background: none repeat scroll 0 0 #F2F2F2;\n    border-radius: 50%;\n    box-shadow: 0 0 10px rgba(0,0,0,.1);\n}\n.ouro > span {\n    position: absolute;\n    height: 100%; width: 50%;\n    overflow: hidden;\n}\n.left  { left:0   }\n.right { left:50% }\n\n.anim {\n    position: absolute;\n    left: 100%; top: 0;\n    height: 100%; width: 100%;\n    border-radius: 999px;\n    background: none repeat scroll 0 0 #508EC3;\n    opacity: 0.8;\n    -webkit-animation: ui-spinner-rotate-left 3s infinite;\n    animation: ui-spinner-rotate-left 3s infinite;\n    -webkit-transform-origin: 0 50% 0;\n    transform-origin: 0 50% 0;\n}\n.left .anim {\n    border-bottom-left-radius: 0;\n    border-top-left-radius: 0;\n}\n.right .anim {\n    border-bottom-right-radius: 0;\n    border-top-right-radius: 0;\n    left: -100%;\n    -webkit-transform-origin: 100% 50% 0;\n    transform-origin: 100% 50% 0;\n}\n\n/* v2 */\n.ouro2 .anim {\n   -webkit-animation-delay:0;\n   animation-delay:0;\n}\n.ouro2 .right .anim{\n   -webkit-animation-delay: 1.5s;\n   animation-delay: 1.5s;\n}\n\n\n/* round variation */\n.round .ouro:after {display:none }\n\n/* double variation */\n.double .ouro:after {\n  height: 13px; width: 13px;\n  left: 7px; top: 7px;\n  border: 10px solid #ddd;\n  background: transparent;\n  box-shadow: none;\n}\n\n@keyframes ui-spinner-rotate-right{\n  0%{transform:rotate(0deg)}\n  25%{transform:rotate(180deg)}\n  50%{transform:rotate(180deg)}\n  75%{transform:rotate(360deg)}\n  100%{transform:rotate(360deg)}\n}\n@keyframes ui-spinner-rotate-left{\n  0%{transform:rotate(0deg)}\n  25%{transform:rotate(0deg)}\n  50%{transform:rotate(180deg)}\n  75%{transform:rotate(180deg)}\n  100%{transform:rotate(360deg)}\n}\n"],"sourceRoot":"webpack://"}]);
+  
+  // exports
+  exports.locals = {
+  	"ouro": "Loader_ouro_2h9",
+  	"left": "Loader_left_Occ",
+  	"right": "Loader_right_2CJ",
+  	"anim": "Loader_anim_2a7",
+  	"ui-spinner-rotate-left": "Loader_ui-spinner-rotate-left_kH6",
+  	"ouro2": "Loader_ouro2_11V",
+  	"round": "Loader_round_1Tl",
+  	"double": "Loader_double_2w1",
+  	"ui-spinner-rotate-right": "Loader_ui-spinner-rotate-right_2-Y"
+  };
+
+/***/ },
+/* 103 */
+/***/ function(module, exports, __webpack_require__) {
+
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+  
+  var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+  
+  function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+  
+  var _react = __webpack_require__(4);
+  
+  var _react2 = _interopRequireDefault(_react);
+  
+  var _Item = __webpack_require__(104);
+  
+  var _Item2 = _interopRequireDefault(_Item);
+  
+  var TimeRange = (function (_Component) {
+    _inherits(TimeRange, _Component);
+  
+    _createClass(TimeRange, null, [{
+      key: 'propTypes',
+      value: {
+        clickHandler: _react.PropTypes.func.isRequired
+      },
+      enumerable: true
+    }]);
+  
+    function TimeRange(props) {
+      _classCallCheck(this, TimeRange);
+  
+      _get(Object.getPrototypeOf(TimeRange.prototype), 'constructor', this).call(this, props);
+      this.clickHandler = this.props.clickHandler;
+    }
+  
+    _createClass(TimeRange, [{
+      key: 'render',
+      value: function render() {
+        var items = [];
+        for (var i = 0; i < 6; i++) {
+          var start = i * 4;
+          var end = start + 4;
+          var range = start + ' - ' + end;
+          items.push(_react2['default'].createElement(_Item2['default'], { key: end, range: range, clickHandler: this.clickHandler }));
+        }
+        return _react2['default'].createElement(
+          'div',
+          { className: 'btn-toolbar', role: 'toolbar' },
+          items
+        );
+      }
+    }]);
+  
+    return TimeRange;
+  })(_react.Component);
+  
+  exports['default'] = TimeRange;
+  module.exports = exports['default'];
+
+/***/ },
+/* 104 */
+/***/ function(module, exports, __webpack_require__) {
+
+  "use strict";
+  
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+  
+  var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+  
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  
+  function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+  
+  var _react = __webpack_require__(4);
+  
+  var _react2 = _interopRequireDefault(_react);
+  
+  var Item = (function (_Component) {
+    _inherits(Item, _Component);
+  
+    _createClass(Item, null, [{
+      key: "propTypes",
+      value: {
+        range: _react.PropTypes.string,
+        clickHandler: _react.PropTypes.func.isRequired
+      },
+      enumerable: true
+    }]);
+  
+    function Item(props) {
+      var _this = this;
+  
+      _classCallCheck(this, Item);
+  
+      _get(Object.getPrototypeOf(Item.prototype), "constructor", this).call(this, props);
+  
+      this.render = function () {
+        return _react2["default"].createElement(
+          "div",
+          { className: "btn-group btn-group-sm", role: "group" },
+          _react2["default"].createElement(
+            "button",
+            { type: "button", className: "btn btn-default", onClick: _this.clickHandler.bind(_this, _this.range) },
+            _this.range,
+            "hrs"
+          )
+        );
+      };
+  
+      this.range = props.range;
+      this.clickHandler = props.clickHandler;
+    }
+  
+    return Item;
+  })(_react.Component);
+  
+  exports["default"] = Item;
+  module.exports = exports["default"];
 
 /***/ }
 /******/ ]);

@@ -6,6 +6,9 @@ import DataPageStore from '../../stores/DataPageStore';
 import Link from '../Link';
 import DataPageActions from '../../actions/DataPageActions';
 import Worker from 'worker!../../worker';
+import Loader from '../Loader';
+import TimeRange from './TimeRange';
+
 const isBrowser = typeof window !== 'undefined';
 const Charts = isBrowser ? require('../Charts') : undefined;
 // import $ from 'jquery';
@@ -68,9 +71,10 @@ export default class DataCenterPage extends Component {
     DataPageStore.removeChangeListener(this._onChange);
     this.dcMap.map().remove();
   }
-  onTimeClick = () => {
-
+  onTimeClick(range) {
+    console.log(range);
   }
+
   getNewData(unixTime) {
     const workerData = [];
     let counter = 0;
@@ -150,12 +154,7 @@ export default class DataCenterPage extends Component {
         <hr></hr>
         <div className= "row">
           <div id = "loader" className = {cx(s.loader, 'col-sm-6', 'col-sm-offset-3')}>
-            <p className= "text-center">
-              <span className={cx(s.ouro, s.ouo2)}>
-                <span className={s.left}><span className={s.anim}></span></span>
-                <span className={s.right}><span className={s.anim}></span></span>
-              </span>
-            </p>
+            <Loader />
           </div>
         </div>
         <section id = "main" className= {cx('container', s.container)}>
@@ -169,6 +168,11 @@ export default class DataCenterPage extends Component {
                 <hr></hr>
               </article>
               <section className ={s.charts}>
+               <div className="row spacing-sm">
+                 <div className="col-md-6">
+                  <TimeRange clickHandler = { this.onTimeClick } />
+                  </div>
+                </div>
                 <div className="row spacing-sm">
                   <div className="col-md-6">
                     <h4>Total volume of tweets For particular dates</h4>
