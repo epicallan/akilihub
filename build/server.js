@@ -3952,7 +3952,7 @@ module.exports =
       key: 'componentDidMount',
       value: function componentDidMount() {
         _storesDataPageStore2['default'].addChangeListener(this._onChange);
-        this.initalDataFetch(2);
+        this.initalDataFetch(10);
       }
     }, {
       key: 'shouldComponentUpdate',
@@ -3980,10 +3980,18 @@ module.exports =
     }, {
       key: 'onInitialDataReceived',
       value: function onInitialDataReceived(worker, index) {
+        var _this2 = this;
+  
         worker.onmessage = function (event) {
           console.log(event);
           if (index > 0) {
-            _actionsDataPageActions2['default'].update(event.data.data, true);
+            if (_this2.state.data.length) {
+              // only make data available for upadate if we have an initial payload
+              _actionsDataPageActions2['default'].update(event.data.data, true);
+            } else {
+              // use this new data as initial data
+              _actionsDataPageActions2['default'].getData(event.data);
+            }
           } else {
             _actionsDataPageActions2['default'].getData(event.data);
           }
@@ -4171,7 +4179,9 @@ module.exports =
       value: function getIntialData(raw) {
         // console.log('intial data');
         this.data = raw.data;
-        this.aggregate = raw.aggregate;
+        // there is a possibility that this can be undefined
+        // incases where we use update data as initial data
+        if (raw.aggregate !== undefined) this.aggregate = raw.aggregate;
       }
     }, {
       key: 'getStoreState',

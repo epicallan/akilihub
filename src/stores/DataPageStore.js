@@ -33,7 +33,9 @@ class DataPageStore extends EventEmitter {
   getIntialData(raw) {
     // console.log('intial data');
     this.data = raw.data;
-    this.aggregate = raw.aggregate;
+    // there is a possibility that this can be undefined
+    // incases where we use update data as initial data
+    if (raw.aggregate !== undefined) this.aggregate = raw.aggregate;
   }
 
   getStoreState() {

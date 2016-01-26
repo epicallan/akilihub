@@ -45,7 +45,7 @@ export default class DataCenterPage extends Component {
 
   componentDidMount() {
     DataPageStore.addChangeListener(this._onChange);
-    this.initalDataFetch(2);
+    this.initalDataFetch(10);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -72,7 +72,13 @@ export default class DataCenterPage extends Component {
     worker.onmessage = (event) => {
       console.log(event);
       if (index > 0) {
-        DataPageActions.update(event.data.data, true);
+        if (this.state.data.length) {
+          // only make data available for upadate if we have an initial payload
+          DataPageActions.update(event.data.data, true);
+        } else {
+          // use this new data as initial data
+          DataPageActions.getData(event.data);
+        }
       } else {
         DataPageActions.getData(event.data);
       }
