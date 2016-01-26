@@ -5,12 +5,13 @@ import { EventEmitter } from 'events';
 const CHANGE_EVENT = 'change';
 
 
-class UgandaPageStore extends EventEmitter {
+class DataPageStore extends EventEmitter {
 
   constructor() {
     super();
-    this.data = null;
-    this.newData = null;
+    this.data = [];
+    this.newData = [];
+    this.isInitialUpdate = true;
   }
 
   emitChange() {
@@ -24,28 +25,28 @@ class UgandaPageStore extends EventEmitter {
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   }
-  update(newData) {
-    this.lastDate = newData[newData.length - 1].timeStamp;
+  update(newData, updateType) {
     this.newData = newData;
-    // this.data = this.data.concat(newData);
+    this.isInitialUpdate = updateType;
   }
+
   getIntialData(raw) {
+    // console.log('intial data');
     this.data = raw.data;
     this.aggregate = raw.aggregate;
-    this.lastDate = this.data[this.data.length - 1].timeStamp;
   }
 
   getStoreState() {
     return {
       data: this.data,
-      lastDate: this.lastDate,
       newData: this.newData,
       aggregate: this.aggregate,
+      isInitialUpdate: this.isInitialUpdate,
     };
   }
 }
 
-const store = new UgandaPageStore();
+const store = new DataPageStore();
 
 Dispatcher.register((action) => {
   switch (action.actionType) {
@@ -54,7 +55,7 @@ Dispatcher.register((action) => {
       store.emitChange();
       break;
     case constants.DATAPAGE_UPDATE:
-      store.update(action.data);
+      store.update(action.data, action.updateType);
       store.emitChange();
       break;
     default:

@@ -7,7 +7,7 @@ import Link from '../Link';
 import DataPageActions from '../../actions/DataPageActions';
 import Worker from 'worker!../../worker';
 import Loader from '../Loader';
-import TimeRange from './TimeRange';
+// import TimeRange from './TimeRange';
 const isBrowser = typeof window !== 'undefined';
 const Charts = isBrowser ? require('../Charts') : undefined;
 import $ from 'jquery';
@@ -45,86 +45,107 @@ export default class DataCenterPage extends Component {
 
   componentDidMount() {
     DataPageStore.addChangeListener(this._onChange);
-    if (isBrowser) {
-      try {
-        this.createDcCharts(this.state.data);
-      } catch (e) {
-        // TODO hack just reload the page this is an error to do with leaflet.js
-        if (!e) window.location.assign(this.path);
-        /* eslint-disable no-console */
-        console.log(e);
-      }
-    }
+    this.initalDataFetch(2);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    // console.log(nextState);
-    this.charts.updateData(nextState.newData);
-    this.charts.reRender();
-    // this.reRenderMap();
+    this.renderCharts();
+    if (this.charts && nextState.newData.length) {
+      this.charts.updateData(nextState.newData, nextState.isInitialUpdate);
+      this.charts.reRender();
+    }
     return false;
   }
 
   componentWillUnmount() {
     this.context.onSetTitle(title);
     DataPageStore.removeChangeListener(this._onChange);
-    this.dcMap.map().remove();
+    this.charts.dcMap.map().remove();
   }
+
   onTimeClick(range) {
+    // TODO
     console.log(range);
   }
 
-  getNewData(unixTime) {
-    const workerData = [];
-    let counter = 0;
-    const hour = 60000 * 60;
-    $('#loader').show();
-    const onMessage = (worker) => {
-      worker.onmessage = (event) => {
-        if (!event.data.length) return;
-        console.log(event.data[0].date);
-        console.log(event.data[event.data.length - 1].date);
-        workerData.push(...event.data);
-        counter ++;
-        console.log(counter);
-        if (counter === 6) {
-          console.log(workerData.length);
-          DataPageActions.update(workerData);
-          console.log('Message received from worker');
-        }
-      };
+  onInitialDataReceived(worker, index) {
+    worker.onmessage = (event) => {
+      if (index > 0) {
+        DataPageActions.update(event.data.data, true);
+      } else {
+        DataPageActions.getData(event.data);
+      }
     };
-    for (let i = 0; i < 6; i++) {
+  }
+  onNewDataMessage = (worker, workerData) => {
+    worker.onmessage = (event) => {
+      this.updateDataCounter ++;
+      if (event.data.length) {
+        workerData.push(...event.data);
+        // console.log(this.updateDataCounter);
+        if (this.updateDataCounter === this.numberOfWorkers) {
+          // console.log(workerData.length);
+          DataPageActions.update(workerData, false);
+          // console.log('All data received from worker');
+        }
+      }
+    };
+  };
+  getNewData = (unixTime) => {
+    const workerData = [];
+    this.updateDataCounter = 0;
+    const hour = 60000 * 60;
+    this.numberOfWorkers = 6;
+    $('#loader').show();
+    for (let i = 0; i < this.numberOfWorkers; i++) {
       const worker = new Worker;
-      const time = unixTime + 4 * i * hour;
+      const time = unixTime + 6 * i * hour;
       const url = `http://${window.location.host}/api/social/twdata/${time}`;
       worker.postMessage(url);
-      onMessage(worker);
+      this.onNewDataMessage(worker, workerData);
     }
   }
 
+  initalDataFetch(fetchs) {
+    const hour = 60000 * 60;
+    const now = new Date();
+    // now.setHours(new Date().getHours() - 190);
+    // console.log(`now : ${now}`);
+    const hoursPast = now.getHours();
+    // console.log(`hours past ${hoursPast}`);
+    const start = now.getTime() - (hoursPast * hour);
+    const hourParts = hoursPast / fetchs;
+    for (let i = 0; i < fetchs; i++) {
+      const startTime = start + hourParts * i * hour;
+      const endTime = start + hourParts * (i + 1) * hour;
+      const worker = new Worker;
+      const url = `http://${window.location.host}/api/social/twdata/all/?start=${startTime}&end=${endTime}`;
+      worker.postMessage(url);
+      this.onInitialDataReceived(worker, i);
+    }
+  }
   createDcCharts = (data) => {
-    const rowChartsArgs = [
-      { id: 'hashtags', field: 'hashtags' },
-      { id: 'terms', field: 'terms' },
-      { id: 'user_mentions', field: 'user_mentions' },
-    ];
-    this.charts = new Charts(data, rowChartsArgs);
-    // leaflet map
-    this.dcMap = this.charts.drawMap('map');
-    this.dcMap.on('postRender', () => {
-      $('.' + s.chart).css('opacity', 1);
-      $('#loader').hide();
-    });
-    this.dcMap.on('postRedraw', () => { $('#loader').hide(); });
-    this.charts.drawPieChart('pie');
-    this.charts.createDataTable('table');
-    // row Charts
-    this.charts.drawRowCharts(false);
-    this.charts.drawComposite('composite');
-    this.charts.drawAll();
-    // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
-    this.charts.rangeChart('range', this.state.aggregate, this.getNewData);
+    // chart container ids and callbacks
+    const chartOptions = {
+      row: [
+        { id: 'hashtags', field: 'hashtags' },
+        { id: 'terms', field: 'terms' },
+        { id: 'user_mentions', field: 'user_mentions' },
+      ],
+      pie: 'pie',
+      map: 'map',
+      table: 'table',
+      composite: 'composite',
+      range: 'range',
+      getNewData: this.getNewData,
+      postRedraw: () => { $('#loader').hide(); },
+      postRender: () => {
+        $('.' + s.chart).css('opacity', 1);
+        $('#loader').hide();
+      },
+    };
+    this.charts = new Charts(data, this.state.aggregate, chartOptions);
+    this.charts.init();
   }
 
   _onChange = () => {
@@ -135,6 +156,19 @@ export default class DataCenterPage extends Component {
     console.log(range);
   }
 
+  renderCharts() {
+    if (this.state.data && !this.charts) {
+      try {
+        // console.log('initial render');
+        this.createDcCharts(this.state.data);
+      } catch (e) {
+        // TODO hack just reload the page this is an error to do with leaflet.js
+        if (!e) window.location.assign(this.path);
+        /* eslint-disable no-console */
+        console.log(e);
+      }
+    }
+  }
   render = () => {
     const divStyle = {
       width: '500px',

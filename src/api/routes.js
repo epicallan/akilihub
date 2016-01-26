@@ -2,9 +2,9 @@ import express from 'express';
 import * as twitterHandler from './dataHandler/tw';
 const router = new express.Router();
 
-router.get('/social/twdata', async(req, res, next) => {
+router.get('/social/twdata/all', async(req, res, next) => {
   try {
-    const raw = await twitterHandler.findAll();
+    const raw = await twitterHandler.findAll(req.query.start, req.query.end);
     const data = twitterHandler.transform(raw);
     const aggregate = await twitterHandler.getFromRedis();
     res.status(200).json({ data, aggregate: JSON.parse(aggregate) });

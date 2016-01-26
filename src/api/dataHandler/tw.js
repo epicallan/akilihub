@@ -65,14 +65,14 @@ export function transform(raw) {
     return tweet;
   });
 }
-export async function findAll() {
+export async function findAll(start, end) {
   try {
-    const now = new Date();
-    const hoursPast = now.getHours();
-    const time = now - (hour * hoursPast);
     return Twitter.find({
       'is_retweet': false,
-      timeStamp: { $gt: time },
+      timeStamp: {
+        $gt: parseInt(start, 10),
+        $lt: parseInt(end, 10),
+      },
     })
     .select(exludedFields)
     .exec();

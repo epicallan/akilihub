@@ -10,15 +10,15 @@ import c3 from 'c3';
 
 export default class DcCharts {
 
-  constructor(data, rowChartsArgs) {
+  constructor(data, aggregate, options) {
     this.lastDate = null;
     this.charts = null;
-    this.rowChartsArgs = rowChartsArgs;
+    this.options = options;
     this.rowChartsObjs = {};
+    this.aggregate = aggregate;
     const transformedData = this._dataTransform(data);
     this.data = cf.createCrossFilter(transformedData);
     this.hourDim = this.createDimenion('hour');
-    // console.log(data[4]);
   }
 
   _dataTransform(data) {
@@ -32,14 +32,34 @@ export default class DcCharts {
     return data;
   }
 
-  updateData(raw) {
+  updateData(raw, isInitialUpdate) {
     const newData = this._dataTransform(raw);
-    this.data.remove();
+    // console.log('should update isInitialUpdate: ' + isInitialUpdate);
+    if (!isInitialUpdate) this.data.remove();
     this.data.add(newData);
     this.drawRowCharts(true);
+    this.drawPieChart(true);
     console.log(`updated data   ${this.data.size()}`);
   }
 
+  init() {
+    // leaflet map
+    this.dcMap = this.drawMap(this.options.map);
+    this.dcMap.on('postRender', this.options.postRender);
+    this.dcMap.on('postRedraw', this.options.postRedraw);
+    this.drawPieChart(false);
+    this.createDataTable(this.options.table);
+    // row Charts
+    this.drawRowCharts(false);
+    this.drawComposite(this.options.composite);
+    // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
+    this.rangeChart(this.options.range, this.aggregate, this.options.getNewData);
+    dc.renderAll();
+  }
+  reRender() {
+    dc.redrawAll();
+    this._tablesRefresh();
+  }
   createDataTable(table) {
     this.tableDimension = this.createDimenion('text');
     this.datatable = $('#' + table);
@@ -84,12 +104,6 @@ export default class DcCharts {
       }
     });
   }
-  reRender() {
-    dc.redrawAll();
-    this._tablesRefresh();
-    this.drawRowCharts(true);
-    // this.pie.render();
-  }
   _dataTablesOptions() {
     return {
       'pageLength': 5,
@@ -115,9 +129,6 @@ export default class DcCharts {
       }],
     };
   }
-  drawAll() {
-    dc.renderAll();
-  }
 
   createGroup(dim, attr) {
     return cf.createSumGroup(dim, attr);
@@ -132,7 +143,7 @@ export default class DcCharts {
   }
 
   drawRowCharts(isRedraw) {
-    this.rowChartsArgs.forEach((d) => {
+    this.options.row.forEach((d) => {
       const { dim, group } = this.createGroupAndDimArrayField(d.field);
       if (!isRedraw) {
         this.rowChartsObjs[d.field] = this.rowChart(dim, group, d.id);
@@ -177,10 +188,14 @@ export default class DcCharts {
       .cluster(true);
   }
 
-  drawPieChart(id) {
+  drawPieChart(isRedraw) {
     const dim = this.createDimenion('screen_name');
     const group = dim.group();
-    this.pie = this.pieChart(dim, group, id);
+    if (!isRedraw) {
+      this.pie = this.pieChart(dim, group, this.options.pie);
+    } else {
+      this.pie.group(cf.reduceGroupObjs(group));
+    }
   }
 
   pieChart(dim, grp, pie) {
@@ -288,7 +303,7 @@ export default class DcCharts {
         onclick: (d, element) => {
           $(element).css(styles);
           const startTime = moment(`2016-01-${d.x} 00:00`).valueOf();
-          setTimeout(callback(startTime), 50);
+          callback(startTime);
         },
       },
       bar: {

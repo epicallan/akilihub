@@ -74,27 +74,27 @@ module.exports =
   
   var _routes2 = _interopRequireDefault(_routes);
   
-  var _componentsHtml = __webpack_require__(86);
+  var _componentsHtml = __webpack_require__(84);
   
   var _componentsHtml2 = _interopRequireDefault(_componentsHtml);
   
-  var _assets = __webpack_require__(87);
+  var _assets = __webpack_require__(85);
   
   var _assets2 = _interopRequireDefault(_assets);
   
   var _config = __webpack_require__(14);
   
-  var _compression = __webpack_require__(88);
+  var _compression = __webpack_require__(86);
   
   var _compression2 = _interopRequireDefault(_compression);
   
-  var _bodyParser = __webpack_require__(89);
+  var _bodyParser = __webpack_require__(87);
   
   var _bodyParser2 = _interopRequireDefault(_bodyParser);
   
-  __webpack_require__(90);
+  __webpack_require__(88);
   
-  var _mongoose = __webpack_require__(94);
+  var _mongoose = __webpack_require__(92);
   
   var _mongoose2 = _interopRequireDefault(_mongoose);
   
@@ -109,12 +109,12 @@ module.exports =
   
   // Register Data analysis API middleware
   // -----------------------------------------------------------------------------
-  server.use('/api', __webpack_require__(95));
+  server.use('/api', __webpack_require__(93));
   
   // Register API middleware
   
   // -----------------------------------------------------------------------------
-  server.use('/api/content', __webpack_require__(100));
+  server.use('/api/content', __webpack_require__(98));
   
   function connect() {
     var options = { server: { socketOptions: { keepAlive: 1 } } };
@@ -283,10 +283,8 @@ module.exports =
   
   var _componentsDataPage2 = _interopRequireDefault(_componentsDataPage);
   
-  var _actionsDataPageActions = __webpack_require__(66);
-  
-  var _actionsDataPageActions2 = _interopRequireDefault(_actionsDataPageActions);
-  
+  // import DataPageActions from './actions/DataPageActions';
+  // import Worker from 'worker!./worker';
   // import testData from './components/DataPage/data';
   
   var router = new _reactRoutingSrcRouter2['default'](function (on) {
@@ -327,7 +325,7 @@ module.exports =
     });
   
     on('/data', function callee$1$0(state) {
-      var res, html, response, data;
+      var res, html;
       return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
         while (1) switch (context$2$0.prev = context$2$0.next) {
           case 0:
@@ -341,21 +339,9 @@ module.exports =
   
           case 5:
             html = context$2$0.sent;
-            context$2$0.next = 8;
-            return regeneratorRuntime.awrap((0, _coreFetch2['default'])('/api/social/twdata'));
-  
-          case 8:
-            response = context$2$0.sent;
-            context$2$0.next = 11;
-            return regeneratorRuntime.awrap(response.json());
-  
-          case 11:
-            data = context$2$0.sent;
-  
-            _actionsDataPageActions2['default'].getData(data);
             return context$2$0.abrupt('return', _react2['default'].createElement(_componentsDataPage2['default'], html));
   
-          case 14:
+          case 7:
           case 'end':
             return context$2$0.stop();
         }
@@ -425,6 +411,10 @@ module.exports =
   
   exports['default'] = router;
   module.exports = exports['default'];
+
+  // const response = await fetch('/api/social/twdata');
+  // const data = await response.json();
+  // initalDataFetch(3);
 
 /***/ },
 /* 7 */
@@ -3584,18 +3574,16 @@ module.exports =
   
   var _Loader2 = _interopRequireDefault(_Loader);
   
-  var _TimeRange = __webpack_require__(71);
+  // import TimeRange from './TimeRange';
   
-  var _TimeRange2 = _interopRequireDefault(_TimeRange);
-  
-  var _jquery = __webpack_require__(73);
+  var _jquery = __webpack_require__(71);
   
   var _jquery2 = _interopRequireDefault(_jquery);
   
   // import testData from './data';
   
   var isBrowser = typeof window !== 'undefined';
-  var Charts = isBrowser ? __webpack_require__(74) : undefined;
+  var Charts = isBrowser ? __webpack_require__(72) : undefined;
   function getStateFromStores() {
     return _storesDataPageStore2['default'].getStoreState();
   }
@@ -3627,26 +3615,56 @@ module.exports =
   
       _get(Object.getPrototypeOf(_DataCenterPage.prototype), 'constructor', this).call(this, props);
   
+      this.onNewDataMessage = function (worker, workerData) {
+        worker.onmessage = function (event) {
+          _this.updateDataCounter++;
+          if (event.data.length) {
+            workerData.push.apply(workerData, _toConsumableArray(event.data));
+            // console.log(this.updateDataCounter);
+            if (_this.updateDataCounter === _this.numberOfWorkers) {
+              // console.log(workerData.length);
+              _actionsDataPageActions2['default'].update(workerData, false);
+              // console.log('All data received from worker');
+            }
+          }
+        };
+      };
+  
+      this.getNewData = function (unixTime) {
+        var workerData = [];
+        _this.updateDataCounter = 0;
+        var hour = 60000 * 60;
+        _this.numberOfWorkers = 6;
+        (0, _jquery2['default'])('#loader').show();
+        for (var i = 0; i < _this.numberOfWorkers; i++) {
+          var worker = new _workerWorker2['default']();
+          var time = unixTime + 6 * i * hour;
+          var url = 'http://' + window.location.host + '/api/social/twdata/' + time;
+          worker.postMessage(url);
+          _this.onNewDataMessage(worker, workerData);
+        }
+      };
+  
       this.createDcCharts = function (data) {
-        var rowChartsArgs = [{ id: 'hashtags', field: 'hashtags' }, { id: 'terms', field: 'terms' }, { id: 'user_mentions', field: 'user_mentions' }];
-        _this.charts = new Charts(data, rowChartsArgs);
-        // leaflet map
-        _this.dcMap = _this.charts.drawMap('map');
-        _this.dcMap.on('postRender', function () {
-          (0, _jquery2['default'])('.' + _DataPageScss2['default'].chart).css('opacity', 1);
-          (0, _jquery2['default'])('#loader').hide();
-        });
-        _this.dcMap.on('postRedraw', function () {
-          (0, _jquery2['default'])('#loader').hide();
-        });
-        _this.charts.drawPieChart('pie');
-        _this.charts.createDataTable('table');
-        // row Charts
-        _this.charts.drawRowCharts(false);
-        _this.charts.drawComposite('composite');
-        _this.charts.drawAll();
-        // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
-        _this.charts.rangeChart('range', _this.state.aggregate, _this.getNewData);
+        // chart container ids and callbacks
+        var chartOptions = {
+          row: [{ id: 'hashtags', field: 'hashtags' }, { id: 'terms', field: 'terms' }, { id: 'user_mentions', field: 'user_mentions' }],
+          pie: 'pie',
+          map: 'map',
+          table: 'table',
+          composite: 'composite',
+          range: 'range',
+          getNewData: _this.getNewData,
+          postRedraw: function postRedraw() {
+            (0, _jquery2['default'])('#loader').hide();
+          },
+          postRender: function postRender() {
+            (0, _jquery2['default'])('.' + _DataPageScss2['default'].chart).css('opacity', 1);
+            (0, _jquery2['default'])('#loader').hide();
+          }
+        };
+        _this.charts = new Charts(data, _this.state.aggregate, chartOptions);
+        _this.charts.init();
       };
   
       this._onChange = function () {
@@ -3934,8 +3952,73 @@ module.exports =
       key: 'componentDidMount',
       value: function componentDidMount() {
         _storesDataPageStore2['default'].addChangeListener(this._onChange);
-        if (isBrowser) {
+        this.initalDataFetch(2);
+      }
+    }, {
+      key: 'shouldComponentUpdate',
+      value: function shouldComponentUpdate(nextProps, nextState) {
+        this.renderCharts();
+        if (this.charts && nextState.newData.length) {
+          this.charts.updateData(nextState.newData, nextState.isInitialUpdate);
+          this.charts.reRender();
+        }
+        return false;
+      }
+    }, {
+      key: 'componentWillUnmount',
+      value: function componentWillUnmount() {
+        this.context.onSetTitle(title);
+        _storesDataPageStore2['default'].removeChangeListener(this._onChange);
+        this.charts.dcMap.map().remove();
+      }
+    }, {
+      key: 'onTimeClick',
+      value: function onTimeClick(range) {
+        // TODO
+        console.log(range);
+      }
+    }, {
+      key: 'onInitialDataReceived',
+      value: function onInitialDataReceived(worker, index) {
+        worker.onmessage = function (event) {
+          if (index > 0) {
+            _actionsDataPageActions2['default'].update(event.data.data, true);
+          } else {
+            _actionsDataPageActions2['default'].getData(event.data);
+          }
+        };
+      }
+    }, {
+      key: 'initalDataFetch',
+      value: function initalDataFetch(fetchs) {
+        var hour = 60000 * 60;
+        var now = new Date();
+        // now.setHours(new Date().getHours() - 190);
+        // console.log(`now : ${now}`);
+        var hoursPast = now.getHours();
+        // console.log(`hours past ${hoursPast}`);
+        var start = now.getTime() - hoursPast * hour;
+        var hourParts = hoursPast / fetchs;
+        for (var i = 0; i < fetchs; i++) {
+          var startTime = start + hourParts * i * hour;
+          var endTime = start + hourParts * (i + 1) * hour;
+          var worker = new _workerWorker2['default']();
+          var url = 'http://' + window.location.host + '/api/social/twdata/all/?start=' + startTime + '&end=' + endTime;
+          worker.postMessage(url);
+          this.onInitialDataReceived(worker, i);
+        }
+      }
+    }, {
+      key: 'onTimeClick',
+      value: function onTimeClick(range) {
+        console.log(range);
+      }
+    }, {
+      key: 'renderCharts',
+      value: function renderCharts() {
+        if (this.state.data && !this.charts) {
           try {
+            // console.log('initial render');
             this.createDcCharts(this.state.data);
           } catch (e) {
             // TODO hack just reload the page this is an error to do with leaflet.js
@@ -3944,62 +4027,6 @@ module.exports =
             console.log(e);
           }
         }
-      }
-    }, {
-      key: 'shouldComponentUpdate',
-      value: function shouldComponentUpdate(nextProps, nextState) {
-        // console.log(nextState);
-        this.charts.updateData(nextState.newData);
-        this.charts.reRender();
-        // this.reRenderMap();
-        return false;
-      }
-    }, {
-      key: 'componentWillUnmount',
-      value: function componentWillUnmount() {
-        this.context.onSetTitle(title);
-        _storesDataPageStore2['default'].removeChangeListener(this._onChange);
-        this.dcMap.map().remove();
-      }
-    }, {
-      key: 'onTimeClick',
-      value: function onTimeClick(range) {
-        console.log(range);
-      }
-    }, {
-      key: 'getNewData',
-      value: function getNewData(unixTime) {
-        var workerData = [];
-        var counter = 0;
-        var hour = 60000 * 60;
-        (0, _jquery2['default'])('#loader').show();
-        var onMessage = function onMessage(worker) {
-          worker.onmessage = function (event) {
-            if (!event.data.length) return;
-            console.log(event.data[0].date);
-            console.log(event.data[event.data.length - 1].date);
-            workerData.push.apply(workerData, _toConsumableArray(event.data));
-            counter++;
-            console.log(counter);
-            if (counter === 6) {
-              console.log(workerData.length);
-              _actionsDataPageActions2['default'].update(workerData);
-              console.log('Message received from worker');
-            }
-          };
-        };
-        for (var i = 0; i < 6; i++) {
-          var worker = new _workerWorker2['default']();
-          var time = unixTime + 4 * i * hour;
-          var url = 'http://' + window.location.host + '/api/social/twdata/' + time;
-          worker.postMessage(url);
-          onMessage(worker);
-        }
-      }
-    }, {
-      key: 'onTimeClick',
-      value: function onTimeClick(range) {
-        console.log(range);
       }
     }]);
   
@@ -4104,18 +4131,19 @@ module.exports =
   
   var CHANGE_EVENT = 'change';
   
-  var UgandaPageStore = (function (_EventEmitter) {
-    _inherits(UgandaPageStore, _EventEmitter);
+  var DataPageStore = (function (_EventEmitter) {
+    _inherits(DataPageStore, _EventEmitter);
   
-    function UgandaPageStore() {
-      _classCallCheck(this, UgandaPageStore);
+    function DataPageStore() {
+      _classCallCheck(this, DataPageStore);
   
-      _get(Object.getPrototypeOf(UgandaPageStore.prototype), 'constructor', this).call(this);
-      this.data = null;
-      this.newData = null;
+      _get(Object.getPrototypeOf(DataPageStore.prototype), 'constructor', this).call(this);
+      this.data = [];
+      this.newData = [];
+      this.isInitialUpdate = true;
     }
   
-    _createClass(UgandaPageStore, [{
+    _createClass(DataPageStore, [{
       key: 'emitChange',
       value: function emitChange() {
         this.emit(CHANGE_EVENT);
@@ -4132,34 +4160,33 @@ module.exports =
       }
     }, {
       key: 'update',
-      value: function update(newData) {
-        this.lastDate = newData[newData.length - 1].timeStamp;
+      value: function update(newData, updateType) {
         this.newData = newData;
-        // this.data = this.data.concat(newData);
+        this.isInitialUpdate = updateType;
       }
     }, {
       key: 'getIntialData',
       value: function getIntialData(raw) {
+        // console.log('intial data');
         this.data = raw.data;
         this.aggregate = raw.aggregate;
-        this.lastDate = this.data[this.data.length - 1].timeStamp;
       }
     }, {
       key: 'getStoreState',
       value: function getStoreState() {
         return {
           data: this.data,
-          lastDate: this.lastDate,
           newData: this.newData,
-          aggregate: this.aggregate
+          aggregate: this.aggregate,
+          isInitialUpdate: this.isInitialUpdate
         };
       }
     }]);
   
-    return UgandaPageStore;
+    return DataPageStore;
   })(_events.EventEmitter);
   
-  var store = new UgandaPageStore();
+  var store = new DataPageStore();
   
   _coreDispatcher2['default'].register(function (action) {
     switch (action.actionType) {
@@ -4168,7 +4195,7 @@ module.exports =
         store.emitChange();
         break;
       case _constantsActionTypes2['default'].DATAPAGE_UPDATE:
-        store.update(action.data);
+        store.update(action.data, action.updateType);
         store.emitChange();
         break;
       default:
@@ -4281,10 +4308,11 @@ module.exports =
       }
     }, {
       key: 'update',
-      value: function update(raw) {
+      value: function update(raw, updateType) {
         _coreDispatcher2['default'].dispatch({
           actionType: _constantsActionTypes2['default'].DATAPAGE_UPDATE,
-          data: raw
+          data: raw,
+          updateType: updateType
         });
       }
     }]);
@@ -4438,148 +4466,12 @@ module.exports =
 
 /***/ },
 /* 71 */
-/***/ function(module, exports, __webpack_require__) {
-
-  'use strict';
-  
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });
-  
-  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-  
-  var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-  
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-  
-  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-  
-  function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-  
-  var _react = __webpack_require__(4);
-  
-  var _react2 = _interopRequireDefault(_react);
-  
-  var _Item = __webpack_require__(72);
-  
-  var _Item2 = _interopRequireDefault(_Item);
-  
-  var TimeRange = (function (_Component) {
-    _inherits(TimeRange, _Component);
-  
-    _createClass(TimeRange, null, [{
-      key: 'propTypes',
-      value: {
-        clickHandler: _react.PropTypes.func.isRequired
-      },
-      enumerable: true
-    }]);
-  
-    function TimeRange(props) {
-      _classCallCheck(this, TimeRange);
-  
-      _get(Object.getPrototypeOf(TimeRange.prototype), 'constructor', this).call(this, props);
-      this.clickHandler = this.props.clickHandler;
-    }
-  
-    _createClass(TimeRange, [{
-      key: 'render',
-      value: function render() {
-        var items = [];
-        for (var i = 0; i < 6; i++) {
-          var start = i * 4;
-          var end = start + 4;
-          var range = start + ' - ' + end;
-          items.push(_react2['default'].createElement(_Item2['default'], { key: end, range: range, clickHandler: this.clickHandler }));
-        }
-        return _react2['default'].createElement(
-          'div',
-          { className: 'btn-toolbar', role: 'toolbar' },
-          items
-        );
-      }
-    }]);
-  
-    return TimeRange;
-  })(_react.Component);
-  
-  exports['default'] = TimeRange;
-  module.exports = exports['default'];
-
-/***/ },
-/* 72 */
-/***/ function(module, exports, __webpack_require__) {
-
-  "use strict";
-  
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  
-  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-  
-  var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-  
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-  
-  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-  
-  function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-  
-  var _react = __webpack_require__(4);
-  
-  var _react2 = _interopRequireDefault(_react);
-  
-  var Item = (function (_Component) {
-    _inherits(Item, _Component);
-  
-    _createClass(Item, null, [{
-      key: "propTypes",
-      value: {
-        range: _react.PropTypes.string,
-        clickHandler: _react.PropTypes.func.isRequired
-      },
-      enumerable: true
-    }]);
-  
-    function Item(props) {
-      var _this = this;
-  
-      _classCallCheck(this, Item);
-  
-      _get(Object.getPrototypeOf(Item.prototype), "constructor", this).call(this, props);
-  
-      this.render = function () {
-        return _react2["default"].createElement(
-          "div",
-          { className: "btn-group btn-group-sm", role: "group" },
-          _react2["default"].createElement(
-            "button",
-            { type: "button", className: "btn btn-default", onClick: _this.clickHandler.bind(_this, _this.range) },
-            _this.range,
-            "hrs"
-          )
-        );
-      };
-  
-      this.range = props.range;
-      this.clickHandler = props.clickHandler;
-    }
-  
-    return Item;
-  })(_react.Component);
-  
-  exports["default"] = Item;
-  module.exports = exports["default"];
-
-/***/ },
-/* 73 */
 /***/ function(module, exports) {
 
   module.exports = require("jquery");
 
 /***/ },
-/* 74 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -4594,32 +4486,32 @@ module.exports =
   
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
   
-  var _dc = __webpack_require__(75);
+  var _dc = __webpack_require__(73);
   
   var _dc2 = _interopRequireDefault(_dc);
   
-  var _coreCfHelper = __webpack_require__(80);
+  var _coreCfHelper = __webpack_require__(78);
   
   var _coreCfHelper2 = _interopRequireDefault(_coreCfHelper);
   
-  __webpack_require__(83);
+  __webpack_require__(81);
   
-  var _jquery = __webpack_require__(73);
+  var _jquery = __webpack_require__(71);
   
   var _jquery2 = _interopRequireDefault(_jquery);
   
-  var _moment = __webpack_require__(84);
+  var _moment = __webpack_require__(82);
   
   var _moment2 = _interopRequireDefault(_moment);
   
-  var _c3 = __webpack_require__(85);
+  var _c3 = __webpack_require__(83);
   
   var _c32 = _interopRequireDefault(_c3);
   
   // import './dtplugin';
   
   var DcCharts = (function () {
-    function DcCharts(data, rowChartsArgs) {
+    function DcCharts(data, aggregate, options) {
       var _this = this;
   
       _classCallCheck(this, DcCharts);
@@ -4655,12 +4547,12 @@ module.exports =
   
       this.lastDate = null;
       this.charts = null;
-      this.rowChartsArgs = rowChartsArgs;
+      this.options = options;
       this.rowChartsObjs = {};
+      this.aggregate = aggregate;
       var transformedData = this._dataTransform(data);
       this.data = _coreCfHelper2['default'].createCrossFilter(transformedData);
       this.hourDim = this.createDimenion('hour');
-      // console.log(data[4]);
     }
   
     _createClass(DcCharts, [{
@@ -4677,12 +4569,36 @@ module.exports =
       }
     }, {
       key: 'updateData',
-      value: function updateData(raw) {
+      value: function updateData(raw, isInitialUpdate) {
         var newData = this._dataTransform(raw);
-        this.data.remove();
+        // console.log('should update isInitialUpdate: ' + isInitialUpdate);
+        if (!isInitialUpdate) this.data.remove();
         this.data.add(newData);
         this.drawRowCharts(true);
+        this.drawPieChart(true);
         console.log('updated data   ' + this.data.size());
+      }
+    }, {
+      key: 'init',
+      value: function init() {
+        // leaflet map
+        this.dcMap = this.drawMap(this.options.map);
+        this.dcMap.on('postRender', this.options.postRender);
+        this.dcMap.on('postRedraw', this.options.postRedraw);
+        this.drawPieChart(false);
+        this.createDataTable(this.options.table);
+        // row Charts
+        this.drawRowCharts(false);
+        this.drawComposite(this.options.composite);
+        // this.charts.drawRangeChart('range', this.state.aggregate, this.getNewData);
+        this.rangeChart(this.options.range, this.aggregate, this.options.getNewData);
+        _dc2['default'].renderAll();
+      }
+    }, {
+      key: 'reRender',
+      value: function reRender() {
+        _dc2['default'].redrawAll();
+        this._tablesRefresh();
       }
     }, {
       key: 'createDataTable',
@@ -4702,14 +4618,6 @@ module.exports =
         this._tablesRefresh();
         // table filter
         this._Tablefilter();
-      }
-    }, {
-      key: 'reRender',
-      value: function reRender() {
-        _dc2['default'].redrawAll();
-        this._tablesRefresh();
-        this.drawRowCharts(true);
-        // this.pie.render();
       }
     }, {
       key: '_dataTablesOptions',
@@ -4745,11 +4653,6 @@ module.exports =
         };
       }
     }, {
-      key: 'drawAll',
-      value: function drawAll() {
-        _dc2['default'].renderAll();
-      }
-    }, {
       key: 'createGroup',
       value: function createGroup(dim, attr) {
         return _coreCfHelper2['default'].createSumGroup(dim, attr);
@@ -4769,7 +4672,7 @@ module.exports =
       value: function drawRowCharts(isRedraw) {
         var _this3 = this;
   
-        this.rowChartsArgs.forEach(function (d) {
+        this.options.row.forEach(function (d) {
           var _createGroupAndDimArrayField = _this3.createGroupAndDimArrayField(d.field);
   
           var dim = _createGroupAndDimArrayField.dim;
@@ -4812,10 +4715,14 @@ module.exports =
       }
     }, {
       key: 'drawPieChart',
-      value: function drawPieChart(id) {
+      value: function drawPieChart(isRedraw) {
         var dim = this.createDimenion('screen_name');
         var group = dim.group();
-        this.pie = this.pieChart(dim, group, id);
+        if (!isRedraw) {
+          this.pie = this.pieChart(dim, group, this.options.pie);
+        } else {
+          this.pie.group(_coreCfHelper2['default'].reduceGroupObjs(group));
+        }
       }
     }, {
       key: 'pieChart',
@@ -4893,7 +4800,7 @@ module.exports =
             onclick: function onclick(d, element) {
               (0, _jquery2['default'])(element).css(styles);
               var startTime = (0, _moment2['default'])('2016-01-' + d.x + ' 00:00').valueOf();
-              setTimeout(callback(startTime), 50);
+              callback(startTime);
             }
           },
           bar: {
@@ -4923,7 +4830,7 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 75 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -4934,17 +4841,17 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _dc2 = __webpack_require__(76);
+  var _dc2 = __webpack_require__(74);
   
   var _dc3 = _interopRequireDefault(_dc2);
   
-  var _leaflet = __webpack_require__(77);
+  var _leaflet = __webpack_require__(75);
   
   var _leaflet2 = _interopRequireDefault(_leaflet);
   
-  __webpack_require__(78);
+  __webpack_require__(76);
   
-  var _dcAddons = __webpack_require__(79);
+  var _dcAddons = __webpack_require__(77);
   
   var _dcAddons2 = _interopRequireDefault(_dcAddons);
   
@@ -4953,31 +4860,31 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 76 */
+/* 74 */
 /***/ function(module, exports) {
 
   module.exports = require("dc");
 
 /***/ },
-/* 77 */
+/* 75 */
 /***/ function(module, exports) {
 
   module.exports = require("leaflet");
 
 /***/ },
-/* 78 */
+/* 76 */
 /***/ function(module, exports) {
 
   module.exports = require("leaflet.markercluster");
 
 /***/ },
-/* 79 */
+/* 77 */
 /***/ function(module, exports) {
 
   module.exports = require("dc-addons");
 
 /***/ },
-/* 80 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -4995,11 +4902,11 @@ module.exports =
   
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
   
-  var _crossfilter2 = __webpack_require__(81);
+  var _crossfilter2 = __webpack_require__(79);
   
   var _crossfilter22 = _interopRequireDefault(_crossfilter2);
   
-  var _lodash = __webpack_require__(82);
+  var _lodash = __webpack_require__(80);
   
   var _lodash2 = _interopRequireDefault(_lodash);
   
@@ -5190,37 +5097,37 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 81 */
+/* 79 */
 /***/ function(module, exports) {
 
   module.exports = require("crossfilter2");
 
 /***/ },
-/* 82 */
+/* 80 */
 /***/ function(module, exports) {
 
   module.exports = require("lodash");
 
 /***/ },
-/* 83 */
+/* 81 */
 /***/ function(module, exports) {
 
   module.exports = require("datatables");
 
 /***/ },
-/* 84 */
+/* 82 */
 /***/ function(module, exports) {
 
   module.exports = require("moment");
 
 /***/ },
-/* 85 */
+/* 83 */
 /***/ function(module, exports) {
 
   module.exports = require("c3");
 
 /***/ },
-/* 86 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -5325,32 +5232,32 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 87 */
+/* 85 */
 /***/ function(module, exports) {
 
   module.exports = require("./assets");
 
 /***/ },
-/* 88 */
+/* 86 */
 /***/ function(module, exports) {
 
   module.exports = require("compression");
 
 /***/ },
-/* 89 */
+/* 87 */
 /***/ function(module, exports) {
 
   module.exports = require("body-parser");
 
 /***/ },
-/* 90 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _twJob = __webpack_require__(91);
+  var _twJob = __webpack_require__(89);
   
   var _twJob2 = _interopRequireDefault(_twJob);
   
@@ -5367,7 +5274,7 @@ module.exports =
   }
 
 /***/ },
-/* 91 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -5381,17 +5288,17 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _mongodb = __webpack_require__(92);
+  var _mongodb = __webpack_require__(90);
   
   var _mongodb2 = _interopRequireDefault(_mongodb);
   
-  var _redis = __webpack_require__(93);
+  var _redis = __webpack_require__(91);
   
   var _redis2 = _interopRequireDefault(_redis);
   
   var _config = __webpack_require__(14);
   
-  var _crossfilter2 = __webpack_require__(81);
+  var _crossfilter2 = __webpack_require__(79);
   
   var _crossfilter22 = _interopRequireDefault(_crossfilter2);
   
@@ -5492,25 +5399,25 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 92 */
+/* 90 */
 /***/ function(module, exports) {
 
   module.exports = require("mongodb");
 
 /***/ },
-/* 93 */
+/* 91 */
 /***/ function(module, exports) {
 
   module.exports = require("redis");
 
 /***/ },
-/* 94 */
+/* 92 */
 /***/ function(module, exports) {
 
   module.exports = require("mongoose");
 
 /***/ },
-/* 95 */
+/* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -5529,20 +5436,20 @@ module.exports =
   
   var _express2 = _interopRequireDefault(_express);
   
-  var _dataHandlerTw = __webpack_require__(96);
+  var _dataHandlerTw = __webpack_require__(94);
   
   var twitterHandler = _interopRequireWildcard(_dataHandlerTw);
   
   var router = new _express2['default'].Router();
   
-  router.get('/social/twdata', function callee$0$0(req, res, next) {
+  router.get('/social/twdata/all', function callee$0$0(req, res, next) {
     var raw, data, aggregate;
     return regeneratorRuntime.async(function callee$0$0$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
           context$1$0.prev = 0;
           context$1$0.next = 3;
-          return regeneratorRuntime.awrap(twitterHandler.findAll());
+          return regeneratorRuntime.awrap(twitterHandler.findAll(req.query.start, req.query.end));
   
         case 3:
           raw = context$1$0.sent;
@@ -5623,7 +5530,7 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 96 */
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -5639,15 +5546,15 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _redis = __webpack_require__(93);
+  var _redis = __webpack_require__(91);
   
   var _redis2 = _interopRequireDefault(_redis);
   
-  var _modelsTwitter = __webpack_require__(97);
+  var _modelsTwitter = __webpack_require__(95);
   
   var _modelsTwitter2 = _interopRequireDefault(_modelsTwitter);
   
-  var _async2 = __webpack_require__(99);
+  var _async2 = __webpack_require__(97);
   
   var _async3 = _interopRequireDefault(_async2);
   
@@ -5718,30 +5625,29 @@ module.exports =
     });
   }
   
-  function findAll() {
-    var now, hoursPast, time;
+  function findAll(start, end) {
     return regeneratorRuntime.async(function findAll$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
           context$1$0.prev = 0;
-          now = new Date();
-          hoursPast = now.getHours();
-          time = now - hour * hoursPast;
           return context$1$0.abrupt('return', _modelsTwitter2['default'].find({
             'is_retweet': false,
-            timeStamp: { $gt: time }
+            timeStamp: {
+              $gt: parseInt(start, 10),
+              $lt: parseInt(end, 10)
+            }
           }).select(exludedFields).exec());
   
-        case 7:
-          context$1$0.prev = 7;
+        case 4:
+          context$1$0.prev = 4;
           context$1$0.t0 = context$1$0['catch'](0);
           throw new Error(context$1$0.t0);
   
-        case 10:
+        case 7:
         case 'end':
           return context$1$0.stop();
       }
-    }, null, this, [[0, 7]]);
+    }, null, this, [[0, 4]]);
   }
   
   function findByDate(start) {
@@ -5750,7 +5656,7 @@ module.exports =
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
           context$1$0.prev = 0;
-          end = parseInt(start, 10) + hour * 4;
+          exports.end = end = parseInt(start, 10) + hour * 4;
           return context$1$0.abrupt('return', _modelsTwitter2['default'].find({
             timeStamp: {
               $gt: parseInt(start, 10),
@@ -5772,7 +5678,7 @@ module.exports =
   }
 
 /***/ },
-/* 97 */
+/* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -5783,11 +5689,11 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _mongoose = __webpack_require__(94);
+  var _mongoose = __webpack_require__(92);
   
   var _mongoose2 = _interopRequireDefault(_mongoose);
   
-  var _mongooseUniqueValidator = __webpack_require__(98);
+  var _mongooseUniqueValidator = __webpack_require__(96);
   
   var _mongooseUniqueValidator2 = _interopRequireDefault(_mongooseUniqueValidator);
   
@@ -5830,19 +5736,19 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 98 */
+/* 96 */
 /***/ function(module, exports) {
 
   module.exports = require("mongoose-unique-validator");
 
 /***/ },
-/* 99 */
+/* 97 */
 /***/ function(module, exports) {
 
   module.exports = require("async");
 
 /***/ },
-/* 100 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
   
@@ -5865,7 +5771,7 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _fs = __webpack_require__(101);
+  var _fs = __webpack_require__(99);
   
   var _fs2 = _interopRequireDefault(_fs);
   
@@ -5873,15 +5779,15 @@ module.exports =
   
   var _express = __webpack_require__(3);
   
-  var _bluebird = __webpack_require__(102);
+  var _bluebird = __webpack_require__(100);
   
   var _bluebird2 = _interopRequireDefault(_bluebird);
   
-  var _jade = __webpack_require__(103);
+  var _jade = __webpack_require__(101);
   
   var _jade2 = _interopRequireDefault(_jade);
   
-  var _frontMatter = __webpack_require__(104);
+  var _frontMatter = __webpack_require__(102);
   
   var _frontMatter2 = _interopRequireDefault(_frontMatter);
   
@@ -5985,25 +5891,25 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 101 */
+/* 99 */
 /***/ function(module, exports) {
 
   module.exports = require("fs");
 
 /***/ },
-/* 102 */
+/* 100 */
 /***/ function(module, exports) {
 
   module.exports = require("bluebird");
 
 /***/ },
-/* 103 */
+/* 101 */
 /***/ function(module, exports) {
 
   module.exports = require("jade");
 
 /***/ },
-/* 104 */
+/* 102 */
 /***/ function(module, exports) {
 
   module.exports = require("front-matter");

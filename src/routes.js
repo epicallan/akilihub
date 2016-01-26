@@ -9,9 +9,9 @@ import BlogPage from './components/BlogPage';
 import NotFoundPage from './components/NotFoundPage';
 import ErrorPage from './components/ErrorPage';
 import DataPage from './components/DataPage';
-import DataPageActions from './actions/DataPageActions';
+// import DataPageActions from './actions/DataPageActions';
+// import Worker from 'worker!./worker';
 // import testData from './components/DataPage/data';
-
 
 const router = new Router(on => {
   on('*', async (state, next) => {
@@ -24,9 +24,9 @@ const router = new Router(on => {
   on('/data', async(state) => {
     const res = await fetch(`/api/content?path=${state.path}`);
     const html = await res.json();
-    const response = await fetch('/api/social/twdata');
-    const data = await response.json();
-    DataPageActions.getData(data);
+    // const response = await fetch('/api/social/twdata');
+    // const data = await response.json();
+    // initalDataFetch(3);
     return <DataPage {...html} />;
   });
 
