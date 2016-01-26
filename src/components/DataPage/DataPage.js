@@ -71,7 +71,7 @@ export default class DataCenterPage extends Component {
 
   onInitialDataReceived(worker, index) {
     worker.onmessage = (event) => {
-      console.log(event);
+      // console.log(event);
       if (index > 0) {
         if (this.state.data.length) {
           // only make data available for upadate if we have an initial payload
@@ -110,17 +110,19 @@ export default class DataCenterPage extends Component {
     }
   }
 
-  initalDataFetch(fetchs) {
+  initalDataFetch(numberOfWorkers) {
+    let n = numberOfWorkers;
     const now = new Date();
-    // now.setHours(new Date().getHours() - 230);
+    now.setHours(new Date().getHours() - 230);
     console.log(`now : ${now}`);
-    const hoursPast = now.getHours();
+    const hoursPast = now.getHours() + (now.getMinutes() / 60);
+    if (hoursPast < 3) n = 1;
     console.log(`hours past ${hoursPast}`);
     const start = now.getTime() - (hoursPast * this.hour);
-    const hourParts = hoursPast / fetchs;
-    for (let i = 0; i < fetchs; i++) {
+    const hourParts = hoursPast / numberOfWorkers;
+    for (let i = 0; i < n; i++) {
       const startTime = start + hourParts * i * this.hour;
-      const endTime = start + hourParts * (i + 1) * this.hour;
+      const endTime = n > 1 ? start + hourParts * (i + 1) * this.hour : start + (2 * this.hour);
       const worker = new Worker;
       const url = `http://${window.location.host}/api/social/twdata/all/?start=${startTime}&end=${endTime}`;
       worker.postMessage(url);
