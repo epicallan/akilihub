@@ -3981,6 +3981,7 @@ module.exports =
       key: 'onInitialDataReceived',
       value: function onInitialDataReceived(worker, index) {
         worker.onmessage = function (event) {
+          console.log(event);
           if (index > 0) {
             _actionsDataPageActions2['default'].update(event.data.data, true);
           } else {
@@ -3994,9 +3995,9 @@ module.exports =
         var hour = 60000 * 60;
         var now = new Date();
         // now.setHours(new Date().getHours() - 190);
-        // console.log(`now : ${now}`);
+        console.log('now : ' + now);
         var hoursPast = now.getHours();
-        // console.log(`hours past ${hoursPast}`);
+        console.log('hours past ' + hoursPast);
         var start = now.getTime() - hoursPast * hour;
         var hourParts = hoursPast / fetchs;
         for (var i = 0; i < fetchs; i++) {
@@ -4016,7 +4017,8 @@ module.exports =
     }, {
       key: 'renderCharts',
       value: function renderCharts() {
-        if (this.state.data && !this.charts) {
+        // TODO fall back incase the first batch of received ata is empty
+        if (this.state.data.length && !this.charts) {
           try {
             // console.log('initial render');
             this.createDcCharts(this.state.data);

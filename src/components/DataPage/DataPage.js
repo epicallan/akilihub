@@ -70,6 +70,7 @@ export default class DataCenterPage extends Component {
 
   onInitialDataReceived(worker, index) {
     worker.onmessage = (event) => {
+      console.log(event);
       if (index > 0) {
         DataPageActions.update(event.data.data, true);
       } else {
@@ -110,9 +111,9 @@ export default class DataCenterPage extends Component {
     const hour = 60000 * 60;
     const now = new Date();
     // now.setHours(new Date().getHours() - 190);
-    // console.log(`now : ${now}`);
+    console.log(`now : ${now}`);
     const hoursPast = now.getHours();
-    // console.log(`hours past ${hoursPast}`);
+    console.log(`hours past ${hoursPast}`);
     const start = now.getTime() - (hoursPast * hour);
     const hourParts = hoursPast / fetchs;
     for (let i = 0; i < fetchs; i++) {
@@ -157,7 +158,8 @@ export default class DataCenterPage extends Component {
   }
 
   renderCharts() {
-    if (this.state.data && !this.charts) {
+    // TODO fall back incase the first batch of received ata is empty
+    if (this.state.data.length && !this.charts) {
       try {
         // console.log('initial render');
         this.createDcCharts(this.state.data);
