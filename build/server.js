@@ -3952,7 +3952,7 @@ module.exports =
       key: 'componentDidMount',
       value: function componentDidMount() {
         _storesDataPageStore2['default'].addChangeListener(this._onChange);
-        this.initalDataFetch(10);
+        this.initalDataFetch(12);
       }
     }, {
       key: 'shouldComponentUpdate',
@@ -3983,7 +3983,7 @@ module.exports =
         var _this2 = this;
   
         worker.onmessage = function (event) {
-          console.log(event);
+          // console.log(event);
           if (index > 0) {
             if (_this2.state.data.length) {
               // only make data available for upadate if we have an initial payload
@@ -4003,9 +4003,9 @@ module.exports =
         var hour = 60000 * 60;
         var now = new Date();
         // now.setHours(new Date().getHours() - 190);
-        console.log('now : ' + now);
+        // console.log(`now : ${now}`);
         var hoursPast = now.getHours();
-        console.log('hours past ' + hoursPast);
+        // console.log(`hours past ${hoursPast}`);
         var start = now.getTime() - hoursPast * hour;
         var hourParts = hoursPast / fetchs;
         for (var i = 0; i < fetchs; i++) {

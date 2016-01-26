@@ -45,7 +45,7 @@ export default class DataCenterPage extends Component {
 
   componentDidMount() {
     DataPageStore.addChangeListener(this._onChange);
-    this.initalDataFetch(10);
+    this.initalDataFetch(12);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -70,7 +70,7 @@ export default class DataCenterPage extends Component {
 
   onInitialDataReceived(worker, index) {
     worker.onmessage = (event) => {
-      console.log(event);
+      // console.log(event);
       if (index > 0) {
         if (this.state.data.length) {
           // only make data available for upadate if we have an initial payload
@@ -117,9 +117,9 @@ export default class DataCenterPage extends Component {
     const hour = 60000 * 60;
     const now = new Date();
     // now.setHours(new Date().getHours() - 190);
-    console.log(`now : ${now}`);
+    // console.log(`now : ${now}`);
     const hoursPast = now.getHours();
-    console.log(`hours past ${hoursPast}`);
+    // console.log(`hours past ${hoursPast}`);
     const start = now.getTime() - (hoursPast * hour);
     const hourParts = hoursPast / fetchs;
     for (let i = 0; i < fetchs; i++) {
