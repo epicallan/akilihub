@@ -3828,7 +3828,7 @@ module.exports =
         var _this2 = this;
   
         worker.onmessage = function (event) {
-          // console.log(event);
+          console.log(event);
           if (index > 0) {
             if (_this2.state.data.length) {
               // only make data available for upadate if we have an initial payload
@@ -3845,19 +3845,19 @@ module.exports =
     }, {
       key: 'initalDataFetch',
       value: function initalDataFetch(numberOfWorkers) {
-        var n = numberOfWorkers;
+        // let n = numberOfWorkers;
         var now = new Date();
         // now.setHours(new Date().getHours() - 230);
         console.log('now : ' + now);
         var hoursPast = now.getHours() + now.getMinutes() / 60;
-        if (hoursPast < 3) n = 1;
+        // if (hoursPast < 3) n = 1;
         console.log('hours past ' + hoursPast);
         var start = now.getTime() - hoursPast * this.hour;
         var hourParts = hoursPast / numberOfWorkers;
-        console.log('number of workers to use: ' + n);
-        for (var i = 0; i < n; i++) {
+        // .log(`number of workers to use: ${n}`);
+        for (var i = 0; i < numberOfWorkers; i++) {
           var startTime = start + hourParts * i * this.hour;
-          var endTime = n > 1 ? start + hourParts * (i + 1) * this.hour : start + 2 * this.hour;
+          var endTime = start + hourParts * (i + 1) * this.hour;
           var worker = new _workerWorker2['default']();
           var url = 'http://' + window.location.host + '/api/social/twdata/all/?start=' + startTime + '&end=' + endTime;
           worker.postMessage(url);
