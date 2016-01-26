@@ -4,7 +4,7 @@ const router = new express.Router();
 
 router.get('/social/twdata/all', async(req, res, next) => {
   try {
-    const raw = await twitterHandler.findAll(req.query.start, req.query.end);
+    const raw = await twitterHandler.findData(req.query.start, req.query.end);
     const data = twitterHandler.transform(raw);
     const aggregate = await twitterHandler.getFromRedis();
     res.status(200).json({ data, aggregate: JSON.parse(aggregate) });
@@ -13,9 +13,9 @@ router.get('/social/twdata/all', async(req, res, next) => {
   }
 });
 
-router.get('/social/twdata/:date', async(req, res, next) => {
+router.get('/social/twdata', async(req, res, next) => {
   try {
-    const raw = await twitterHandler.findByDate(req.params.date);
+    const raw = await twitterHandler.findData(req.query.start, req.query.end);
     const data = twitterHandler.transform(raw);
     res.status(200).json(data);
   } catch (err) {

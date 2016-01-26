@@ -3532,8 +3532,6 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
-  
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
   
   function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
@@ -3615,31 +3613,27 @@ module.exports =
   
       _get(Object.getPrototypeOf(_DataCenterPage.prototype), 'constructor', this).call(this, props);
   
-      this.onNewDataMessage = function (worker, workerData) {
+      this.onNewDataMessage = function (worker) {
         worker.onmessage = function (event) {
-          _this.updateDataCounter++;
           if (event.data.length) {
-            workerData.push.apply(workerData, _toConsumableArray(event.data));
-            // console.log(this.updateDataCounter);
-            if (_this.updateDataCounter === _this.numberOfWorkers) {
-              // console.log(workerData.length);
-              _actionsDataPageActions2['default'].update(workerData, false);
-              // console.log('All data received from worker');
-            }
+            _actionsDataPageActions2['default'].update(event.data, _this.isFirstPayload);
+            if (_this.isFirstPayload) _this.isFirstPayload = false;
           }
         };
       };
   
       this.getNewData = function (unixTime) {
         var workerData = [];
-        _this.updateDataCounter = 0;
-        var hour = 60000 * 60;
-        _this.numberOfWorkers = 6;
+        var numberOfWorkers = 10;
+        _this.isFirstPayload = true;
+        var timeIntervals = 24 / numberOfWorkers;
         (0, _jquery2['default'])('#loader').show();
-        for (var i = 0; i < _this.numberOfWorkers; i++) {
+        for (var i = 0; i < numberOfWorkers; i++) {
           var worker = new _workerWorker2['default']();
-          var time = unixTime + 6 * i * hour;
-          var url = 'http://' + window.location.host + '/api/social/twdata/' + time;
+          var startTime = unixTime + timeIntervals * i * _this.hour;
+          var endTime = unixTime + timeIntervals * (i + 1) * _this.hour;
+          var url = 'http://' + window.location.host + '/api/social/twdata/?start=' + startTime + '&end=' + endTime;
+          // const url = `http://${window.location.host}/api/social/twdata/${time}`;
           worker.postMessage(url);
           _this.onNewDataMessage(worker, workerData);
         }
@@ -3936,6 +3930,7 @@ module.exports =
         );
       };
   
+      this.hour = 60000 * 60;
       this.state = getStateFromStores();
       this.path = props.path;
       this.lastDate = null;
@@ -3983,13 +3978,13 @@ module.exports =
         var _this2 = this;
   
         worker.onmessage = function (event) {
-          // console.log(event);
+          console.log(event);
           if (index > 0) {
             if (_this2.state.data.length) {
               // only make data available for upadate if we have an initial payload
-              _actionsDataPageActions2['default'].update(event.data.data, true);
+              _actionsDataPageActions2['default'].update(event.data.data, false);
             } else {
-              // use this new data as initial data
+              // use this new update data as initial data
               _actionsDataPageActions2['default'].getData(event.data);
             }
           } else {
@@ -4000,17 +3995,16 @@ module.exports =
     }, {
       key: 'initalDataFetch',
       value: function initalDataFetch(fetchs) {
-        var hour = 60000 * 60;
         var now = new Date();
-        // now.setHours(new Date().getHours() - 190);
-        // console.log(`now : ${now}`);
+        now.setHours(new Date().getHours() - 230);
+        console.log('now : ' + now);
         var hoursPast = now.getHours();
-        // console.log(`hours past ${hoursPast}`);
-        var start = now.getTime() - hoursPast * hour;
+        console.log('hours past ' + hoursPast);
+        var start = now.getTime() - hoursPast * this.hour;
         var hourParts = hoursPast / fetchs;
         for (var i = 0; i < fetchs; i++) {
-          var startTime = start + hourParts * i * hour;
-          var endTime = start + hourParts * (i + 1) * hour;
+          var startTime = start + hourParts * i * this.hour;
+          var endTime = start + hourParts * (i + 1) * this.hour;
           var worker = new _workerWorker2['default']();
           var url = 'http://' + window.location.host + '/api/social/twdata/all/?start=' + startTime + '&end=' + endTime;
           worker.postMessage(url);
@@ -4581,14 +4575,14 @@ module.exports =
       }
     }, {
       key: 'updateData',
-      value: function updateData(raw, isInitialUpdate) {
+      value: function updateData(raw, isFirstNewDateUpdate) {
         var newData = this._dataTransform(raw);
         // console.log('should update isInitialUpdate: ' + isInitialUpdate);
-        if (!isInitialUpdate) this.data.remove();
+        if (isFirstNewDateUpdate) this.data.remove();
         this.data.add(newData);
         this.drawRowCharts(true);
         this.drawPieChart(true);
-        console.log('updated data   ' + this.data.size());
+        console.log('updated data ' + this.data.size());
       }
     }, {
       key: 'init',
@@ -5461,7 +5455,7 @@ module.exports =
         case 0:
           context$1$0.prev = 0;
           context$1$0.next = 3;
-          return regeneratorRuntime.awrap(twitterHandler.findAll(req.query.start, req.query.end));
+          return regeneratorRuntime.awrap(twitterHandler.findData(req.query.start, req.query.end));
   
         case 3:
           raw = context$1$0.sent;
@@ -5489,14 +5483,14 @@ module.exports =
     }, null, _this, [[0, 11]]);
   });
   
-  router.get('/social/twdata/:date', function callee$0$0(req, res, next) {
+  router.get('/social/twdata', function callee$0$0(req, res, next) {
     var raw, data;
     return regeneratorRuntime.async(function callee$0$0$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
           context$1$0.prev = 0;
           context$1$0.next = 3;
-          return regeneratorRuntime.awrap(twitterHandler.findByDate(req.params.date));
+          return regeneratorRuntime.awrap(twitterHandler.findData(req.query.start, req.query.end));
   
         case 3:
           raw = context$1$0.sent;
@@ -5553,8 +5547,7 @@ module.exports =
   exports.getFromRedis = getFromRedis;
   exports.saveTweets = saveTweets;
   exports.transform = transform;
-  exports.findAll = findAll;
-  exports.findByDate = findByDate;
+  exports.findData = findData;
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
@@ -5570,9 +5563,12 @@ module.exports =
   
   var _async3 = _interopRequireDefault(_async2);
   
+  var _lodash = __webpack_require__(80);
+  
+  var _lodash2 = _interopRequireDefault(_lodash);
+  
   var client = _redis2['default'].createClient();
   
-  var hour = 60000 * 60;
   var mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika'];
   var exludedFields = '-_id -__v -has_user_mentions -geo_enabled -time_zone -approximated_geo ';
   exludedFields += '-favorite_count -user_id -retweet_count -has_hashtags -is_retweet -is_reply';
@@ -5631,14 +5627,15 @@ module.exports =
     return raw.map(function (d) {
       var tweet = d.toObject();
       tweet.text = tweet.text.toLowerCase();
+      tweet.sentiment = _lodash2['default'].ceil(tweet.sentiment, 2) || tweet.sentiment;
       _addNamesToTweet(tweet);
       _excludeNamesInTerms(tweet);
       return tweet;
     });
   }
   
-  function findAll(start, end) {
-    return regeneratorRuntime.async(function findAll$(context$1$0) {
+  function findData(start, end) {
+    return regeneratorRuntime.async(function findData$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
           context$1$0.prev = 0;
@@ -5660,33 +5657,6 @@ module.exports =
           return context$1$0.stop();
       }
     }, null, this, [[0, 4]]);
-  }
-  
-  function findByDate(start) {
-    var end;
-    return regeneratorRuntime.async(function findByDate$(context$1$0) {
-      while (1) switch (context$1$0.prev = context$1$0.next) {
-        case 0:
-          context$1$0.prev = 0;
-          exports.end = end = parseInt(start, 10) + hour * 4;
-          return context$1$0.abrupt('return', _modelsTwitter2['default'].find({
-            timeStamp: {
-              $gt: parseInt(start, 10),
-              $lt: end
-            },
-            is_retweet: false
-          }).select(exludedFields).exec());
-  
-        case 5:
-          context$1$0.prev = 5;
-          context$1$0.t0 = context$1$0['catch'](0);
-          throw new Error(context$1$0.t0);
-  
-        case 8:
-        case 'end':
-          return context$1$0.stop();
-      }
-    }, null, this, [[0, 5]]);
   }
 
 /***/ },

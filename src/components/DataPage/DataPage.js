@@ -32,6 +32,7 @@ export default class DataCenterPage extends Component {
 
   constructor(props) {
     super(props);
+    this.hour = 60000 * 60;
     this.state = getStateFromStores();
     this.path = props.path;
     this.lastDate = null;
@@ -70,13 +71,13 @@ export default class DataCenterPage extends Component {
 
   onInitialDataReceived(worker, index) {
     worker.onmessage = (event) => {
-      // console.log(event);
+      console.log(event);
       if (index > 0) {
         if (this.state.data.length) {
           // only make data available for upadate if we have an initial payload
-          DataPageActions.update(event.data.data, true);
+          DataPageActions.update(event.data.data, false);
         } else {
-          // use this new data as initial data
+          // use this new update data as initial data
           DataPageActions.getData(event.data);
         }
       } else {
@@ -84,47 +85,42 @@ export default class DataCenterPage extends Component {
       }
     };
   }
-  onNewDataMessage = (worker, workerData) => {
+  onNewDataMessage = (worker) => {
     worker.onmessage = (event) => {
-      this.updateDataCounter ++;
       if (event.data.length) {
-        workerData.push(...event.data);
-        // console.log(this.updateDataCounter);
-        if (this.updateDataCounter === this.numberOfWorkers) {
-          // console.log(workerData.length);
-          DataPageActions.update(workerData, false);
-          // console.log('All data received from worker');
-        }
+        DataPageActions.update(event.data, this.isFirstPayload);
+        if (this.isFirstPayload) this.isFirstPayload = false;
       }
     };
   };
   getNewData = (unixTime) => {
     const workerData = [];
-    this.updateDataCounter = 0;
-    const hour = 60000 * 60;
-    this.numberOfWorkers = 6;
+    const numberOfWorkers = 10;
+    this.isFirstPayload = true;
+    const timeIntervals = 24 / numberOfWorkers;
     $('#loader').show();
-    for (let i = 0; i < this.numberOfWorkers; i++) {
+    for (let i = 0; i < numberOfWorkers; i++) {
       const worker = new Worker;
-      const time = unixTime + 6 * i * hour;
-      const url = `http://${window.location.host}/api/social/twdata/${time}`;
+      const startTime = unixTime + timeIntervals * i * this.hour;
+      const endTime = unixTime + timeIntervals * (i + 1) * this.hour;
+      const url = `http://${window.location.host}/api/social/twdata/?start=${startTime}&end=${endTime}`;
+      // const url = `http://${window.location.host}/api/social/twdata/${time}`;
       worker.postMessage(url);
       this.onNewDataMessage(worker, workerData);
     }
   }
 
   initalDataFetch(fetchs) {
-    const hour = 60000 * 60;
     const now = new Date();
-    // now.setHours(new Date().getHours() - 190);
-    // console.log(`now : ${now}`);
+    now.setHours(new Date().getHours() - 230);
+    console.log(`now : ${now}`);
     const hoursPast = now.getHours();
-    // console.log(`hours past ${hoursPast}`);
-    const start = now.getTime() - (hoursPast * hour);
+    console.log(`hours past ${hoursPast}`);
+    const start = now.getTime() - (hoursPast * this.hour);
     const hourParts = hoursPast / fetchs;
     for (let i = 0; i < fetchs; i++) {
-      const startTime = start + hourParts * i * hour;
-      const endTime = start + hourParts * (i + 1) * hour;
+      const startTime = start + hourParts * i * this.hour;
+      const endTime = start + hourParts * (i + 1) * this.hour;
       const worker = new Worker;
       const url = `http://${window.location.host}/api/social/twdata/all/?start=${startTime}&end=${endTime}`;
       worker.postMessage(url);

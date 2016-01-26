@@ -32,14 +32,14 @@ export default class DcCharts {
     return data;
   }
 
-  updateData(raw, isInitialUpdate) {
+  updateData(raw, isFirstNewDateUpdate) {
     const newData = this._dataTransform(raw);
     // console.log('should update isInitialUpdate: ' + isInitialUpdate);
-    if (!isInitialUpdate) this.data.remove();
+    if (isFirstNewDateUpdate) this.data.remove();
     this.data.add(newData);
     this.drawRowCharts(true);
     this.drawPieChart(true);
-    console.log(`updated data   ${this.data.size()}`);
+    console.log(`updated data ${this.data.size()}`);
   }
 
   init() {

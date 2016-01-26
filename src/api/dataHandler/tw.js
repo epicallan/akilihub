@@ -1,9 +1,9 @@
 import redis from 'redis';
 import Twitter from '../models/Twitter';
 import _async from 'async';
+import _ from 'lodash';
 const client = redis.createClient();
 
-const hour = 60000 * 60;
 const mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika'];
 let exludedFields = '-_id -__v -has_user_mentions -geo_enabled -time_zone -approximated_geo ';
 exludedFields += '-favorite_count -user_id -retweet_count -has_hashtags -is_retweet -is_reply';
@@ -60,12 +60,13 @@ export function transform(raw) {
   return raw.map((d) => {
     const tweet = d.toObject();
     tweet.text = tweet.text.toLowerCase();
+    tweet.sentiment = _.ceil(tweet.sentiment, 2) || tweet.sentiment;
     _addNamesToTweet(tweet);
     _excludeNamesInTerms(tweet);
     return tweet;
   });
 }
-export async function findAll(start, end) {
+export async function findData(start, end) {
   try {
     return Twitter.find({
       'is_retweet': false,
@@ -73,23 +74,6 @@ export async function findAll(start, end) {
         $gt: parseInt(start, 10),
         $lt: parseInt(end, 10),
       },
-    })
-    .select(exludedFields)
-    .exec();
-  } catch (e) {
-    throw new Error(e);
-  }
-}
-
-export async function findByDate(start) {
-  try {
-    const end = parseInt(start, 10) + hour * 4;
-    return Twitter.find({
-      timeStamp: {
-        $gt: parseInt(start, 10),
-        $lt: end,
-      },
-      is_retweet: false,
     })
     .select(exludedFields)
     .exec();
