@@ -113,7 +113,7 @@ export default class DataCenterPage extends Component {
   initalDataFetch(numberOfWorkers) {
     let n = numberOfWorkers;
     const now = new Date();
-    now.setHours(new Date().getHours() - 230);
+    // now.setHours(new Date().getHours() - 230);
     console.log(`now : ${now}`);
     const hoursPast = now.getHours() + (now.getMinutes() / 60);
     if (hoursPast < 3) n = 1;

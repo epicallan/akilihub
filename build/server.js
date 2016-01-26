@@ -3997,7 +3997,7 @@ module.exports =
       value: function initalDataFetch(numberOfWorkers) {
         var n = numberOfWorkers;
         var now = new Date();
-        now.setHours(new Date().getHours() - 230);
+        // now.setHours(new Date().getHours() - 230);
         console.log('now : ' + now);
         var hoursPast = now.getHours() + now.getMinutes() / 60;
         if (hoursPast < 3) n = 1;
