@@ -3996,7 +3996,7 @@ module.exports =
       key: 'initalDataFetch',
       value: function initalDataFetch(fetchs) {
         var now = new Date();
-        now.setHours(new Date().getHours() - 230);
+        // now.setHours(new Date().getHours() - 230);
         console.log('now : ' + now);
         var hoursPast = now.getHours();
         console.log('hours past ' + hoursPast);

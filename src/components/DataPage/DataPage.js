@@ -112,7 +112,7 @@ export default class DataCenterPage extends Component {
 
   initalDataFetch(fetchs) {
     const now = new Date();
-    now.setHours(new Date().getHours() - 230);
+    // now.setHours(new Date().getHours() - 230);
     console.log(`now : ${now}`);
     const hoursPast = now.getHours();
     console.log(`hours past ${hoursPast}`);
