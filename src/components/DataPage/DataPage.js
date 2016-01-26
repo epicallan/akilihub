@@ -120,6 +120,7 @@ export default class DataCenterPage extends Component {
     console.log(`hours past ${hoursPast}`);
     const start = now.getTime() - (hoursPast * this.hour);
     const hourParts = hoursPast / numberOfWorkers;
+    console.log(`number of workers to use: ${n}`);
     for (let i = 0; i < n; i++) {
       const startTime = start + hourParts * i * this.hour;
       const endTime = n > 1 ? start + hourParts * (i + 1) * this.hour : start + (2 * this.hour);
