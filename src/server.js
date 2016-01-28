@@ -41,7 +41,7 @@ function twJob() {
   try {
     // initial run
     twitterJob();
-    setInterval(twitterJob, 1000 * 60);
+    setInterval(twitterJob, 60000 * 60);
   } catch (e) {
     console.log(e);
   }

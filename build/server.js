@@ -127,7 +127,7 @@ module.exports =
     try {
       // initial run
       (0, _apiJobsTwitterJob2['default'])();
-      setInterval(_apiJobsTwitterJob2['default'], 1000 * 60);
+      setInterval(_apiJobsTwitterJob2['default'], 60000 * 60);
     } catch (e) {
       console.log(e);
     }
@@ -3854,10 +3854,11 @@ module.exports =
       value: function initalDataFetch(numberOfWorkers) {
         // let n = numberOfWorkers;
         var now = new Date();
-        now.setHours(new Date().getHours() - 230);
+        if (now.getHours() < 3) {
+          now.setHours(new Date().getHours() - 6);
+        }
         console.log('now : ' + now);
         var hoursPast = now.getHours() + now.getMinutes() / 60;
-        // if (hoursPast < 3) n = 1;
         console.log('hours past ' + hoursPast);
         var start = now.getTime() - hoursPast * this.hour;
         var hourParts = hoursPast / numberOfWorkers;
