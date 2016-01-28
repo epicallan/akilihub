@@ -92,9 +92,11 @@ module.exports =
   
   var _bodyParser2 = _interopRequireDefault(_bodyParser);
   
-  __webpack_require__(88);
+  var _apiJobsTwitterJob = __webpack_require__(88);
   
-  var _mongoose = __webpack_require__(92);
+  var _apiJobsTwitterJob2 = _interopRequireDefault(_apiJobsTwitterJob);
+  
+  var _mongoose = __webpack_require__(91);
   
   var _mongoose2 = _interopRequireDefault(_mongoose);
   
@@ -114,13 +116,22 @@ module.exports =
   // Register API middleware
   
   // -----------------------------------------------------------------------------
-  server.use('/api/content', __webpack_require__(98));
+  server.use('/api/content', __webpack_require__(96));
   
   function connect() {
     var options = { server: { socketOptions: { keepAlive: 1 } } };
     return _mongoose2['default'].connect(_config.MONGO_URL, options).connection;
   }
   
+  function twJob() {
+    try {
+      // initial run
+      (0, _apiJobsTwitterJob2['default'])();
+      setInterval(_apiJobsTwitterJob2['default'], 1000 * 60);
+    } catch (e) {
+      console.log(e);
+    }
+  }
   //
   // Register server-side rendering middleware
   // -----------------------------------------------------------------------------
@@ -195,6 +206,7 @@ module.exports =
     /* eslint-disable no-console */
     connect().on('error', console.log).on('disconnected', connect).once('open', function () {
       console.log('using mongodb ' + _config.MONGO_URL);
+      twJob();
     });
     console.log('The server is running at http://localhost:' + _config.port + '/ PID is ' + process.pid);
   });
@@ -282,10 +294,6 @@ module.exports =
   var _componentsDataPage = __webpack_require__(57);
   
   var _componentsDataPage2 = _interopRequireDefault(_componentsDataPage);
-  
-  // import DataPageActions from './actions/DataPageActions';
-  // import Worker from 'worker!./worker';
-  // import testData from './components/DataPage/data';
   
   var router = new _reactRoutingSrcRouter2['default'](function (on) {
     on('*', function callee$1$0(state, next) {
@@ -3483,7 +3491,6 @@ module.exports =
           var startTime = unixTime + timeIntervals * i * _this.hour;
           var endTime = unixTime + timeIntervals * (i + 1) * _this.hour;
           var url = 'http://' + window.location.host + '/api/social/twdata/?start=' + startTime + '&end=' + endTime;
-          // const url = `http://${window.location.host}/api/social/twdata/${time}`;
           worker.postMessage(url);
           _this.onNewDataMessage(worker, workerData);
         }
@@ -3847,7 +3854,7 @@ module.exports =
       value: function initalDataFetch(numberOfWorkers) {
         // let n = numberOfWorkers;
         var now = new Date();
-        // now.setHours(new Date().getHours() - 230);
+        now.setHours(new Date().getHours() - 230);
         console.log('now : ' + now);
         var hoursPast = now.getHours() + now.getMinutes() / 60;
         // if (hoursPast < 3) n = 1;
@@ -5082,30 +5089,6 @@ module.exports =
 /* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
-  'use strict';
-  
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-  
-  var _twJob = __webpack_require__(89);
-  
-  var _twJob2 = _interopRequireDefault(_twJob);
-  
-  // TODO put in a separate work thread
-  
-  try {
-    // initial run
-    (0, _twJob2['default'])();
-    setInterval(function () {
-      (0, _twJob2['default'])();
-    }, 60000 * 60);
-  } catch (e) {
-    console.log(e);
-  }
-
-/***/ },
-/* 89 */
-/***/ function(module, exports, __webpack_require__) {
-
   /**
    * Gets data from Twitter model
    */
@@ -5117,15 +5100,13 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _mongodb = __webpack_require__(90);
-  
-  var _mongodb2 = _interopRequireDefault(_mongodb);
-  
-  var _redis = __webpack_require__(91);
+  var _redis = __webpack_require__(89);
   
   var _redis2 = _interopRequireDefault(_redis);
   
-  var _config = __webpack_require__(14);
+  var _modelsTwitter = __webpack_require__(90);
+  
+  var _modelsTwitter2 = _interopRequireDefault(_modelsTwitter);
   
   var _crossfilter2 = __webpack_require__(79);
   
@@ -5133,44 +5114,26 @@ module.exports =
   
   var client = _redis2['default'].createClient();
   
-  var MongoClient = _mongodb2['default'].MongoClient;
-  var collection = 'twits';
-  
-  function _connection() {
-    return new Promise(function (resolve, reject) {
-      MongoClient.connect(_config.MONGO_URL, function (err, db) {
-        resolve(db);
-        reject(err);
-      });
-    });
-  }
-  
   function findData() {
-    var db;
     return regeneratorRuntime.async(function findData$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
           context$1$0.prev = 0;
-          context$1$0.next = 3;
-          return regeneratorRuntime.awrap(_connection());
-  
-        case 3:
-          db = context$1$0.sent;
-          return context$1$0.abrupt('return', db.collection(collection).find({
+          return context$1$0.abrupt('return', _modelsTwitter2['default'].find({
             'is_retweet': false
-          }, { timeStamp: 1, _id: 0 }).toArray());
+          }).select('timeStamp').exec());
   
-        case 7:
-          context$1$0.prev = 7;
+        case 4:
+          context$1$0.prev = 4;
           context$1$0.t0 = context$1$0['catch'](0);
   
           console.log(context$1$0.t0);
   
-        case 10:
+        case 7:
         case 'end':
           return context$1$0.stop();
       }
-    }, null, this, [[0, 7]]);
+    }, null, this, [[0, 4]]);
   }
   
   function aggregateData() {
@@ -5228,22 +5191,80 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 90 */
-/***/ function(module, exports) {
-
-  module.exports = require("mongodb");
-
-/***/ },
-/* 91 */
+/* 89 */
 /***/ function(module, exports) {
 
   module.exports = require("redis");
 
 /***/ },
-/* 92 */
+/* 90 */
+/***/ function(module, exports, __webpack_require__) {
+
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  var _mongoose = __webpack_require__(91);
+  
+  var _mongoose2 = _interopRequireDefault(_mongoose);
+  
+  var _mongooseUniqueValidator = __webpack_require__(92);
+  
+  var _mongooseUniqueValidator2 = _interopRequireDefault(_mongooseUniqueValidator);
+  
+  var Schema = _mongoose2['default'].Schema;
+  
+  var TwitterSchema = new Schema({
+    date: { type: String },
+    text: { type: String, 'default': null, trim: true },
+    user_name: { type: String, trim: true },
+    screen_name: { type: String, trim: true },
+    location: { type: String, 'default': null, trim: true },
+    time_zone: String,
+    sentiment: Number,
+    retweet_count: Number,
+    favorite_count: Number,
+    timeStamp: Number,
+    terms: [String],
+    user_id: String,
+    id: { type: Number, unique: true },
+    is_reply: Boolean,
+    is_retweet: Boolean,
+    approximated_geo: { type: Boolean, 'default': false },
+    geo_enabled: { type: Boolean, 'default': false },
+    has_hashtags: Boolean,
+    hashtags: [String],
+    coordinates: { type: String, 'default': null },
+    has_user_mentions: Boolean,
+    user_mentions: [String]
+  });
+  
+  TwitterSchema.plugin(_mongooseUniqueValidator2['default']);
+  // TwitterSchema.path('terms').required(true, 'Tweet must have terms');
+  /* eslint-disable func-names*/
+  TwitterSchema.pre('save', function (next) {
+    var err = this.validateSync();
+    next(err);
+  });
+  
+  exports['default'] = _mongoose2['default'].model('Twit', TwitterSchema);
+  module.exports = exports['default'];
+
+/***/ },
+/* 91 */
 /***/ function(module, exports) {
 
   module.exports = require("mongoose");
+
+/***/ },
+/* 92 */
+/***/ function(module, exports) {
+
+  module.exports = require("mongoose-unique-validator");
 
 /***/ },
 /* 93 */
@@ -5374,15 +5395,15 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _redis = __webpack_require__(91);
+  var _redis = __webpack_require__(89);
   
   var _redis2 = _interopRequireDefault(_redis);
   
-  var _modelsTwitter = __webpack_require__(95);
+  var _modelsTwitter = __webpack_require__(90);
   
   var _modelsTwitter2 = _interopRequireDefault(_modelsTwitter);
   
-  var _async2 = __webpack_require__(97);
+  var _async2 = __webpack_require__(95);
   
   var _async3 = _interopRequireDefault(_async2);
   
@@ -5484,76 +5505,12 @@ module.exports =
 
 /***/ },
 /* 95 */
-/***/ function(module, exports, __webpack_require__) {
-
-  'use strict';
-  
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });
-  
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-  
-  var _mongoose = __webpack_require__(92);
-  
-  var _mongoose2 = _interopRequireDefault(_mongoose);
-  
-  var _mongooseUniqueValidator = __webpack_require__(96);
-  
-  var _mongooseUniqueValidator2 = _interopRequireDefault(_mongooseUniqueValidator);
-  
-  var Schema = _mongoose2['default'].Schema;
-  
-  var TwitterSchema = new Schema({
-    date: { type: String },
-    text: { type: String, 'default': null, trim: true },
-    user_name: { type: String, trim: true },
-    screen_name: { type: String, trim: true },
-    location: { type: String, 'default': null, trim: true },
-    time_zone: String,
-    sentiment: Number,
-    retweet_count: Number,
-    favorite_count: Number,
-    timeStamp: Number,
-    terms: [String],
-    user_id: String,
-    id: { type: Number, unique: true },
-    is_reply: Boolean,
-    is_retweet: Boolean,
-    approximated_geo: { type: Boolean, 'default': false },
-    geo_enabled: { type: Boolean, 'default': false },
-    has_hashtags: Boolean,
-    hashtags: [String],
-    coordinates: { type: String, 'default': null },
-    has_user_mentions: Boolean,
-    user_mentions: [String]
-  });
-  
-  TwitterSchema.plugin(_mongooseUniqueValidator2['default']);
-  // TwitterSchema.path('terms').required(true, 'Tweet must have terms');
-  /* eslint-disable func-names*/
-  TwitterSchema.pre('save', function (next) {
-    var err = this.validateSync();
-    next(err);
-  });
-  
-  exports['default'] = _mongoose2['default'].model('Twit', TwitterSchema);
-  module.exports = exports['default'];
-
-/***/ },
-/* 96 */
-/***/ function(module, exports) {
-
-  module.exports = require("mongoose-unique-validator");
-
-/***/ },
-/* 97 */
 /***/ function(module, exports) {
 
   module.exports = require("async");
 
 /***/ },
-/* 98 */
+/* 96 */
 /***/ function(module, exports, __webpack_require__) {
 
   
@@ -5576,7 +5533,7 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _fs = __webpack_require__(99);
+  var _fs = __webpack_require__(97);
   
   var _fs2 = _interopRequireDefault(_fs);
   
@@ -5584,15 +5541,15 @@ module.exports =
   
   var _express = __webpack_require__(3);
   
-  var _bluebird = __webpack_require__(100);
+  var _bluebird = __webpack_require__(98);
   
   var _bluebird2 = _interopRequireDefault(_bluebird);
   
-  var _jade = __webpack_require__(101);
+  var _jade = __webpack_require__(99);
   
   var _jade2 = _interopRequireDefault(_jade);
   
-  var _frontMatter = __webpack_require__(102);
+  var _frontMatter = __webpack_require__(100);
   
   var _frontMatter2 = _interopRequireDefault(_frontMatter);
   
@@ -5696,25 +5653,25 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 99 */
+/* 97 */
 /***/ function(module, exports) {
 
   module.exports = require("fs");
 
 /***/ },
-/* 100 */
+/* 98 */
 /***/ function(module, exports) {
 
   module.exports = require("bluebird");
 
 /***/ },
-/* 101 */
+/* 99 */
 /***/ function(module, exports) {
 
   module.exports = require("jade");
 
 /***/ },
-/* 102 */
+/* 100 */
 /***/ function(module, exports) {
 
   module.exports = require("front-matter");

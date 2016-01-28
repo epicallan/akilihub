@@ -9,7 +9,7 @@ import assets from './assets';
 import { port, MONGO_URL } from './config';
 import compression from 'compression';
 import bodyParser from 'body-parser';
-import './api/jobs';
+import twitterJob from './api/jobs/twitterJob';
 import mongoose from 'mongoose';
 
 const server = global.server = express();
@@ -37,6 +37,15 @@ function connect() {
   return mongoose.connect(MONGO_URL, options).connection;
 }
 
+function twJob() {
+  try {
+    // initial run
+    twitterJob();
+    setInterval(twitterJob, 1000 * 60);
+  } catch (e) {
+    console.log(e);
+  }
+}
 //
 // Register server-side rendering middleware
 // -----------------------------------------------------------------------------
@@ -72,6 +81,7 @@ server.listen(port, () => {
     .on('disconnected', connect)
     .once('open', () => {
       console.log(`using mongodb ${MONGO_URL}`);
+      twJob();
     });
   console.log(`The server is running at http://localhost:${port}/ PID is ${process.pid}`);
 });

@@ -9,9 +9,6 @@ import BlogPage from './components/BlogPage';
 import NotFoundPage from './components/NotFoundPage';
 import ErrorPage from './components/ErrorPage';
 import DataPage from './components/DataPage';
-// import DataPageActions from './actions/DataPageActions';
-// import Worker from 'worker!./worker';
-// import testData from './components/DataPage/data';
 
 const router = new Router(on => {
   on('*', async (state, next) => {

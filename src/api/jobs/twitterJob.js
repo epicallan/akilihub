@@ -1,32 +1,20 @@
 /**
  * Gets data from Twitter model
  */
-import mongodb from 'mongodb';
 import redis from 'redis';
-import { MONGO_URL } from '../../config';
+import Twitter from '../models/Twitter';
 import crossfilter from 'crossfilter2';
 
 const client = redis.createClient();
 
-const MongoClient = mongodb.MongoClient;
-const collection = 'twits';
-
-function _connection() {
-  return new Promise((resolve, reject) => {
-    MongoClient.connect(MONGO_URL, (err, db) => {
-      resolve(db);
-      reject(err);
-    });
-  });
-}
 
 async function findData() {
   try {
-    const db = await _connection();
-    return db.collection(collection).find({
+    return Twitter.find({
       'is_retweet': false,
-    }, { timeStamp: 1, _id: 0 })
-    .toArray();
+    })
+    .select('timeStamp')
+    .exec();
   } catch (e) {
     console.log(e);
   }

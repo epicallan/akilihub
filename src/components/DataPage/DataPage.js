@@ -104,7 +104,6 @@ export default class DataCenterPage extends Component {
       const startTime = unixTime + timeIntervals * i * this.hour;
       const endTime = unixTime + timeIntervals * (i + 1) * this.hour;
       const url = `http://${window.location.host}/api/social/twdata/?start=${startTime}&end=${endTime}`;
-      // const url = `http://${window.location.host}/api/social/twdata/${time}`;
       worker.postMessage(url);
       this.onNewDataMessage(worker, workerData);
     }
@@ -113,7 +112,7 @@ export default class DataCenterPage extends Component {
   initalDataFetch(numberOfWorkers) {
     // let n = numberOfWorkers;
     const now = new Date();
-    // now.setHours(new Date().getHours() - 230);
+    now.setHours(new Date().getHours() - 230);
     console.log(`now : ${now}`);
     const hoursPast = now.getHours() + (now.getMinutes() / 60);
     // if (hoursPast < 3) n = 1;
