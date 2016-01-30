@@ -1468,21 +1468,6 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
-      var removeCss = function() {};
-  
-      // Hot Module Replacement
-      // https://webpack.github.io/docs/hot-module-replacement
-      if (false) {
-        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./App.scss", function() {
-          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./App.scss");
-          if (typeof newContent === 'string') {
-            newContent = [[module.id, content, '']];
-          }
-          removeCss = insertCss(newContent, { replace: true });
-        });
-        module.hot.dispose(function() { removeCss(); });
-      }
-    
 
 /***/ },
 /* 18 */
@@ -1493,7 +1478,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */\n\n/**\n * 1. Set default font family to sans-serif.\n * 2. Prevent iOS and IE text size adjust after device orientation change,\n *    without disabling user zoom.\n */\n\nhtml {\n  font-family: sans-serif; /* 1 */\n  -ms-text-size-adjust: 100%; /* 2 */\n  -webkit-text-size-adjust: 100%; /* 2 */\n}\n\n/**\n * Remove default margin.\n */\n\nbody {\n  margin: 0;\n}\n\n/* HTML5 display definitions\n   ========================================================================== */\n\n/**\n * Correct `block` display not defined for any HTML5 element in IE 8/9.\n * Correct `block` display not defined for `details` or `summary` in IE 10/11\n * and Firefox.\n * Correct `block` display not defined for `main` in IE 11.\n */\n\narticle, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {\n  display: block;\n}\n\n/**\n * 1. Correct `inline-block` display not defined in IE 8/9.\n * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.\n */\n\naudio, canvas, progress, video {\n  display: inline-block; /* 1 */\n  vertical-align: baseline; /* 2 */\n}\n\n/**\n * Prevent modern browsers from displaying `audio` without controls.\n * Remove excess height in iOS 5 devices.\n */\n\naudio:not([controls]) {\n  display: none;\n  height: 0;\n}\n\n/**\n * Address `[hidden]` styling not present in IE 8/9/10.\n * Hide the `template` element in IE 8/9/10/11, Safari, and Firefox < 22.\n */\n\n[hidden], template {\n  display: none;\n}\n\n/* Links\n   ========================================================================== */\n\n/**\n * Remove the gray background color from active links in IE 10.\n */\n\na {\n  background-color: transparent;\n}\n\n/**\n * Improve readability of focused elements when they are also in an\n * active/hover state.\n */\n\na:active, a:hover {\n  outline: 0;\n}\n\n/* Text-level semantics\n   ========================================================================== */\n\n/**\n * Address styling not present in IE 8/9/10/11, Safari, and Chrome.\n */\n\nabbr[title] {\n  border-bottom: 1px dotted;\n}\n\n/**\n * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.\n */\n\nb, strong {\n  font-weight: bold;\n}\n\n/**\n * Address styling not present in Safari and Chrome.\n */\n\ndfn {\n  font-style: italic;\n}\n\n/**\n * Address variable `h1` font-size and margin within `section` and `article`\n * contexts in Firefox 4+, Safari, and Chrome.\n */\n\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n\n/**\n * Address styling not present in IE 8/9.\n */\n\nmark {\n  background: #ff0;\n  color: #000;\n}\n\n/**\n * Address inconsistent and variable font size in all browsers.\n */\n\nsmall {\n  font-size: 80%;\n}\n\n/**\n * Prevent `sub` and `sup` affecting `line-height` in all browsers.\n */\n\nsub, sup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsup {\n  top: -0.5em;\n}\n\nsub {\n  bottom: -0.25em;\n}\n\n/* Embedded content\n   ========================================================================== */\n\n/**\n * Remove border when inside `a` element in IE 8/9/10.\n */\n\nimg {\n  border: 0;\n}\n\n/**\n * Correct overflow not hidden in IE 9/10/11.\n */\n\nsvg:not(:root) {\n  overflow: hidden;\n}\n\n/* Grouping content\n   ========================================================================== */\n\n/**\n * Address margin not present in IE 8/9 and Safari.\n */\n\nfigure {\n  margin: 1em 40px;\n}\n\n/**\n * Address differences between Firefox and other browsers.\n */\n\nhr {\n  -webkit-box-sizing: content-box;\n          box-sizing: content-box;\n  height: 0;\n}\n\n/**\n * Contain overflow in all browsers.\n */\n\npre {\n  overflow: auto;\n}\n\n/**\n * Address odd `em`-unit font size rendering in all browsers.\n */\n\ncode, kbd, pre, samp {\n  font-family: monospace, monospace;\n  font-size: 1em;\n}\n\n/* Forms\n   ========================================================================== */\n\n/**\n * Known limitation: by default, Chrome and Safari on OS X allow very limited\n * styling of `select`, unless a `border` property is set.\n */\n\n/**\n * 1. Correct color not being inherited.\n *    Known issue: affects color of disabled elements.\n * 2. Correct font properties not being inherited.\n * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.\n */\n\nbutton, input, optgroup, select, textarea {\n  color: inherit; /* 1 */\n  font: inherit; /* 2 */\n  margin: 0; /* 3 */\n}\n\n/**\n * Address `overflow` set to `hidden` in IE 8/9/10/11.\n */\n\nbutton {\n  overflow: visible;\n}\n\n/**\n * Address inconsistent `text-transform` inheritance for `button` and `select`.\n * All other form control elements do not inherit `text-transform` values.\n * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.\n * Correct `select` style inheritance in Firefox.\n */\n\nbutton, select {\n  text-transform: none;\n}\n\n/**\n * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`\n *    and `video` controls.\n * 2. Correct inability to style clickable `input` types in iOS.\n * 3. Improve usability and consistency of cursor style between image-type\n *    `input` and others.\n */\n\nbutton, html input[type=\"button\"], input[type=\"reset\"], input[type=\"submit\"] {\n  -webkit-appearance: button; /* 2 */\n  cursor: pointer; /* 3 */\n}\n\n/**\n * Re-set default cursor for disabled elements.\n */\n\nbutton[disabled], html input[disabled] {\n  cursor: default;\n}\n\n/**\n * Remove inner padding and border in Firefox 4+.\n */\n\nbutton::-moz-focus-inner, input::-moz-focus-inner {\n  border: 0;\n  padding: 0;\n}\n\n/**\n * Address Firefox 4+ setting `line-height` on `input` using `!important` in\n * the UA stylesheet.\n */\n\ninput {\n  line-height: normal;\n}\n\n/**\n * It's recommended that you don't attempt to style these elements.\n * Firefox's implementation doesn't respect box-sizing, padding, or width.\n *\n * 1. Address box sizing set to `content-box` in IE 8/9/10.\n * 2. Remove excess padding in IE 8/9/10.\n */\n\ninput[type=\"checkbox\"], input[type=\"radio\"] {\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Fix the cursor style for Chrome's increment/decrement buttons. For certain\n * `font-size` values of the `input`, it causes the cursor style of the\n * decrement button to change from `default` to `text`.\n */\n\ninput[type=\"number\"]::-webkit-inner-spin-button, input[type=\"number\"]::-webkit-outer-spin-button {\n  height: auto;\n}\n\n/**\n * 1. Address `appearance` set to `searchfield` in Safari and Chrome.\n * 2. Address `box-sizing` set to `border-box` in Safari and Chrome.\n */\n\ninput[type=\"search\"] {\n  -webkit-appearance: textfield; /* 1 */\n  -webkit-box-sizing: content-box;\n          box-sizing: content-box; /* 2 */\n}\n\n/**\n * Remove inner padding and search cancel button in Safari and Chrome on OS X.\n * Safari (but not Chrome) clips the cancel button when the search input has\n * padding (and `textfield` appearance).\n */\n\ninput[type=\"search\"]::-webkit-search-cancel-button, input[type=\"search\"]::-webkit-search-decoration {\n  -webkit-appearance: none;\n}\n\n/**\n * Define consistent border, margin, and padding.\n */\n\nfieldset {\n  border: 1px solid #c0c0c0;\n  margin: 0 2px;\n  padding: 0.35em 0.625em 0.75em;\n}\n\n/**\n * 1. Correct `color` not being inherited in IE 8/9/10/11.\n * 2. Remove padding so people aren't caught out if they zero out fieldsets.\n */\n\nlegend {\n  border: 0; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Remove default vertical scrollbar in IE 8/9/10/11.\n */\n\ntextarea {\n  overflow: auto;\n}\n\n/**\n * Don't inherit the `font-weight` (applied by a rule above).\n * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.\n */\n\noptgroup {\n  font-weight: bold;\n}\n\n/* Tables\n   ========================================================================== */\n\n/**\n * Remove most spacing between table cells.\n */\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\n\ntd, th {\n  padding: 0;\n}\n\n/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n/*\n * Base styles\n * ========================================================================== */\n\nhtml, body {\n  color: #222;\n  width: 100%;\n  height: 100%;\n  font-weight: 100;\n  font-size: 1em; /* ~16px; */\n  font-family: 'Lato','Segoe UI','HelveticaNeue-Light',sans-serif;\n  line-height: 1.375; /* ~22px */\n  background-color: #5B798E;\n}\n.App_wrapper_1PG {\n  color: white;\n  line-height: 1.2;\n}\n\n/*\n * Remove text-shadow in selection highlight:\n * https://twitter.com/miketaylr/status/12228805301\n *\n * These selection rule sets have to be separate.\n * Customize the background color to match your design.\n */\n\n::-moz-selection {\n  background: #b3d4fc;\n  text-shadow: none;\n}\n\n::selection {\n  background: #b3d4fc;\n  text-shadow: none;\n}\n\n/*\n * A better looking default horizontal rule\n */\n\nhr {\n  display: block;\n  height: 1px;\n  border: 0;\n  border-top: 1px solid #ccc;\n  margin: 1em 0;\n  padding: 0;\n}\n\n/*\n * Remove the gap between audio, canvas, iframes,\n * images, videos and the bottom of their containers:\n * https://github.com/h5bp/html5-boilerplate/issues/440\n */\n\naudio, canvas, iframe, img, svg, video {\n  vertical-align: middle;\n}\n\n/*\n * Remove default fieldset styles.\n */\n\nfieldset {\n  border: 0;\n  margin: 0;\n  padding: 0;\n}\n\n/*\n * Allow only vertical resizing of textareas.\n */\n\ntextarea {\n  resize: vertical;\n}\n\n/*\n * Browser upgrade prompt\n * ========================================================================== */\n\n.App_browserupgrade_1t4 {\n  margin: 0.2em 0;\n  background: #ccc;\n  color: #000;\n  padding: 0.2em 0;\n}\n\n/*\n * Print styles\n * Inlined to avoid the additional HTTP request:\n * http://www.phpied.com/delay-loading-your-print-css/\n * ========================================================================== */\n\n@media print {\n  *, *:before, *:after {\n    background: transparent !important;\n    color: #000 !important; /* Black prints faster: http://www.sanbeiji.com/archives/953 */\n    -webkit-box-shadow: none !important;\n            box-shadow: none !important;\n    text-shadow: none !important;\n  }\n\n  a, a:visited {\n    text-decoration: underline;\n  }\n\n  a[href]:after {\n    content: \" (\" attr(href) \")\";\n  }\n\n  abbr[title]:after {\n    content: \" (\" attr(title) \")\";\n  }\n\n  /*\n   * Don't show links that are fragment identifiers,\n   * or use the `javascript:` pseudo protocol\n   */\n\n  a[href^=\"#\"]:after, a[href^=\"javascript:\"]:after {\n    content: \"\";\n  }\n\n  pre, blockquote {\n    border: 1px solid #999;\n    page-break-inside: avoid;\n  }\n\n  /*\n   * Printing Tables:\n   * http://css-discuss.incutio.com/wiki/Printing_Tables\n   */\n\n  thead {\n    display: table-header-group;\n  }\n\n  tr, img {\n    page-break-inside: avoid;\n  }\n\n  img {\n    max-width: 100% !important;\n  }\n\n  p, h2, h3 {\n    orphans: 3;\n    widows: 3;\n  }\n\n  h2, h3 {\n    page-break-after: avoid;\n  }\n}\n", ""]);
+  exports.push([module.id, "/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:700}dfn{font-style:italic}h1{font-size:2em;margin:.67em 0}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace;font-size:1em}button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}button{overflow:visible}button,select{text-transform:none}button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}input{line-height:normal}input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{height:auto}input[type=search]{-webkit-appearance:textfield;box-sizing:content-box}input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}textarea{overflow:auto}optgroup{font-weight:700}table{border-collapse:collapse;border-spacing:0}td,th{padding:0}//headers h1{font-size:1.35em}h2{font-size:1.2em}h3{font-size:1.1em}p{font-size:.9em}body,html{color:#222;width:100%;height:100%;font-weight:100;font-size:1em;font-family:Lato,Segoe UI,HelveticaNeue-Light,sans-serif;line-height:1.375;background-color:#5b798e}.App_wrapper_1PG{color:#fff;line-height:1.2}::-moz-selection{background:#b3d4fc;text-shadow:none}::selection{background:#b3d4fc;text-shadow:none}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}audio,canvas,iframe,img,svg,video{vertical-align:middle}fieldset{border:0;margin:0;padding:0}textarea{resize:vertical}.App_browserupgrade_1t4{margin:.2em 0;background:#ccc;color:#000;padding:.2em 0}@media print{*,:after,:before{background:transparent!important;color:#000!important;box-shadow:none!important;text-shadow:none!important}a,a:visited{text-decoration:underline}a[href]:after{content:\" (\" attr(href) \")\"}abbr[title]:after{content:\" (\" attr(title) \")\"}a[href^=\"#\"]:after,a[href^=\"javascript:\"]:after{content:\"\"}blockquote,pre{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}img,tr{page-break-inside:avoid}img{max-width:100%!important}h2,h3,p{orphans:3;widows:3}h2,h3{page-break-after:avoid}}", ""]);
   
   // exports
   exports.locals = {
@@ -1816,21 +1801,6 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
-      var removeCss = function() {};
-  
-      // Hot Module Replacement
-      // https://webpack.github.io/docs/hot-module-replacement
-      if (false) {
-        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Header.scss", function() {
-          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Header.scss");
-          if (typeof newContent === 'string') {
-            newContent = [[module.id, content, '']];
-          }
-          removeCss = insertCss(newContent, { replace: true });
-        });
-        module.hot.dispose(function() { removeCss(); });
-      }
-    
 
 /***/ },
 /* 24 */
@@ -1841,7 +1811,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "\n/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n.Header_root_14I {\n}\n\n.Header_container_izf {\n  margin: 0 auto;\n  padding: 20px 0;\n  max-width: 1000px;\n}\n", ""]);
+  exports.push([module.id, "//headers h1{font-size:1.35em}h2{font-size:1.2em}h3{font-size:1.1em}p{font-size:.9em}.Header_container_izf{margin:0 auto;padding:20px 0;max-width:1000px}", ""]);
   
   // exports
   exports.locals = {
@@ -2082,21 +2052,6 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
-      var removeCss = function() {};
-  
-      // Hot Module Replacement
-      // https://webpack.github.io/docs/hot-module-replacement
-      if (false) {
-        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Navigation.scss", function() {
-          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Navigation.scss");
-          if (typeof newContent === 'string') {
-            newContent = [[module.id, content, '']];
-          }
-          removeCss = insertCss(newContent, { replace: true });
-        });
-        module.hot.dispose(function() { removeCss(); });
-      }
-    
 
 /***/ },
 /* 28 */
@@ -2107,7 +2062,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.Navigation_root_2Gx {}\n\n.Navigation_nav-scroll_1Bv {\n  background-color: rgba(245,245,245,0.5);\n};\n.Navigation_navbar_20N .Navigation_link_12k {\n  color: #ffffff;\n};\n.Navigation_link_12k {\n  display: inline-block;\n  padding: 3px 8px;\n  text-decoration: none;\n  font-size: 1.125em;\n  /* ~18px */\n};\n.Navigation_link_12k, .Navigation_link_12k:active, .Navigation_link_12k:visited {\n  color: rgba(255, 255, 255, .6);\n};\n.Navigation_link_12k:hover {\n  color: rgba(255, 255, 255, 1);\n};\n.Navigation_navbar_20N .Navigation_link_12k:focus, .Navigation_navbar_20N .Navigation_link_12k:hover {\n  color: #243442;\n  background-color: transparent;\n};\n.Navigation_collapse_22x {\n  margin-top: 0.5em;\n}\n.Navigation_highlight_2cu {\n  margin-right: 8px;\n  margin-left: 8px;\n  border-radius: 3px;\n  background: rgba(0, 0, 0, .15);\n  color: #fff;\n}\n.Navigation_highlight_2cu:hover {\n  background: rgba(0, 0, 0, .3);\n}\n.Navigation_spacer_2MV {\n  color: rgba(255, 255, 255, .3);\n}\n", ""]);
+  exports.push([module.id, "//headers h1{font-size:1.35em}h2{font-size:1.2em}h3{font-size:1.1em}p{font-size:.9em}.Navigation_nav-scroll_1Bv{background-color:hsla(0,0%,96%,.5)}.Navigation_navbar_20N .Navigation_link_12k{color:#fff}.Navigation_link_12k{display:inline-block;padding:3px 8px;text-decoration:none;font-size:1.125em}.Navigation_link_12k,.Navigation_link_12k:active,.Navigation_link_12k:visited{color:hsla(0,0%,100%,.6)}.Navigation_link_12k:hover{color:#fff}.Navigation_navbar_20N .Navigation_link_12k:focus,.Navigation_navbar_20N .Navigation_link_12k:hover{color:#243442;background-color:transparent}.Navigation_collapse_22x{margin-top:.5em}.Navigation_highlight_2cu{margin-right:8px;margin-left:8px;border-radius:3px;background:rgba(0,0,0,.15);color:#fff}.Navigation_highlight_2cu:hover{background:rgba(0,0,0,.3)}.Navigation_spacer_2MV{color:hsla(0,0%,100%,.3)}", ""]);
   
   // exports
   exports.locals = {
@@ -2506,21 +2461,6 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
-      var removeCss = function() {};
-  
-      // Hot Module Replacement
-      // https://webpack.github.io/docs/hot-module-replacement
-      if (false) {
-        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Feedback.scss", function() {
-          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Feedback.scss");
-          if (typeof newContent === 'string') {
-            newContent = [[module.id, content, '']];
-          }
-          removeCss = insertCss(newContent, { replace: true });
-        });
-        module.hot.dispose(function() { removeCss(); });
-      }
-    
 
 /***/ },
 /* 39 */
@@ -2531,7 +2471,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n.Feedback_root_LW7 {\n}\n\n.Feedback_container_3dV {\n  margin: 0 auto;\n  max-width: 1000px;\n  text-align: center;\n}\n\n.Feedback_link_17l, .Feedback_link_17l:active, .Feedback_link_17l:hover, .Feedback_link_17l:visited {\n  color: #333;\n  text-decoration: none;\n}\n.Feedback_fgroup_2Xx{\n  margin-left: 1em;\n}\n.Feedback_btn_2h9{\n  margin-left: 1em;\n}\n.Feedback_link_17l:hover {\n  text-decoration: underline;\n}\n\n.Feedback_spacer_Iut {\n  padding-right: 15px;\n  padding-left: 15px;\n}\n", ""]);
+  exports.push([module.id, "//headers h1{font-size:1.35em}h2{font-size:1.2em}h3{font-size:1.1em}p{font-size:.9em}.Feedback_container_3dV{margin:0 auto;max-width:1000px;text-align:center}.Feedback_link_17l,.Feedback_link_17l:active,.Feedback_link_17l:hover,.Feedback_link_17l:visited{color:#333;text-decoration:none}.Feedback_btn_2h9,.Feedback_fgroup_2Xx{margin-left:1em}.Feedback_link_17l:hover{text-decoration:underline}.Feedback_spacer_Iut{padding-right:15px;padding-left:15px}", ""]);
   
   // exports
   exports.locals = {
@@ -2641,21 +2581,6 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
-      var removeCss = function() {};
-  
-      // Hot Module Replacement
-      // https://webpack.github.io/docs/hot-module-replacement
-      if (false) {
-        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Footer.scss", function() {
-          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Footer.scss");
-          if (typeof newContent === 'string') {
-            newContent = [[module.id, content, '']];
-          }
-          removeCss = insertCss(newContent, { replace: true });
-        });
-        module.hot.dispose(function() { removeCss(); });
-      }
-    
 
 /***/ },
 /* 42 */
@@ -2666,7 +2591,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n.Footer_root_3dP {\n  background: rgba(0,0,0,.5);\n  color: #fff;\n  height: 3em;\n  padding-top: -2em;\n  border-radius: 1em;\n}\n\n.Footer_container_26p {\n  margin: 0 auto;\n  padding: 20px 15px;\n  max-width: 1000px;\n  text-align: center;\n}\n\n.Footer_container_26p .Footer_form-group_1r6{margin-left: 1em;}\n\n.Footer_text_tTp {\n  color: rgba(255, 255, 255, .5);\n}\n\n.Footer_textMuted_1h3 {\n  color: rgba(255, 255, 255, .3);\n}\n\n.Footer_spacer_3n7 {\n  color: rgba(255, 255, 255, .3);\n}\n\n.Footer_text_tTp, .Footer_link_NoJ {\n  padding: 2px 5px;\n  font-size: 1em;\n}\n\n.Footer_link_NoJ, .Footer_link_NoJ:active, .Footer_link_NoJ:visited {\n  color: rgba(255, 255, 255, .6);\n  text-decoration: none;\n}\n\n.Footer_link_NoJ:hover {\n  color: rgba(255, 255, 255, 1);\n}\n", ""]);
+  exports.push([module.id, "//headers h1{font-size:1.35em}h2{font-size:1.2em}h3{font-size:1.1em}p{font-size:.9em}.Footer_root_3dP{background:rgba(0,0,0,.5);color:#fff;height:3em;padding-top:-2em;border-radius:1em}.Footer_container_26p{margin:0 auto;padding:20px 15px;max-width:1000px;text-align:center}.Footer_container_26p .Footer_form-group_1r6{margin-left:1em}.Footer_text_tTp{color:hsla(0,0%,100%,.5)}.Footer_spacer_3n7,.Footer_textMuted_1h3{color:hsla(0,0%,100%,.3)}.Footer_link_NoJ,.Footer_text_tTp{padding:2px 5px;font-size:1em}.Footer_link_NoJ,.Footer_link_NoJ:active,.Footer_link_NoJ:visited{color:hsla(0,0%,100%,.6);text-decoration:none}.Footer_link_NoJ:hover{color:#fff}", ""]);
   
   // exports
   exports.locals = {
@@ -2783,21 +2708,6 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
-      var removeCss = function() {};
-  
-      // Hot Module Replacement
-      // https://webpack.github.io/docs/hot-module-replacement
-      if (false) {
-        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./ContentPage.scss", function() {
-          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./ContentPage.scss");
-          if (typeof newContent === 'string') {
-            newContent = [[module.id, content, '']];
-          }
-          removeCss = insertCss(newContent, { replace: true });
-        });
-        module.hot.dispose(function() { removeCss(); });
-      }
-    
 
 /***/ },
 /* 45 */
@@ -2808,7 +2718,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n.ContentPage_root_1Kg {\n\n}\n\n.ContentPage_container_1JT {\n}\n\n.ContentPage_icon-cover_2i4{\n    border: solid;\n    border-radius: 6em;\n    height: 14em;\n  }\n.ContentPage_fa-5x_341 {\n    font-size: 13em;\n}\n\n.ContentPage_home-main_3Fs{margin-top:9em}\n\n.ContentPage_products_227{\n    margin-top:24em;\n}\n\n.ContentPage_products_227 p{line-height:2em}\n.ContentPage_footer-nav_2gg{\n  background-color:white;\n    border-radius: 1em;\n    height: 50px;;\n\n\n}\n.ContentPage_footer-nav_2gg li{display: inline;padding:4em}\n.ContentPage_footer-nav_2gg a{color:white;font-size:1.1em}\n.ContentPage_social_1ok {\n  margin-top: -1em;;\n}\n.ContentPage_social_1ok a{color:white;font-size:2.0em}\n\n.ContentPage_btn_1uZ {\n  background-color: #B76565;\n  color: white\n}\n.ContentPage_btn-default_AF6.ContentPage_active_ju8, .ContentPage_btn-default_AF6.ContentPage_focus_2X4, .ContentPage_btn-default_AF6:active, .ContentPage_btn-default_AF6:focus, .ContentPage_btn-default_AF6:hover, .ContentPage_open_2rC>.ContentPage_dropdown-toggle_Qa3.ContentPage_btn-default_AF6 {\n    color:#B76565;\n}\n", ""]);
+  exports.push([module.id, "//headers h1{font-size:1.35em}h2{font-size:1.2em}h3{font-size:1.1em}p{font-size:.9em}.ContentPage_icon-cover_2i4{border:solid;border-radius:6em;height:14em}.ContentPage_fa-5x_341{font-size:13em}.ContentPage_home-main_3Fs{margin-top:9em}.ContentPage_products_227{margin-top:24em}.ContentPage_products_227 p{line-height:2em}.ContentPage_footer-nav_2gg{background-color:#fff;border-radius:1em;height:50px}.ContentPage_footer-nav_2gg li{display:inline;padding:4em}.ContentPage_footer-nav_2gg a{color:#fff;font-size:1.1em}.ContentPage_social_1ok{margin-top:-1em}.ContentPage_social_1ok a{color:#fff;font-size:2em}.ContentPage_btn_1uZ{background-color:#b76565;color:#fff}.ContentPage_btn-default_AF6.ContentPage_active_ju8,.ContentPage_btn-default_AF6.ContentPage_focus_2X4,.ContentPage_btn-default_AF6:active,.ContentPage_btn-default_AF6:focus,.ContentPage_btn-default_AF6:hover,.ContentPage_open_2rC>.ContentPage_dropdown-toggle_Qa3.ContentPage_btn-default_AF6{color:#b76565}", ""]);
   
   // exports
   exports.locals = {
@@ -2935,21 +2845,6 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
-      var removeCss = function() {};
-  
-      // Hot Module Replacement
-      // https://webpack.github.io/docs/hot-module-replacement
-      if (false) {
-        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./ContactPage.scss", function() {
-          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./ContactPage.scss");
-          if (typeof newContent === 'string') {
-            newContent = [[module.id, content, '']];
-          }
-          removeCss = insertCss(newContent, { replace: true });
-        });
-        module.hot.dispose(function() { removeCss(); });
-      }
-    
 
 /***/ },
 /* 48 */
@@ -2960,7 +2855,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n.ContactPage_root_c4z {\n\n}\n\n.ContactPage_container_2pQ {\n  margin: 0 auto;\n  padding: 0 0 40px;\n  max-width: 1000px;\n}\n", ""]);
+  exports.push([module.id, "//headers h1{font-size:1.35em}h2{font-size:1.2em}h3{font-size:1.1em}p{font-size:.9em}.ContactPage_container_2pQ{margin:0 auto;padding:0 0 40px;max-width:1000px}", ""]);
   
   // exports
   exports.locals = {
@@ -3141,21 +3036,6 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
-      var removeCss = function() {};
-  
-      // Hot Module Replacement
-      // https://webpack.github.io/docs/hot-module-replacement
-      if (false) {
-        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./BlogPage.scss", function() {
-          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./BlogPage.scss");
-          if (typeof newContent === 'string') {
-            newContent = [[module.id, content, '']];
-          }
-          removeCss = insertCss(newContent, { replace: true });
-        });
-        module.hot.dispose(function() { removeCss(); });
-      }
-    
 
 /***/ },
 /* 51 */
@@ -3166,7 +3046,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.BlogPage_root_1ob {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n}\n.BlogPage_root_1ob h2 {color: #6B6969;}\n.BlogPage_logo_TR7 {\n  padding-left: 4em;\n  padding-bottom: 2em;\n  padding-top: 2em;\n}\n\n.BlogPage_main_255 {\n  margin-right: solid 1px;\n  background-color: white;;\n}\n\n.BlogPage_main_255 hr {color: #777;}\n\n.BlogPage_main_255 h3 {color: #374048;padding-bottom: 2em;}\n.BlogPage_spacing_2OA {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.BlogPage_sidebar_2tQ h3, .BlogPage_sidebar_2tQ a {\n  padding-left: 1em;\n}\n", ""]);
+  exports.push([module.id, "//headers h1{font-size:1.35em}h2{font-size:1.2em}h3{font-size:1.1em}p{font-size:.9em}.BlogPage_root_1ob{margin-top:2em;color:#777;background-color:#fff;box-shadow:0 4px 8px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)}.BlogPage_root_1ob h2{color:#6b6969}.BlogPage_logo_TR7{padding-left:4em;padding-bottom:2em;padding-top:2em}.BlogPage_main_255{margin-right:solid 1px;background-color:#fff}.BlogPage_main_255 hr{color:#777}.BlogPage_main_255 h3{color:#374048;padding-bottom:2em}.BlogPage_spacing_2OA{margin-top:5em;margin-bottom:1em}.BlogPage_sidebar_2tQ a,.BlogPage_sidebar_2tQ h3{padding-left:1em}", ""]);
   
   // exports
   exports.locals = {
@@ -3277,21 +3157,6 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
-      var removeCss = function() {};
-  
-      // Hot Module Replacement
-      // https://webpack.github.io/docs/hot-module-replacement
-      if (false) {
-        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./NotFoundPage.scss", function() {
-          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./NotFoundPage.scss");
-          if (typeof newContent === 'string') {
-            newContent = [[module.id, content, '']];
-          }
-          removeCss = insertCss(newContent, { replace: true });
-        });
-        module.hot.dispose(function() { removeCss(); });
-      }
-    
 
 /***/ },
 /* 54 */
@@ -3302,7 +3167,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "\n* {\n  margin: 0;\n  line-height: 1.2;\n}\n\nhtml {\n  display: table;\n  width: 100%;\n  height: 100%;\n  color: #888;\n  text-align: center;\n  font-family: sans-serif;\n}\n\nbody {\n  display: table-cell;\n  margin: 2em auto;\n  vertical-align: middle;\n}\n\nh1 {\n  color: #555;\n  font-weight: 400;\n  font-size: 2em;\n}\n\np {\n  margin: 0 auto;\n  width: 280px;\n}\n\n@media only screen and (max-width: 280px) {\n\n  body, p {\n    width: 95%;\n  }\n\n  h1 {\n    font-size: 1.5em;\n    margin: 0 0 0.3em;\n  }\n\n}\n", ""]);
+  exports.push([module.id, "*{margin:0;line-height:1.2}html{display:table;width:100%;height:100%;color:#888;text-align:center;font-family:sans-serif}body{display:table-cell;margin:2em auto;vertical-align:middle}h1{color:#555;font-weight:400;font-size:2em}p{margin:0 auto;width:280px}@media only screen and (max-width:280px){body,p{width:95%}h1{font-size:1.5em;margin:0 0 .3em}}", ""]);
   
   // exports
 
@@ -3406,21 +3271,6 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
-      var removeCss = function() {};
-  
-      // Hot Module Replacement
-      // https://webpack.github.io/docs/hot-module-replacement
-      if (false) {
-        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./ErrorPage.scss", function() {
-          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./ErrorPage.scss");
-          if (typeof newContent === 'string') {
-            newContent = [[module.id, content, '']];
-          }
-          removeCss = insertCss(newContent, { replace: true });
-        });
-        module.hot.dispose(function() { removeCss(); });
-      }
-    
 
 /***/ },
 /* 57 */
@@ -3431,7 +3281,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "\n* {\n  margin: 0;\n  line-height: 1.2;\n}\n\nhtml {\n  display: table;\n  width: 100%;\n  height: 100%;\n  color: #888;\n  text-align: center;\n  font-family: sans-serif;\n}\n\nbody {\n  display: table-cell;\n  margin: 2em auto;\n  vertical-align: middle;\n}\n\nh1 {\n  color: #555;\n  font-weight: 400;\n  font-size: 2em;\n}\n\np {\n  margin: 0 auto;\n  width: 280px;\n}\n\n@media only screen and (max-width: 280px) {\n\n  body, p {\n    width: 95%;\n  }\n\n  h1 {\n    font-size: 1.5em;\n    margin: 0 0 0.3em;\n\n  }\n\n}\n", ""]);
+  exports.push([module.id, "*{margin:0;line-height:1.2}html{display:table;width:100%;height:100%;color:#888;text-align:center;font-family:sans-serif}body{display:table-cell;margin:2em auto;vertical-align:middle}h1{color:#555;font-weight:400;font-size:2em}p{margin:0 auto;width:280px}@media only screen and (max-width:280px){body,p{width:95%}h1{font-size:1.5em;margin:0 0 .3em}}", ""]);
   
   // exports
 
@@ -3986,21 +3836,6 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
-      var removeCss = function() {};
-  
-      // Hot Module Replacement
-      // https://webpack.github.io/docs/hot-module-replacement
-      if (false) {
-        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./DataPage.scss", function() {
-          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./DataPage.scss");
-          if (typeof newContent === 'string') {
-            newContent = [[module.id, content, '']];
-          }
-          removeCss = insertCss(newContent, { replace: true });
-        });
-        module.hot.dispose(function() { removeCss(); });
-      }
-    
 
 /***/ },
 /* 60 */
@@ -4011,7 +3846,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.DataPage_root_1Bn {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n}\n.DataPage_root_1Bn table {margin: 0 auto;}\n.DataPage_root_1Bn h2 {color: #6B6969;}\n.DataPage_chart_2dW{\n  opacity: 0;\n}\n.DataPage_timeRange_1i6{ padding-left: 3em}\n.DataPage_main_1GV {\n  margin-right: solid 1px;\n  background-color: white;;\n}\n.DataPage_main_1GV hr {color: #777;}\n.DataPage_main_1GV h3 {color: #374048;padding-bottom: 2em;}\n.DataPage_spacing_pJZ {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.DataPage_sidebar_2cr h3, .DataPage_sidebar_2cr a {\n  padding-left: 1em;\n}\n\ntable{\n  font-size: 0.9em;\n}\n\ntable span{display: none}\n.DataPage_legend_2e1 {\n  padding-left: 2em;\n}\n.DataPage_legend_2e1 small{\n  text-align: right;\n}\n.DataPage_legend_2e1 i{\n  width: 4em;\n  height: 1px;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.DataPage_yellow_30z i{\n  color: yellow;\n}\n.DataPage_blue_1Bj i{\n  color: blue;\n}\n.DataPage_orange_36J i{\n  color: orange;\n}\n", ""]);
+  exports.push([module.id, "//headers h1{font-size:1.35em}h2{font-size:1.2em}h3{font-size:1.1em}p{font-size:.9em}.DataPage_root_1Bn{margin-top:2em;color:#777;background-color:#fff;box-shadow:0 4px 8px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)}.DataPage_root_1Bn table{margin:0 auto}.DataPage_root_1Bn h2{color:#6b6969}.DataPage_chart_2dW{opacity:0}.DataPage_timeRange_1i6{padding-left:3em}.DataPage_main_1GV{margin-right:solid 1px;background-color:#fff}.DataPage_main_1GV hr{color:#777}.DataPage_main_1GV h3{color:#374048;padding-bottom:2em}.DataPage_spacing_pJZ{margin-top:5em;margin-bottom:1em}.DataPage_sidebar_2cr a,.DataPage_sidebar_2cr h3{padding-left:1em}table{font-size:.9em}table span{display:none}.DataPage_legend_2e1{padding-left:2em}.DataPage_legend_2e1 small{text-align:right}.DataPage_legend_2e1 i{width:4em;height:1px;margin-left:2em;border:solid;text-align:center;display:inline-block}.DataPage_yellow_30z i{color:#ff0}.DataPage_blue_1Bj i{color:blue}.DataPage_orange_36J i{color:orange}", ""]);
   
   // exports
   exports.locals = {
@@ -4354,21 +4189,6 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
-      var removeCss = function() {};
-  
-      // Hot Module Replacement
-      // https://webpack.github.io/docs/hot-module-replacement
-      if (false) {
-        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Loader.scss", function() {
-          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Loader.scss");
-          if (typeof newContent === 'string') {
-            newContent = [[module.id, content, '']];
-          }
-          removeCss = insertCss(newContent, { replace: true });
-        });
-        module.hot.dispose(function() { removeCss(); });
-      }
-    
 
 /***/ },
 /* 71 */
@@ -4379,7 +4199,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "/**Spinner**/\n.Loader_ouro_2h9 {\n    position: relative;\n    display:inline-block;\n    height: 46px;\n    width: 46px;\n    margin: 1em;\n    border-radius: 50%;\n    background: none repeat scroll 0 0 #DDDDDD;\n    overflow:hidden;\n    -webkit-box-shadow: 0 0 10px rgba(0,0,0,.1) inset, 0 0 25px rgba(0,0,255,0.075);\n            box-shadow: 0 0 10px rgba(0,0,0,.1) inset, 0 0 25px rgba(0,0,255,0.075);\n}\n\n.Loader_ouro_2h9:after {\n    content: \"\";\n    position: absolute;\n    top: 9px; left: 9px;\n    display: block;\n    height: 28px; width: 28px;\n    background: none repeat scroll 0 0 #F2F2F2;\n    border-radius: 50%;\n    -webkit-box-shadow: 0 0 10px rgba(0,0,0,.1);\n            box-shadow: 0 0 10px rgba(0,0,0,.1);\n}\n.Loader_ouro_2h9 > span {\n    position: absolute;\n    height: 100%; width: 50%;\n    overflow: hidden;\n}\n.Loader_left_Occ  { left:0   }\n.Loader_right_2CJ { left:50% }\n\n.Loader_anim_2a7 {\n    position: absolute;\n    left: 100%; top: 0;\n    height: 100%; width: 100%;\n    border-radius: 999px;\n    background: none repeat scroll 0 0 #508EC3;\n    opacity: 0.8;\n    -webkit-animation: Loader_ui-spinner-rotate-left_kH6 3s infinite;\n    -o-animation: Loader_ui-spinner-rotate-left_kH6 3s infinite;\n       animation: Loader_ui-spinner-rotate-left_kH6 3s infinite;\n    -webkit-transform-origin: 0 50% 0;\n    -ms-transform-origin: 0 50% 0;\n     -o-transform-origin: 0 50% 0;\n        transform-origin: 0 50% 0;\n}\n.Loader_left_Occ .Loader_anim_2a7 {\n    border-bottom-left-radius: 0;\n    border-top-left-radius: 0;\n}\n.Loader_right_2CJ .Loader_anim_2a7 {\n    border-bottom-right-radius: 0;\n    border-top-right-radius: 0;\n    left: -100%;\n    -webkit-transform-origin: 100% 50% 0;\n    -ms-transform-origin: 100% 50% 0;\n     -o-transform-origin: 100% 50% 0;\n        transform-origin: 100% 50% 0;\n}\n\n/* v2 */\n.Loader_ouro2_11V .Loader_anim_2a7 {\n   -webkit-animation-delay:0;\n   -o-animation-delay:0;\n      animation-delay:0;\n}\n.Loader_ouro2_11V .Loader_right_2CJ .Loader_anim_2a7{\n   -webkit-animation-delay: 1.5s;\n   -o-animation-delay: 1.5s;\n      animation-delay: 1.5s;\n}\n\n\n/* round variation */\n.Loader_round_1Tl .Loader_ouro_2h9:after {display:none }\n\n/* double variation */\n.Loader_double_2w1 .Loader_ouro_2h9:after {\n  height: 13px; width: 13px;\n  left: 7px; top: 7px;\n  border: 10px solid #ddd;\n  background: transparent;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n}\n\n@-webkit-keyframes Loader_ui-spinner-rotate-right_2-Y{\n  0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}\n  50%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}\n  100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}\n}\n\n@-o-keyframes Loader_ui-spinner-rotate-right_2-Y{\n  0%{-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  50%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-o-transform:rotate(360deg);transform:rotate(360deg)}\n  100%{-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n\n@keyframes Loader_ui-spinner-rotate-right_2-Y{\n  0%{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  50%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}\n  100%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n@-webkit-keyframes Loader_ui-spinner-rotate-left_kH6{\n  0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}\n  50%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}\n  100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}\n}\n@-o-keyframes Loader_ui-spinner-rotate-left_kH6{\n  0%{-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-o-transform:rotate(0deg);transform:rotate(0deg)}\n  50%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  100%{-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n@keyframes Loader_ui-spinner-rotate-left_kH6{\n  0%{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}\n  50%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  100%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n", ""]);
+  exports.push([module.id, ".Loader_ouro_2h9{position:relative;display:inline-block;height:46px;width:46px;margin:1em;border-radius:50%;background:none repeat scroll 0 0 #ddd;overflow:hidden;box-shadow:0 0 10px rgba(0,0,0,.1) inset,0 0 25px rgba(0,0,255,.075)}.Loader_ouro_2h9:after{content:\"\";position:absolute;top:9px;left:9px;display:block;height:28px;width:28px;background:none repeat scroll 0 0 #f2f2f2;border-radius:50%;box-shadow:0 0 10px rgba(0,0,0,.1)}.Loader_ouro_2h9>span{position:absolute;height:100%;width:50%;overflow:hidden}.Loader_left_Occ{left:0}.Loader_right_2CJ{left:50%}.Loader_anim_2a7{position:absolute;left:100%;top:0;height:100%;width:100%;border-radius:999px;background:none repeat scroll 0 0 #508ec3;opacity:.8;-webkit-animation:Loader_ui-spinner-rotate-left_kH6 3s infinite;animation:Loader_ui-spinner-rotate-left_kH6 3s infinite;-webkit-transform-origin:0 50% 0;transform-origin:0 50% 0}.Loader_left_Occ .Loader_anim_2a7{border-bottom-left-radius:0;border-top-left-radius:0}.Loader_right_2CJ .Loader_anim_2a7{border-bottom-right-radius:0;border-top-right-radius:0;left:-100%;-webkit-transform-origin:100% 50% 0;transform-origin:100% 50% 0}.Loader_ouro2_11V .Loader_anim_2a7{-webkit-animation-delay:0;animation-delay:0}.Loader_ouro2_11V .Loader_right_2CJ .Loader_anim_2a7{-webkit-animation-delay:1.5s;animation-delay:1.5s}.Loader_round_1Tl .Loader_ouro_2h9:after{display:none}.Loader_double_2w1 .Loader_ouro_2h9:after{height:13px;width:13px;left:7px;top:7px;border:10px solid #ddd;background:transparent;box-shadow:none}@-webkit-keyframes Loader_ui-spinner-rotate-right_2-Y{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}25%,50%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}75%,to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes Loader_ui-spinner-rotate-right_2-Y{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}25%,50%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}75%,to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@-webkit-keyframes Loader_ui-spinner-rotate-left_kH6{0%,25%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}50%,75%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes Loader_ui-spinner-rotate-left_kH6{0%,25%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}50%,75%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}", ""]);
   
   // exports
   exports.locals = {
