@@ -37,16 +37,7 @@ export default class AboutPage extends Component {
         <header className = "row">
             <ul id = "sub-menu-override" className={cx('nav', 'navbar-nav', 'navbar-center', 'sub-menu', s.nav)}>
               <li>
-                  <Link className={s.link} to="/blog">General</Link>
-              </li>
-              <li>
-                  <Link className={s.link} to="/">Research and Insight</Link>
-              </li>
-              <li>
-                  <Link className={s.link} to="/uganda">News</Link>
-              </li>
-              <li>
-                  <Link className={s.link} to="/blog">Tech</Link>
+                  <Link className={s.link} to="/blog">Future Blog Category</Link>
               </li>
             </ul>
         </header>
@@ -56,59 +47,15 @@ export default class AboutPage extends Component {
             <div className ="row spacing">
               <article className={cx('articles')}>
                 <header>
-                  <h3> What skills should data scientist Have</h3>
+                  <h3> Future Title For A Cool Blog</h3>
                 </header>
-                <div className="text-justify" dangerouslySetInnerHTML={{ __html: this.props.content || '' }}></div>
+                <div className="text-justify">
+                  <p>Coming soon.........</p>
+                </div>
                 <a href="#"> Read more</a>
                 <hr></hr>
               </article>
             </div>
-            <div className ="row spacing">
-              <article className={cx('articles')}>
-                <header>
-                  <h3> Natural Languge Processing</h3>
-                </header>
-                <div className="text-justify" dangerouslySetInnerHTML={{ __html: this.props.content || '' }}></div>
-                <a href="#"> Read more</a>
-                <hr></hr>
-              </article>
-            </div>
-            <div className ="row spacing">
-              <article className={cx('articles')}>
-                <header>
-                  <h3>Machine learning and Statistics</h3>
-                </header>
-                <div className="text-justify" dangerouslySetInnerHTML={{ __html: this.props.content || '' }}></div>
-                <a href="#"> Read more</a>
-                <hr></hr>
-              </article>
-            </div>
-          </div>
-          <div className= {cx('col-md-3', s.sidebar)}>
-            <header className= "row">
-              <h3>Top Articles</h3>
-              <hr></hr>
-            </header>
-            <section>
-              <div className = "row spacing">
-                <header>
-                  <Link className={s.link} to="/blog"> Machine learning</Link>
-                </header>
-                <hr></hr>
-              </div>
-              <div className = "row spacing">
-                <header>
-                  <Link className={s.link} to="/blog"> Data Mining</Link>
-                </header>
-                <hr></hr>
-              </div>
-              <div className = "row spacing">
-                <header>
-                  <Link className={s.link} to="/blog">Natural Language Processing </Link>
-                </header>
-                <hr></hr>
-              </div>
-            </section>
           </div>
         </section>
       </div>

@@ -203,9 +203,6 @@ export default class DataCenterPage extends Component {
               <li>
                   <Link className={s.link} to="/data">Uganda Decides</Link>
               </li>
-              <li>
-                  <Link className={s.link} to="/data"> Data Explorations</Link>
-              </li>
             </ul>
         </header>
         <hr></hr>
@@ -214,12 +211,12 @@ export default class DataCenterPage extends Component {
             <div className ="row spacing">
               <article className={cx('articles')}>
                 <header>
-                  <h3>Digging into the Uganda campaigns social Media Stats</h3>
+                  <h3>Digging into Uganda's social Media Camapaigns related Data</h3>
                 </header>
                 <div className="text-justify" dangerouslySetInnerHTML={{ __html: this.props.content || '' }}></div>
                 <hr></hr>
               </article>
-              <section className ={s.charts}>
+              <section className ={cx(s.charts, 'charts-dashboard')}>
                <div className={cx('row', 'spacing-sm', s.chart)}>
                   <div className="col-md-6">
                     <h4>Total volume of tweets For particular dates</h4>
@@ -228,7 +225,7 @@ export default class DataCenterPage extends Component {
                       <small> <i>click on a bar to fetch in data for that date </i> </small>
                     </div>
                   </div>
-                 <div className={cx('row', s.chart)}>
+                 <div className= "col-md-6" >
                     <h4>Aggregate Volume of Mentions For Each Candidate </h4>
                     <div id ="user_mentions"></div>
                   </div>
@@ -274,6 +271,7 @@ export default class DataCenterPage extends Component {
                         <thead>
                           <tr className={s.header}>
                             <th>Tweet</th>
+                            <th>User</th>
                             <th>Date</th>
                             <th>Location</th>
                             <th>sentiment</th>

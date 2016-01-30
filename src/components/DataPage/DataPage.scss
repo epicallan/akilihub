@@ -38,12 +38,15 @@ table{
   font-size: 0.9em;
   span{display: none}
 }
+.legend {
+  padding-left: 2em;
+}
 .legend small{
   text-align: right;
 }
 .legend i{
   width: 4em;
-  height: 0.5em;
+  height: 1px;
   margin-left: 2em;
   border: solid;
   text-align: center;

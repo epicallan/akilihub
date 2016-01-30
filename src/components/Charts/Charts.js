@@ -3,7 +3,7 @@ import cf from '../../core/CfHelper';
 import 'datatables';
 import moment from 'moment';
 import c3 from 'c3';
-
+import './svgPathPolyfil';
 
 // import './dtplugin';
 
@@ -38,7 +38,7 @@ export default class DcCharts {
     this.data.add(newData);
     this.drawRowCharts(true);
     this.drawPieChart(true);
-    console.log(`updated data ${this.data.size()}`);
+    // console.log(`updated data ${this.data.size()}`);
   }
 
   init() {
@@ -65,7 +65,7 @@ export default class DcCharts {
     this._tablesRefresh();
   }
   createDataTable(table) {
-    this.tableDimension = this.createDimenion('text');
+    this.tableDimension = this.data.dimension((d) => d.text + ' ' + d.screen_name);
     this.datatable = $('#' + table);
     // initialize datatable
     this.datatable.dataTable(this._dataTablesOptions());
@@ -113,7 +113,7 @@ export default class DcCharts {
       'responsive': true,
       'pageLength': 5,
       'order': [
-        [1, 'desc'],
+        [2, 'desc'],
       ],
       'bSort': true,
       columnDefs: [{
@@ -122,13 +122,17 @@ export default class DcCharts {
         defaultContent: '',
       }, {
         targets: 1,
-        data: d => `<span>${d.timeStamp}</span>${d.date}`,
+        data: d => d.screen_name,
+        defaultContent: '',
       }, {
         targets: 2,
+        data: d => `<span>${d.timeStamp}</span>${d.date}`,
+      }, {
+        targets: 3,
         data: d => d.location,
         defaultContent: '',
       }, {
-        targets: 3,
+        targets: 4,
         data: d => d.sentiment,
         defaultContent: 0,
       }],
@@ -179,6 +183,7 @@ export default class DcCharts {
     const mapGroup = this.mapDim.group().reduceCount();
     return this.mapChart(this.mapDim, mapGroup, container);
   }
+
   mapChart(dim, grp, mapId) {
     const mapGroup = cf.fakeGroup(grp, 'key');
     // console.log('map count: '+ mapGroup.all().length);

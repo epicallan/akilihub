@@ -34,7 +34,7 @@
   padding-top: 1em;
 }
 .articles{
-  padding-left: 4em;
+  padding-left: 5em;
   padding-right: 4em;
 }
 .charts-dashboard {
@@ -43,7 +43,7 @@
 .sub-menu li{
   list-style: none;
   padding-top: 0.5em;
-  margin-left: 6em;
+  margin-left: 5em;
 }
 /**utility classes**/
 
@@ -80,10 +80,11 @@
   font-size: 13em;
 }
 .main {
-  padding-bottom: 10em;
-  padding-top: 10em;
+  padding-bottom: 7em;
+  padding-top: 7em;
 }
 .products{background-color: #C78685;}
+.products a {color: #dff0d8}
 .services{background-color: #68B569}
 .section p {
   line-height: 2em;
@@ -112,6 +113,10 @@
 .btn {
   background-color: #B76565;
   color: white;
+}
+#data-link{
+  color: #dff0d8;
+  background-color: #5B798E;
 }
 .btn-default.active, .btn-default.focus, .btn-default:active, .btn-default:focus, .btn-default:hover, .open > .dropdown-toggle.btn-default {
   color: #B76565;
@@ -142,6 +147,10 @@
   .articles, .charts-dashboard{
     padding-left: 0em;
     padding-right: 0em;
+  }
+  .main {
+    padding-bottom: 4em;
+    padding-top: 4em;
   }
   /*tables */
 		#table { display: block; position: relative; width: 100%; }

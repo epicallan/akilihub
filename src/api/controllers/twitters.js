@@ -27,6 +27,18 @@ function _addNamesToTweet(tweet) {
   });
   return tweet;
 }
+
+function _excludeInUserMentions(tweet) {
+  // TODO should remove terms that are not user names from user_mentions
+  tweet.user_mentions.forEach((term, index, arr) => {
+    mentions.forEach(name => {
+      const regex = new RegExp('\\b' + name, 'gi');
+      if (term.match(regex)) arr.splice(index, 1, name);
+    });
+  });
+  return tweet;
+}
+
 function _excludeNamesInTerms(tweet) {
   mentions.forEach((mention) => {
     tweet.terms.forEach((term, index, arr) => {
@@ -36,7 +48,6 @@ function _excludeNamesInTerms(tweet) {
   });
   return tweet;
 }
-
 export function saveTweets(data, cb) {
   _async.each(data, (d, callback) => {
     const twitter = new Twitter(d);
@@ -60,6 +71,7 @@ export function transform(raw) {
   return raw.map((d) => {
     const tweet = d.toObject();
     tweet.text = tweet.text.toLowerCase();
+    // _excludeInUserMentions(tweet);
     tweet.sentiment = _.ceil(tweet.sentiment, 2) || tweet.sentiment;
     _addNamesToTweet(tweet);
     _excludeNamesInTerms(tweet);

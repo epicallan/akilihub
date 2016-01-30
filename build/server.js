@@ -74,29 +74,29 @@ module.exports =
   
   var _routes2 = _interopRequireDefault(_routes);
   
-  var _componentsHtml = __webpack_require__(84);
+  var _componentsHtml = __webpack_require__(85);
   
   var _componentsHtml2 = _interopRequireDefault(_componentsHtml);
   
-  var _assets = __webpack_require__(85);
+  var _assets = __webpack_require__(86);
   
   var _assets2 = _interopRequireDefault(_assets);
   
   var _config = __webpack_require__(14);
   
-  var _compression = __webpack_require__(86);
+  var _compression = __webpack_require__(87);
   
   var _compression2 = _interopRequireDefault(_compression);
   
-  var _bodyParser = __webpack_require__(87);
+  var _bodyParser = __webpack_require__(88);
   
   var _bodyParser2 = _interopRequireDefault(_bodyParser);
   
-  var _apiJobsTwitterJob = __webpack_require__(88);
+  var _apiJobsTwitterJob = __webpack_require__(89);
   
   var _apiJobsTwitterJob2 = _interopRequireDefault(_apiJobsTwitterJob);
   
-  var _mongoose = __webpack_require__(91);
+  var _mongoose = __webpack_require__(92);
   
   var _mongoose2 = _interopRequireDefault(_mongoose);
   
@@ -111,12 +111,12 @@ module.exports =
   
   // Register Data analysis API middleware
   // -----------------------------------------------------------------------------
-  server.use('/api', __webpack_require__(93));
+  server.use('/api', __webpack_require__(94));
   
   // Register API middleware
   
   // -----------------------------------------------------------------------------
-  server.use('/api/content', __webpack_require__(96));
+  server.use('/api/content', __webpack_require__(99));
   
   function connect() {
     var options = { server: { socketOptions: { keepAlive: 1 } } };
@@ -2886,14 +2886,19 @@ module.exports =
             'div',
             { className: _ContactPageScss2['default'].container },
             _react2['default'].createElement(
-              'h1',
-              null,
-              title
+              'h2',
+              { className: 'spacing-sm' },
+              'Coming Soon...'
             ),
             _react2['default'].createElement(
               'p',
               null,
-              '...'
+              'Please Contact us through our Social Media Channels or leave us Your email through the Find out more form Below'
+            ),
+            _react2['default'].createElement(
+              'p',
+              null,
+              'Thanks For Your Interest'
             )
           )
         );
@@ -3062,34 +3067,7 @@ module.exports =
                 _react2['default'].createElement(
                   _Link2['default'],
                   { className: _BlogPageScss2['default'].link, to: '/blog' },
-                  'General'
-                )
-              ),
-              _react2['default'].createElement(
-                'li',
-                null,
-                _react2['default'].createElement(
-                  _Link2['default'],
-                  { className: _BlogPageScss2['default'].link, to: '/' },
-                  'Research and Insight'
-                )
-              ),
-              _react2['default'].createElement(
-                'li',
-                null,
-                _react2['default'].createElement(
-                  _Link2['default'],
-                  { className: _BlogPageScss2['default'].link, to: '/uganda' },
-                  'News'
-                )
-              ),
-              _react2['default'].createElement(
-                'li',
-                null,
-                _react2['default'].createElement(
-                  _Link2['default'],
-                  { className: _BlogPageScss2['default'].link, to: '/blog' },
-                  'Tech'
+                  'Future Blog Category'
                 )
               )
             )
@@ -3113,122 +3091,22 @@ module.exports =
                     _react2['default'].createElement(
                       'h3',
                       null,
-                      ' What skills should data scientist Have'
+                      ' Future Title For A Cool Blog'
                     )
                   ),
-                  _react2['default'].createElement('div', { className: 'text-justify', dangerouslySetInnerHTML: { __html: this.props.content || '' } }),
                   _react2['default'].createElement(
-                    'a',
-                    { href: '#' },
-                    ' Read more'
-                  ),
-                  _react2['default'].createElement('hr', null)
-                )
-              ),
-              _react2['default'].createElement(
-                'div',
-                { className: 'row spacing' },
-                _react2['default'].createElement(
-                  'article',
-                  { className: (0, _classnames2['default'])('articles') },
-                  _react2['default'].createElement(
-                    'header',
-                    null,
+                    'div',
+                    { className: 'text-justify' },
                     _react2['default'].createElement(
-                      'h3',
+                      'p',
                       null,
-                      ' Natural Languge Processing'
+                      'Coming soon.........'
                     )
                   ),
-                  _react2['default'].createElement('div', { className: 'text-justify', dangerouslySetInnerHTML: { __html: this.props.content || '' } }),
                   _react2['default'].createElement(
                     'a',
                     { href: '#' },
                     ' Read more'
-                  ),
-                  _react2['default'].createElement('hr', null)
-                )
-              ),
-              _react2['default'].createElement(
-                'div',
-                { className: 'row spacing' },
-                _react2['default'].createElement(
-                  'article',
-                  { className: (0, _classnames2['default'])('articles') },
-                  _react2['default'].createElement(
-                    'header',
-                    null,
-                    _react2['default'].createElement(
-                      'h3',
-                      null,
-                      'Machine learning and Statistics'
-                    )
-                  ),
-                  _react2['default'].createElement('div', { className: 'text-justify', dangerouslySetInnerHTML: { __html: this.props.content || '' } }),
-                  _react2['default'].createElement(
-                    'a',
-                    { href: '#' },
-                    ' Read more'
-                  ),
-                  _react2['default'].createElement('hr', null)
-                )
-              )
-            ),
-            _react2['default'].createElement(
-              'div',
-              { className: (0, _classnames2['default'])('col-md-3', _BlogPageScss2['default'].sidebar) },
-              _react2['default'].createElement(
-                'header',
-                { className: 'row' },
-                _react2['default'].createElement(
-                  'h3',
-                  null,
-                  'Top Articles'
-                ),
-                _react2['default'].createElement('hr', null)
-              ),
-              _react2['default'].createElement(
-                'section',
-                null,
-                _react2['default'].createElement(
-                  'div',
-                  { className: 'row spacing' },
-                  _react2['default'].createElement(
-                    'header',
-                    null,
-                    _react2['default'].createElement(
-                      _Link2['default'],
-                      { className: _BlogPageScss2['default'].link, to: '/blog' },
-                      ' Machine learning'
-                    )
-                  ),
-                  _react2['default'].createElement('hr', null)
-                ),
-                _react2['default'].createElement(
-                  'div',
-                  { className: 'row spacing' },
-                  _react2['default'].createElement(
-                    'header',
-                    null,
-                    _react2['default'].createElement(
-                      _Link2['default'],
-                      { className: _BlogPageScss2['default'].link, to: '/blog' },
-                      ' Data Mining'
-                    )
-                  ),
-                  _react2['default'].createElement('hr', null)
-                ),
-                _react2['default'].createElement(
-                  'div',
-                  { className: 'row spacing' },
-                  _react2['default'].createElement(
-                    'header',
-                    null,
-                    _react2['default'].createElement(
-                      _Link2['default'],
-                      { className: _BlogPageScss2['default'].link, to: '/blog' },
-                      'Natural Language Processing '
-                    )
                   ),
                   _react2['default'].createElement('hr', null)
                 )
@@ -3727,15 +3605,6 @@ module.exports =
                   { className: _DataPageScss2['default'].link, to: '/data' },
                   'Uganda Decides'
                 )
-              ),
-              _react2['default'].createElement(
-                'li',
-                null,
-                _react2['default'].createElement(
-                  _Link2['default'],
-                  { className: _DataPageScss2['default'].link, to: '/data' },
-                  ' Data Explorations'
-                )
               )
             )
           ),
@@ -3758,7 +3627,7 @@ module.exports =
                     _react2['default'].createElement(
                       'h3',
                       null,
-                      'Digging into the Uganda campaigns social Media Stats'
+                      'Digging into Uganda\'s social Media Camapaigns related Data'
                     )
                   ),
                   _react2['default'].createElement('div', { className: 'text-justify', dangerouslySetInnerHTML: { __html: _this.props.content || '' } }),
@@ -3766,7 +3635,7 @@ module.exports =
                 ),
                 _react2['default'].createElement(
                   'section',
-                  { className: _DataPageScss2['default'].charts },
+                  { className: (0, _classnames2['default'])(_DataPageScss2['default'].charts, 'charts-dashboard') },
                   _react2['default'].createElement(
                     'div',
                     { className: (0, _classnames2['default'])('row', 'spacing-sm', _DataPageScss2['default'].chart) },
@@ -3797,7 +3666,7 @@ module.exports =
                     ),
                     _react2['default'].createElement(
                       'div',
-                      { className: (0, _classnames2['default'])('row', _DataPageScss2['default'].chart) },
+                      { className: 'col-md-6' },
                       _react2['default'].createElement(
                         'h4',
                         null,
@@ -3936,6 +3805,11 @@ module.exports =
                               'th',
                               null,
                               'Tweet'
+                            ),
+                            _react2['default'].createElement(
+                              'th',
+                              null,
+                              'User'
                             ),
                             _react2['default'].createElement(
                               'th',
@@ -4137,7 +4011,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.DataPage_root_1Bn {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n}\n.DataPage_root_1Bn table {margin: 0 auto;}\n.DataPage_root_1Bn h2 {color: #6B6969;}\n.DataPage_chart_2dW{\n  opacity: 0;\n}\n.DataPage_timeRange_1i6{ padding-left: 3em}\n.DataPage_main_1GV {\n  margin-right: solid 1px;\n  background-color: white;;\n}\n.DataPage_main_1GV hr {color: #777;}\n.DataPage_main_1GV h3 {color: #374048;padding-bottom: 2em;}\n.DataPage_spacing_pJZ {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.DataPage_sidebar_2cr h3, .DataPage_sidebar_2cr a {\n  padding-left: 1em;\n}\n\ntable{\n  font-size: 0.9em;\n}\n\ntable span{display: none}\n.DataPage_legend_2e1 small{\n  text-align: right;\n}\n.DataPage_legend_2e1 i{\n  width: 4em;\n  height: 0.5em;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.DataPage_yellow_30z i{\n  color: yellow;\n}\n.DataPage_blue_1Bj i{\n  color: blue;\n}\n.DataPage_orange_36J i{\n  color: orange;\n}\n", ""]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.DataPage_root_1Bn {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n}\n.DataPage_root_1Bn table {margin: 0 auto;}\n.DataPage_root_1Bn h2 {color: #6B6969;}\n.DataPage_chart_2dW{\n  opacity: 0;\n}\n.DataPage_timeRange_1i6{ padding-left: 3em}\n.DataPage_main_1GV {\n  margin-right: solid 1px;\n  background-color: white;;\n}\n.DataPage_main_1GV hr {color: #777;}\n.DataPage_main_1GV h3 {color: #374048;padding-bottom: 2em;}\n.DataPage_spacing_pJZ {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.DataPage_sidebar_2cr h3, .DataPage_sidebar_2cr a {\n  padding-left: 1em;\n}\n\ntable{\n  font-size: 0.9em;\n}\n\ntable span{display: none}\n.DataPage_legend_2e1 {\n  padding-left: 2em;\n}\n.DataPage_legend_2e1 small{\n  text-align: right;\n}\n.DataPage_legend_2e1 i{\n  width: 4em;\n  height: 1px;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.DataPage_yellow_30z i{\n  color: yellow;\n}\n.DataPage_blue_1Bj i{\n  color: blue;\n}\n.DataPage_orange_36J i{\n  color: orange;\n}\n", ""]);
   
   // exports
   exports.locals = {
@@ -4554,6 +4428,8 @@ module.exports =
   
   var _c32 = _interopRequireDefault(_c3);
   
+  __webpack_require__(84);
+  
   // import './dtplugin';
   
   var DcCharts = (function () {
@@ -4622,7 +4498,7 @@ module.exports =
         this.data.add(newData);
         this.drawRowCharts(true);
         this.drawPieChart(true);
-        console.log('updated data ' + this.data.size());
+        // console.log(`updated data ${this.data.size()}`);
       }
     }, {
       key: 'init',
@@ -4656,7 +4532,9 @@ module.exports =
     }, {
       key: 'createDataTable',
       value: function createDataTable(table) {
-        this.tableDimension = this.createDimenion('text');
+        this.tableDimension = this.data.dimension(function (d) {
+          return d.text + ' ' + d.screen_name;
+        });
         this.datatable = $('#' + table);
         // initialize datatable
         this.datatable.dataTable(this._dataTablesOptions());
@@ -4678,7 +4556,7 @@ module.exports =
         return {
           'responsive': true,
           'pageLength': 5,
-          'order': [[1, 'desc']],
+          'order': [[2, 'desc']],
           'bSort': true,
           columnDefs: [{
             targets: 0,
@@ -4689,16 +4567,22 @@ module.exports =
           }, {
             targets: 1,
             data: function data(d) {
+              return d.screen_name;
+            },
+            defaultContent: ''
+          }, {
+            targets: 2,
+            data: function data(d) {
               return '<span>' + d.timeStamp + '</span>' + d.date;
             }
           }, {
-            targets: 2,
+            targets: 3,
             data: function data(d) {
               return d.location;
             },
             defaultContent: ''
           }, {
-            targets: 3,
+            targets: 4,
             data: function data(d) {
               return d.sentiment;
             },
@@ -5182,6 +5066,1184 @@ module.exports =
 
 /***/ },
 /* 84 */
+/***/ function(module, exports) {
+
+  // SVGPathSeg API polyfill
+  // https://github.com/progers/pathseg
+  //
+  // This is a drop-in replacement for the SVGPathSeg and SVGPathSegList APIs that were removed from
+  // SVG2 (https://lists.w3.org/Archives/Public/www-svg/2015Jun/0044.html), including the latest spec
+  // changes which were implemented in Firefox 43 and Chrome 46.
+  
+  "use strict";
+  
+  (function () {
+      "use strict";
+      if (!("SVGPathSeg" in window)) {
+          // Spec: http://www.w3.org/TR/SVG11/single-page.html#paths-InterfaceSVGPathSeg
+          window.SVGPathSeg = function (type, typeAsLetter, owningPathSegList) {
+              this.pathSegType = type;
+              this.pathSegTypeAsLetter = typeAsLetter;
+              this._owningPathSegList = owningPathSegList;
+          };
+  
+          SVGPathSeg.PATHSEG_UNKNOWN = 0;
+          SVGPathSeg.PATHSEG_CLOSEPATH = 1;
+          SVGPathSeg.PATHSEG_MOVETO_ABS = 2;
+          SVGPathSeg.PATHSEG_MOVETO_REL = 3;
+          SVGPathSeg.PATHSEG_LINETO_ABS = 4;
+          SVGPathSeg.PATHSEG_LINETO_REL = 5;
+          SVGPathSeg.PATHSEG_CURVETO_CUBIC_ABS = 6;
+          SVGPathSeg.PATHSEG_CURVETO_CUBIC_REL = 7;
+          SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_ABS = 8;
+          SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_REL = 9;
+          SVGPathSeg.PATHSEG_ARC_ABS = 10;
+          SVGPathSeg.PATHSEG_ARC_REL = 11;
+          SVGPathSeg.PATHSEG_LINETO_HORIZONTAL_ABS = 12;
+          SVGPathSeg.PATHSEG_LINETO_HORIZONTAL_REL = 13;
+          SVGPathSeg.PATHSEG_LINETO_VERTICAL_ABS = 14;
+          SVGPathSeg.PATHSEG_LINETO_VERTICAL_REL = 15;
+          SVGPathSeg.PATHSEG_CURVETO_CUBIC_SMOOTH_ABS = 16;
+          SVGPathSeg.PATHSEG_CURVETO_CUBIC_SMOOTH_REL = 17;
+          SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_SMOOTH_ABS = 18;
+          SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_SMOOTH_REL = 19;
+  
+          // Notify owning PathSegList on any changes so they can be synchronized back to the path element.
+          SVGPathSeg.prototype._segmentChanged = function () {
+              if (this._owningPathSegList) this._owningPathSegList.segmentChanged(this);
+          };
+  
+          window.SVGPathSegClosePath = function (owningPathSegList) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_CLOSEPATH, "z", owningPathSegList);
+          };
+          SVGPathSegClosePath.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegClosePath.prototype.toString = function () {
+              return "[object SVGPathSegClosePath]";
+          };
+          SVGPathSegClosePath.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter;
+          };
+          SVGPathSegClosePath.prototype.clone = function () {
+              return new SVGPathSegClosePath(undefined);
+          };
+  
+          window.SVGPathSegMovetoAbs = function (owningPathSegList, x, y) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_MOVETO_ABS, "M", owningPathSegList);
+              this._x = x;
+              this._y = y;
+          };
+          SVGPathSegMovetoAbs.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegMovetoAbs.prototype.toString = function () {
+              return "[object SVGPathSegMovetoAbs]";
+          };
+          SVGPathSegMovetoAbs.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter + " " + this._x + " " + this._y;
+          };
+          SVGPathSegMovetoAbs.prototype.clone = function () {
+              return new SVGPathSegMovetoAbs(undefined, this._x, this._y);
+          };
+          Object.defineProperty(SVGPathSegMovetoAbs.prototype, "x", { get: function get() {
+                  return this._x;
+              }, set: function set(x) {
+                  this._x = x;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegMovetoAbs.prototype, "y", { get: function get() {
+                  return this._y;
+              }, set: function set(y) {
+                  this._y = y;this._segmentChanged();
+              }, enumerable: true });
+  
+          window.SVGPathSegMovetoRel = function (owningPathSegList, x, y) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_MOVETO_REL, "m", owningPathSegList);
+              this._x = x;
+              this._y = y;
+          };
+          SVGPathSegMovetoRel.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegMovetoRel.prototype.toString = function () {
+              return "[object SVGPathSegMovetoRel]";
+          };
+          SVGPathSegMovetoRel.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter + " " + this._x + " " + this._y;
+          };
+          SVGPathSegMovetoRel.prototype.clone = function () {
+              return new SVGPathSegMovetoRel(undefined, this._x, this._y);
+          };
+          Object.defineProperty(SVGPathSegMovetoRel.prototype, "x", { get: function get() {
+                  return this._x;
+              }, set: function set(x) {
+                  this._x = x;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegMovetoRel.prototype, "y", { get: function get() {
+                  return this._y;
+              }, set: function set(y) {
+                  this._y = y;this._segmentChanged();
+              }, enumerable: true });
+  
+          window.SVGPathSegLinetoAbs = function (owningPathSegList, x, y) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_LINETO_ABS, "L", owningPathSegList);
+              this._x = x;
+              this._y = y;
+          };
+          SVGPathSegLinetoAbs.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegLinetoAbs.prototype.toString = function () {
+              return "[object SVGPathSegLinetoAbs]";
+          };
+          SVGPathSegLinetoAbs.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter + " " + this._x + " " + this._y;
+          };
+          SVGPathSegLinetoAbs.prototype.clone = function () {
+              return new SVGPathSegLinetoAbs(undefined, this._x, this._y);
+          };
+          Object.defineProperty(SVGPathSegLinetoAbs.prototype, "x", { get: function get() {
+                  return this._x;
+              }, set: function set(x) {
+                  this._x = x;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegLinetoAbs.prototype, "y", { get: function get() {
+                  return this._y;
+              }, set: function set(y) {
+                  this._y = y;this._segmentChanged();
+              }, enumerable: true });
+  
+          window.SVGPathSegLinetoRel = function (owningPathSegList, x, y) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_LINETO_REL, "l", owningPathSegList);
+              this._x = x;
+              this._y = y;
+          };
+          SVGPathSegLinetoRel.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegLinetoRel.prototype.toString = function () {
+              return "[object SVGPathSegLinetoRel]";
+          };
+          SVGPathSegLinetoRel.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter + " " + this._x + " " + this._y;
+          };
+          SVGPathSegLinetoRel.prototype.clone = function () {
+              return new SVGPathSegLinetoRel(undefined, this._x, this._y);
+          };
+          Object.defineProperty(SVGPathSegLinetoRel.prototype, "x", { get: function get() {
+                  return this._x;
+              }, set: function set(x) {
+                  this._x = x;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegLinetoRel.prototype, "y", { get: function get() {
+                  return this._y;
+              }, set: function set(y) {
+                  this._y = y;this._segmentChanged();
+              }, enumerable: true });
+  
+          window.SVGPathSegCurvetoCubicAbs = function (owningPathSegList, x, y, x1, y1, x2, y2) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_CURVETO_CUBIC_ABS, "C", owningPathSegList);
+              this._x = x;
+              this._y = y;
+              this._x1 = x1;
+              this._y1 = y1;
+              this._x2 = x2;
+              this._y2 = y2;
+          };
+          SVGPathSegCurvetoCubicAbs.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegCurvetoCubicAbs.prototype.toString = function () {
+              return "[object SVGPathSegCurvetoCubicAbs]";
+          };
+          SVGPathSegCurvetoCubicAbs.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter + " " + this._x1 + " " + this._y1 + " " + this._x2 + " " + this._y2 + " " + this._x + " " + this._y;
+          };
+          SVGPathSegCurvetoCubicAbs.prototype.clone = function () {
+              return new SVGPathSegCurvetoCubicAbs(undefined, this._x, this._y, this._x1, this._y1, this._x2, this._y2);
+          };
+          Object.defineProperty(SVGPathSegCurvetoCubicAbs.prototype, "x", { get: function get() {
+                  return this._x;
+              }, set: function set(x) {
+                  this._x = x;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoCubicAbs.prototype, "y", { get: function get() {
+                  return this._y;
+              }, set: function set(y) {
+                  this._y = y;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoCubicAbs.prototype, "x1", { get: function get() {
+                  return this._x1;
+              }, set: function set(x1) {
+                  this._x1 = x1;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoCubicAbs.prototype, "y1", { get: function get() {
+                  return this._y1;
+              }, set: function set(y1) {
+                  this._y1 = y1;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoCubicAbs.prototype, "x2", { get: function get() {
+                  return this._x2;
+              }, set: function set(x2) {
+                  this._x2 = x2;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoCubicAbs.prototype, "y2", { get: function get() {
+                  return this._y2;
+              }, set: function set(y2) {
+                  this._y2 = y2;this._segmentChanged();
+              }, enumerable: true });
+  
+          window.SVGPathSegCurvetoCubicRel = function (owningPathSegList, x, y, x1, y1, x2, y2) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_CURVETO_CUBIC_REL, "c", owningPathSegList);
+              this._x = x;
+              this._y = y;
+              this._x1 = x1;
+              this._y1 = y1;
+              this._x2 = x2;
+              this._y2 = y2;
+          };
+          SVGPathSegCurvetoCubicRel.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegCurvetoCubicRel.prototype.toString = function () {
+              return "[object SVGPathSegCurvetoCubicRel]";
+          };
+          SVGPathSegCurvetoCubicRel.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter + " " + this._x1 + " " + this._y1 + " " + this._x2 + " " + this._y2 + " " + this._x + " " + this._y;
+          };
+          SVGPathSegCurvetoCubicRel.prototype.clone = function () {
+              return new SVGPathSegCurvetoCubicRel(undefined, this._x, this._y, this._x1, this._y1, this._x2, this._y2);
+          };
+          Object.defineProperty(SVGPathSegCurvetoCubicRel.prototype, "x", { get: function get() {
+                  return this._x;
+              }, set: function set(x) {
+                  this._x = x;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoCubicRel.prototype, "y", { get: function get() {
+                  return this._y;
+              }, set: function set(y) {
+                  this._y = y;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoCubicRel.prototype, "x1", { get: function get() {
+                  return this._x1;
+              }, set: function set(x1) {
+                  this._x1 = x1;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoCubicRel.prototype, "y1", { get: function get() {
+                  return this._y1;
+              }, set: function set(y1) {
+                  this._y1 = y1;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoCubicRel.prototype, "x2", { get: function get() {
+                  return this._x2;
+              }, set: function set(x2) {
+                  this._x2 = x2;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoCubicRel.prototype, "y2", { get: function get() {
+                  return this._y2;
+              }, set: function set(y2) {
+                  this._y2 = y2;this._segmentChanged();
+              }, enumerable: true });
+  
+          window.SVGPathSegCurvetoQuadraticAbs = function (owningPathSegList, x, y, x1, y1) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_ABS, "Q", owningPathSegList);
+              this._x = x;
+              this._y = y;
+              this._x1 = x1;
+              this._y1 = y1;
+          };
+          SVGPathSegCurvetoQuadraticAbs.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegCurvetoQuadraticAbs.prototype.toString = function () {
+              return "[object SVGPathSegCurvetoQuadraticAbs]";
+          };
+          SVGPathSegCurvetoQuadraticAbs.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter + " " + this._x1 + " " + this._y1 + " " + this._x + " " + this._y;
+          };
+          SVGPathSegCurvetoQuadraticAbs.prototype.clone = function () {
+              return new SVGPathSegCurvetoQuadraticAbs(undefined, this._x, this._y, this._x1, this._y1);
+          };
+          Object.defineProperty(SVGPathSegCurvetoQuadraticAbs.prototype, "x", { get: function get() {
+                  return this._x;
+              }, set: function set(x) {
+                  this._x = x;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoQuadraticAbs.prototype, "y", { get: function get() {
+                  return this._y;
+              }, set: function set(y) {
+                  this._y = y;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoQuadraticAbs.prototype, "x1", { get: function get() {
+                  return this._x1;
+              }, set: function set(x1) {
+                  this._x1 = x1;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoQuadraticAbs.prototype, "y1", { get: function get() {
+                  return this._y1;
+              }, set: function set(y1) {
+                  this._y1 = y1;this._segmentChanged();
+              }, enumerable: true });
+  
+          window.SVGPathSegCurvetoQuadraticRel = function (owningPathSegList, x, y, x1, y1) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_REL, "q", owningPathSegList);
+              this._x = x;
+              this._y = y;
+              this._x1 = x1;
+              this._y1 = y1;
+          };
+          SVGPathSegCurvetoQuadraticRel.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegCurvetoQuadraticRel.prototype.toString = function () {
+              return "[object SVGPathSegCurvetoQuadraticRel]";
+          };
+          SVGPathSegCurvetoQuadraticRel.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter + " " + this._x1 + " " + this._y1 + " " + this._x + " " + this._y;
+          };
+          SVGPathSegCurvetoQuadraticRel.prototype.clone = function () {
+              return new SVGPathSegCurvetoQuadraticRel(undefined, this._x, this._y, this._x1, this._y1);
+          };
+          Object.defineProperty(SVGPathSegCurvetoQuadraticRel.prototype, "x", { get: function get() {
+                  return this._x;
+              }, set: function set(x) {
+                  this._x = x;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoQuadraticRel.prototype, "y", { get: function get() {
+                  return this._y;
+              }, set: function set(y) {
+                  this._y = y;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoQuadraticRel.prototype, "x1", { get: function get() {
+                  return this._x1;
+              }, set: function set(x1) {
+                  this._x1 = x1;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoQuadraticRel.prototype, "y1", { get: function get() {
+                  return this._y1;
+              }, set: function set(y1) {
+                  this._y1 = y1;this._segmentChanged();
+              }, enumerable: true });
+  
+          window.SVGPathSegArcAbs = function (owningPathSegList, x, y, r1, r2, angle, largeArcFlag, sweepFlag) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_ARC_ABS, "A", owningPathSegList);
+              this._x = x;
+              this._y = y;
+              this._r1 = r1;
+              this._r2 = r2;
+              this._angle = angle;
+              this._largeArcFlag = largeArcFlag;
+              this._sweepFlag = sweepFlag;
+          };
+          SVGPathSegArcAbs.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegArcAbs.prototype.toString = function () {
+              return "[object SVGPathSegArcAbs]";
+          };
+          SVGPathSegArcAbs.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter + " " + this._r1 + " " + this._r2 + " " + this._angle + " " + (this._largeArcFlag ? "1" : "0") + " " + (this._sweepFlag ? "1" : "0") + " " + this._x + " " + this._y;
+          };
+          SVGPathSegArcAbs.prototype.clone = function () {
+              return new SVGPathSegArcAbs(undefined, this._x, this._y, this._r1, this._r2, this._angle, this._largeArcFlag, this._sweepFlag);
+          };
+          Object.defineProperty(SVGPathSegArcAbs.prototype, "x", { get: function get() {
+                  return this._x;
+              }, set: function set(x) {
+                  this._x = x;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegArcAbs.prototype, "y", { get: function get() {
+                  return this._y;
+              }, set: function set(y) {
+                  this._y = y;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegArcAbs.prototype, "r1", { get: function get() {
+                  return this._r1;
+              }, set: function set(r1) {
+                  this._r1 = r1;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegArcAbs.prototype, "r2", { get: function get() {
+                  return this._r2;
+              }, set: function set(r2) {
+                  this._r2 = r2;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegArcAbs.prototype, "angle", { get: function get() {
+                  return this._angle;
+              }, set: function set(angle) {
+                  this._angle = angle;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegArcAbs.prototype, "largeArcFlag", { get: function get() {
+                  return this._largeArcFlag;
+              }, set: function set(largeArcFlag) {
+                  this._largeArcFlag = largeArcFlag;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegArcAbs.prototype, "sweepFlag", { get: function get() {
+                  return this._sweepFlag;
+              }, set: function set(sweepFlag) {
+                  this._sweepFlag = sweepFlag;this._segmentChanged();
+              }, enumerable: true });
+  
+          window.SVGPathSegArcRel = function (owningPathSegList, x, y, r1, r2, angle, largeArcFlag, sweepFlag) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_ARC_REL, "a", owningPathSegList);
+              this._x = x;
+              this._y = y;
+              this._r1 = r1;
+              this._r2 = r2;
+              this._angle = angle;
+              this._largeArcFlag = largeArcFlag;
+              this._sweepFlag = sweepFlag;
+          };
+          SVGPathSegArcRel.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegArcRel.prototype.toString = function () {
+              return "[object SVGPathSegArcRel]";
+          };
+          SVGPathSegArcRel.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter + " " + this._r1 + " " + this._r2 + " " + this._angle + " " + (this._largeArcFlag ? "1" : "0") + " " + (this._sweepFlag ? "1" : "0") + " " + this._x + " " + this._y;
+          };
+          SVGPathSegArcRel.prototype.clone = function () {
+              return new SVGPathSegArcRel(undefined, this._x, this._y, this._r1, this._r2, this._angle, this._largeArcFlag, this._sweepFlag);
+          };
+          Object.defineProperty(SVGPathSegArcRel.prototype, "x", { get: function get() {
+                  return this._x;
+              }, set: function set(x) {
+                  this._x = x;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegArcRel.prototype, "y", { get: function get() {
+                  return this._y;
+              }, set: function set(y) {
+                  this._y = y;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegArcRel.prototype, "r1", { get: function get() {
+                  return this._r1;
+              }, set: function set(r1) {
+                  this._r1 = r1;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegArcRel.prototype, "r2", { get: function get() {
+                  return this._r2;
+              }, set: function set(r2) {
+                  this._r2 = r2;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegArcRel.prototype, "angle", { get: function get() {
+                  return this._angle;
+              }, set: function set(angle) {
+                  this._angle = angle;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegArcRel.prototype, "largeArcFlag", { get: function get() {
+                  return this._largeArcFlag;
+              }, set: function set(largeArcFlag) {
+                  this._largeArcFlag = largeArcFlag;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegArcRel.prototype, "sweepFlag", { get: function get() {
+                  return this._sweepFlag;
+              }, set: function set(sweepFlag) {
+                  this._sweepFlag = sweepFlag;this._segmentChanged();
+              }, enumerable: true });
+  
+          window.SVGPathSegLinetoHorizontalAbs = function (owningPathSegList, x) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_LINETO_HORIZONTAL_ABS, "H", owningPathSegList);
+              this._x = x;
+          };
+          SVGPathSegLinetoHorizontalAbs.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegLinetoHorizontalAbs.prototype.toString = function () {
+              return "[object SVGPathSegLinetoHorizontalAbs]";
+          };
+          SVGPathSegLinetoHorizontalAbs.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter + " " + this._x;
+          };
+          SVGPathSegLinetoHorizontalAbs.prototype.clone = function () {
+              return new SVGPathSegLinetoHorizontalAbs(undefined, this._x);
+          };
+          Object.defineProperty(SVGPathSegLinetoHorizontalAbs.prototype, "x", { get: function get() {
+                  return this._x;
+              }, set: function set(x) {
+                  this._x = x;this._segmentChanged();
+              }, enumerable: true });
+  
+          window.SVGPathSegLinetoHorizontalRel = function (owningPathSegList, x) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_LINETO_HORIZONTAL_REL, "h", owningPathSegList);
+              this._x = x;
+          };
+          SVGPathSegLinetoHorizontalRel.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegLinetoHorizontalRel.prototype.toString = function () {
+              return "[object SVGPathSegLinetoHorizontalRel]";
+          };
+          SVGPathSegLinetoHorizontalRel.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter + " " + this._x;
+          };
+          SVGPathSegLinetoHorizontalRel.prototype.clone = function () {
+              return new SVGPathSegLinetoHorizontalRel(undefined, this._x);
+          };
+          Object.defineProperty(SVGPathSegLinetoHorizontalRel.prototype, "x", { get: function get() {
+                  return this._x;
+              }, set: function set(x) {
+                  this._x = x;this._segmentChanged();
+              }, enumerable: true });
+  
+          window.SVGPathSegLinetoVerticalAbs = function (owningPathSegList, y) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_LINETO_VERTICAL_ABS, "V", owningPathSegList);
+              this._y = y;
+          };
+          SVGPathSegLinetoVerticalAbs.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegLinetoVerticalAbs.prototype.toString = function () {
+              return "[object SVGPathSegLinetoVerticalAbs]";
+          };
+          SVGPathSegLinetoVerticalAbs.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter + " " + this._y;
+          };
+          SVGPathSegLinetoVerticalAbs.prototype.clone = function () {
+              return new SVGPathSegLinetoVerticalAbs(undefined, this._y);
+          };
+          Object.defineProperty(SVGPathSegLinetoVerticalAbs.prototype, "y", { get: function get() {
+                  return this._y;
+              }, set: function set(y) {
+                  this._y = y;this._segmentChanged();
+              }, enumerable: true });
+  
+          window.SVGPathSegLinetoVerticalRel = function (owningPathSegList, y) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_LINETO_VERTICAL_REL, "v", owningPathSegList);
+              this._y = y;
+          };
+          SVGPathSegLinetoVerticalRel.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegLinetoVerticalRel.prototype.toString = function () {
+              return "[object SVGPathSegLinetoVerticalRel]";
+          };
+          SVGPathSegLinetoVerticalRel.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter + " " + this._y;
+          };
+          SVGPathSegLinetoVerticalRel.prototype.clone = function () {
+              return new SVGPathSegLinetoVerticalRel(undefined, this._y);
+          };
+          Object.defineProperty(SVGPathSegLinetoVerticalRel.prototype, "y", { get: function get() {
+                  return this._y;
+              }, set: function set(y) {
+                  this._y = y;this._segmentChanged();
+              }, enumerable: true });
+  
+          window.SVGPathSegCurvetoCubicSmoothAbs = function (owningPathSegList, x, y, x2, y2) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_CURVETO_CUBIC_SMOOTH_ABS, "S", owningPathSegList);
+              this._x = x;
+              this._y = y;
+              this._x2 = x2;
+              this._y2 = y2;
+          };
+          SVGPathSegCurvetoCubicSmoothAbs.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegCurvetoCubicSmoothAbs.prototype.toString = function () {
+              return "[object SVGPathSegCurvetoCubicSmoothAbs]";
+          };
+          SVGPathSegCurvetoCubicSmoothAbs.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter + " " + this._x2 + " " + this._y2 + " " + this._x + " " + this._y;
+          };
+          SVGPathSegCurvetoCubicSmoothAbs.prototype.clone = function () {
+              return new SVGPathSegCurvetoCubicSmoothAbs(undefined, this._x, this._y, this._x2, this._y2);
+          };
+          Object.defineProperty(SVGPathSegCurvetoCubicSmoothAbs.prototype, "x", { get: function get() {
+                  return this._x;
+              }, set: function set(x) {
+                  this._x = x;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoCubicSmoothAbs.prototype, "y", { get: function get() {
+                  return this._y;
+              }, set: function set(y) {
+                  this._y = y;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoCubicSmoothAbs.prototype, "x2", { get: function get() {
+                  return this._x2;
+              }, set: function set(x2) {
+                  this._x2 = x2;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoCubicSmoothAbs.prototype, "y2", { get: function get() {
+                  return this._y2;
+              }, set: function set(y2) {
+                  this._y2 = y2;this._segmentChanged();
+              }, enumerable: true });
+  
+          window.SVGPathSegCurvetoCubicSmoothRel = function (owningPathSegList, x, y, x2, y2) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_CURVETO_CUBIC_SMOOTH_REL, "s", owningPathSegList);
+              this._x = x;
+              this._y = y;
+              this._x2 = x2;
+              this._y2 = y2;
+          };
+          SVGPathSegCurvetoCubicSmoothRel.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegCurvetoCubicSmoothRel.prototype.toString = function () {
+              return "[object SVGPathSegCurvetoCubicSmoothRel]";
+          };
+          SVGPathSegCurvetoCubicSmoothRel.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter + " " + this._x2 + " " + this._y2 + " " + this._x + " " + this._y;
+          };
+          SVGPathSegCurvetoCubicSmoothRel.prototype.clone = function () {
+              return new SVGPathSegCurvetoCubicSmoothRel(undefined, this._x, this._y, this._x2, this._y2);
+          };
+          Object.defineProperty(SVGPathSegCurvetoCubicSmoothRel.prototype, "x", { get: function get() {
+                  return this._x;
+              }, set: function set(x) {
+                  this._x = x;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoCubicSmoothRel.prototype, "y", { get: function get() {
+                  return this._y;
+              }, set: function set(y) {
+                  this._y = y;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoCubicSmoothRel.prototype, "x2", { get: function get() {
+                  return this._x2;
+              }, set: function set(x2) {
+                  this._x2 = x2;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoCubicSmoothRel.prototype, "y2", { get: function get() {
+                  return this._y2;
+              }, set: function set(y2) {
+                  this._y2 = y2;this._segmentChanged();
+              }, enumerable: true });
+  
+          window.SVGPathSegCurvetoQuadraticSmoothAbs = function (owningPathSegList, x, y) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_SMOOTH_ABS, "T", owningPathSegList);
+              this._x = x;
+              this._y = y;
+          };
+          SVGPathSegCurvetoQuadraticSmoothAbs.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegCurvetoQuadraticSmoothAbs.prototype.toString = function () {
+              return "[object SVGPathSegCurvetoQuadraticSmoothAbs]";
+          };
+          SVGPathSegCurvetoQuadraticSmoothAbs.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter + " " + this._x + " " + this._y;
+          };
+          SVGPathSegCurvetoQuadraticSmoothAbs.prototype.clone = function () {
+              return new SVGPathSegCurvetoQuadraticSmoothAbs(undefined, this._x, this._y);
+          };
+          Object.defineProperty(SVGPathSegCurvetoQuadraticSmoothAbs.prototype, "x", { get: function get() {
+                  return this._x;
+              }, set: function set(x) {
+                  this._x = x;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoQuadraticSmoothAbs.prototype, "y", { get: function get() {
+                  return this._y;
+              }, set: function set(y) {
+                  this._y = y;this._segmentChanged();
+              }, enumerable: true });
+  
+          window.SVGPathSegCurvetoQuadraticSmoothRel = function (owningPathSegList, x, y) {
+              SVGPathSeg.call(this, SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_SMOOTH_REL, "t", owningPathSegList);
+              this._x = x;
+              this._y = y;
+          };
+          SVGPathSegCurvetoQuadraticSmoothRel.prototype = Object.create(SVGPathSeg.prototype);
+          SVGPathSegCurvetoQuadraticSmoothRel.prototype.toString = function () {
+              return "[object SVGPathSegCurvetoQuadraticSmoothRel]";
+          };
+          SVGPathSegCurvetoQuadraticSmoothRel.prototype._asPathString = function () {
+              return this.pathSegTypeAsLetter + " " + this._x + " " + this._y;
+          };
+          SVGPathSegCurvetoQuadraticSmoothRel.prototype.clone = function () {
+              return new SVGPathSegCurvetoQuadraticSmoothRel(undefined, this._x, this._y);
+          };
+          Object.defineProperty(SVGPathSegCurvetoQuadraticSmoothRel.prototype, "x", { get: function get() {
+                  return this._x;
+              }, set: function set(x) {
+                  this._x = x;this._segmentChanged();
+              }, enumerable: true });
+          Object.defineProperty(SVGPathSegCurvetoQuadraticSmoothRel.prototype, "y", { get: function get() {
+                  return this._y;
+              }, set: function set(y) {
+                  this._y = y;this._segmentChanged();
+              }, enumerable: true });
+  
+          // Add createSVGPathSeg* functions to SVGPathElement.
+          // Spec: http://www.w3.org/TR/SVG11/single-page.html#paths-InterfaceSVGPathElement.
+          SVGPathElement.prototype.createSVGPathSegClosePath = function () {
+              return new SVGPathSegClosePath(undefined);
+          };
+          SVGPathElement.prototype.createSVGPathSegMovetoAbs = function (x, y) {
+              return new SVGPathSegMovetoAbs(undefined, x, y);
+          };
+          SVGPathElement.prototype.createSVGPathSegMovetoRel = function (x, y) {
+              return new SVGPathSegMovetoRel(undefined, x, y);
+          };
+          SVGPathElement.prototype.createSVGPathSegLinetoAbs = function (x, y) {
+              return new SVGPathSegLinetoAbs(undefined, x, y);
+          };
+          SVGPathElement.prototype.createSVGPathSegLinetoRel = function (x, y) {
+              return new SVGPathSegLinetoRel(undefined, x, y);
+          };
+          SVGPathElement.prototype.createSVGPathSegCurvetoCubicAbs = function (x, y, x1, y1, x2, y2) {
+              return new SVGPathSegCurvetoCubicAbs(undefined, x, y, x1, y1, x2, y2);
+          };
+          SVGPathElement.prototype.createSVGPathSegCurvetoCubicRel = function (x, y, x1, y1, x2, y2) {
+              return new SVGPathSegCurvetoCubicRel(undefined, x, y, x1, y1, x2, y2);
+          };
+          SVGPathElement.prototype.createSVGPathSegCurvetoQuadraticAbs = function (x, y, x1, y1) {
+              return new SVGPathSegCurvetoQuadraticAbs(undefined, x, y, x1, y1);
+          };
+          SVGPathElement.prototype.createSVGPathSegCurvetoQuadraticRel = function (x, y, x1, y1) {
+              return new SVGPathSegCurvetoQuadraticRel(undefined, x, y, x1, y1);
+          };
+          SVGPathElement.prototype.createSVGPathSegArcAbs = function (x, y, r1, r2, angle, largeArcFlag, sweepFlag) {
+              return new SVGPathSegArcAbs(undefined, x, y, r1, r2, angle, largeArcFlag, sweepFlag);
+          };
+          SVGPathElement.prototype.createSVGPathSegArcRel = function (x, y, r1, r2, angle, largeArcFlag, sweepFlag) {
+              return new SVGPathSegArcRel(undefined, x, y, r1, r2, angle, largeArcFlag, sweepFlag);
+          };
+          SVGPathElement.prototype.createSVGPathSegLinetoHorizontalAbs = function (x) {
+              return new SVGPathSegLinetoHorizontalAbs(undefined, x);
+          };
+          SVGPathElement.prototype.createSVGPathSegLinetoHorizontalRel = function (x) {
+              return new SVGPathSegLinetoHorizontalRel(undefined, x);
+          };
+          SVGPathElement.prototype.createSVGPathSegLinetoVerticalAbs = function (y) {
+              return new SVGPathSegLinetoVerticalAbs(undefined, y);
+          };
+          SVGPathElement.prototype.createSVGPathSegLinetoVerticalRel = function (y) {
+              return new SVGPathSegLinetoVerticalRel(undefined, y);
+          };
+          SVGPathElement.prototype.createSVGPathSegCurvetoCubicSmoothAbs = function (x, y, x2, y2) {
+              return new SVGPathSegCurvetoCubicSmoothAbs(undefined, x, y, x2, y2);
+          };
+          SVGPathElement.prototype.createSVGPathSegCurvetoCubicSmoothRel = function (x, y, x2, y2) {
+              return new SVGPathSegCurvetoCubicSmoothRel(undefined, x, y, x2, y2);
+          };
+          SVGPathElement.prototype.createSVGPathSegCurvetoQuadraticSmoothAbs = function (x, y) {
+              return new SVGPathSegCurvetoQuadraticSmoothAbs(undefined, x, y);
+          };
+          SVGPathElement.prototype.createSVGPathSegCurvetoQuadraticSmoothRel = function (x, y) {
+              return new SVGPathSegCurvetoQuadraticSmoothRel(undefined, x, y);
+          };
+      }
+  
+      if (!("SVGPathSegList" in window)) {
+          // Spec: http://www.w3.org/TR/SVG11/single-page.html#paths-InterfaceSVGPathSegList
+          window.SVGPathSegList = function (pathElement) {
+              this._pathElement = pathElement;
+              this._list = this._parsePath(this._pathElement.getAttribute("d"));
+  
+              // Use a MutationObserver to catch changes to the path's "d" attribute.
+              this._mutationObserverConfig = { "attributes": true, "attributeFilter": ["d"] };
+              this._pathElementMutationObserver = new MutationObserver(this._updateListFromPathMutations.bind(this));
+              this._pathElementMutationObserver.observe(this._pathElement, this._mutationObserverConfig);
+          };
+  
+          Object.defineProperty(SVGPathSegList.prototype, "numberOfItems", {
+              get: function get() {
+                  this._checkPathSynchronizedToList();
+                  return this._list.length;
+              },
+              enumerable: true
+          });
+  
+          // Add the pathSegList accessors to SVGPathElement.
+          // Spec: http://www.w3.org/TR/SVG11/single-page.html#paths-InterfaceSVGAnimatedPathData
+          Object.defineProperty(SVGPathElement.prototype, "pathSegList", {
+              get: function get() {
+                  if (!this._pathSegList) this._pathSegList = new SVGPathSegList(this);
+                  return this._pathSegList;
+              },
+              enumerable: true
+          });
+          // FIXME: The following are not implemented and simply return SVGPathElement.pathSegList.
+          Object.defineProperty(SVGPathElement.prototype, "normalizedPathSegList", { get: function get() {
+                  return this.pathSegList;
+              }, enumerable: true });
+          Object.defineProperty(SVGPathElement.prototype, "animatedPathSegList", { get: function get() {
+                  return this.pathSegList;
+              }, enumerable: true });
+          Object.defineProperty(SVGPathElement.prototype, "animatedNormalizedPathSegList", { get: function get() {
+                  return this.pathSegList;
+              }, enumerable: true });
+  
+          // Process any pending mutations to the path element and update the list as needed.
+          // This should be the first call of all public functions and is needed because
+          // MutationObservers are not synchronous so we can have pending asynchronous mutations.
+          SVGPathSegList.prototype._checkPathSynchronizedToList = function () {
+              this._updateListFromPathMutations(this._pathElementMutationObserver.takeRecords());
+          };
+  
+          SVGPathSegList.prototype._updateListFromPathMutations = function (mutationRecords) {
+              if (!this._pathElement) return;
+              var hasPathMutations = false;
+              mutationRecords.forEach(function (record) {
+                  if (record.attributeName == "d") hasPathMutations = true;
+              });
+              if (hasPathMutations) this._list = this._parsePath(this._pathElement.getAttribute("d"));
+          };
+  
+          // Serialize the list and update the path's 'd' attribute.
+          SVGPathSegList.prototype._writeListToPath = function () {
+              this._pathElementMutationObserver.disconnect();
+              this._pathElement.setAttribute("d", SVGPathSegList._pathSegArrayAsString(this._list));
+              this._pathElementMutationObserver.observe(this._pathElement, this._mutationObserverConfig);
+          };
+  
+          // When a path segment changes the list needs to be synchronized back to the path element.
+          SVGPathSegList.prototype.segmentChanged = function (pathSeg) {
+              this._writeListToPath();
+          };
+  
+          SVGPathSegList.prototype.clear = function () {
+              this._checkPathSynchronizedToList();
+  
+              this._list.forEach(function (pathSeg) {
+                  pathSeg._owningPathSegList = null;
+              });
+              this._list = [];
+              this._writeListToPath();
+          };
+  
+          SVGPathSegList.prototype.initialize = function (newItem) {
+              this._checkPathSynchronizedToList();
+  
+              this._list = [newItem];
+              newItem._owningPathSegList = this;
+              this._writeListToPath();
+              return newItem;
+          };
+  
+          SVGPathSegList.prototype._checkValidIndex = function (index) {
+              if (isNaN(index) || index < 0 || index >= this.numberOfItems) throw "INDEX_SIZE_ERR";
+          };
+  
+          SVGPathSegList.prototype.getItem = function (index) {
+              this._checkPathSynchronizedToList();
+  
+              this._checkValidIndex(index);
+              return this._list[index];
+          };
+  
+          SVGPathSegList.prototype.insertItemBefore = function (newItem, index) {
+              this._checkPathSynchronizedToList();
+  
+              // Spec: If the index is greater than or equal to numberOfItems, then the new item is appended to the end of the list.
+              if (index > this.numberOfItems) index = this.numberOfItems;
+              if (newItem._owningPathSegList) {
+                  // SVG2 spec says to make a copy.
+                  newItem = newItem.clone();
+              }
+              this._list.splice(index, 0, newItem);
+              newItem._owningPathSegList = this;
+              this._writeListToPath();
+              return newItem;
+          };
+  
+          SVGPathSegList.prototype.replaceItem = function (newItem, index) {
+              this._checkPathSynchronizedToList();
+  
+              if (newItem._owningPathSegList) {
+                  // SVG2 spec says to make a copy.
+                  newItem = newItem.clone();
+              }
+              this._checkValidIndex(index);
+              this._list[index] = newItem;
+              newItem._owningPathSegList = this;
+              this._writeListToPath();
+              return newItem;
+          };
+  
+          SVGPathSegList.prototype.removeItem = function (index) {
+              this._checkPathSynchronizedToList();
+  
+              this._checkValidIndex(index);
+              var item = this._list[index];
+              this._list.splice(index, 1);
+              this._writeListToPath();
+              return item;
+          };
+  
+          SVGPathSegList.prototype.appendItem = function (newItem) {
+              this._checkPathSynchronizedToList();
+  
+              if (newItem._owningPathSegList) {
+                  // SVG2 spec says to make a copy.
+                  newItem = newItem.clone();
+              }
+              this._list.push(newItem);
+              newItem._owningPathSegList = this;
+              // TODO: Optimize this to just append to the existing attribute.
+              this._writeListToPath();
+              return newItem;
+          };
+  
+          SVGPathSegList._pathSegArrayAsString = function (pathSegArray) {
+              var string = "";
+              var first = true;
+              pathSegArray.forEach(function (pathSeg) {
+                  if (first) {
+                      first = false;
+                      string += pathSeg._asPathString();
+                  } else {
+                      string += " " + pathSeg._asPathString();
+                  }
+              });
+              return string;
+          };
+  
+          // This closely follows SVGPathParser::parsePath from Source/core/svg/SVGPathParser.cpp.
+          SVGPathSegList.prototype._parsePath = function (string) {
+              if (!string || string.length == 0) return [];
+  
+              var owningPathSegList = this;
+  
+              var Builder = function Builder() {
+                  this.pathSegList = [];
+              };
+  
+              Builder.prototype.appendSegment = function (pathSeg) {
+                  this.pathSegList.push(pathSeg);
+              };
+  
+              var Source = function Source(string) {
+                  this._string = string;
+                  this._currentIndex = 0;
+                  this._endIndex = this._string.length;
+                  this._previousCommand = SVGPathSeg.PATHSEG_UNKNOWN;
+  
+                  this._skipOptionalSpaces();
+              };
+  
+              Source.prototype._isCurrentSpace = function () {
+                  var character = this._string[this._currentIndex];
+                  return character <= " " && (character == " " || character == "\n" || character == "\t" || character == "\r" || character == "\f");
+              };
+  
+              Source.prototype._skipOptionalSpaces = function () {
+                  while (this._currentIndex < this._endIndex && this._isCurrentSpace()) this._currentIndex++;
+                  return this._currentIndex < this._endIndex;
+              };
+  
+              Source.prototype._skipOptionalSpacesOrDelimiter = function () {
+                  if (this._currentIndex < this._endIndex && !this._isCurrentSpace() && this._string.charAt(this._currentIndex) != ",") return false;
+                  if (this._skipOptionalSpaces()) {
+                      if (this._currentIndex < this._endIndex && this._string.charAt(this._currentIndex) == ",") {
+                          this._currentIndex++;
+                          this._skipOptionalSpaces();
+                      }
+                  }
+                  return this._currentIndex < this._endIndex;
+              };
+  
+              Source.prototype.hasMoreData = function () {
+                  return this._currentIndex < this._endIndex;
+              };
+  
+              Source.prototype.peekSegmentType = function () {
+                  var lookahead = this._string[this._currentIndex];
+                  return this._pathSegTypeFromChar(lookahead);
+              };
+  
+              Source.prototype._pathSegTypeFromChar = function (lookahead) {
+                  switch (lookahead) {
+                      case "Z":
+                      case "z":
+                          return SVGPathSeg.PATHSEG_CLOSEPATH;
+                      case "M":
+                          return SVGPathSeg.PATHSEG_MOVETO_ABS;
+                      case "m":
+                          return SVGPathSeg.PATHSEG_MOVETO_REL;
+                      case "L":
+                          return SVGPathSeg.PATHSEG_LINETO_ABS;
+                      case "l":
+                          return SVGPathSeg.PATHSEG_LINETO_REL;
+                      case "C":
+                          return SVGPathSeg.PATHSEG_CURVETO_CUBIC_ABS;
+                      case "c":
+                          return SVGPathSeg.PATHSEG_CURVETO_CUBIC_REL;
+                      case "Q":
+                          return SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_ABS;
+                      case "q":
+                          return SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_REL;
+                      case "A":
+                          return SVGPathSeg.PATHSEG_ARC_ABS;
+                      case "a":
+                          return SVGPathSeg.PATHSEG_ARC_REL;
+                      case "H":
+                          return SVGPathSeg.PATHSEG_LINETO_HORIZONTAL_ABS;
+                      case "h":
+                          return SVGPathSeg.PATHSEG_LINETO_HORIZONTAL_REL;
+                      case "V":
+                          return SVGPathSeg.PATHSEG_LINETO_VERTICAL_ABS;
+                      case "v":
+                          return SVGPathSeg.PATHSEG_LINETO_VERTICAL_REL;
+                      case "S":
+                          return SVGPathSeg.PATHSEG_CURVETO_CUBIC_SMOOTH_ABS;
+                      case "s":
+                          return SVGPathSeg.PATHSEG_CURVETO_CUBIC_SMOOTH_REL;
+                      case "T":
+                          return SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_SMOOTH_ABS;
+                      case "t":
+                          return SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_SMOOTH_REL;
+                      default:
+                          return SVGPathSeg.PATHSEG_UNKNOWN;
+                  }
+              };
+  
+              Source.prototype._nextCommandHelper = function (lookahead, previousCommand) {
+                  // Check for remaining coordinates in the current command.
+                  if ((lookahead == "+" || lookahead == "-" || lookahead == "." || lookahead >= "0" && lookahead <= "9") && previousCommand != SVGPathSeg.PATHSEG_CLOSEPATH) {
+                      if (previousCommand == SVGPathSeg.PATHSEG_MOVETO_ABS) return SVGPathSeg.PATHSEG_LINETO_ABS;
+                      if (previousCommand == SVGPathSeg.PATHSEG_MOVETO_REL) return SVGPathSeg.PATHSEG_LINETO_REL;
+                      return previousCommand;
+                  }
+                  return SVGPathSeg.PATHSEG_UNKNOWN;
+              };
+  
+              Source.prototype.initialCommandIsMoveTo = function () {
+                  // If the path is empty it is still valid, so return true.
+                  if (!this.hasMoreData()) return true;
+                  var command = this.peekSegmentType();
+                  // Path must start with moveTo.
+                  return command == SVGPathSeg.PATHSEG_MOVETO_ABS || command == SVGPathSeg.PATHSEG_MOVETO_REL;
+              };
+  
+              // Parse a number from an SVG path. This very closely follows genericParseNumber(...) from Source/core/svg/SVGParserUtilities.cpp.
+              // Spec: http://www.w3.org/TR/SVG11/single-page.html#paths-PathDataBNF
+              Source.prototype._parseNumber = function () {
+                  var exponent = 0;
+                  var integer = 0;
+                  var frac = 1;
+                  var decimal = 0;
+                  var sign = 1;
+                  var expsign = 1;
+  
+                  var startIndex = this._currentIndex;
+  
+                  this._skipOptionalSpaces();
+  
+                  // Read the sign.
+                  if (this._currentIndex < this._endIndex && this._string.charAt(this._currentIndex) == "+") this._currentIndex++;else if (this._currentIndex < this._endIndex && this._string.charAt(this._currentIndex) == "-") {
+                      this._currentIndex++;
+                      sign = -1;
+                  }
+  
+                  if (this._currentIndex == this._endIndex || (this._string.charAt(this._currentIndex) < "0" || this._string.charAt(this._currentIndex) > "9") && this._string.charAt(this._currentIndex) != ".")
+                      // The first character of a number must be one of [0-9+-.].
+                      return undefined;
+  
+                  // Read the integer part, build right-to-left.
+                  var startIntPartIndex = this._currentIndex;
+                  while (this._currentIndex < this._endIndex && this._string.charAt(this._currentIndex) >= "0" && this._string.charAt(this._currentIndex) <= "9") this._currentIndex++; // Advance to first non-digit.
+  
+                  if (this._currentIndex != startIntPartIndex) {
+                      var scanIntPartIndex = this._currentIndex - 1;
+                      var multiplier = 1;
+                      while (scanIntPartIndex >= startIntPartIndex) {
+                          integer += multiplier * (this._string.charAt(scanIntPartIndex--) - "0");
+                          multiplier *= 10;
+                      }
+                  }
+  
+                  // Read the decimals.
+                  if (this._currentIndex < this._endIndex && this._string.charAt(this._currentIndex) == ".") {
+                      this._currentIndex++;
+  
+                      // There must be a least one digit following the .
+                      if (this._currentIndex >= this._endIndex || this._string.charAt(this._currentIndex) < "0" || this._string.charAt(this._currentIndex) > "9") return undefined;
+                      while (this._currentIndex < this._endIndex && this._string.charAt(this._currentIndex) >= "0" && this._string.charAt(this._currentIndex) <= "9") decimal += (this._string.charAt(this._currentIndex++) - "0") * (frac *= 0.1);
+                  }
+  
+                  // Read the exponent part.
+                  if (this._currentIndex != startIndex && this._currentIndex + 1 < this._endIndex && (this._string.charAt(this._currentIndex) == "e" || this._string.charAt(this._currentIndex) == "E") && this._string.charAt(this._currentIndex + 1) != "x" && this._string.charAt(this._currentIndex + 1) != "m") {
+                      this._currentIndex++;
+  
+                      // Read the sign of the exponent.
+                      if (this._string.charAt(this._currentIndex) == "+") {
+                          this._currentIndex++;
+                      } else if (this._string.charAt(this._currentIndex) == "-") {
+                          this._currentIndex++;
+                          expsign = -1;
+                      }
+  
+                      // There must be an exponent.
+                      if (this._currentIndex >= this._endIndex || this._string.charAt(this._currentIndex) < "0" || this._string.charAt(this._currentIndex) > "9") return undefined;
+  
+                      while (this._currentIndex < this._endIndex && this._string.charAt(this._currentIndex) >= "0" && this._string.charAt(this._currentIndex) <= "9") {
+                          exponent *= 10;
+                          exponent += this._string.charAt(this._currentIndex) - "0";
+                          this._currentIndex++;
+                      }
+                  }
+  
+                  var number = integer + decimal;
+                  number *= sign;
+  
+                  if (exponent) number *= Math.pow(10, expsign * exponent);
+  
+                  if (startIndex == this._currentIndex) return undefined;
+  
+                  this._skipOptionalSpacesOrDelimiter();
+  
+                  return number;
+              };
+  
+              Source.prototype._parseArcFlag = function () {
+                  if (this._currentIndex >= this._endIndex) return undefined;
+                  var flag = false;
+                  var flagChar = this._string.charAt(this._currentIndex++);
+                  if (flagChar == "0") flag = false;else if (flagChar == "1") flag = true;else return undefined;
+  
+                  this._skipOptionalSpacesOrDelimiter();
+                  return flag;
+              };
+  
+              Source.prototype.parseSegment = function () {
+                  var lookahead = this._string[this._currentIndex];
+                  var command = this._pathSegTypeFromChar(lookahead);
+                  if (command == SVGPathSeg.PATHSEG_UNKNOWN) {
+                      // Possibly an implicit command. Not allowed if this is the first command.
+                      if (this._previousCommand == SVGPathSeg.PATHSEG_UNKNOWN) return null;
+                      command = this._nextCommandHelper(lookahead, this._previousCommand);
+                      if (command == SVGPathSeg.PATHSEG_UNKNOWN) return null;
+                  } else {
+                      this._currentIndex++;
+                  }
+  
+                  this._previousCommand = command;
+  
+                  switch (command) {
+                      case SVGPathSeg.PATHSEG_MOVETO_REL:
+                          return new SVGPathSegMovetoRel(owningPathSegList, this._parseNumber(), this._parseNumber());
+                      case SVGPathSeg.PATHSEG_MOVETO_ABS:
+                          return new SVGPathSegMovetoAbs(owningPathSegList, this._parseNumber(), this._parseNumber());
+                      case SVGPathSeg.PATHSEG_LINETO_REL:
+                          return new SVGPathSegLinetoRel(owningPathSegList, this._parseNumber(), this._parseNumber());
+                      case SVGPathSeg.PATHSEG_LINETO_ABS:
+                          return new SVGPathSegLinetoAbs(owningPathSegList, this._parseNumber(), this._parseNumber());
+                      case SVGPathSeg.PATHSEG_LINETO_HORIZONTAL_REL:
+                          return new SVGPathSegLinetoHorizontalRel(owningPathSegList, this._parseNumber());
+                      case SVGPathSeg.PATHSEG_LINETO_HORIZONTAL_ABS:
+                          return new SVGPathSegLinetoHorizontalAbs(owningPathSegList, this._parseNumber());
+                      case SVGPathSeg.PATHSEG_LINETO_VERTICAL_REL:
+                          return new SVGPathSegLinetoVerticalRel(owningPathSegList, this._parseNumber());
+                      case SVGPathSeg.PATHSEG_LINETO_VERTICAL_ABS:
+                          return new SVGPathSegLinetoVerticalAbs(owningPathSegList, this._parseNumber());
+                      case SVGPathSeg.PATHSEG_CLOSEPATH:
+                          this._skipOptionalSpaces();
+                          return new SVGPathSegClosePath(owningPathSegList);
+                      case SVGPathSeg.PATHSEG_CURVETO_CUBIC_REL:
+                          var points = { x1: this._parseNumber(), y1: this._parseNumber(), x2: this._parseNumber(), y2: this._parseNumber(), x: this._parseNumber(), y: this._parseNumber() };
+                          return new SVGPathSegCurvetoCubicRel(owningPathSegList, points.x, points.y, points.x1, points.y1, points.x2, points.y2);
+                      case SVGPathSeg.PATHSEG_CURVETO_CUBIC_ABS:
+                          var points = { x1: this._parseNumber(), y1: this._parseNumber(), x2: this._parseNumber(), y2: this._parseNumber(), x: this._parseNumber(), y: this._parseNumber() };
+                          return new SVGPathSegCurvetoCubicAbs(owningPathSegList, points.x, points.y, points.x1, points.y1, points.x2, points.y2);
+                      case SVGPathSeg.PATHSEG_CURVETO_CUBIC_SMOOTH_REL:
+                          var points = { x2: this._parseNumber(), y2: this._parseNumber(), x: this._parseNumber(), y: this._parseNumber() };
+                          return new SVGPathSegCurvetoCubicSmoothRel(owningPathSegList, points.x, points.y, points.x2, points.y2);
+                      case SVGPathSeg.PATHSEG_CURVETO_CUBIC_SMOOTH_ABS:
+                          var points = { x2: this._parseNumber(), y2: this._parseNumber(), x: this._parseNumber(), y: this._parseNumber() };
+                          return new SVGPathSegCurvetoCubicSmoothAbs(owningPathSegList, points.x, points.y, points.x2, points.y2);
+                      case SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_REL:
+                          var points = { x1: this._parseNumber(), y1: this._parseNumber(), x: this._parseNumber(), y: this._parseNumber() };
+                          return new SVGPathSegCurvetoQuadraticRel(owningPathSegList, points.x, points.y, points.x1, points.y1);
+                      case SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_ABS:
+                          var points = { x1: this._parseNumber(), y1: this._parseNumber(), x: this._parseNumber(), y: this._parseNumber() };
+                          return new SVGPathSegCurvetoQuadraticAbs(owningPathSegList, points.x, points.y, points.x1, points.y1);
+                      case SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_SMOOTH_REL:
+                          return new SVGPathSegCurvetoQuadraticSmoothRel(owningPathSegList, this._parseNumber(), this._parseNumber());
+                      case SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_SMOOTH_ABS:
+                          return new SVGPathSegCurvetoQuadraticSmoothAbs(owningPathSegList, this._parseNumber(), this._parseNumber());
+                      case SVGPathSeg.PATHSEG_ARC_REL:
+                          var points = { x1: this._parseNumber(), y1: this._parseNumber(), arcAngle: this._parseNumber(), arcLarge: this._parseArcFlag(), arcSweep: this._parseArcFlag(), x: this._parseNumber(), y: this._parseNumber() };
+                          return new SVGPathSegArcRel(owningPathSegList, points.x, points.y, points.x1, points.y1, points.arcAngle, points.arcLarge, points.arcSweep);
+                      case SVGPathSeg.PATHSEG_ARC_ABS:
+                          var points = { x1: this._parseNumber(), y1: this._parseNumber(), arcAngle: this._parseNumber(), arcLarge: this._parseArcFlag(), arcSweep: this._parseArcFlag(), x: this._parseNumber(), y: this._parseNumber() };
+                          return new SVGPathSegArcAbs(owningPathSegList, points.x, points.y, points.x1, points.y1, points.arcAngle, points.arcLarge, points.arcSweep);
+                      default:
+                          throw "Unknown path seg type.";
+                  }
+              };
+  
+              var builder = new Builder();
+              var source = new Source(string);
+  
+              if (!source.initialCommandIsMoveTo()) return [];
+              while (source.hasMoreData()) {
+                  var pathSeg = source.parseSegment();
+                  if (!pathSeg) return [];
+                  builder.appendSegment(pathSeg);
+              }
+  
+              return builder.pathSegList;
+          };
+      }
+  })();
+
+/***/ },
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -5286,25 +6348,25 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 85 */
+/* 86 */
 /***/ function(module, exports) {
 
   module.exports = require("./assets");
 
 /***/ },
-/* 86 */
+/* 87 */
 /***/ function(module, exports) {
 
   module.exports = require("compression");
 
 /***/ },
-/* 87 */
+/* 88 */
 /***/ function(module, exports) {
 
   module.exports = require("body-parser");
 
 /***/ },
-/* 88 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -5318,11 +6380,11 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _redis = __webpack_require__(89);
+  var _redis = __webpack_require__(90);
   
   var _redis2 = _interopRequireDefault(_redis);
   
-  var _modelsTwitter = __webpack_require__(90);
+  var _modelsTwitter = __webpack_require__(91);
   
   var _modelsTwitter2 = _interopRequireDefault(_modelsTwitter);
   
@@ -5409,13 +6471,13 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 89 */
+/* 90 */
 /***/ function(module, exports) {
 
   module.exports = require("redis");
 
 /***/ },
-/* 90 */
+/* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -5426,11 +6488,11 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _mongoose = __webpack_require__(91);
+  var _mongoose = __webpack_require__(92);
   
   var _mongoose2 = _interopRequireDefault(_mongoose);
   
-  var _mongooseUniqueValidator = __webpack_require__(92);
+  var _mongooseUniqueValidator = __webpack_require__(93);
   
   var _mongooseUniqueValidator2 = _interopRequireDefault(_mongooseUniqueValidator);
   
@@ -5473,19 +6535,19 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 91 */
+/* 92 */
 /***/ function(module, exports) {
 
   module.exports = require("mongoose");
 
 /***/ },
-/* 92 */
+/* 93 */
 /***/ function(module, exports) {
 
   module.exports = require("mongoose-unique-validator");
 
 /***/ },
-/* 93 */
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -5504,11 +6566,11 @@ module.exports =
   
   var _express2 = _interopRequireDefault(_express);
   
-  var _controllersTwitters = __webpack_require__(103);
+  var _controllersTwitters = __webpack_require__(95);
   
   var twitters = _interopRequireWildcard(_controllersTwitters);
   
-  var _controllersInquiries = __webpack_require__(104);
+  var _controllersInquiries = __webpack_require__(97);
   
   var inquiries = _interopRequireWildcard(_controllersInquiries);
   
@@ -5654,14 +6716,235 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 94 */,
 /* 95 */
+/***/ function(module, exports, __webpack_require__) {
+
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  exports.getFromRedis = getFromRedis;
+  exports.saveTweets = saveTweets;
+  exports.transform = transform;
+  exports.findData = findData;
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  var _redis = __webpack_require__(90);
+  
+  var _redis2 = _interopRequireDefault(_redis);
+  
+  var _modelsTwitter = __webpack_require__(91);
+  
+  var _modelsTwitter2 = _interopRequireDefault(_modelsTwitter);
+  
+  var _async2 = __webpack_require__(96);
+  
+  var _async3 = _interopRequireDefault(_async2);
+  
+  var _lodash = __webpack_require__(80);
+  
+  var _lodash2 = _interopRequireDefault(_lodash);
+  
+  var client = _redis2['default'].createClient();
+  
+  var mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika'];
+  var exludedFields = '-_id -__v -has_user_mentions -geo_enabled -time_zone -approximated_geo ';
+  exludedFields += '-favorite_count -user_id -retweet_count -has_hashtags -is_retweet -is_reply';
+  var saved = 0;
+  var notSaved = 0;
+  
+  function getFromRedis() {
+    return new Promise(function (resolve, reject) {
+      client.get('tw', function (err, reply) {
+        resolve(reply);
+        reject(err);
+      });
+    });
+  }
+  
+  function _addNamesToTweet(tweet) {
+    // mutates the tweet by adding new fields
+    mentions.forEach(function (mention) {
+      var bool = tweet.user_mentions.some(function (name) {
+        return name.toLowerCase().includes(mention);
+      });
+      tweet[mention] = bool ? 1 : 0;
+    });
+    return tweet;
+  }
+  
+  function _excludeInUserMentions(tweet) {
+    // TODO should remove terms that are not user names from user_mentions
+    tweet.user_mentions.forEach(function (term, index, arr) {
+      mentions.forEach(function (name) {
+        var regex = new RegExp('\\b' + name, 'gi');
+        if (term.match(regex)) arr.splice(index, 1, name);
+      });
+    });
+    return tweet;
+  }
+  
+  function _excludeNamesInTerms(tweet) {
+    mentions.forEach(function (mention) {
+      tweet.terms.forEach(function (term, index, arr) {
+        var isName = term.toLowerCase().includes(mention);
+        if (isName) arr.splice(index, 1);
+      });
+    });
+    return tweet;
+  }
+  
+  function saveTweets(data, cb) {
+    _async3['default'].each(data, function (d, callback) {
+      var twitter = new _modelsTwitter2['default'](d);
+      twitter.save(function (err) {
+        if (err) {
+          /* eslint-disable no-console*/
+          console.log('error ' + err.message + ' not saved ' + d.id);
+          notSaved++;
+        } else {
+          saved++;
+        }
+        callback();
+      });
+    }, function (error) {
+      if (error) throw new Error(error);
+      cb({ saved: saved, notSaved: notSaved });
+    });
+  }
+  
+  function transform(raw) {
+    return raw.map(function (d) {
+      var tweet = d.toObject();
+      tweet.text = tweet.text.toLowerCase();
+      // _excludeInUserMentions(tweet);
+      tweet.sentiment = _lodash2['default'].ceil(tweet.sentiment, 2) || tweet.sentiment;
+      _addNamesToTweet(tweet);
+      _excludeNamesInTerms(tweet);
+      return tweet;
+    });
+  }
+  
+  function findData(start, end) {
+    return regeneratorRuntime.async(function findData$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          context$1$0.prev = 0;
+          return context$1$0.abrupt('return', _modelsTwitter2['default'].find({
+            'is_retweet': false,
+            timeStamp: {
+              $gt: parseInt(start, 10),
+              $lt: parseInt(end, 10)
+            }
+          }).select(exludedFields).exec());
+  
+        case 4:
+          context$1$0.prev = 4;
+          context$1$0.t0 = context$1$0['catch'](0);
+          throw new Error(context$1$0.t0);
+  
+        case 7:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, this, [[0, 4]]);
+  }
+
+/***/ },
+/* 96 */
 /***/ function(module, exports) {
 
   module.exports = require("async");
 
 /***/ },
-/* 96 */
+/* 97 */
+/***/ function(module, exports, __webpack_require__) {
+
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  exports.saveInquiry = saveInquiry;
+  exports.findInquiries = findInquiries;
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  var _modelsInquiry = __webpack_require__(98);
+  
+  var _modelsInquiry2 = _interopRequireDefault(_modelsInquiry);
+  
+  function saveInquiry(data, cb) {
+    var inquiry = new _modelsInquiry2['default'](data);
+    inquiry.save(function (err) {
+      console.log(err);
+      cb(err);
+    });
+  }
+  
+  function findInquiries() {
+    return regeneratorRuntime.async(function findInquiries$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          context$1$0.prev = 0;
+          return context$1$0.abrupt('return', _modelsInquiry2['default'].find().exec());
+  
+        case 4:
+          context$1$0.prev = 4;
+          context$1$0.t0 = context$1$0['catch'](0);
+          throw new Error(context$1$0.t0);
+  
+        case 7:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, this, [[0, 4]]);
+  }
+
+/***/ },
+/* 98 */
+/***/ function(module, exports, __webpack_require__) {
+
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  var _mongoose = __webpack_require__(92);
+  
+  var _mongoose2 = _interopRequireDefault(_mongoose);
+  
+  var _mongooseUniqueValidator = __webpack_require__(93);
+  
+  var _mongooseUniqueValidator2 = _interopRequireDefault(_mongooseUniqueValidator);
+  
+  var Schema = _mongoose2['default'].Schema;
+  
+  var InquirySchema = new Schema({
+    date: { type: Date },
+    name: { type: String, trim: true },
+    email: { type: String, trim: true, unique: true }
+  });
+  
+  InquirySchema.plugin(_mongooseUniqueValidator2['default']);
+  InquirySchema.path('name').required(true, 'inquiry must have a name');
+  InquirySchema.path('email').required(true, 'inquiry must have an email');
+  /* eslint-disable func-names*/
+  InquirySchema.pre('save', function (next) {
+    var err = this.validateSync();
+    next(err);
+  });
+  
+  exports['default'] = _mongoose2['default'].model('Inquiry', InquirySchema);
+  module.exports = exports['default'];
+
+/***/ },
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
   
@@ -5684,7 +6967,7 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _fs = __webpack_require__(97);
+  var _fs = __webpack_require__(100);
   
   var _fs2 = _interopRequireDefault(_fs);
   
@@ -5692,15 +6975,15 @@ module.exports =
   
   var _express = __webpack_require__(3);
   
-  var _bluebird = __webpack_require__(98);
+  var _bluebird = __webpack_require__(101);
   
   var _bluebird2 = _interopRequireDefault(_bluebird);
   
-  var _jade = __webpack_require__(99);
+  var _jade = __webpack_require__(102);
   
   var _jade2 = _interopRequireDefault(_jade);
   
-  var _frontMatter = __webpack_require__(100);
+  var _frontMatter = __webpack_require__(103);
   
   var _frontMatter2 = _interopRequireDefault(_frontMatter);
   
@@ -5804,239 +7087,28 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 97 */
+/* 100 */
 /***/ function(module, exports) {
 
   module.exports = require("fs");
 
 /***/ },
-/* 98 */
+/* 101 */
 /***/ function(module, exports) {
 
   module.exports = require("bluebird");
 
 /***/ },
-/* 99 */
+/* 102 */
 /***/ function(module, exports) {
 
   module.exports = require("jade");
 
 /***/ },
-/* 100 */
+/* 103 */
 /***/ function(module, exports) {
 
   module.exports = require("front-matter");
-
-/***/ },
-/* 101 */,
-/* 102 */,
-/* 103 */
-/***/ function(module, exports, __webpack_require__) {
-
-  'use strict';
-  
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });
-  exports.getFromRedis = getFromRedis;
-  exports.saveTweets = saveTweets;
-  exports.transform = transform;
-  exports.findData = findData;
-  
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-  
-  var _redis = __webpack_require__(89);
-  
-  var _redis2 = _interopRequireDefault(_redis);
-  
-  var _modelsTwitter = __webpack_require__(90);
-  
-  var _modelsTwitter2 = _interopRequireDefault(_modelsTwitter);
-  
-  var _async2 = __webpack_require__(95);
-  
-  var _async3 = _interopRequireDefault(_async2);
-  
-  var _lodash = __webpack_require__(80);
-  
-  var _lodash2 = _interopRequireDefault(_lodash);
-  
-  var client = _redis2['default'].createClient();
-  
-  var mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika'];
-  var exludedFields = '-_id -__v -has_user_mentions -geo_enabled -time_zone -approximated_geo ';
-  exludedFields += '-favorite_count -user_id -retweet_count -has_hashtags -is_retweet -is_reply';
-  var saved = 0;
-  var notSaved = 0;
-  
-  function getFromRedis() {
-    return new Promise(function (resolve, reject) {
-      client.get('tw', function (err, reply) {
-        resolve(reply);
-        reject(err);
-      });
-    });
-  }
-  
-  function _addNamesToTweet(tweet) {
-    // mutates the tweet by adding new fields
-    mentions.forEach(function (mention) {
-      var bool = tweet.user_mentions.some(function (name) {
-        return name.toLowerCase().includes(mention);
-      });
-      tweet[mention] = bool ? 1 : 0;
-    });
-    return tweet;
-  }
-  function _excludeNamesInTerms(tweet) {
-    mentions.forEach(function (mention) {
-      tweet.terms.forEach(function (term, index, arr) {
-        var isName = term.toLowerCase().includes(mention);
-        if (isName) arr.splice(index, 1);
-      });
-    });
-    return tweet;
-  }
-  
-  function saveTweets(data, cb) {
-    _async3['default'].each(data, function (d, callback) {
-      var twitter = new _modelsTwitter2['default'](d);
-      twitter.save(function (err) {
-        if (err) {
-          /* eslint-disable no-console*/
-          console.log('error ' + err.message + ' not saved ' + d.id);
-          notSaved++;
-        } else {
-          saved++;
-        }
-        callback();
-      });
-    }, function (error) {
-      if (error) throw new Error(error);
-      cb({ saved: saved, notSaved: notSaved });
-    });
-  }
-  
-  function transform(raw) {
-    return raw.map(function (d) {
-      var tweet = d.toObject();
-      tweet.text = tweet.text.toLowerCase();
-      tweet.sentiment = _lodash2['default'].ceil(tweet.sentiment, 2) || tweet.sentiment;
-      _addNamesToTweet(tweet);
-      _excludeNamesInTerms(tweet);
-      return tweet;
-    });
-  }
-  
-  function findData(start, end) {
-    return regeneratorRuntime.async(function findData$(context$1$0) {
-      while (1) switch (context$1$0.prev = context$1$0.next) {
-        case 0:
-          context$1$0.prev = 0;
-          return context$1$0.abrupt('return', _modelsTwitter2['default'].find({
-            'is_retweet': false,
-            timeStamp: {
-              $gt: parseInt(start, 10),
-              $lt: parseInt(end, 10)
-            }
-          }).select(exludedFields).exec());
-  
-        case 4:
-          context$1$0.prev = 4;
-          context$1$0.t0 = context$1$0['catch'](0);
-          throw new Error(context$1$0.t0);
-  
-        case 7:
-        case 'end':
-          return context$1$0.stop();
-      }
-    }, null, this, [[0, 4]]);
-  }
-
-/***/ },
-/* 104 */
-/***/ function(module, exports, __webpack_require__) {
-
-  'use strict';
-  
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });
-  exports.saveInquiry = saveInquiry;
-  exports.findInquiries = findInquiries;
-  
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-  
-  var _modelsInquiry = __webpack_require__(105);
-  
-  var _modelsInquiry2 = _interopRequireDefault(_modelsInquiry);
-  
-  function saveInquiry(data, cb) {
-    var inquiry = new _modelsInquiry2['default'](data);
-    inquiry.save(function (err) {
-      console.log(err);
-      cb(err);
-    });
-  }
-  
-  function findInquiries() {
-    return regeneratorRuntime.async(function findInquiries$(context$1$0) {
-      while (1) switch (context$1$0.prev = context$1$0.next) {
-        case 0:
-          context$1$0.prev = 0;
-          return context$1$0.abrupt('return', _modelsInquiry2['default'].find().exec());
-  
-        case 4:
-          context$1$0.prev = 4;
-          context$1$0.t0 = context$1$0['catch'](0);
-          throw new Error(context$1$0.t0);
-  
-        case 7:
-        case 'end':
-          return context$1$0.stop();
-      }
-    }, null, this, [[0, 4]]);
-  }
-
-/***/ },
-/* 105 */
-/***/ function(module, exports, __webpack_require__) {
-
-  'use strict';
-  
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });
-  
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-  
-  var _mongoose = __webpack_require__(91);
-  
-  var _mongoose2 = _interopRequireDefault(_mongoose);
-  
-  var _mongooseUniqueValidator = __webpack_require__(92);
-  
-  var _mongooseUniqueValidator2 = _interopRequireDefault(_mongooseUniqueValidator);
-  
-  var Schema = _mongoose2['default'].Schema;
-  
-  var InquirySchema = new Schema({
-    date: { type: Date },
-    name: { type: String, trim: true },
-    email: { type: String, trim: true, unique: true }
-  });
-  
-  InquirySchema.plugin(_mongooseUniqueValidator2['default']);
-  InquirySchema.path('name').required(true, 'inquiry must have a name');
-  InquirySchema.path('email').required(true, 'inquiry must have an email');
-  /* eslint-disable func-names*/
-  InquirySchema.pre('save', function (next) {
-    var err = this.validateSync();
-    next(err);
-  });
-  
-  exports['default'] = _mongoose2['default'].model('Inquiry', InquirySchema);
-  module.exports = exports['default'];
 
 /***/ }
 /******/ ]);

@@ -19,8 +19,9 @@ class ContactPage extends Component {
     return (
       <div className={s.root}>
         <div className={s.container}>
-          <h1>{title}</h1>
-          <p>...</p>
+          <h2 className = "spacing-sm">Coming Soon...</h2>
+          <p>Please Contact us through our Social Media Channels or leave us Your email through the Find out more form Below</p>
+          <p>Thanks For Your Interest</p>
         </div>
       </div>
     );
