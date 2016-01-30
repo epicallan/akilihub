@@ -271,27 +271,27 @@ module.exports =
   
   var _componentsApp2 = _interopRequireDefault(_componentsApp);
   
-  var _componentsContentPage = __webpack_require__(42);
+  var _componentsContentPage = __webpack_require__(43);
   
   var _componentsContentPage2 = _interopRequireDefault(_componentsContentPage);
   
-  var _componentsContactPage = __webpack_require__(45);
+  var _componentsContactPage = __webpack_require__(46);
   
   var _componentsContactPage2 = _interopRequireDefault(_componentsContactPage);
   
-  var _componentsBlogPage = __webpack_require__(48);
+  var _componentsBlogPage = __webpack_require__(49);
   
   var _componentsBlogPage2 = _interopRequireDefault(_componentsBlogPage);
   
-  var _componentsNotFoundPage = __webpack_require__(51);
+  var _componentsNotFoundPage = __webpack_require__(52);
   
   var _componentsNotFoundPage2 = _interopRequireDefault(_componentsNotFoundPage);
   
-  var _componentsErrorPage = __webpack_require__(54);
+  var _componentsErrorPage = __webpack_require__(55);
   
   var _componentsErrorPage2 = _interopRequireDefault(_componentsErrorPage);
   
-  var _componentsDataPage = __webpack_require__(57);
+  var _componentsDataPage = __webpack_require__(58);
   
   var _componentsDataPage2 = _interopRequireDefault(_componentsDataPage);
   
@@ -1366,11 +1366,11 @@ module.exports =
   
   var _Header2 = _interopRequireDefault(_Header);
   
-  var _Feedback = __webpack_require__(36);
+  var _Feedback = __webpack_require__(37);
   
   var _Feedback2 = _interopRequireDefault(_Feedback);
   
-  var _Footer = __webpack_require__(39);
+  var _Footer = __webpack_require__(40);
   
   var _Footer2 = _interopRequireDefault(_Footer);
   
@@ -1468,6 +1468,21 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./App.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./App.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
 /* 18 */
@@ -1478,7 +1493,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:700}dfn{font-style:italic}h1{font-size:2em;margin:.67em 0}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace;font-size:1em}button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}button{overflow:visible}button,select{text-transform:none}button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}input{line-height:normal}input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{height:auto}input[type=search]{-webkit-appearance:textfield;box-sizing:content-box}input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}textarea{overflow:auto}optgroup{font-weight:700}table{border-collapse:collapse;border-spacing:0}td,th{padding:0}//headers h1{font-size:2em}h2{font-size:1.5em}h3{font-size:1.2em}body,html{color:#222;width:100%;height:100%;font-weight:100;font-size:1em;font-family:Lato,Segoe UI,HelveticaNeue-Light,sans-serif;line-height:1.375;background-color:#5b798e}.App_wrapper_1PG{color:#fff;line-height:1.2}::-moz-selection{background:#b3d4fc;text-shadow:none}::selection{background:#b3d4fc;text-shadow:none}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}audio,canvas,iframe,img,svg,video{vertical-align:middle}fieldset{border:0;margin:0;padding:0}textarea{resize:vertical}.App_browserupgrade_1t4{margin:.2em 0;background:#ccc;color:#000;padding:.2em 0}@media print{*,:after,:before{background:transparent!important;color:#000!important;box-shadow:none!important;text-shadow:none!important}a,a:visited{text-decoration:underline}a[href]:after{content:\" (\" attr(href) \")\"}abbr[title]:after{content:\" (\" attr(title) \")\"}a[href^=\"#\"]:after,a[href^=\"javascript:\"]:after{content:\"\"}blockquote,pre{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}img,tr{page-break-inside:avoid}img{max-width:100%!important}h2,h3,p{orphans:3;widows:3}h2,h3{page-break-after:avoid}}", ""]);
+  exports.push([module.id, "/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */\n\n/**\n * 1. Set default font family to sans-serif.\n * 2. Prevent iOS and IE text size adjust after device orientation change,\n *    without disabling user zoom.\n */\n\nhtml {\n  font-family: sans-serif; /* 1 */\n  -ms-text-size-adjust: 100%; /* 2 */\n  -webkit-text-size-adjust: 100%; /* 2 */\n}\n\n/**\n * Remove default margin.\n */\n\nbody {\n  margin: 0;\n}\n\n/* HTML5 display definitions\n   ========================================================================== */\n\n/**\n * Correct `block` display not defined for any HTML5 element in IE 8/9.\n * Correct `block` display not defined for `details` or `summary` in IE 10/11\n * and Firefox.\n * Correct `block` display not defined for `main` in IE 11.\n */\n\narticle, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {\n  display: block;\n}\n\n/**\n * 1. Correct `inline-block` display not defined in IE 8/9.\n * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.\n */\n\naudio, canvas, progress, video {\n  display: inline-block; /* 1 */\n  vertical-align: baseline; /* 2 */\n}\n\n/**\n * Prevent modern browsers from displaying `audio` without controls.\n * Remove excess height in iOS 5 devices.\n */\n\naudio:not([controls]) {\n  display: none;\n  height: 0;\n}\n\n/**\n * Address `[hidden]` styling not present in IE 8/9/10.\n * Hide the `template` element in IE 8/9/10/11, Safari, and Firefox < 22.\n */\n\n[hidden], template {\n  display: none;\n}\n\n/* Links\n   ========================================================================== */\n\n/**\n * Remove the gray background color from active links in IE 10.\n */\n\na {\n  background-color: transparent;\n}\n\n/**\n * Improve readability of focused elements when they are also in an\n * active/hover state.\n */\n\na:active, a:hover {\n  outline: 0;\n}\n\n/* Text-level semantics\n   ========================================================================== */\n\n/**\n * Address styling not present in IE 8/9/10/11, Safari, and Chrome.\n */\n\nabbr[title] {\n  border-bottom: 1px dotted;\n}\n\n/**\n * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.\n */\n\nb, strong {\n  font-weight: bold;\n}\n\n/**\n * Address styling not present in Safari and Chrome.\n */\n\ndfn {\n  font-style: italic;\n}\n\n/**\n * Address variable `h1` font-size and margin within `section` and `article`\n * contexts in Firefox 4+, Safari, and Chrome.\n */\n\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n\n/**\n * Address styling not present in IE 8/9.\n */\n\nmark {\n  background: #ff0;\n  color: #000;\n}\n\n/**\n * Address inconsistent and variable font size in all browsers.\n */\n\nsmall {\n  font-size: 80%;\n}\n\n/**\n * Prevent `sub` and `sup` affecting `line-height` in all browsers.\n */\n\nsub, sup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsup {\n  top: -0.5em;\n}\n\nsub {\n  bottom: -0.25em;\n}\n\n/* Embedded content\n   ========================================================================== */\n\n/**\n * Remove border when inside `a` element in IE 8/9/10.\n */\n\nimg {\n  border: 0;\n}\n\n/**\n * Correct overflow not hidden in IE 9/10/11.\n */\n\nsvg:not(:root) {\n  overflow: hidden;\n}\n\n/* Grouping content\n   ========================================================================== */\n\n/**\n * Address margin not present in IE 8/9 and Safari.\n */\n\nfigure {\n  margin: 1em 40px;\n}\n\n/**\n * Address differences between Firefox and other browsers.\n */\n\nhr {\n  -webkit-box-sizing: content-box;\n          box-sizing: content-box;\n  height: 0;\n}\n\n/**\n * Contain overflow in all browsers.\n */\n\npre {\n  overflow: auto;\n}\n\n/**\n * Address odd `em`-unit font size rendering in all browsers.\n */\n\ncode, kbd, pre, samp {\n  font-family: monospace, monospace;\n  font-size: 1em;\n}\n\n/* Forms\n   ========================================================================== */\n\n/**\n * Known limitation: by default, Chrome and Safari on OS X allow very limited\n * styling of `select`, unless a `border` property is set.\n */\n\n/**\n * 1. Correct color not being inherited.\n *    Known issue: affects color of disabled elements.\n * 2. Correct font properties not being inherited.\n * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.\n */\n\nbutton, input, optgroup, select, textarea {\n  color: inherit; /* 1 */\n  font: inherit; /* 2 */\n  margin: 0; /* 3 */\n}\n\n/**\n * Address `overflow` set to `hidden` in IE 8/9/10/11.\n */\n\nbutton {\n  overflow: visible;\n}\n\n/**\n * Address inconsistent `text-transform` inheritance for `button` and `select`.\n * All other form control elements do not inherit `text-transform` values.\n * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.\n * Correct `select` style inheritance in Firefox.\n */\n\nbutton, select {\n  text-transform: none;\n}\n\n/**\n * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`\n *    and `video` controls.\n * 2. Correct inability to style clickable `input` types in iOS.\n * 3. Improve usability and consistency of cursor style between image-type\n *    `input` and others.\n */\n\nbutton, html input[type=\"button\"], input[type=\"reset\"], input[type=\"submit\"] {\n  -webkit-appearance: button; /* 2 */\n  cursor: pointer; /* 3 */\n}\n\n/**\n * Re-set default cursor for disabled elements.\n */\n\nbutton[disabled], html input[disabled] {\n  cursor: default;\n}\n\n/**\n * Remove inner padding and border in Firefox 4+.\n */\n\nbutton::-moz-focus-inner, input::-moz-focus-inner {\n  border: 0;\n  padding: 0;\n}\n\n/**\n * Address Firefox 4+ setting `line-height` on `input` using `!important` in\n * the UA stylesheet.\n */\n\ninput {\n  line-height: normal;\n}\n\n/**\n * It's recommended that you don't attempt to style these elements.\n * Firefox's implementation doesn't respect box-sizing, padding, or width.\n *\n * 1. Address box sizing set to `content-box` in IE 8/9/10.\n * 2. Remove excess padding in IE 8/9/10.\n */\n\ninput[type=\"checkbox\"], input[type=\"radio\"] {\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Fix the cursor style for Chrome's increment/decrement buttons. For certain\n * `font-size` values of the `input`, it causes the cursor style of the\n * decrement button to change from `default` to `text`.\n */\n\ninput[type=\"number\"]::-webkit-inner-spin-button, input[type=\"number\"]::-webkit-outer-spin-button {\n  height: auto;\n}\n\n/**\n * 1. Address `appearance` set to `searchfield` in Safari and Chrome.\n * 2. Address `box-sizing` set to `border-box` in Safari and Chrome.\n */\n\ninput[type=\"search\"] {\n  -webkit-appearance: textfield; /* 1 */\n  -webkit-box-sizing: content-box;\n          box-sizing: content-box; /* 2 */\n}\n\n/**\n * Remove inner padding and search cancel button in Safari and Chrome on OS X.\n * Safari (but not Chrome) clips the cancel button when the search input has\n * padding (and `textfield` appearance).\n */\n\ninput[type=\"search\"]::-webkit-search-cancel-button, input[type=\"search\"]::-webkit-search-decoration {\n  -webkit-appearance: none;\n}\n\n/**\n * Define consistent border, margin, and padding.\n */\n\nfieldset {\n  border: 1px solid #c0c0c0;\n  margin: 0 2px;\n  padding: 0.35em 0.625em 0.75em;\n}\n\n/**\n * 1. Correct `color` not being inherited in IE 8/9/10/11.\n * 2. Remove padding so people aren't caught out if they zero out fieldsets.\n */\n\nlegend {\n  border: 0; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Remove default vertical scrollbar in IE 8/9/10/11.\n */\n\ntextarea {\n  overflow: auto;\n}\n\n/**\n * Don't inherit the `font-weight` (applied by a rule above).\n * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.\n */\n\noptgroup {\n  font-weight: bold;\n}\n\n/* Tables\n   ========================================================================== */\n\n/**\n * Remove most spacing between table cells.\n */\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\n\ntd, th {\n  padding: 0;\n}\n\n/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n/*\n * Base styles\n * ========================================================================== */\n\nhtml, body {\n  color: #222;\n  width: 100%;\n  height: 100%;\n  font-weight: 100;\n  font-size: 1em; /* ~16px; */\n  font-family: 'Lato','Segoe UI','HelveticaNeue-Light',sans-serif;\n  line-height: 1.375; /* ~22px */\n  background-color: #5B798E;\n}\n.App_wrapper_1PG {\n  color: white;\n  line-height: 1.2;\n}\n\n/*\n * Remove text-shadow in selection highlight:\n * https://twitter.com/miketaylr/status/12228805301\n *\n * These selection rule sets have to be separate.\n * Customize the background color to match your design.\n */\n\n::-moz-selection {\n  background: #b3d4fc;\n  text-shadow: none;\n}\n\n::selection {\n  background: #b3d4fc;\n  text-shadow: none;\n}\n\n/*\n * A better looking default horizontal rule\n */\n\nhr {\n  display: block;\n  height: 1px;\n  border: 0;\n  border-top: 1px solid #ccc;\n  margin: 1em 0;\n  padding: 0;\n}\n\n/*\n * Remove the gap between audio, canvas, iframes,\n * images, videos and the bottom of their containers:\n * https://github.com/h5bp/html5-boilerplate/issues/440\n */\n\naudio, canvas, iframe, img, svg, video {\n  vertical-align: middle;\n}\n\n/*\n * Remove default fieldset styles.\n */\n\nfieldset {\n  border: 0;\n  margin: 0;\n  padding: 0;\n}\n\n/*\n * Allow only vertical resizing of textareas.\n */\n\ntextarea {\n  resize: vertical;\n}\n\n/*\n * Browser upgrade prompt\n * ========================================================================== */\n\n.App_browserupgrade_1t4 {\n  margin: 0.2em 0;\n  background: #ccc;\n  color: #000;\n  padding: 0.2em 0;\n}\n\n/*\n * Print styles\n * Inlined to avoid the additional HTTP request:\n * http://www.phpied.com/delay-loading-your-print-css/\n * ========================================================================== */\n\n@media print {\n  *, *:before, *:after {\n    background: transparent !important;\n    color: #000 !important; /* Black prints faster: http://www.sanbeiji.com/archives/953 */\n    -webkit-box-shadow: none !important;\n            box-shadow: none !important;\n    text-shadow: none !important;\n  }\n\n  a, a:visited {\n    text-decoration: underline;\n  }\n\n  a[href]:after {\n    content: \" (\" attr(href) \")\";\n  }\n\n  abbr[title]:after {\n    content: \" (\" attr(title) \")\";\n  }\n\n  /*\n   * Don't show links that are fragment identifiers,\n   * or use the `javascript:` pseudo protocol\n   */\n\n  a[href^=\"#\"]:after, a[href^=\"javascript:\"]:after {\n    content: \"\";\n  }\n\n  pre, blockquote {\n    border: 1px solid #999;\n    page-break-inside: avoid;\n  }\n\n  /*\n   * Printing Tables:\n   * http://css-discuss.incutio.com/wiki/Printing_Tables\n   */\n\n  thead {\n    display: table-header-group;\n  }\n\n  tr, img {\n    page-break-inside: avoid;\n  }\n\n  img {\n    max-width: 100% !important;\n  }\n\n  p, h2, h3 {\n    orphans: 3;\n    widows: 3;\n  }\n\n  h2, h3 {\n    page-break-after: avoid;\n  }\n}\n", ""]);
   
   // exports
   exports.locals = {
@@ -1801,6 +1816,21 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Header.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Header.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
 /* 24 */
@@ -1811,7 +1841,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "//headers h1{font-size:2em}h2{font-size:1.5em}h3{font-size:1.2em}.Header_container_izf{margin:0 auto;padding:20px 0;max-width:1000px}", ""]);
+  exports.push([module.id, "\n/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n.Header_root_14I {\n}\n\n.Header_container_izf {\n  margin: 0 auto;\n  padding: 20px 0;\n  max-width: 1000px;\n}\n", ""]);
   
   // exports
   exports.locals = {
@@ -1929,6 +1959,8 @@ module.exports =
   
   var _Link2 = _interopRequireDefault(_Link);
   
+  var _reactBootstrap = __webpack_require__(36);
+  
   var Navigation = (function (_Component) {
     _inherits(Navigation, _Component);
   
@@ -1961,72 +1993,57 @@ module.exports =
       key: 'render',
       value: function render() {
         return _react2['default'].createElement(
-          'nav',
-          { className: (0, _classnames2['default'])('navbar', _NavigationScss2['default'].navbar, 'navbar-fixed-top'), ref: 'nav' },
+          _reactBootstrap.Navbar,
+          { id: 'navbar-override', fixedTop: true, className: (0, _classnames2['default'])('navbar', _NavigationScss2['default'].navbar), ref: 'nav' },
           _react2['default'].createElement(
-            'div',
-            { className: 'container' },
+            _reactBootstrap.Navbar.Header,
+            null,
+            _react2['default'].createElement(_reactBootstrap.Navbar.Toggle, null)
+          ),
+          _react2['default'].createElement(
+            _reactBootstrap.Navbar.Collapse,
+            null,
             _react2['default'].createElement(
-              'div',
-              { className: 'navbar-header' },
+              _reactBootstrap.Nav,
+              null,
               _react2['default'].createElement(
-                'button',
-                { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#navbar', 'aria-expanded': 'false', 'aria-controls': 'navbar' },
+                'li',
+                null,
                 _react2['default'].createElement(
-                  'span',
-                  { className: 'sr-only' },
-                  'Toggle navigation'
-                ),
-                _react2['default'].createElement('span', { className: 'icon-bar' }),
-                _react2['default'].createElement('span', { className: 'icon-bar' }),
-                _react2['default'].createElement('span', { className: 'icon-bar' })
-              )
-            ),
-            _react2['default'].createElement(
-              'div',
-              { className: (0, _classnames2['default'])(_NavigationScss2['default'].root, this.props.className, _NavigationScss2['default'].collapse, 'navbar-collapse', 'collapse'), role: 'navigation' },
-              _react2['default'].createElement(
-                'ul',
-                { className: 'nav navbar-nav navbar-center' },
-                _react2['default'].createElement(
-                  'li',
-                  null,
-                  _react2['default'].createElement(
-                    _Link2['default'],
-                    { className: _NavigationScss2['default'].link, to: '/' },
-                    'Home'
-                  )
-                ),
-                _react2['default'].createElement(
-                  'li',
-                  null,
-                  _react2['default'].createElement(
-                    _Link2['default'],
-                    { className: _NavigationScss2['default'].link, to: '/data' },
-                    'Data Center'
-                  )
-                ),
-                _react2['default'].createElement(
-                  'li',
-                  null,
-                  _react2['default'].createElement(
-                    _Link2['default'],
-                    { className: _NavigationScss2['default'].link, to: '/blog' },
-                    'Blog'
-                  )
+                  _Link2['default'],
+                  { className: _NavigationScss2['default'].link, to: '/' },
+                  'Home'
                 )
               ),
               _react2['default'].createElement(
-                'ul',
-                { className: 'nav navbar-nav navbar-right' },
+                'li',
+                null,
                 _react2['default'].createElement(
-                  'li',
-                  null,
-                  _react2['default'].createElement(
-                    _Link2['default'],
-                    { className: _NavigationScss2['default'].link, to: '/contact' },
-                    'Contact Us'
-                  )
+                  _Link2['default'],
+                  { className: _NavigationScss2['default'].link, to: '/data' },
+                  'Data Center'
+                )
+              ),
+              _react2['default'].createElement(
+                'li',
+                null,
+                _react2['default'].createElement(
+                  _Link2['default'],
+                  { className: _NavigationScss2['default'].link, to: '/blog' },
+                  'Blog'
+                )
+              )
+            ),
+            _react2['default'].createElement(
+              _reactBootstrap.Nav,
+              { pullRight: true },
+              _react2['default'].createElement(
+                'li',
+                null,
+                _react2['default'].createElement(
+                  _Link2['default'],
+                  { className: _NavigationScss2['default'].link, to: '/contact' },
+                  'Contact Us'
                 )
               )
             )
@@ -2065,6 +2082,21 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Navigation.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Navigation.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
 /* 28 */
@@ -2075,17 +2107,17 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "//headers h1{font-size:2em}h2{font-size:1.5em}h3{font-size:1.2em}.Navigation_link_12k{display:inline-block;padding:3px 8px;text-decoration:none;font-size:1.125em}.Navigation_link_12k,.Navigation_link_12k:active,.Navigation_link_12k:visited{color:hsla(0,0%,100%,.6)}.Navigation_link_12k:hover{color:#fff}.Navigation_highlight_2cu{margin-right:8px;margin-left:8px;border-radius:3px;background:rgba(0,0,0,.15);color:#fff}.Navigation_highlight_2cu:hover{background:rgba(0,0,0,.3)}.Navigation_spacer_2MV{color:hsla(0,0%,100%,.3)}.Navigation_navbar_20N{background-color:#5b798e;border-color:#5b798e}.Navigation_nav-scroll_1Bv{background-color:hsla(0,0%,96%,.5)}.Navigation_navbar_20N .Navigation_link_12k{color:#fff}.Navigation_collapse_22x{margin-top:.5em}.Navigation_navbar_20N .Navigation_link_12k:focus,.Navigation_navbar_20N .Navigation_link_12k:hover{color:#243442;background-color:transparent}", ""]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.Navigation_root_2Gx {}\n\n.Navigation_nav-scroll_1Bv {\n  background-color: rgba(245,245,245,0.5);\n};\n.Navigation_navbar_20N .Navigation_link_12k {\n  color: #ffffff;\n};\n.Navigation_link_12k {\n  display: inline-block;\n  padding: 3px 8px;\n  text-decoration: none;\n  font-size: 1.125em;\n  /* ~18px */\n};\n.Navigation_link_12k, .Navigation_link_12k:active, .Navigation_link_12k:visited {\n  color: rgba(255, 255, 255, .6);\n};\n.Navigation_link_12k:hover {\n  color: rgba(255, 255, 255, 1);\n};\n.Navigation_navbar_20N .Navigation_link_12k:focus, .Navigation_navbar_20N .Navigation_link_12k:hover {\n  color: #243442;\n  background-color: transparent;\n};\n.Navigation_collapse_22x {\n  margin-top: 0.5em;\n}\n.Navigation_highlight_2cu {\n  margin-right: 8px;\n  margin-left: 8px;\n  border-radius: 3px;\n  background: rgba(0, 0, 0, .15);\n  color: #fff;\n}\n.Navigation_highlight_2cu:hover {\n  background: rgba(0, 0, 0, .3);\n}\n.Navigation_spacer_2MV {\n  color: rgba(255, 255, 255, .3);\n}\n", ""]);
   
   // exports
   exports.locals = {
   	"root": "Navigation_root_2Gx",
-  	"link": "Navigation_link_12k",
-  	"highlight": "Navigation_highlight_2cu",
-  	"spacer": "Navigation_spacer_2MV",
-  	"navbar": "Navigation_navbar_20N",
   	"nav-scroll": "Navigation_nav-scroll_1Bv",
-  	"collapse": "Navigation_collapse_22x"
+  	"navbar": "Navigation_navbar_20N",
+  	"link": "Navigation_link_12k",
+  	"collapse": "Navigation_collapse_22x",
+  	"highlight": "Navigation_highlight_2cu",
+  	"spacer": "Navigation_spacer_2MV"
   };
 
 /***/ },
@@ -2180,6 +2212,8 @@ module.exports =
         if (clickResult === false || event.defaultPrevented === true) {
           allowTransition = false;
         }
+        // bootstrap navbar-collapse
+        if ($('.navbar-collapse')) $('.navbar-collapse').collapse('hide');
   
         event.preventDefault();
   
@@ -2280,15 +2314,19 @@ module.exports =
 
 /***/ },
 /* 36 */
+/***/ function(module, exports) {
+
+  module.exports = require("react-bootstrap");
+
+/***/ },
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
   
   Object.defineProperty(exports, '__esModule', {
-      value: true
+    value: true
   });
-  
-  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
   
   var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
   
@@ -2302,7 +2340,7 @@ module.exports =
   
   var _react2 = _interopRequireDefault(_react);
   
-  var _FeedbackScss = __webpack_require__(37);
+  var _FeedbackScss = __webpack_require__(38);
   
   var _FeedbackScss2 = _interopRequireDefault(_FeedbackScss);
   
@@ -2314,106 +2352,150 @@ module.exports =
   
   var _decoratorsWithStyles2 = _interopRequireDefault(_decoratorsWithStyles);
   
+  var _coreFetch = __webpack_require__(12);
+  
+  var _coreFetch2 = _interopRequireDefault(_coreFetch);
+  
   var Feedback = (function (_Component) {
-      _inherits(Feedback, _Component);
+    _inherits(Feedback, _Component);
   
-      function Feedback() {
-          _classCallCheck(this, _Feedback);
+    function Feedback() {
+      var _this = this;
   
-          _get(Object.getPrototypeOf(_Feedback.prototype), 'constructor', this).apply(this, arguments);
-      }
+      _classCallCheck(this, _Feedback);
   
-      _createClass(Feedback, [{
-          key: 'render',
-          value: function render() {
-              return _react2['default'].createElement(
-                  'div',
-                  { className: _FeedbackScss2['default'].root },
-                  _react2['default'].createElement(
-                      'div',
-                      { className: _FeedbackScss2['default'].container },
-                      _react2['default'].createElement(
-                          'section',
-                          null,
-                          _react2['default'].createElement(
-                              'div',
-                              { className: 'row spacing' },
-                              _react2['default'].createElement(
-                                  'header',
-                                  { className: 'text-center center spacing-sm' },
-                                  _react2['default'].createElement(
-                                      'h3',
-                                      { className: 'spacing' },
-                                      'Find out More'
-                                  )
-                              ),
-                              _react2['default'].createElement(
-                                  'form',
-                                  { className: 'form-inline  spacing text-center', id: 'inquiry', method: 'POST' },
-                                  _react2['default'].createElement(
-                                      'div',
-                                      { className: (0, _classnames2['default'])('form-group', _FeedbackScss2['default'].fgroup) },
-                                      _react2['default'].createElement('input', { type: 'text', className: 'form-control', id: 'username', name: 'username', placeholder: 'name', required: true })
-                                  ),
-                                  _react2['default'].createElement(
-                                      'div',
-                                      { className: (0, _classnames2['default'])('form-group', _FeedbackScss2['default'].fgroup) },
-                                      _react2['default'].createElement('input', { type: 'email', className: 'form-control', id: 'useremail', name: 'useremail', placeholder: 'email', required: true })
-                                  ),
-                                  _react2['default'].createElement(
-                                      'button',
-                                      { type: 'submit', className: (0, _classnames2['default'])('btn', 'btn-default', _FeedbackScss2['default'].btn), id: 'find_out_more' },
-                                      'submit'
-                                  )
-                              )
-                          ),
-                          _react2['default'].createElement(
-                              'div',
-                              { className: 'row spacing-sm' },
-                              _react2['default'].createElement(
-                                  'div',
-                                  { className: 'col-sm-2' },
-                                  _react2['default'].createElement(
-                                      'h3',
-                                      null,
-                                      'Akilihub'
-                                  )
-                              ),
-                              _react2['default'].createElement(
-                                  'div',
-                                  { className: 'col-sm-2 col-sm-offset-8 social' },
-                                  _react2['default'].createElement(
-                                      'a',
-                                      { href: '#' },
-                                      _react2['default'].createElement('i', { className: 'fa fa-facebook' })
-                                  ),
-                                  _react2['default'].createElement(
-                                      'a',
-                                      { href: '#' },
-                                      _react2['default'].createElement('i', { className: 'fa fa-twitter' })
-                                  )
-                              )
-                          )
-                      )
-                  )
-              );
+      _get(Object.getPrototypeOf(_Feedback.prototype), 'constructor', this).apply(this, arguments);
+  
+      this.findOutMore = function callee$2$0(event) {
+        var name, email, response, data;
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              event.preventDefault();
+              name = this.refs.name.value;
+              email = this.refs.email.value;
+  
+              if (!(name.length > 2 && email.length > 5)) {
+                context$3$0.next = 11;
+                break;
+              }
+  
+              context$3$0.next = 6;
+              return regeneratorRuntime.awrap((0, _coreFetch2['default'])('/api/inquiries', {
+                method: 'post',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name, email: email })
+              }));
+  
+            case 6:
+              response = context$3$0.sent;
+              context$3$0.next = 9;
+              return regeneratorRuntime.awrap(response.json());
+  
+            case 9:
+              data = context$3$0.sent;
+  
+              if (data.status === 'success') alert('your Inquiry has been received');
+  
+            case 11:
+            case 'end':
+              return context$3$0.stop();
           }
-      }]);
+        }, null, _this);
+      };
   
-      var _Feedback = Feedback;
-      Feedback = (0, _decoratorsWithStyles2['default'])(_FeedbackScss2['default'])(Feedback) || Feedback;
-      return Feedback;
+      this.render = function () {
+        return _react2['default'].createElement(
+          'div',
+          { className: _FeedbackScss2['default'].root },
+          _react2['default'].createElement(
+            'div',
+            { className: _FeedbackScss2['default'].container },
+            _react2['default'].createElement(
+              'section',
+              null,
+              _react2['default'].createElement(
+                'div',
+                { className: 'row spacing' },
+                _react2['default'].createElement(
+                  'header',
+                  { className: 'text-center center spacing-sm' },
+                  _react2['default'].createElement(
+                    'h3',
+                    { className: 'spacing' },
+                    'Find out More'
+                  )
+                ),
+                _react2['default'].createElement(
+                  'form',
+                  { className: 'form-inline  spacing text-center', id: 'inquiry', method: 'POST' },
+                  _react2['default'].createElement(
+                    'div',
+                    { className: (0, _classnames2['default'])('form-group', _FeedbackScss2['default'].fgroup) },
+                    _react2['default'].createElement('input', { type: 'text', className: 'form-control', id: 'username', ref: 'name', placeholder: 'name', required: true })
+                  ),
+                  _react2['default'].createElement(
+                    'div',
+                    { className: (0, _classnames2['default'])('form-group', _FeedbackScss2['default'].fgroup) },
+                    _react2['default'].createElement('input', { type: 'email', className: 'form-control', id: 'useremail', ref: 'email', placeholder: 'email', required: true })
+                  ),
+                  _react2['default'].createElement(
+                    'button',
+                    { type: 'submit', onClick: _this.findOutMore.bind(_this), className: (0, _classnames2['default'])('btn', 'btn-default', _FeedbackScss2['default'].btn), id: 'find_out_more' },
+                    'submit'
+                  )
+                )
+              ),
+              _react2['default'].createElement(
+                'div',
+                { className: 'row spacing-sm' },
+                _react2['default'].createElement(
+                  'div',
+                  { className: 'col-sm-2' },
+                  _react2['default'].createElement(
+                    'h3',
+                    null,
+                    'Akilihub'
+                  )
+                ),
+                _react2['default'].createElement(
+                  'div',
+                  { className: 'col-sm-2 col-sm-offset-8 social' },
+                  _react2['default'].createElement(
+                    'a',
+                    { href: '#' },
+                    _react2['default'].createElement('i', { className: 'fa fa-facebook' })
+                  ),
+                  _react2['default'].createElement(
+                    'a',
+                    { href: '#' },
+                    _react2['default'].createElement('i', { className: 'fa fa-twitter' })
+                  )
+                )
+              )
+            )
+          )
+        );
+      };
+    }
+  
+    var _Feedback = Feedback;
+    Feedback = (0, _decoratorsWithStyles2['default'])(_FeedbackScss2['default'])(Feedback) || Feedback;
+    return Feedback;
   })(_react.Component);
   
   exports['default'] = Feedback;
   module.exports = exports['default'];
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
   
-      var content = __webpack_require__(38);
+      var content = __webpack_require__(39);
       var insertCss = __webpack_require__(20);
   
       if (typeof content === 'string') {
@@ -2424,9 +2506,24 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Feedback.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Feedback.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
   exports = module.exports = __webpack_require__(19)();
@@ -2434,7 +2531,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "//headers h1{font-size:2em}h2{font-size:1.5em}h3{font-size:1.2em}.Feedback_container_3dV{margin:0 auto;max-width:1000px;text-align:center}.Feedback_link_17l,.Feedback_link_17l:active,.Feedback_link_17l:hover,.Feedback_link_17l:visited{color:#333;text-decoration:none}.Feedback_btn_2h9,.Feedback_fgroup_2Xx{margin-left:1em}.Feedback_link_17l:hover{text-decoration:underline}.Feedback_spacer_Iut{padding-right:15px;padding-left:15px}", ""]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n.Feedback_root_LW7 {\n}\n\n.Feedback_container_3dV {\n  margin: 0 auto;\n  max-width: 1000px;\n  text-align: center;\n}\n\n.Feedback_link_17l, .Feedback_link_17l:active, .Feedback_link_17l:hover, .Feedback_link_17l:visited {\n  color: #333;\n  text-decoration: none;\n}\n.Feedback_fgroup_2Xx{\n  margin-left: 1em;\n}\n.Feedback_btn_2h9{\n  margin-left: 1em;\n}\n.Feedback_link_17l:hover {\n  text-decoration: underline;\n}\n\n.Feedback_spacer_Iut {\n  padding-right: 15px;\n  padding-left: 15px;\n}\n", ""]);
   
   // exports
   exports.locals = {
@@ -2447,7 +2544,7 @@ module.exports =
   };
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -2470,7 +2567,7 @@ module.exports =
   
   var _react2 = _interopRequireDefault(_react);
   
-  var _FooterScss = __webpack_require__(40);
+  var _FooterScss = __webpack_require__(41);
   
   var _FooterScss2 = _interopRequireDefault(_FooterScss);
   
@@ -2529,11 +2626,11 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
   
-      var content = __webpack_require__(41);
+      var content = __webpack_require__(42);
       var insertCss = __webpack_require__(20);
   
       if (typeof content === 'string') {
@@ -2544,9 +2641,24 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Footer.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Footer.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
   exports = module.exports = __webpack_require__(19)();
@@ -2554,7 +2666,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "//headers h1{font-size:2em}h2{font-size:1.5em}h3{font-size:1.2em}.Footer_root_3dP{background:rgba(0,0,0,.5);color:#fff;height:3em;padding-top:-2em;border-radius:1em}.Footer_container_26p{margin:0 auto;padding:20px 15px;max-width:1000px;text-align:center}.Footer_container_26p .Footer_form-group_1r6{margin-left:1em}.Footer_text_tTp{color:hsla(0,0%,100%,.5)}.Footer_spacer_3n7,.Footer_textMuted_1h3{color:hsla(0,0%,100%,.3)}.Footer_link_NoJ,.Footer_text_tTp{padding:2px 5px;font-size:1em}.Footer_link_NoJ,.Footer_link_NoJ:active,.Footer_link_NoJ:visited{color:hsla(0,0%,100%,.6);text-decoration:none}.Footer_link_NoJ:hover{color:#fff}", ""]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n.Footer_root_3dP {\n  background: rgba(0,0,0,.5);\n  color: #fff;\n  height: 3em;\n  padding-top: -2em;\n  border-radius: 1em;\n}\n\n.Footer_container_26p {\n  margin: 0 auto;\n  padding: 20px 15px;\n  max-width: 1000px;\n  text-align: center;\n}\n\n.Footer_container_26p .Footer_form-group_1r6{margin-left: 1em;}\n\n.Footer_text_tTp {\n  color: rgba(255, 255, 255, .5);\n}\n\n.Footer_textMuted_1h3 {\n  color: rgba(255, 255, 255, .3);\n}\n\n.Footer_spacer_3n7 {\n  color: rgba(255, 255, 255, .3);\n}\n\n.Footer_text_tTp, .Footer_link_NoJ {\n  padding: 2px 5px;\n  font-size: 1em;\n}\n\n.Footer_link_NoJ, .Footer_link_NoJ:active, .Footer_link_NoJ:visited {\n  color: rgba(255, 255, 255, .6);\n  text-decoration: none;\n}\n\n.Footer_link_NoJ:hover {\n  color: rgba(255, 255, 255, 1);\n}\n", ""]);
   
   // exports
   exports.locals = {
@@ -2568,7 +2680,7 @@ module.exports =
   };
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -2591,7 +2703,7 @@ module.exports =
   
   var _react2 = _interopRequireDefault(_react);
   
-  var _ContentPageScss = __webpack_require__(43);
+  var _ContentPageScss = __webpack_require__(44);
   
   var _ContentPageScss2 = _interopRequireDefault(_ContentPageScss);
   
@@ -2656,11 +2768,11 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 43 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
   
-      var content = __webpack_require__(44);
+      var content = __webpack_require__(45);
       var insertCss = __webpack_require__(20);
   
       if (typeof content === 'string') {
@@ -2671,9 +2783,24 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./ContentPage.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./ContentPage.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
-/* 44 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
   exports = module.exports = __webpack_require__(19)();
@@ -2681,7 +2808,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "//headers h1{font-size:2em}h2{font-size:1.5em}h3{font-size:1.2em}.ContentPage_icon-cover_2i4{border:solid;border-radius:6em;height:14em}.ContentPage_fa-5x_341{font-size:13em}.ContentPage_home-main_3Fs{margin-top:9em}.ContentPage_products_227{margin-top:24em}.ContentPage_products_227 p{line-height:2em}.ContentPage_footer-nav_2gg{background-color:#fff;border-radius:1em;height:50px}.ContentPage_footer-nav_2gg li{display:inline;padding:4em}.ContentPage_footer-nav_2gg a{color:#fff;font-size:1.1em}.ContentPage_social_1ok{margin-top:-1em}.ContentPage_social_1ok a{color:#fff;font-size:2em}.ContentPage_btn_1uZ{background-color:#b76565;color:#fff}.ContentPage_btn-default_AF6.ContentPage_active_ju8,.ContentPage_btn-default_AF6.ContentPage_focus_2X4,.ContentPage_btn-default_AF6:active,.ContentPage_btn-default_AF6:focus,.ContentPage_btn-default_AF6:hover,.ContentPage_open_2rC>.ContentPage_dropdown-toggle_Qa3.ContentPage_btn-default_AF6{color:#b76565}", ""]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n.ContentPage_root_1Kg {\n\n}\n\n.ContentPage_container_1JT {\n}\n\n.ContentPage_icon-cover_2i4{\n    border: solid;\n    border-radius: 6em;\n    height: 14em;\n  }\n.ContentPage_fa-5x_341 {\n    font-size: 13em;\n}\n\n.ContentPage_home-main_3Fs{margin-top:9em}\n\n.ContentPage_products_227{\n    margin-top:24em;\n}\n\n.ContentPage_products_227 p{line-height:2em}\n.ContentPage_footer-nav_2gg{\n  background-color:white;\n    border-radius: 1em;\n    height: 50px;;\n\n\n}\n.ContentPage_footer-nav_2gg li{display: inline;padding:4em}\n.ContentPage_footer-nav_2gg a{color:white;font-size:1.1em}\n.ContentPage_social_1ok {\n  margin-top: -1em;;\n}\n.ContentPage_social_1ok a{color:white;font-size:2.0em}\n\n.ContentPage_btn_1uZ {\n  background-color: #B76565;\n  color: white\n}\n.ContentPage_btn-default_AF6.ContentPage_active_ju8, .ContentPage_btn-default_AF6.ContentPage_focus_2X4, .ContentPage_btn-default_AF6:active, .ContentPage_btn-default_AF6:focus, .ContentPage_btn-default_AF6:hover, .ContentPage_open_2rC>.ContentPage_dropdown-toggle_Qa3.ContentPage_btn-default_AF6 {\n    color:#B76565;\n}\n", ""]);
   
   // exports
   exports.locals = {
@@ -2702,7 +2829,7 @@ module.exports =
   };
 
 /***/ },
-/* 45 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -2725,7 +2852,7 @@ module.exports =
   
   var _react2 = _interopRequireDefault(_react);
   
-  var _ContactPageScss = __webpack_require__(46);
+  var _ContactPageScss = __webpack_require__(47);
   
   var _ContactPageScss2 = _interopRequireDefault(_ContactPageScss);
   
@@ -2788,11 +2915,11 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 46 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
   
-      var content = __webpack_require__(47);
+      var content = __webpack_require__(48);
       var insertCss = __webpack_require__(20);
   
       if (typeof content === 'string') {
@@ -2803,9 +2930,24 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./ContactPage.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./ContactPage.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
-/* 47 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
   exports = module.exports = __webpack_require__(19)();
@@ -2813,7 +2955,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "//headers h1{font-size:2em}h2{font-size:1.5em}h3{font-size:1.2em}.ContactPage_container_2pQ{margin:0 auto;padding:0 0 40px;max-width:1000px}", ""]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n.ContactPage_root_c4z {\n\n}\n\n.ContactPage_container_2pQ {\n  margin: 0 auto;\n  padding: 0 0 40px;\n  max-width: 1000px;\n}\n", ""]);
   
   // exports
   exports.locals = {
@@ -2822,7 +2964,7 @@ module.exports =
   };
 
 /***/ },
-/* 48 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -2845,7 +2987,7 @@ module.exports =
   
   var _react2 = _interopRequireDefault(_react);
   
-  var _BlogPageScss = __webpack_require__(49);
+  var _BlogPageScss = __webpack_require__(50);
   
   var _BlogPageScss2 = _interopRequireDefault(_BlogPageScss);
   
@@ -2903,9 +3045,9 @@ module.exports =
           'div',
           { className: (0, _classnames2['default'])(_BlogPageScss2['default'].root, 'container-fluid') },
           _react2['default'].createElement(
-            'h2',
-            { className: _BlogPageScss2['default'].logo },
-            'AKILIHUB Talks'
+            'h1',
+            { className: 'page-title' },
+            'AKILIHUB Blogs'
           ),
           _react2['default'].createElement('hr', null),
           _react2['default'].createElement(
@@ -2913,7 +3055,7 @@ module.exports =
             { className: 'row' },
             _react2['default'].createElement(
               'ul',
-              { className: (0, _classnames2['default'])('nav', 'navbar-nav', 'navbar-center', _BlogPageScss2['default'].nav) },
+              { id: 'sub-menu-override', className: (0, _classnames2['default'])('nav', 'navbar-nav', 'navbar-center', 'sub-menu', _BlogPageScss2['default'].nav) },
               _react2['default'].createElement(
                 'li',
                 null,
@@ -2955,7 +3097,7 @@ module.exports =
           _react2['default'].createElement('hr', null),
           _react2['default'].createElement(
             'section',
-            { className: (0, _classnames2['default'])('container', _BlogPageScss2['default'].container) },
+            { className: (0, _classnames2['default'])(_BlogPageScss2['default'].container) },
             _react2['default'].createElement(
               'div',
               { className: (0, _classnames2['default'])('col-md-9', _BlogPageScss2['default'].main) },
@@ -2964,7 +3106,7 @@ module.exports =
                 { className: 'row spacing' },
                 _react2['default'].createElement(
                   'article',
-                  { className: 'col-md-12' },
+                  { className: (0, _classnames2['default'])('articles') },
                   _react2['default'].createElement(
                     'header',
                     null,
@@ -2988,7 +3130,7 @@ module.exports =
                 { className: 'row spacing' },
                 _react2['default'].createElement(
                   'article',
-                  { className: 'col-md-12' },
+                  { className: (0, _classnames2['default'])('articles') },
                   _react2['default'].createElement(
                     'header',
                     null,
@@ -3012,7 +3154,7 @@ module.exports =
                 { className: 'row spacing' },
                 _react2['default'].createElement(
                   'article',
-                  { className: 'col-md-12' },
+                  { className: (0, _classnames2['default'])('articles') },
                   _react2['default'].createElement(
                     'header',
                     null,
@@ -3106,11 +3248,11 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 49 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
   
-      var content = __webpack_require__(50);
+      var content = __webpack_require__(51);
       var insertCss = __webpack_require__(20);
   
       if (typeof content === 'string') {
@@ -3121,9 +3263,24 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./BlogPage.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./BlogPage.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
-/* 50 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
   exports = module.exports = __webpack_require__(19)();
@@ -3131,22 +3288,19 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "//headers h1{font-size:2em}h2{font-size:1.5em}h3{font-size:1.2em}.BlogPage_root_1ob{margin-top:2em;color:#777;background-color:#fff;box-shadow:0 4px 8px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)}.BlogPage_root_1ob article{padding-left:4em;padding-right:4em}.BlogPage_root_1ob .BlogPage_charts_1lj{padding-left:4em}.BlogPage_root_1ob li{list-style:none;padding-top:.5em;margin-left:6em}.BlogPage_root_1ob table{margin:0 auto;width:85%}.BlogPage_root_1ob h2{color:#6b6969}.BlogPage_logo_TR7{padding-left:4em;padding-bottom:2em;padding-top:2em}.BlogPage_container_sgc{background-color:hsla(0,0%,80%,.35)}.BlogPage_main_255{margin-right:solid 1px;background-color:#fff}.BlogPage_main_255 hr{color:#777}.BlogPage_main_255 h3{color:#374048;padding-bottom:2em}.BlogPage_spacing_2OA{margin-top:5em;margin-bottom:1em}.BlogPage_sidebar_2tQ a,.BlogPage_sidebar_2tQ h3{padding-left:1em}.BlogPage_nav_2y4>li>a,.BlogPage_sidebar_2tQ a{color:#a94442}", ""]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.BlogPage_root_1ob {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n}\n.BlogPage_root_1ob h2 {color: #6B6969;}\n.BlogPage_logo_TR7 {\n  padding-left: 4em;\n  padding-bottom: 2em;\n  padding-top: 2em;\n}\n\n.BlogPage_main_255 {\n  margin-right: solid 1px;\n  background-color: white;;\n}\n\n.BlogPage_main_255 hr {color: #777;}\n\n.BlogPage_main_255 h3 {color: #374048;padding-bottom: 2em;}\n.BlogPage_spacing_2OA {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.BlogPage_sidebar_2tQ h3, .BlogPage_sidebar_2tQ a {\n  padding-left: 1em;\n}\n", ""]);
   
   // exports
   exports.locals = {
   	"root": "BlogPage_root_1ob",
-  	"charts": "BlogPage_charts_1lj",
   	"logo": "BlogPage_logo_TR7",
-  	"container": "BlogPage_container_sgc",
   	"main": "BlogPage_main_255",
   	"spacing": "BlogPage_spacing_2OA",
-  	"sidebar": "BlogPage_sidebar_2tQ",
-  	"nav": "BlogPage_nav_2y4"
+  	"sidebar": "BlogPage_sidebar_2tQ"
   };
 
 /***/ },
-/* 51 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -3169,7 +3323,7 @@ module.exports =
   
   var _react2 = _interopRequireDefault(_react);
   
-  var _NotFoundPageScss = __webpack_require__(52);
+  var _NotFoundPageScss = __webpack_require__(53);
   
   var _NotFoundPageScss2 = _interopRequireDefault(_NotFoundPageScss);
   
@@ -3230,11 +3384,11 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 52 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
   
-      var content = __webpack_require__(53);
+      var content = __webpack_require__(54);
       var insertCss = __webpack_require__(20);
   
       if (typeof content === 'string') {
@@ -3245,9 +3399,24 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./NotFoundPage.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./NotFoundPage.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
-/* 53 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
   exports = module.exports = __webpack_require__(19)();
@@ -3255,13 +3424,13 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "*{margin:0;line-height:1.2}html{display:table;width:100%;height:100%;color:#888;text-align:center;font-family:sans-serif}body{display:table-cell;margin:2em auto;vertical-align:middle}h1{color:#555;font-weight:400;font-size:2em}p{margin:0 auto;width:280px}@media only screen and (max-width:280px){body,p{width:95%}h1{font-size:1.5em;margin:0 0 .3em}}", ""]);
+  exports.push([module.id, "\n* {\n  margin: 0;\n  line-height: 1.2;\n}\n\nhtml {\n  display: table;\n  width: 100%;\n  height: 100%;\n  color: #888;\n  text-align: center;\n  font-family: sans-serif;\n}\n\nbody {\n  display: table-cell;\n  margin: 2em auto;\n  vertical-align: middle;\n}\n\nh1 {\n  color: #555;\n  font-weight: 400;\n  font-size: 2em;\n}\n\np {\n  margin: 0 auto;\n  width: 280px;\n}\n\n@media only screen and (max-width: 280px) {\n\n  body, p {\n    width: 95%;\n  }\n\n  h1 {\n    font-size: 1.5em;\n    margin: 0 0 0.3em;\n  }\n\n}\n", ""]);
   
   // exports
 
 
 /***/ },
-/* 54 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -3284,7 +3453,7 @@ module.exports =
   
   var _react2 = _interopRequireDefault(_react);
   
-  var _ErrorPageScss = __webpack_require__(55);
+  var _ErrorPageScss = __webpack_require__(56);
   
   var _ErrorPageScss2 = _interopRequireDefault(_ErrorPageScss);
   
@@ -3344,11 +3513,11 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 55 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
   
-      var content = __webpack_require__(56);
+      var content = __webpack_require__(57);
       var insertCss = __webpack_require__(20);
   
       if (typeof content === 'string') {
@@ -3359,9 +3528,24 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./ErrorPage.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./ErrorPage.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
-/* 56 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
   exports = module.exports = __webpack_require__(19)();
@@ -3369,13 +3553,13 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "*{margin:0;line-height:1.2}html{display:table;width:100%;height:100%;color:#888;text-align:center;font-family:sans-serif}body{display:table-cell;margin:2em auto;vertical-align:middle}h1{color:#555;font-weight:400;font-size:2em}p{margin:0 auto;width:280px}@media only screen and (max-width:280px){body,p{width:95%}h1{font-size:1.5em;margin:0 0 .3em}}", ""]);
+  exports.push([module.id, "\n* {\n  margin: 0;\n  line-height: 1.2;\n}\n\nhtml {\n  display: table;\n  width: 100%;\n  height: 100%;\n  color: #888;\n  text-align: center;\n  font-family: sans-serif;\n}\n\nbody {\n  display: table-cell;\n  margin: 2em auto;\n  vertical-align: middle;\n}\n\nh1 {\n  color: #555;\n  font-weight: 400;\n  font-size: 2em;\n}\n\np {\n  margin: 0 auto;\n  width: 280px;\n}\n\n@media only screen and (max-width: 280px) {\n\n  body, p {\n    width: 95%;\n  }\n\n  h1 {\n    font-size: 1.5em;\n    margin: 0 0 0.3em;\n\n  }\n\n}\n", ""]);
   
   // exports
 
 
 /***/ },
-/* 57 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -3398,7 +3582,7 @@ module.exports =
   
   var _react2 = _interopRequireDefault(_react);
   
-  var _DataPageScss = __webpack_require__(58);
+  var _DataPageScss = __webpack_require__(59);
   
   var _DataPageScss2 = _interopRequireDefault(_DataPageScss);
   
@@ -3410,7 +3594,7 @@ module.exports =
   
   var _decoratorsWithStyles2 = _interopRequireDefault(_decoratorsWithStyles);
   
-  var _storesDataPageStore = __webpack_require__(60);
+  var _storesDataPageStore = __webpack_require__(61);
   
   var _storesDataPageStore2 = _interopRequireDefault(_storesDataPageStore);
   
@@ -3418,28 +3602,24 @@ module.exports =
   
   var _Link2 = _interopRequireDefault(_Link);
   
-  var _actionsDataPageActions = __webpack_require__(66);
+  var _actionsDataPageActions = __webpack_require__(67);
   
   var _actionsDataPageActions2 = _interopRequireDefault(_actionsDataPageActions);
   
-  var _workerWorker = __webpack_require__(67);
+  var _workerWorker = __webpack_require__(68);
   
   var _workerWorker2 = _interopRequireDefault(_workerWorker);
   
-  var _Loader = __webpack_require__(68);
+  var _Loader = __webpack_require__(69);
   
   var _Loader2 = _interopRequireDefault(_Loader);
   
   // import TimeRange from './TimeRange';
-  
-  var _jquery = __webpack_require__(71);
-  
-  var _jquery2 = _interopRequireDefault(_jquery);
-  
-  // import testData from './data';
-  
   var isBrowser = typeof window !== 'undefined';
   var Charts = isBrowser ? __webpack_require__(72) : undefined;
+  // import $ from 'jquery';
+  // import testData from './data';
+  
   function getStateFromStores() {
     return _storesDataPageStore2['default'].getStoreState();
   }
@@ -3485,7 +3665,7 @@ module.exports =
         var numberOfWorkers = 10;
         _this.isFirstPayload = true;
         var timeIntervals = 24 / numberOfWorkers;
-        (0, _jquery2['default'])('#loader').show();
+        $('#loader').show();
         for (var i = 0; i < numberOfWorkers; i++) {
           var worker = new _workerWorker2['default']();
           var startTime = unixTime + timeIntervals * i * _this.hour;
@@ -3507,11 +3687,11 @@ module.exports =
           range: 'range',
           getNewData: _this.getNewData,
           postRedraw: function postRedraw() {
-            (0, _jquery2['default'])('#loader').hide();
+            $('#loader').hide();
           },
           postRender: function postRender() {
-            (0, _jquery2['default'])('.' + _DataPageScss2['default'].chart).css('opacity', 1);
-            (0, _jquery2['default'])('#loader').hide();
+            $('.' + _DataPageScss2['default'].chart).css('opacity', 1);
+            $('#loader').hide();
           }
         };
         _this.charts = new Charts(data, _this.state.aggregate, chartOptions);
@@ -3523,16 +3703,13 @@ module.exports =
       };
   
       this.render = function () {
-        var divStyle = {
-          width: '500px',
-          height: '400px'
-        };
+        var divStyle = isBrowser ? _this.computeMapDivWidth() : null;
         return _react2['default'].createElement(
           'div',
           { className: (0, _classnames2['default'])(_DataPageScss2['default'].root, 'container-fluid') },
           _react2['default'].createElement(
-            'h2',
-            { className: _DataPageScss2['default'].logo },
+            'h1',
+            { className: 'page-title' },
             ' AKILIHUB Data Innovation Center'
           ),
           _react2['default'].createElement('hr', null),
@@ -3541,7 +3718,7 @@ module.exports =
             { className: 'row' },
             _react2['default'].createElement(
               'ul',
-              { className: (0, _classnames2['default'])('nav', 'navbar-nav', 'navbar-center', _DataPageScss2['default'].nav) },
+              { id: 'sub-menu-override', className: (0, _classnames2['default'])('nav', 'navbar-nav', 'navbar-center', 'sub-menu', _DataPageScss2['default'].nav) },
               _react2['default'].createElement(
                 'li',
                 null,
@@ -3565,7 +3742,7 @@ module.exports =
           _react2['default'].createElement('hr', null),
           _react2['default'].createElement(
             'section',
-            { id: 'main', className: (0, _classnames2['default'])('container', _DataPageScss2['default'].container) },
+            { id: 'main', className: (0, _classnames2['default'])(_DataPageScss2['default'].container) },
             _react2['default'].createElement(
               'div',
               { className: (0, _classnames2['default'])('col-md-12', _DataPageScss2['default'].main) },
@@ -3574,7 +3751,7 @@ module.exports =
                 { className: 'row spacing' },
                 _react2['default'].createElement(
                   'article',
-                  { className: 'col-md-12' },
+                  { className: (0, _classnames2['default'])('articles') },
                   _react2['default'].createElement(
                     'header',
                     null,
@@ -3748,7 +3925,7 @@ module.exports =
                       ),
                       _react2['default'].createElement(
                         'table',
-                        { id: 'table', className: (0, _classnames2['default'])('table', 'table-hover', 'table-bordered') },
+                        { id: 'table', className: (0, _classnames2['default'])('table', 'table-hover', 'table-bordered', 'rt', 'cf') },
                         _react2['default'].createElement(
                           'thead',
                           null,
@@ -3855,8 +4032,10 @@ module.exports =
         // let n = numberOfWorkers;
         var now = new Date();
         if (now.getHours() < 3) {
+          // TODO not working as intended
           now.setHours(new Date().getHours() - 6);
         }
+        now.setHours(new Date().getHours() - 270);
         console.log('now : ' + now);
         var hoursPast = now.getHours() + now.getMinutes() / 60;
         console.log('hours past ' + hoursPast);
@@ -3876,6 +4055,20 @@ module.exports =
       key: 'onTimeClick',
       value: function onTimeClick(range) {
         console.log(range);
+      }
+    }, {
+      key: 'computeMapDivWidth',
+      value: function computeMapDivWidth() {
+        var width = 500;
+        var height = 400;
+        if (window.innerWidth < 500) {
+          width = window.innerWidth - window.innerWidth * 0.2;
+          height = width * 0.9;
+        }
+        return {
+          width: width + 'px',
+          height: height + 'px'
+        };
       }
     }, {
       key: 'renderCharts',
@@ -3904,11 +4097,11 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 58 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
   
-      var content = __webpack_require__(59);
+      var content = __webpack_require__(60);
       var insertCss = __webpack_require__(20);
   
       if (typeof content === 'string') {
@@ -3919,9 +4112,24 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./DataPage.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./DataPage.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
-/* 59 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
   exports = module.exports = __webpack_require__(19)();
@@ -3929,20 +4137,16 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "//headers h1{font-size:2em}h2{font-size:1.5em}h3{font-size:1.2em}.DataPage_root_1Bn{margin-top:2em;color:#777;background-color:#fff;box-shadow:0 4px 8px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)}.DataPage_root_1Bn article{padding-left:4em;padding-right:4em}.DataPage_root_1Bn .DataPage_charts_2yr{padding-left:3em}.DataPage_root_1Bn li{list-style:none;padding-top:.5em;margin-left:6em}.DataPage_root_1Bn table{margin:0 auto}.DataPage_root_1Bn h2{color:#6b6969}.DataPage_logo_2rV{padding-left:4em;padding-bottom:2em;padding-top:2em}.DataPage_container_3Ry{background-color:hsla(0,0%,80%,.35)}.DataPage_chart_2dW{opacity:0}.DataPage_timeRange_1i6{padding-left:3em}.DataPage_main_1GV{margin-right:solid 1px;background-color:#fff}.DataPage_main_1GV hr{color:#777}.DataPage_main_1GV h3{color:#374048;padding-bottom:2em}.DataPage_spacing_pJZ{margin-top:5em;margin-bottom:1em}.DataPage_sidebar_2cr a,.DataPage_sidebar_2cr h3{padding-left:1em}.DataPage_nav_3s0>li>a,.DataPage_sidebar_2cr a{color:#a94442}table{font-size:.9em}table span{display:none}.DataPage_legend_2e1 small{text-align:right}.DataPage_legend_2e1 i{width:4em;height:.5em;margin-left:2em;border:solid;text-align:center;display:inline-block}.DataPage_yellow_30z i{color:#ff0}.DataPage_blue_1Bj i{color:blue}.DataPage_orange_36J i{color:orange}", ""]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.DataPage_root_1Bn {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n}\n.DataPage_root_1Bn table {margin: 0 auto;}\n.DataPage_root_1Bn h2 {color: #6B6969;}\n.DataPage_chart_2dW{\n  opacity: 0;\n}\n.DataPage_timeRange_1i6{ padding-left: 3em}\n.DataPage_main_1GV {\n  margin-right: solid 1px;\n  background-color: white;;\n}\n.DataPage_main_1GV hr {color: #777;}\n.DataPage_main_1GV h3 {color: #374048;padding-bottom: 2em;}\n.DataPage_spacing_pJZ {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.DataPage_sidebar_2cr h3, .DataPage_sidebar_2cr a {\n  padding-left: 1em;\n}\n\ntable{\n  font-size: 0.9em;\n}\n\ntable span{display: none}\n.DataPage_legend_2e1 small{\n  text-align: right;\n}\n.DataPage_legend_2e1 i{\n  width: 4em;\n  height: 0.5em;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.DataPage_yellow_30z i{\n  color: yellow;\n}\n.DataPage_blue_1Bj i{\n  color: blue;\n}\n.DataPage_orange_36J i{\n  color: orange;\n}\n", ""]);
   
   // exports
   exports.locals = {
   	"root": "DataPage_root_1Bn",
-  	"charts": "DataPage_charts_2yr",
-  	"logo": "DataPage_logo_2rV",
-  	"container": "DataPage_container_3Ry",
   	"chart": "DataPage_chart_2dW",
   	"timeRange": "DataPage_timeRange_1i6",
   	"main": "DataPage_main_1GV",
   	"spacing": "DataPage_spacing_pJZ",
   	"sidebar": "DataPage_sidebar_2cr",
-  	"nav": "DataPage_nav_3s0",
   	"legend": "DataPage_legend_2e1",
   	"yellow": "DataPage_yellow_30z",
   	"blue": "DataPage_blue_1Bj",
@@ -3950,7 +4154,7 @@ module.exports =
   };
 
 /***/ },
-/* 60 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -3969,15 +4173,15 @@ module.exports =
   
   function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
   
-  var _coreDispatcher = __webpack_require__(61);
+  var _coreDispatcher = __webpack_require__(62);
   
   var _coreDispatcher2 = _interopRequireDefault(_coreDispatcher);
   
-  var _constantsActionTypes = __webpack_require__(63);
+  var _constantsActionTypes = __webpack_require__(64);
   
   var _constantsActionTypes2 = _interopRequireDefault(_constantsActionTypes);
   
-  var _events = __webpack_require__(65);
+  var _events = __webpack_require__(66);
   
   var CHANGE_EVENT = 'change';
   
@@ -4059,7 +4263,7 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 61 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
   /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
@@ -4070,7 +4274,7 @@ module.exports =
     value: true
   });
   
-  var _flux = __webpack_require__(62);
+  var _flux = __webpack_require__(63);
   
   var dispatcher = new _flux.Dispatcher();
   
@@ -4078,13 +4282,13 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 62 */
+/* 63 */
 /***/ function(module, exports) {
 
   module.exports = require("flux");
 
 /***/ },
-/* 63 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -4095,7 +4299,7 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _fbjsLibKeyMirror = __webpack_require__(64);
+  var _fbjsLibKeyMirror = __webpack_require__(65);
   
   var _fbjsLibKeyMirror2 = _interopRequireDefault(_fbjsLibKeyMirror);
   
@@ -4106,19 +4310,19 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 64 */
+/* 65 */
 /***/ function(module, exports) {
 
   module.exports = require("fbjs/lib/keyMirror");
 
 /***/ },
-/* 65 */
+/* 66 */
 /***/ function(module, exports) {
 
   module.exports = require("events");
 
 /***/ },
-/* 66 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -4137,11 +4341,11 @@ module.exports =
   
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
   
-  var _coreDispatcher = __webpack_require__(61);
+  var _coreDispatcher = __webpack_require__(62);
   
   var _coreDispatcher2 = _interopRequireDefault(_coreDispatcher);
   
-  var _constantsActionTypes = __webpack_require__(63);
+  var _constantsActionTypes = __webpack_require__(64);
   
   var _constantsActionTypes2 = _interopRequireDefault(_constantsActionTypes);
   
@@ -4176,7 +4380,7 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 67 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
   module.exports = function() {
@@ -4184,7 +4388,7 @@ module.exports =
   };
 
 /***/ },
-/* 68 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -4207,7 +4411,7 @@ module.exports =
   
   var _react2 = _interopRequireDefault(_react);
   
-  var _LoaderScss = __webpack_require__(69);
+  var _LoaderScss = __webpack_require__(70);
   
   var _LoaderScss2 = _interopRequireDefault(_LoaderScss);
   
@@ -4261,11 +4465,11 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 69 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
   
-      var content = __webpack_require__(70);
+      var content = __webpack_require__(71);
       var insertCss = __webpack_require__(20);
   
       if (typeof content === 'string') {
@@ -4276,9 +4480,24 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Loader.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Loader.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
-/* 70 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
   exports = module.exports = __webpack_require__(19)();
@@ -4286,7 +4505,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, ".Loader_ouro_2h9{position:relative;display:inline-block;height:46px;width:46px;margin:1em;border-radius:50%;background:none repeat scroll 0 0 #ddd;overflow:hidden;box-shadow:0 0 10px rgba(0,0,0,.1) inset,0 0 25px rgba(0,0,255,.075)}.Loader_ouro_2h9:after{content:\"\";position:absolute;top:9px;left:9px;display:block;height:28px;width:28px;background:none repeat scroll 0 0 #f2f2f2;border-radius:50%;box-shadow:0 0 10px rgba(0,0,0,.1)}.Loader_ouro_2h9>span{position:absolute;height:100%;width:50%;overflow:hidden}.Loader_left_Occ{left:0}.Loader_right_2CJ{left:50%}.Loader_anim_2a7{position:absolute;left:100%;top:0;height:100%;width:100%;border-radius:999px;background:none repeat scroll 0 0 #508ec3;opacity:.8;-webkit-animation:Loader_ui-spinner-rotate-left_kH6 3s infinite;animation:Loader_ui-spinner-rotate-left_kH6 3s infinite;-webkit-transform-origin:0 50% 0;transform-origin:0 50% 0}.Loader_left_Occ .Loader_anim_2a7{border-bottom-left-radius:0;border-top-left-radius:0}.Loader_right_2CJ .Loader_anim_2a7{border-bottom-right-radius:0;border-top-right-radius:0;left:-100%;-webkit-transform-origin:100% 50% 0;transform-origin:100% 50% 0}.Loader_ouro2_11V .Loader_anim_2a7{-webkit-animation-delay:0;animation-delay:0}.Loader_ouro2_11V .Loader_right_2CJ .Loader_anim_2a7{-webkit-animation-delay:1.5s;animation-delay:1.5s}.Loader_round_1Tl .Loader_ouro_2h9:after{display:none}.Loader_double_2w1 .Loader_ouro_2h9:after{height:13px;width:13px;left:7px;top:7px;border:10px solid #ddd;background:transparent;box-shadow:none}@-webkit-keyframes Loader_ui-spinner-rotate-right_2-Y{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}25%,50%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}75%,to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes Loader_ui-spinner-rotate-right_2-Y{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}25%,50%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}75%,to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@-webkit-keyframes Loader_ui-spinner-rotate-left_kH6{0%,25%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}50%,75%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes Loader_ui-spinner-rotate-left_kH6{0%,25%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}50%,75%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}", ""]);
+  exports.push([module.id, "/**Spinner**/\n.Loader_ouro_2h9 {\n    position: relative;\n    display:inline-block;\n    height: 46px;\n    width: 46px;\n    margin: 1em;\n    border-radius: 50%;\n    background: none repeat scroll 0 0 #DDDDDD;\n    overflow:hidden;\n    -webkit-box-shadow: 0 0 10px rgba(0,0,0,.1) inset, 0 0 25px rgba(0,0,255,0.075);\n            box-shadow: 0 0 10px rgba(0,0,0,.1) inset, 0 0 25px rgba(0,0,255,0.075);\n}\n\n.Loader_ouro_2h9:after {\n    content: \"\";\n    position: absolute;\n    top: 9px; left: 9px;\n    display: block;\n    height: 28px; width: 28px;\n    background: none repeat scroll 0 0 #F2F2F2;\n    border-radius: 50%;\n    -webkit-box-shadow: 0 0 10px rgba(0,0,0,.1);\n            box-shadow: 0 0 10px rgba(0,0,0,.1);\n}\n.Loader_ouro_2h9 > span {\n    position: absolute;\n    height: 100%; width: 50%;\n    overflow: hidden;\n}\n.Loader_left_Occ  { left:0   }\n.Loader_right_2CJ { left:50% }\n\n.Loader_anim_2a7 {\n    position: absolute;\n    left: 100%; top: 0;\n    height: 100%; width: 100%;\n    border-radius: 999px;\n    background: none repeat scroll 0 0 #508EC3;\n    opacity: 0.8;\n    -webkit-animation: Loader_ui-spinner-rotate-left_kH6 3s infinite;\n    -o-animation: Loader_ui-spinner-rotate-left_kH6 3s infinite;\n       animation: Loader_ui-spinner-rotate-left_kH6 3s infinite;\n    -webkit-transform-origin: 0 50% 0;\n    -ms-transform-origin: 0 50% 0;\n     -o-transform-origin: 0 50% 0;\n        transform-origin: 0 50% 0;\n}\n.Loader_left_Occ .Loader_anim_2a7 {\n    border-bottom-left-radius: 0;\n    border-top-left-radius: 0;\n}\n.Loader_right_2CJ .Loader_anim_2a7 {\n    border-bottom-right-radius: 0;\n    border-top-right-radius: 0;\n    left: -100%;\n    -webkit-transform-origin: 100% 50% 0;\n    -ms-transform-origin: 100% 50% 0;\n     -o-transform-origin: 100% 50% 0;\n        transform-origin: 100% 50% 0;\n}\n\n/* v2 */\n.Loader_ouro2_11V .Loader_anim_2a7 {\n   -webkit-animation-delay:0;\n   -o-animation-delay:0;\n      animation-delay:0;\n}\n.Loader_ouro2_11V .Loader_right_2CJ .Loader_anim_2a7{\n   -webkit-animation-delay: 1.5s;\n   -o-animation-delay: 1.5s;\n      animation-delay: 1.5s;\n}\n\n\n/* round variation */\n.Loader_round_1Tl .Loader_ouro_2h9:after {display:none }\n\n/* double variation */\n.Loader_double_2w1 .Loader_ouro_2h9:after {\n  height: 13px; width: 13px;\n  left: 7px; top: 7px;\n  border: 10px solid #ddd;\n  background: transparent;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n}\n\n@-webkit-keyframes Loader_ui-spinner-rotate-right_2-Y{\n  0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}\n  50%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}\n  100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}\n}\n\n@-o-keyframes Loader_ui-spinner-rotate-right_2-Y{\n  0%{-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  50%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-o-transform:rotate(360deg);transform:rotate(360deg)}\n  100%{-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n\n@keyframes Loader_ui-spinner-rotate-right_2-Y{\n  0%{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  50%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}\n  100%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n@-webkit-keyframes Loader_ui-spinner-rotate-left_kH6{\n  0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}\n  50%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}\n  100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}\n}\n@-o-keyframes Loader_ui-spinner-rotate-left_kH6{\n  0%{-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-o-transform:rotate(0deg);transform:rotate(0deg)}\n  50%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  100%{-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n@keyframes Loader_ui-spinner-rotate-left_kH6{\n  0%{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}\n  50%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  100%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n", ""]);
   
   // exports
   exports.locals = {
@@ -4300,12 +4519,6 @@ module.exports =
   	"double": "Loader_double_2w1",
   	"ui-spinner-rotate-right": "Loader_ui-spinner-rotate-right_2-Y"
   };
-
-/***/ },
-/* 71 */
-/***/ function(module, exports) {
-
-  module.exports = require("jquery");
 
 /***/ },
 /* 72 */
@@ -4332,10 +4545,6 @@ module.exports =
   var _coreCfHelper2 = _interopRequireDefault(_coreCfHelper);
   
   __webpack_require__(81);
-  
-  var _jquery = __webpack_require__(71);
-  
-  var _jquery2 = _interopRequireDefault(_jquery);
   
   var _moment = __webpack_require__(82);
   
@@ -4367,7 +4576,7 @@ module.exports =
         // TODO use react state lifecycle
         /* eslint-disable func-names*/
         var self = _this;
-        (0, _jquery2['default'])(':input').on('keyup', function () {
+        $(':input').on('keyup', function () {
           var _this2 = this;
   
           if (this.value !== '') {
@@ -4432,6 +4641,13 @@ module.exports =
         _dc2['default'].renderAll();
       }
     }, {
+      key: 'computeBestWidth',
+      value: function computeBestWidth(width) {
+        var w = width;
+        if (window.innerWidth < w) w = window.innerWidth - window.innerWidth * 0.2;
+        return w;
+      }
+    }, {
       key: 'reRender',
       value: function reRender() {
         _dc2['default'].redrawAll();
@@ -4441,7 +4657,7 @@ module.exports =
       key: 'createDataTable',
       value: function createDataTable(table) {
         this.tableDimension = this.createDimenion('text');
-        this.datatable = (0, _jquery2['default'])('#' + table);
+        this.datatable = $('#' + table);
         // initialize datatable
         this.datatable.dataTable(this._dataTablesOptions());
         // call RefreshTable wshen dc-charts are filtered
@@ -4450,7 +4666,7 @@ module.exports =
           chartI.on('filtered', this._tablesRefresh);
         }
         // styling
-        (0, _jquery2['default'])('input,select,.table-cont a').addClass('btn btn-default');
+        $('input,select,.table-cont a').addClass('btn btn-default');
         // initial table refresh/draw
         this._tablesRefresh();
         // table filter
@@ -4460,6 +4676,7 @@ module.exports =
       key: '_dataTablesOptions',
       value: function _dataTablesOptions() {
         return {
+          'responsive': true,
           'pageLength': 5,
           'order': [[1, 'desc']],
           'bSort': true,
@@ -4526,7 +4743,7 @@ module.exports =
     }, {
       key: 'rowChart',
       value: function rowChart(dim, group, rowId) {
-        return _dc2['default'].rowChart('#' + rowId).height(300).width(330).margins({
+        return _dc2['default'].rowChart('#' + rowId).width(this.computeBestWidth(330)).height(300).margins({
           top: 10,
           right: 10,
           bottom: 20,
@@ -4548,7 +4765,7 @@ module.exports =
       value: function mapChart(dim, grp, mapId) {
         var mapGroup = _coreCfHelper2['default'].fakeGroup(grp, 'key');
         // console.log('map count: '+ mapGroup.all().length);
-        return _dc2['default'].leafletMarkerChart('#' + mapId).dimension(dim).group(mapGroup).width(600).height(400).zoom(12).fitOnRender(true).fitOnRedraw(true).cluster(true);
+        return _dc2['default'].leafletMarkerChart('#' + mapId).dimension(dim).group(mapGroup).width(this.computeBestWidth(500)).height(400).zoom(12).fitOnRender(true).fitOnRedraw(true).cluster(true);
       }
     }, {
       key: 'drawPieChart',
@@ -4607,12 +4824,12 @@ module.exports =
       value: function compositeLineChart(dim, groups, chartId) {
         var composite = _dc2['default'].compositeChart('#' + chartId);
         // const self = this;
-        composite.width(450).height(300).yAxisLabel('Tweets').xAxisLabel('Hours').renderHorizontalGridLines(true).x(_dc2['default'].d3.scale.linear().domain([0, 24])).xUnits(_dc2['default'].d3.time.hours).elasticY(true).elasticX(true).brushOn(false).compose([this.lineChartsCompFactory(composite, dim, groups[0], 'yellow'), this.lineChartsCompFactory(composite, dim, groups[1], 'blue'), this.lineChartsCompFactory(composite, dim, groups[2], 'orange')]).render();
+        composite.width(this.computeBestWidth(450)).height(300).yAxisLabel('Tweets').xAxisLabel('Hours').renderHorizontalGridLines(true).x(_dc2['default'].d3.scale.linear().domain([0, 24])).xUnits(_dc2['default'].d3.time.hours).elasticY(true).elasticX(true).brushOn(false).compose([this.lineChartsCompFactory(composite, dim, groups[0], 'yellow'), this.lineChartsCompFactory(composite, dim, groups[1], 'blue'), this.lineChartsCompFactory(composite, dim, groups[2], 'orange')]).render();
       }
     }, {
       key: 'lineChart',
       value: function lineChart(dimension, group, chartId) {
-        return _dc2['default'].lineChart('#' + chartId).width(350).height(250).x(_dc2['default'].d3.scale.linear().domain([new Date(this.lowerLimit), new Date(this.upperLimit)])).elasticY(true).elasticX(true).brushOn(true).renderDataPoints(true).yAxisLabel('Y axis').xUnits(_dc2['default'].d3.time.hours).dimension(dimension).group(group);
+        return _dc2['default'].lineChart('#' + chartId).width(this.computeBestWidth(350)).height(250).x(_dc2['default'].d3.scale.linear().domain([new Date(this.lowerLimit), new Date(this.upperLimit)])).elasticY(true).elasticX(true).brushOn(true).renderDataPoints(true).yAxisLabel('Y axis').xUnits(_dc2['default'].d3.time.hours).dimension(dimension).group(group);
       }
     }, {
       key: 'rangeChart',
@@ -4625,7 +4842,7 @@ module.exports =
         return _c32['default'].generate({
           bindto: '#' + chartId,
           onrendered: function onrendered() {
-            (0, _jquery2['default'])('.c3-bar-' + (data.length - 1)).css(styles);
+            $('.c3-bar-' + (data.length - 1)).css(styles);
           },
           data: {
             json: data,
@@ -4635,7 +4852,7 @@ module.exports =
             },
             type: 'bar',
             onclick: function onclick(d, element) {
-              (0, _jquery2['default'])(element).css(styles);
+              $(element).css(styles);
               var startTime = (0, _moment2['default'])('2016-01-' + d.x + ' 00:00').valueOf();
               callback(startTime);
             }
@@ -5287,9 +5504,13 @@ module.exports =
   
   var _express2 = _interopRequireDefault(_express);
   
-  var _dataHandlerTw = __webpack_require__(94);
+  var _controllersTwitters = __webpack_require__(103);
   
-  var twitterHandler = _interopRequireWildcard(_dataHandlerTw);
+  var twitters = _interopRequireWildcard(_controllersTwitters);
+  
+  var _controllersInquiries = __webpack_require__(104);
+  
+  var inquiries = _interopRequireWildcard(_controllersInquiries);
   
   var router = new _express2['default'].Router();
   
@@ -5300,13 +5521,13 @@ module.exports =
         case 0:
           context$1$0.prev = 0;
           context$1$0.next = 3;
-          return regeneratorRuntime.awrap(twitterHandler.findData(req.query.start, req.query.end));
+          return regeneratorRuntime.awrap(twitters.findData(req.query.start, req.query.end));
   
         case 3:
           raw = context$1$0.sent;
-          data = twitterHandler.transform(raw);
+          data = twitters.transform(raw);
           context$1$0.next = 7;
-          return regeneratorRuntime.awrap(twitterHandler.getFromRedis());
+          return regeneratorRuntime.awrap(twitters.getFromRedis());
   
         case 7:
           aggregate = context$1$0.sent;
@@ -5335,11 +5556,11 @@ module.exports =
         case 0:
           context$1$0.prev = 0;
           context$1$0.next = 3;
-          return regeneratorRuntime.awrap(twitterHandler.findData(req.query.start, req.query.end));
+          return regeneratorRuntime.awrap(twitters.findData(req.query.start, req.query.end));
   
         case 3:
           raw = context$1$0.sent;
-          data = twitterHandler.transform(raw);
+          data = twitters.transform(raw);
   
           res.status(200).json(data);
           context$1$0.next = 11;
@@ -5358,13 +5579,65 @@ module.exports =
     }, null, _this, [[0, 8]]);
   });
   
+  router.post('/inquiries', function callee$0$0(req, res, next) {
+    var payload;
+    return regeneratorRuntime.async(function callee$0$0$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          try {
+            payload = Object.assign({}, req.body, { date: new Date() });
+  
+            inquiries.saveInquiry(payload, function (error) {
+              var code = error ? 500 : 200;
+              res.status(code).json({ status: error || 'success' });
+            });
+          } catch (err) {
+            if (err) next(err);
+          }
+  
+        case 1:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, _this);
+  });
+  
+  router.get('/inquiries', function callee$0$0(req, res, next) {
+    var data;
+    return regeneratorRuntime.async(function callee$0$0$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          context$1$0.prev = 0;
+          context$1$0.next = 3;
+          return regeneratorRuntime.awrap(inquiries.findInquiries());
+  
+        case 3:
+          data = context$1$0.sent;
+  
+          res.status(200).json(data);
+          context$1$0.next = 10;
+          break;
+  
+        case 7:
+          context$1$0.prev = 7;
+          context$1$0.t0 = context$1$0['catch'](0);
+  
+          if (context$1$0.t0) next(context$1$0.t0);
+  
+        case 10:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, _this, [[0, 7]]);
+  });
+  
   router.post('/social/twdata', function callee$0$0(req, res, next) {
     return regeneratorRuntime.async(function callee$0$0$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
           try {
-            // console.log(twitterHandler);
-            twitterHandler.saveTweets(req.body, function (result) {
+            // console.log(twitters);
+            twitters.saveTweets(req.body, function (result) {
               res.status(200).json(result);
             });
           } catch (err) {
@@ -5381,130 +5654,7 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 94 */
-/***/ function(module, exports, __webpack_require__) {
-
-  'use strict';
-  
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });
-  exports.getFromRedis = getFromRedis;
-  exports.saveTweets = saveTweets;
-  exports.transform = transform;
-  exports.findData = findData;
-  
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-  
-  var _redis = __webpack_require__(89);
-  
-  var _redis2 = _interopRequireDefault(_redis);
-  
-  var _modelsTwitter = __webpack_require__(90);
-  
-  var _modelsTwitter2 = _interopRequireDefault(_modelsTwitter);
-  
-  var _async2 = __webpack_require__(95);
-  
-  var _async3 = _interopRequireDefault(_async2);
-  
-  var _lodash = __webpack_require__(80);
-  
-  var _lodash2 = _interopRequireDefault(_lodash);
-  
-  var client = _redis2['default'].createClient();
-  
-  var mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika'];
-  var exludedFields = '-_id -__v -has_user_mentions -geo_enabled -time_zone -approximated_geo ';
-  exludedFields += '-favorite_count -user_id -retweet_count -has_hashtags -is_retweet -is_reply';
-  var saved = 0;
-  var notSaved = 0;
-  
-  function getFromRedis() {
-    return new Promise(function (resolve, reject) {
-      client.get('tw', function (err, reply) {
-        resolve(reply);
-        reject(err);
-      });
-    });
-  }
-  
-  function _addNamesToTweet(tweet) {
-    // mutates the tweet by adding new fields
-    mentions.forEach(function (mention) {
-      var bool = tweet.user_mentions.some(function (name) {
-        return name.toLowerCase().includes(mention);
-      });
-      tweet[mention] = bool ? 1 : 0;
-    });
-    return tweet;
-  }
-  function _excludeNamesInTerms(tweet) {
-    mentions.forEach(function (mention) {
-      tweet.terms.forEach(function (term, index, arr) {
-        var isName = term.toLowerCase().includes(mention);
-        if (isName) arr.splice(index, 1);
-      });
-    });
-    return tweet;
-  }
-  
-  function saveTweets(data, cb) {
-    _async3['default'].each(data, function (d, callback) {
-      var twitter = new _modelsTwitter2['default'](d);
-      twitter.save(function (err) {
-        if (err) {
-          /* eslint-disable no-console*/
-          console.log('error ' + err.message + ' not saved ' + d.id);
-          notSaved++;
-        } else {
-          saved++;
-        }
-        callback();
-      });
-    }, function (error) {
-      if (error) throw new Error(error);
-      cb({ saved: saved, notSaved: notSaved });
-    });
-  }
-  
-  function transform(raw) {
-    return raw.map(function (d) {
-      var tweet = d.toObject();
-      tweet.text = tweet.text.toLowerCase();
-      tweet.sentiment = _lodash2['default'].ceil(tweet.sentiment, 2) || tweet.sentiment;
-      _addNamesToTweet(tweet);
-      _excludeNamesInTerms(tweet);
-      return tweet;
-    });
-  }
-  
-  function findData(start, end) {
-    return regeneratorRuntime.async(function findData$(context$1$0) {
-      while (1) switch (context$1$0.prev = context$1$0.next) {
-        case 0:
-          context$1$0.prev = 0;
-          return context$1$0.abrupt('return', _modelsTwitter2['default'].find({
-            'is_retweet': false,
-            timeStamp: {
-              $gt: parseInt(start, 10),
-              $lt: parseInt(end, 10)
-            }
-          }).select(exludedFields).exec());
-  
-        case 4:
-          context$1$0.prev = 4;
-          context$1$0.t0 = context$1$0['catch'](0);
-          throw new Error(context$1$0.t0);
-  
-        case 7:
-        case 'end':
-          return context$1$0.stop();
-      }
-    }, null, this, [[0, 4]]);
-  }
-
-/***/ },
+/* 94 */,
 /* 95 */
 /***/ function(module, exports) {
 
@@ -5676,6 +5826,217 @@ module.exports =
 /***/ function(module, exports) {
 
   module.exports = require("front-matter");
+
+/***/ },
+/* 101 */,
+/* 102 */,
+/* 103 */
+/***/ function(module, exports, __webpack_require__) {
+
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  exports.getFromRedis = getFromRedis;
+  exports.saveTweets = saveTweets;
+  exports.transform = transform;
+  exports.findData = findData;
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  var _redis = __webpack_require__(89);
+  
+  var _redis2 = _interopRequireDefault(_redis);
+  
+  var _modelsTwitter = __webpack_require__(90);
+  
+  var _modelsTwitter2 = _interopRequireDefault(_modelsTwitter);
+  
+  var _async2 = __webpack_require__(95);
+  
+  var _async3 = _interopRequireDefault(_async2);
+  
+  var _lodash = __webpack_require__(80);
+  
+  var _lodash2 = _interopRequireDefault(_lodash);
+  
+  var client = _redis2['default'].createClient();
+  
+  var mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika'];
+  var exludedFields = '-_id -__v -has_user_mentions -geo_enabled -time_zone -approximated_geo ';
+  exludedFields += '-favorite_count -user_id -retweet_count -has_hashtags -is_retweet -is_reply';
+  var saved = 0;
+  var notSaved = 0;
+  
+  function getFromRedis() {
+    return new Promise(function (resolve, reject) {
+      client.get('tw', function (err, reply) {
+        resolve(reply);
+        reject(err);
+      });
+    });
+  }
+  
+  function _addNamesToTweet(tweet) {
+    // mutates the tweet by adding new fields
+    mentions.forEach(function (mention) {
+      var bool = tweet.user_mentions.some(function (name) {
+        return name.toLowerCase().includes(mention);
+      });
+      tweet[mention] = bool ? 1 : 0;
+    });
+    return tweet;
+  }
+  function _excludeNamesInTerms(tweet) {
+    mentions.forEach(function (mention) {
+      tweet.terms.forEach(function (term, index, arr) {
+        var isName = term.toLowerCase().includes(mention);
+        if (isName) arr.splice(index, 1);
+      });
+    });
+    return tweet;
+  }
+  
+  function saveTweets(data, cb) {
+    _async3['default'].each(data, function (d, callback) {
+      var twitter = new _modelsTwitter2['default'](d);
+      twitter.save(function (err) {
+        if (err) {
+          /* eslint-disable no-console*/
+          console.log('error ' + err.message + ' not saved ' + d.id);
+          notSaved++;
+        } else {
+          saved++;
+        }
+        callback();
+      });
+    }, function (error) {
+      if (error) throw new Error(error);
+      cb({ saved: saved, notSaved: notSaved });
+    });
+  }
+  
+  function transform(raw) {
+    return raw.map(function (d) {
+      var tweet = d.toObject();
+      tweet.text = tweet.text.toLowerCase();
+      tweet.sentiment = _lodash2['default'].ceil(tweet.sentiment, 2) || tweet.sentiment;
+      _addNamesToTweet(tweet);
+      _excludeNamesInTerms(tweet);
+      return tweet;
+    });
+  }
+  
+  function findData(start, end) {
+    return regeneratorRuntime.async(function findData$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          context$1$0.prev = 0;
+          return context$1$0.abrupt('return', _modelsTwitter2['default'].find({
+            'is_retweet': false,
+            timeStamp: {
+              $gt: parseInt(start, 10),
+              $lt: parseInt(end, 10)
+            }
+          }).select(exludedFields).exec());
+  
+        case 4:
+          context$1$0.prev = 4;
+          context$1$0.t0 = context$1$0['catch'](0);
+          throw new Error(context$1$0.t0);
+  
+        case 7:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, this, [[0, 4]]);
+  }
+
+/***/ },
+/* 104 */
+/***/ function(module, exports, __webpack_require__) {
+
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  exports.saveInquiry = saveInquiry;
+  exports.findInquiries = findInquiries;
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  var _modelsInquiry = __webpack_require__(105);
+  
+  var _modelsInquiry2 = _interopRequireDefault(_modelsInquiry);
+  
+  function saveInquiry(data, cb) {
+    var inquiry = new _modelsInquiry2['default'](data);
+    inquiry.save(function (err) {
+      console.log(err);
+      cb(err);
+    });
+  }
+  
+  function findInquiries() {
+    return regeneratorRuntime.async(function findInquiries$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          context$1$0.prev = 0;
+          return context$1$0.abrupt('return', _modelsInquiry2['default'].find().exec());
+  
+        case 4:
+          context$1$0.prev = 4;
+          context$1$0.t0 = context$1$0['catch'](0);
+          throw new Error(context$1$0.t0);
+  
+        case 7:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, this, [[0, 4]]);
+  }
+
+/***/ },
+/* 105 */
+/***/ function(module, exports, __webpack_require__) {
+
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  var _mongoose = __webpack_require__(91);
+  
+  var _mongoose2 = _interopRequireDefault(_mongoose);
+  
+  var _mongooseUniqueValidator = __webpack_require__(92);
+  
+  var _mongooseUniqueValidator2 = _interopRequireDefault(_mongooseUniqueValidator);
+  
+  var Schema = _mongoose2['default'].Schema;
+  
+  var InquirySchema = new Schema({
+    date: { type: Date },
+    name: { type: String, trim: true },
+    email: { type: String, trim: true, unique: true }
+  });
+  
+  InquirySchema.plugin(_mongooseUniqueValidator2['default']);
+  InquirySchema.path('name').required(true, 'inquiry must have a name');
+  InquirySchema.path('email').required(true, 'inquiry must have an email');
+  /* eslint-disable func-names*/
+  InquirySchema.pre('save', function (next) {
+    var err = this.validateSync();
+    next(err);
+  });
+  
+  exports['default'] = _mongoose2['default'].model('Inquiry', InquirySchema);
+  module.exports = exports['default'];
 
 /***/ }
 /******/ ]);

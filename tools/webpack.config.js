@@ -62,6 +62,7 @@ const config = {
       },
     },
     loaders: [
+      // Bootstrap 3
       {
         test: /\.jsx?$/,
         include: [
@@ -118,6 +119,11 @@ const clientConfig = merge({}, config, {
   devtool: DEBUG ? 'cheap-module-eval-source-map' : false,
   plugins: [
     new webpack.DefinePlugin(GLOBALS),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+    }),
     new AssetsPlugin({
       path: path.join(__dirname, '../build'),
 

@@ -32,10 +32,10 @@ export default class AboutPage extends Component {
   render() {
     return (
       <div className={cx(s.root, 'container-fluid')}>
-        <h2 className={s.logo}>AKILIHUB Talks</h2>
+        <h1 className="page-title">AKILIHUB Blogs</h1>
         <hr></hr>
         <header className = "row">
-            <ul className={cx('nav', 'navbar-nav', 'navbar-center', s.nav)}>
+            <ul id = "sub-menu-override" className={cx('nav', 'navbar-nav', 'navbar-center', 'sub-menu', s.nav)}>
               <li>
                   <Link className={s.link} to="/blog">General</Link>
               </li>
@@ -51,10 +51,10 @@ export default class AboutPage extends Component {
             </ul>
         </header>
         <hr></hr>
-        <section className= {cx('container', s.container)}>
+        <section className= {cx(s.container)}>
           <div className= {cx('col-md-9', s.main)}>
             <div className ="row spacing">
-              <article className="col-md-12">
+              <article className={cx('articles')}>
                 <header>
                   <h3> What skills should data scientist Have</h3>
                 </header>
@@ -64,7 +64,7 @@ export default class AboutPage extends Component {
               </article>
             </div>
             <div className ="row spacing">
-              <article className="col-md-12">
+              <article className={cx('articles')}>
                 <header>
                   <h3> Natural Languge Processing</h3>
                 </header>
@@ -74,7 +74,7 @@ export default class AboutPage extends Component {
               </article>
             </div>
             <div className ="row spacing">
-              <article className="col-md-12">
+              <article className={cx('articles')}>
                 <header>
                   <h3>Machine learning and Statistics</h3>
                 </header>

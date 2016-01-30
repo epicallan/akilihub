@@ -10,7 +10,7 @@ import Loader from '../Loader';
 // import TimeRange from './TimeRange';
 const isBrowser = typeof window !== 'undefined';
 const Charts = isBrowser ? require('../Charts') : undefined;
-import $ from 'jquery';
+// import $ from 'jquery';
 // import testData from './data';
 
 function getStateFromStores() {
@@ -93,6 +93,7 @@ export default class DataCenterPage extends Component {
       }
     };
   };
+
   getNewData = (unixTime) => {
     const workerData = [];
     const numberOfWorkers = 10;
@@ -113,8 +114,10 @@ export default class DataCenterPage extends Component {
     // let n = numberOfWorkers;
     const now = new Date();
     if (now.getHours() < 3) {
+      // TODO not working as intended
       now.setHours(new Date().getHours() - 6);
     }
+    now.setHours(new Date().getHours() - 270);
     console.log(`now : ${now}`);
     const hoursPast = now.getHours() + (now.getMinutes() / 60);
     console.log(`hours past ${hoursPast}`);
@@ -162,6 +165,19 @@ export default class DataCenterPage extends Component {
     console.log(range);
   }
 
+  computeMapDivWidth() {
+    let width = 500;
+    let height = 400;
+    if (window.innerWidth < 500) {
+      width = window.innerWidth - window.innerWidth * 0.2;
+      height = width * 0.9;
+    }
+    return {
+      width: `${width}px`,
+      height: `${height}px`,
+    };
+  }
+
   renderCharts() {
     // TODO fall back incase the first batch of received ata is empty
     if (this.state.data.length && !this.charts) {
@@ -177,16 +193,13 @@ export default class DataCenterPage extends Component {
     }
   }
   render = () => {
-    const divStyle = {
-      width: '500px',
-      height: '400px',
-    };
+    const divStyle = isBrowser ? this.computeMapDivWidth() : null;
     return (
       <div className={cx(s.root, 'container-fluid')}>
-        <h2 className={s.logo}> AKILIHUB Data Innovation Center</h2>
+        <h1 className="page-title"> AKILIHUB Data Innovation Center</h1>
         <hr></hr>
         <header className = "row">
-            <ul className={cx('nav', 'navbar-nav', 'navbar-center', s.nav)}>
+            <ul id = "sub-menu-override" className={cx('nav', 'navbar-nav', 'navbar-center', 'sub-menu', s.nav)}>
               <li>
                   <Link className={s.link} to="/data">Uganda Decides</Link>
               </li>
@@ -196,10 +209,10 @@ export default class DataCenterPage extends Component {
             </ul>
         </header>
         <hr></hr>
-        <section id = "main" className= {cx('container', s.container)}>
+        <section id = "main" className= {cx(s.container)}>
           <div className= {cx('col-md-12', s.main)}>
             <div className ="row spacing">
-              <article className="col-md-12">
+              <article className={cx('articles')}>
                 <header>
                   <h3>Digging into the Uganda campaigns social Media Stats</h3>
                 </header>
@@ -257,16 +270,16 @@ export default class DataCenterPage extends Component {
                <div className={cx('row', 'spacing-sm', s.chart)}>
                   <div className = "col-md-11 table-cont">
                     <h3> Twitter data tables</h3>
-                    <table id ="table" className = {cx('table', 'table-hover', 'table-bordered')}>
-                      <thead>
-                        <tr className={s.header}>
-                          <th>Tweet</th>
-                          <th>Date</th>
-                          <th>Location</th>
-                          <th>sentiment</th>
-                        </tr>
-                      </thead>
-                    </table>
+                      <table id ="table" className = {cx('table', 'table-hover', 'table-bordered', 'rt', 'cf')}>
+                        <thead>
+                          <tr className={s.header}>
+                            <th>Tweet</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>sentiment</th>
+                          </tr>
+                        </thead>
+                      </table>
                   </div>
                 </div>
               </section>

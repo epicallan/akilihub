@@ -4,32 +4,12 @@
   color: #777;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  article {
-    padding-left: 4em;
-    padding-right: 4em;
-  };
-  .charts {
-    padding-left: 3em;
-  };
-  li {
-    list-style: none;
-    padding-top: 0.5em;
-    margin-left: 6em;
-  };
   table {
     margin: 0 auto;
   };
   h2 {
     color: #6B6969;
   }
-}
-.logo {
-  padding-left: 4em;
-  padding-bottom: 2em;
-  padding-top: 2em;
-}
-.container {
-  background-color: rgba(204, 204, 204, 0.35);
 }
 .chart{
   opacity: 0;
@@ -53,10 +33,7 @@
 .sidebar h3,.sidebar a {
   padding-left: 1em;
 }
-.nav >li>a,
-.sidebar a {
-  color: #a94442;
-}
+
 table{
   font-size: 0.9em;
   span{display: none}

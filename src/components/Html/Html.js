@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { googleAnalyticsId } from '../../config';
-
 class Html extends Component {
 
   static propTypes = {

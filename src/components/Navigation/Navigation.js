@@ -3,6 +3,7 @@ import cx from 'classnames';
 import s from './Navigation.scss';
 import withStyles from '../../decorators/withStyles';
 import Link from '../Link';
+import { Navbar, Nav } from 'react-bootstrap';
 
 @withStyles(s)
 class Navigation extends Component {
@@ -27,36 +28,29 @@ class Navigation extends Component {
 
   render() {
     return (
-      <nav className={cx('navbar', s.navbar, 'navbar-fixed-top')} ref = "nav">
-        <div className="container">
-          <div className="navbar-header">
-            <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span className="sr-only">Toggle navigation</span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-            </button>
-          </div>
-          <div className={cx(s.root, this.props.className, s.collapse, 'navbar-collapse', 'collapse')} role="navigation">
-            <ul className="nav navbar-nav navbar-center">
-              <li>
-                <Link className={s.link} to="/">Home</Link>
-              </li>
-              <li>
-                <Link className={s.link} to="/data">Data Center</Link>
-              </li>
-              <li>
-                <Link className={s.link} to="/blog">Blog</Link>
-              </li>
-            </ul>
-            <ul className="nav navbar-nav navbar-right">
-              <li>
-                <Link className={s.link} to="/contact">Contact Us</Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+      <Navbar id = "navbar-override" fixedTop className={cx('navbar', s.navbar)} ref = "nav" >
+       <Navbar.Header>
+         <Navbar.Toggle />
+       </Navbar.Header>
+       <Navbar.Collapse>
+         <Nav>
+           <li>
+             <Link className={s.link} to="/">Home</Link>
+           </li>
+           <li>
+             <Link className={s.link} to="/data">Data Center</Link>
+           </li>
+           <li>
+             <Link className={s.link} to="/blog">Blog</Link>
+           </li>
+         </Nav>
+         <Nav pullRight>
+           <li>
+              <Link className={s.link} to="/contact">Contact Us</Link>
+           </li>
+         </Nav>
+       </Navbar.Collapse>
+     </Navbar>
     );
   }
 

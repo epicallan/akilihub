@@ -3,9 +3,10 @@
 /**variables*/
 
 
-$h2-font: 1.5em;
-$h3-font: 1.2em;
-$h1-font: 2em;
+$h2-font: 1.2em;
+$h3-font: 1.1em;
+$h1-font: 1.35em;
+
 $large-font: 2.1em;
 $font-weight: 700;
 
@@ -13,7 +14,7 @@ $font-weight: 700;
 h1{font-size:$h1-font}
 h2{font-size:$h2-font}
 h3{font-size:$h3-font}
-
+p{font-size: 0.9em}
 /*
  * Colors
  * ========================================================================== */

@@ -1,29 +1,50 @@
 /***dom high level***/
 
-.container-fluid .container {
+.container-fluid {
   padding-left: 0;
   padding-right: 0;
 }
 
 /***nav****/
 
-.navbar-default {
+#navbar-override {
   background-color: #5B798E;
   border-color: #5B798E;
 }
-.nav-scroll {
+#navbar-override .nav-scroll {
   background-color: rgba(245, 245, 245, 0.5);
 }
-.navbar-default .navbar-nav > li > a {
+#navbar-override a {
   color: #ffffff;
 }
-.navbar-collapse {
+#navbar-override .navbar-collapse {
   margin-top: 0.5em;
 }
-.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
-  color: #d9edf7;
+#navbar-override a:hover,#navbar-override a:active, #navbar-override a:focus{
+  color: #CFD9FF;
 }
-
+#sub-menu-override a:hover,#sub-menu-override a:active,#sub-menu-override a:focus{
+  background-color: none;
+  color:#a94442;
+}
+/**universal**/
+.page-title{
+  font-size: 1.35em;
+  margin-left: 4em;
+  padding-top: 1em;
+}
+.articles{
+  padding-left: 4em;
+  padding-right: 4em;
+}
+.charts-dashboard {
+  padding-left: 4em;
+}
+.sub-menu li{
+  list-style: none;
+  padding-top: 0.5em;
+  margin-left: 6em;
+}
 /**utility classes**/
 
 .box {
@@ -81,12 +102,12 @@
   font-size: 1.1em;
 }
 .social {
-  margin-top: -1em;
+  margin-top: 0.2em;
 }
 .social a {
   color: white;
   font-size: 2.0em;
-  margin-left: 1em;
+  padding: 0.2em;
 }
 .btn {
   background-color: #B76565;
@@ -101,4 +122,60 @@
 .clicked{
   fill: #00ff00;
 }
-/*# sourceMappingURL=screen.css.map */
+/*dashboard */
+.charts{
+  padding-left: 3em;
+}
+/* Handheld. Handles both portrait and landscape. */
+@media (min-width: 320px) and (max-width: 568px) {
+  .page-title {
+    margin-left: 1em;
+  }
+  .charts{
+    padding-left: 0em;
+  }
+  .sub-menu li{
+    list-style: none;
+    padding-top: 0.5em;
+    margin-left: 2em;
+  }
+  .articles, .charts-dashboard{
+    padding-left: 0em;
+    padding-right: 0em;
+  }
+  /*tables */
+		#table { display: block; position: relative; width: 100%; }
+		#table thead { display: block; float: left; }
+		#table tbody { display: -webkit-box; overflow-x: auto; }
+		#table th,
+		#table tr,
+		#table td { display: block; }
+
+		/* sort out borders */
+
+		.rt th { border-bottom: 0; }
+		.rt td { border-left: 0; border-right: 0; border-bottom: 0; }
+		.rt tbody tr { border-right: 1px solid #babcbf; }
+		.rt th:last-child,
+		.rt td:last-child { border-bottom: 1px solid #babcbf; }
+
+}
+
+/* Tablet. Handles both portrait and landscape. */
+@media (min-width: 600px) and (max-width: 800px) {
+  .charts{
+    padding-left: 0.5em;
+  }
+  .page-title {
+    margin-left: 2em;
+  }
+  .articles, .charts-dashboard{
+    padding-left: 0em;
+    padding-right: 0em;
+  }
+  .sub-menu li{
+    list-style: none;
+    padding-top: 0.5em;
+    margin-left: 2em;
+  }
+}

@@ -1,7 +1,6 @@
 import dc from './dc';
 import cf from '../../core/CfHelper';
 import 'datatables';
-import $ from 'jquery';
 import moment from 'moment';
 import c3 from 'c3';
 
@@ -56,6 +55,11 @@ export default class DcCharts {
     this.rangeChart(this.options.range, this.aggregate, this.options.getNewData);
     dc.renderAll();
   }
+  computeBestWidth(width) {
+    let w = width;
+    if (window.innerWidth < w) w = window.innerWidth - window.innerWidth * 0.2;
+    return w;
+  }
   reRender() {
     dc.redrawAll();
     this._tablesRefresh();
@@ -106,6 +110,7 @@ export default class DcCharts {
   }
   _dataTablesOptions() {
     return {
+      'responsive': true,
       'pageLength': 5,
       'order': [
         [1, 'desc'],
@@ -155,8 +160,8 @@ export default class DcCharts {
   }
   rowChart(dim, group, rowId) {
     return dc.rowChart('#' + rowId)
+      .width(this.computeBestWidth(330))
       .height(300)
-      .width(330)
       .margins({
         top: 10,
         right: 10,
@@ -180,7 +185,7 @@ export default class DcCharts {
     return dc.leafletMarkerChart('#' + mapId)
       .dimension(dim)
       .group(mapGroup)
-      .width(600)
+      .width(this.computeBestWidth(500))
       .height(400)
       .zoom(12)
       .fitOnRender(true)
@@ -250,7 +255,7 @@ export default class DcCharts {
   compositeLineChart(dim, groups, chartId) {
     const composite = dc.compositeChart('#' + chartId);
     // const self = this;
-    composite.width(450)
+    composite.width(this.computeBestWidth(450))
       .height(300)
       .yAxisLabel('Tweets')
       .xAxisLabel('Hours')
@@ -269,7 +274,7 @@ export default class DcCharts {
   }
   lineChart(dimension, group, chartId) {
     return dc.lineChart('#' + chartId)
-      .width(350)
+      .width(this.computeBestWidth(350))
       .height(250)
       .x(dc.d3.scale.linear().domain([new Date(this.lowerLimit), new Date(this.upperLimit)]))
       .elasticY(true)

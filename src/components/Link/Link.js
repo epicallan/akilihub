@@ -34,6 +34,8 @@ class Link extends Component {
     if (clickResult === false || event.defaultPrevented === true) {
       allowTransition = false;
     }
+    // bootstrap navbar-collapse
+    if ($('.navbar-collapse')) $('.navbar-collapse').collapse('hide');
 
     event.preventDefault();
 
