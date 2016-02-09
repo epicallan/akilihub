@@ -2,8 +2,9 @@ import redis from 'redis';
 import Twitter from '../models/Twitter';
 import _async from 'async';
 import _ from 'lodash';
-const client = redis.createClient();
+import { REDIS_PORT, REDIS_ADDR } from '../../config';
 
+const client = redis.createClient(REDIS_PORT, REDIS_ADDR);
 const mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika'];
 let exludedFields = '-_id -__v -has_user_mentions -geo_enabled -time_zone -approximated_geo ';
 exludedFields += '-favorite_count -user_id -retweet_count -has_hashtags -is_retweet -is_reply';
