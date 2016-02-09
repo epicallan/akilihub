@@ -1315,7 +1315,7 @@ module.exports =
   'use strict';
   
   Object.defineProperty(exports, '__esModule', {
-    value: true
+                        value: true
   });
   var port = process.env.PORT || 5000;
   exports.port = port;
@@ -1323,7 +1323,11 @@ module.exports =
   exports.host = host;
   var googleAnalyticsId = 'UA-72716212-1';
   exports.googleAnalyticsId = googleAnalyticsId;
-  var MONGO_URL = 'mongodb://localhost/mine';
+  var REDIS_ADDR = process.env.REDIS_PORT_6379_TCP_ADDR || '127.0.0.1';
+  exports.REDIS_ADDR = REDIS_ADDR;
+  var REDIS_PORT = process.env.REDIS_PORT_6379_TCP_PORT || 6379;
+  exports.REDIS_PORT = REDIS_PORT;
+  var MONGO_URL = 'mongodb://' + process.env.MONGO_PORT_27017_TCP_ADDR + ':\n                      ' + process.env.MONGO_PORT_27017_TCP_PORT + '/mine' || 'mongodb://localhost/mine';
   exports.MONGO_URL = MONGO_URL;
 
 /***/ },
@@ -6567,8 +6571,9 @@ module.exports =
   
   var _lodash2 = _interopRequireDefault(_lodash);
   
-  var client = _redis2['default'].createClient();
+  var _config = __webpack_require__(14);
   
+  var client = _redis2['default'].createClient(_config.REDIS_PORT, _config.REDIS_ADDR);
   var mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika'];
   var exludedFields = '-_id -__v -has_user_mentions -geo_enabled -time_zone -approximated_geo ';
   exludedFields += '-favorite_count -user_id -retweet_count -has_hashtags -is_retweet -is_reply';
