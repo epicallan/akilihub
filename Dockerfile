@@ -6,7 +6,7 @@ RUN npm install nodemon -g
 
 WORKDIR /src
 ADD . /src
-RUN npm install
+RUN npm install --production
 
 EXPOSE 3000
 

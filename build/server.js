@@ -1315,7 +1315,7 @@ module.exports =
   'use strict';
   
   Object.defineProperty(exports, '__esModule', {
-                        value: true
+    value: true
   });
   var port = process.env.PORT || 5000;
   exports.port = port;
@@ -1327,7 +1327,11 @@ module.exports =
   exports.REDIS_ADDR = REDIS_ADDR;
   var REDIS_PORT = process.env.REDIS_PORT_6379_TCP_PORT || 6379;
   exports.REDIS_PORT = REDIS_PORT;
-  var MONGO_URL = 'mongodb://' + process.env.MONGO_PORT_27017_TCP_ADDR + ':\n                      ' + process.env.MONGO_PORT_27017_TCP_PORT + '/mine' || 'mongodb://localhost/mine';
+  var MONGO_ADDR = process.env.MONGO_PORT_6379_TCP_ADDR || '127.0.0.1';
+  exports.MONGO_ADDR = MONGO_ADDR;
+  var MONGO_PORT = process.env.MONGO_PORT_6379_TCP_PORT || 27017;
+  exports.MONGO_PORT = MONGO_PORT;
+  var MONGO_URL = 'mongodb://' + MONGO_ADDR + ':' + MONGO_PORT + '/mine';
   exports.MONGO_URL = MONGO_URL;
 
 /***/ },
@@ -3763,7 +3767,7 @@ module.exports =
           // TODO not working as intended
           now.setHours(new Date().getHours() - 6);
         }
-        now.setHours(new Date().getHours() - 450);
+        now.setHours(new Date().getHours() - 750);
         console.log('now : ' + now);
         var hoursPast = now.getHours() + now.getMinutes() / 60;
         console.log('hours past ' + hoursPast);
@@ -6216,7 +6220,9 @@ module.exports =
   
   var _crossfilter22 = _interopRequireDefault(_crossfilter2);
   
-  var client = _redis2['default'].createClient();
+  var _config = __webpack_require__(14);
+  
+  var client = _redis2['default'].createClient(_config.REDIS_PORT, _config.REDIS_ADDR);
   
   function findData() {
     return regeneratorRuntime.async(function findData$(context$1$0) {
