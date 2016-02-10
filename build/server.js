@@ -1327,9 +1327,9 @@ module.exports =
   exports.REDIS_ADDR = REDIS_ADDR;
   var REDIS_PORT = process.env.REDIS_PORT_6379_TCP_PORT || 6379;
   exports.REDIS_PORT = REDIS_PORT;
-  var MONGO_ADDR = process.env.MONGO_PORT_6379_TCP_ADDR || '127.0.0.1';
+  var MONGO_ADDR = process.env.MONGO_PORT_27017_TCP_ADDR || '127.0.0.1';
   exports.MONGO_ADDR = MONGO_ADDR;
-  var MONGO_PORT = process.env.MONGO_PORT_6379_TCP_PORT || 27017;
+  var MONGO_PORT = process.env.MONGO_PORT_27017_TCP_PORT || 27017;
   exports.MONGO_PORT = MONGO_PORT;
   var MONGO_URL = 'mongodb://' + MONGO_ADDR + ':' + MONGO_PORT + '/mine';
   exports.MONGO_URL = MONGO_URL;
@@ -6257,6 +6257,14 @@ module.exports =
         case 2:
           data = context$1$0.sent;
   
+          if (data.length) {
+            context$1$0.next = 5;
+            break;
+          }
+  
+          return context$1$0.abrupt('return', false);
+  
+        case 5:
           data.forEach(function (d) {
             d.date = new Date(d.timeStamp).getDate();
           });
@@ -6267,7 +6275,7 @@ module.exports =
           group = dim.group().reduceCount();
           return context$1$0.abrupt('return', group.all());
   
-        case 8:
+        case 10:
         case 'end':
           return context$1$0.stop();
       }
