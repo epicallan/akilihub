@@ -1,3 +1,0 @@
-/**
- * TODO Facebook data model
- */
