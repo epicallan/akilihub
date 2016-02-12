@@ -3744,7 +3744,7 @@ module.exports =
         var _this2 = this;
   
         worker.onmessage = function (event) {
-          console.log(event);
+          // console.log(event);
           if (index > 0) {
             if (_this2.state.data.length) {
               // only make data available for upadate if we have an initial payload
@@ -3767,10 +3767,10 @@ module.exports =
           // TODO not working as intended
           now.setHours(new Date().getHours() - 6);
         }
-        now.setHours(new Date().getHours() - 250);
-        console.log('now : ' + now);
+        // now.setHours(new Date().getHours() - 250);
+        // console.log(`now : ${now}`);
         var hoursPast = now.getHours() + now.getMinutes() / 60;
-        console.log('hours past ' + hoursPast);
+        // console.log(`hours past ${hoursPast}`);
         var start = now.getTime() - hoursPast * this.hour;
         var hourParts = hoursPast / numberOfWorkers;
         // .log(`number of workers to use: ${n}`);
