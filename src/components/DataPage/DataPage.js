@@ -226,7 +226,7 @@ export default class DataCenterPage extends Component {
                     </div>
                   </div>
                  <div className= "col-md-6" >
-                    <h4> Identifying the mostSentimental Words with in the Tweets </h4>
+                    <h4> Identifying tweet sentiments  </h4>
                     <div id ="emotions"></div>
                   </div>
                 </div>

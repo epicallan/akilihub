@@ -49,10 +49,10 @@ class Feedback extends Component {
                 <h3>Akilihub</h3>
               </div>
               <div className="col-sm-2 col-sm-offset-8 social">
-                <a href="#">
+                <a href="https://www.facebook.com/akilihubio-1053352951374980">
                   <i className="fa fa-facebook"></i>
                 </a>
-                <a href="#">
+                <a href="https://twitter.com/akilihub_io">
                   <i className="fa fa-twitter"></i>
                 </a>
               </div>
