@@ -117,7 +117,7 @@ export default class DataCenterPage extends Component {
       // TODO not working as intended
       now.setHours(new Date().getHours() - 3);
     }
-    now.setHours(new Date().getHours() - 630);
+    // now.setHours(new Date().getHours() - 630);
     console.log(`now : ${now}`);
     const hoursPast = now.getHours() + (now.getMinutes() / 60);
     console.log(`hours past ${hoursPast}`);

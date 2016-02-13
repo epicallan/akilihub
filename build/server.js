@@ -3773,7 +3773,7 @@ module.exports =
           // TODO not working as intended
           now.setHours(new Date().getHours() - 3);
         }
-        now.setHours(new Date().getHours() - 630);
+        // now.setHours(new Date().getHours() - 630);
         console.log('now : ' + now);
         var hoursPast = now.getHours() + now.getMinutes() / 60;
         console.log('hours past ' + hoursPast);
@@ -6363,6 +6363,7 @@ module.exports =
     id: { type: Number, unique: true },
     is_reply: Boolean,
     is_retweet: Boolean,
+    emotions: { type: [String], 'default': null },
     approximated_geo: { type: Boolean, 'default': false },
     geo_enabled: { type: Boolean, 'default': false },
     has_hashtags: Boolean,
