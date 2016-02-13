@@ -4774,7 +4774,7 @@ module.exports =
       key: 'reduceAdd',
       value: function reduceAdd(attr) {
         return function (p, v) {
-          if (!v[attr].length) return p; // skip empty arrays
+          if (!v[attr].length || v[attr] === null || v[attr] === 'null') return p; // skip empty arrays
           v[attr].forEach(function (val) {
             p[val] = (p[val] || 0) + 1; // increment counts
           });
@@ -4786,7 +4786,7 @@ module.exports =
       key: 'reduceRemove',
       value: function reduceRemove(attr) {
         return function (p, v) {
-          if (!v[attr].length) return p; // skip empty arrays
+          if (!v[attr].length || v[attr] === null || v[attr] === 'null') return p; // skip empty arrays
           v[attr].forEach(function (val) {
             p[val] = (p[val] || 0) - 1; // decrement counts
           });

@@ -65,7 +65,7 @@ class CfHelper {
 
   reduceAdd(attr) {
     return (p, v) => {
-      if (!v[attr].length) return p; // skip empty arrays
+      if (!v[attr].length || v[attr] === null || v[attr] === 'null') return p; // skip empty arrays
       v[attr].forEach((val) => {
         p[val] = (p[val] || 0) + 1; // increment counts
       });
@@ -76,7 +76,7 @@ class CfHelper {
 
   reduceRemove(attr) {
     return (p, v) => {
-      if (!v[attr].length) return p; // skip empty arrays
+      if (!v[attr].length || v[attr] === null || v[attr] === 'null') return p; // skip empty arrays
       v[attr].forEach((val) => {
         p[val] = (p[val] || 0) - 1; // decrement counts
       });
