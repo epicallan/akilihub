@@ -71,7 +71,7 @@ export default class DataCenterPage extends Component {
 
   onInitialDataReceived(worker, index) {
     worker.onmessage = (event) => {
-      // console.log(event);
+      console.log(event);
       if (index > 0) {
         if (this.state.data.length) {
           // only make data available for upadate if we have an initial payload
@@ -117,10 +117,10 @@ export default class DataCenterPage extends Component {
       // TODO not working as intended
       now.setHours(new Date().getHours() - 3);
     }
-    // now.setHours(new Date().getHours() - 620);
-    // console.log(`now : ${now}`);
+    now.setHours(new Date().getHours() - 630);
+    console.log(`now : ${now}`);
     const hoursPast = now.getHours() + (now.getMinutes() / 60);
-    // console.log(`hours past ${hoursPast}`);
+    console.log(`hours past ${hoursPast}`);
     const start = now.getTime() - (hoursPast * this.hour);
     const hourParts = hoursPast / numberOfWorkers;
     // .log(`number of workers to use: ${n}`);
@@ -139,7 +139,7 @@ export default class DataCenterPage extends Component {
       row: [
         { id: 'hashtags', field: 'hashtags' },
         { id: 'terms', field: 'terms' },
-        { id: 'user_mentions', field: 'user_mentions' },
+        { id: 'emotions', field: 'emotions' },
       ],
       pie: 'pie',
       map: 'map',
@@ -226,8 +226,8 @@ export default class DataCenterPage extends Component {
                     </div>
                   </div>
                  <div className= "col-md-6" >
-                    <h4>Aggregate Volume of Mentions For Each Candidate </h4>
-                    <div id ="user_mentions"></div>
+                    <h4> Identifying the mostSentimental Words with in the Tweets </h4>
+                    <div id ="emotions"></div>
                   </div>
                 </div>
                 <div className= "row">
@@ -274,7 +274,6 @@ export default class DataCenterPage extends Component {
                             <th>User</th>
                             <th>Date</th>
                             <th>Location</th>
-                            <th>sentiment</th>
                           </tr>
                         </thead>
                       </table>

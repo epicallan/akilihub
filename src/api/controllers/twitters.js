@@ -29,17 +29,6 @@ function _addNamesToTweet(tweet) {
   return tweet;
 }
 
-function _excludeInUserMentions(tweet) {
-  // TODO should remove terms that are not user names from user_mentions
-  tweet.user_mentions.forEach((term, index, arr) => {
-    mentions.forEach(name => {
-      const regex = new RegExp('\\b' + name, 'gi');
-      if (term.match(regex)) arr.splice(index, 1, name);
-    });
-  });
-  return tweet;
-}
-
 function _excludeNamesInTerms(tweet) {
   mentions.forEach((mention) => {
     tweet.terms.forEach((term, index, arr) => {

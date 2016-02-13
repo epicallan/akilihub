@@ -132,10 +132,6 @@ export default class DcCharts {
         targets: 3,
         data: d => d.location,
         defaultContent: '',
-      }, {
-        targets: 4,
-        data: d => d.sentiment,
-        defaultContent: 0,
       }],
     };
   }
