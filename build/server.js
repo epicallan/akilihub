@@ -130,7 +130,7 @@ module.exports =
   
   // cron job
   var job = new CronJob({
-    cronTime: '* 45 * * * *',
+    cronTime: '00 45 * * * *',
     onTick: function onTick() {
       (0, _apiJobsTwitterJob2['default'])();
     },

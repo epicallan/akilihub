@@ -1,0 +1,32 @@
+@import '../variables.scss';
+
+.root {
+}
+
+.container {
+  margin: 0 auto;
+  max-width: $max-content-width;
+  text-align: center;
+}
+
+.link,
+.link:active,
+.link:hover,
+.link:visited {
+  color: #333;
+  text-decoration: none;
+}
+.fgroup{
+  margin-left: 1em;
+}
+.btn{
+  margin-left: 1em;
+}
+.link:hover {
+  text-decoration: underline;
+}
+
+.spacer {
+  padding-right: 15px;
+  padding-left: 15px;
+}
