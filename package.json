@@ -12,6 +12,7 @@
     "c3": "^0.4.11-rc4",
     "classnames": "2.2.1",
     "compression": "^1.6.0",
+    "cron": "^1.1.0",
     "crossfilter2": "^2.0.0-alpha.3",
     "d3": "^3.5.12",
     "datatables": "^1.10.9",
