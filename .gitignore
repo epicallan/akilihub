@@ -5,3 +5,5 @@ ncp-debug.log
 npm-debug.log
 npm
 docs
+tools
+build

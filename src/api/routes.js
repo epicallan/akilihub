@@ -18,6 +18,7 @@ router.get('/social/twdata', async(req, res, next) => {
   try {
     const raw = await twitters.findData(req.query.start, req.query.end);
     const data = twitters.transform(raw);
+    console.log(`data count is ${data.length}`);
     res.status(200).json(data);
   } catch (err) {
     next(err);

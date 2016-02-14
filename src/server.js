@@ -12,12 +12,15 @@ import bodyParser from 'body-parser';
 import twitterJob from './api/jobs/twitterJob';
 import mongoose from 'mongoose';
 import cron from 'cron';
+import morgan from 'morgan';
 
 const CronJob = cron.CronJob;
 const server = global.server = express();
 
 
 server.use(bodyParser.json());
+// logger
+if (process.env.NODE !== 'production') server.use(morgan('combined'));
 
 server.use(compression());
 // Register Node.js middleware

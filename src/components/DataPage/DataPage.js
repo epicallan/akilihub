@@ -7,7 +7,7 @@ import Link from '../Link';
 import DataPageActions from '../../actions/DataPageActions';
 import Worker from 'worker!../../worker';
 import Loader from '../Loader';
-// import TimeRange from './TimeRange';
+import TimeRange from './TimeRange';
 const isBrowser = typeof window !== 'undefined';
 const Charts = isBrowser ? require('../Charts') : undefined;
 // import $ from 'jquery';
@@ -35,7 +35,9 @@ export default class DataCenterPage extends Component {
     this.hour = 60000 * 60;
     this.state = getStateFromStores();
     this.path = props.path;
-    this.lastDate = null;
+    this.isInitialData = true;
+    this.timeInterval = 4;
+    this.currentDate = null;
     this.getNewData = this.getNewData;
     this.isAlldata = false;
   }
@@ -46,13 +48,13 @@ export default class DataCenterPage extends Component {
 
   componentDidMount() {
     DataPageStore.addChangeListener(this._onChange);
-    this.initalDataFetch(6);
+    this.initalDataFetch(3);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     this.renderCharts();
     if (this.charts && nextState.newData.length) {
-      this.charts.updateData(nextState.newData, nextState.isInitialUpdate);
+      this.charts.updateData(nextState.newData, nextState.isInitialNewDataUpdate);
       this.charts.reRender();
     }
     return false;
@@ -64,75 +66,126 @@ export default class DataCenterPage extends Component {
     this.charts.dcMap.map().remove();
   }
 
-  onTimeClick(range) {
-    // TODO
-    console.log(range);
-  }
-
-  onInitialDataReceived(worker, index) {
+  onInitialDataReceived = (worker) => {
     worker.onmessage = (event) => {
       console.log(event);
-      if (index > 0) {
-        if (this.state.data.length) {
-          // only make data available for upadate if we have an initial payload
-          DataPageActions.update(event.data.data, false);
-        } else {
-          // use this new update data as initial data
-          DataPageActions.getData(event.data);
-        }
-      } else {
-        DataPageActions.getData(event.data);
-      }
+      /* eslint-disable no-unused-expressions*/
+      this.isInitialData ? DataPageActions.getData(event.data) :
+        DataPageActions.update(event.data.data, false);
+      this.isInitialData = false;
     };
   }
-  onNewDataMessage = (worker) => {
-    worker.onmessage = (event) => {
-      if (event.data.length) {
-        DataPageActions.update(event.data, this.isFirstPayload);
-        if (this.isFirstPayload) this.isFirstPayload = false;
-      }
-    };
-  };
 
-  getNewData = (unixTime) => {
-    const workerData = [];
-    const numberOfWorkers = 5;
-    this.isFirstPayload = true;
-    const timeIntervals = 24 / numberOfWorkers;
+  onTimeClick = (range) => {
+    const [start] = range.split('-');
+    const now = new Date(this.currentDate);
+    this.isFirstNewDataPayload = true;
+    // console.log(start);
+    now.setHours(parseInt(start, 10));
+    now.setMinutes(0);
+    // console.log(now);
+    this.getNewData(now.getTime(), (worker) => {
+      worker.onmessage = (event) => {
+        console.log(event);
+        if (event.data.length) {
+          DataPageActions.update(event.data, this.isFirstNewDataPayload);
+          if (this.isFirstNewDataPayload) this.isFirstNewDataPayload = false;
+        }
+      };
+    });
+  }
+
+  getNewData = (unixStartTime, callback) => {
+    const numberOfWorkers = 4;
+    // this.isFirstPayload = true;
+    // const hourParts = 24 / numberOfWorkers;
+    const api = `http://${window.location.host}/api/social/twdata/?`;
     $('#loader').show();
-    for (let i = 0; i < numberOfWorkers; i++) {
+    this.fetchDataUsingWorkers(unixStartTime, {
+      timeInterval: this.timeInterval,
+      numberOfWorkers,
+      api,
+      callback });
+  }
+
+  getNewDateData = (unixDate) => {
+    const now = new Date(unixDate);
+    now.setHours(20);
+    this.currentDate = now;
+    this.isFirstNewDataPayload = true;
+    const unixStartTime = now.getTime() - (this.timeInterval * this.hour);
+    this.rangeOfHoursToFetch(now);
+    this.getNewData(unixStartTime, (worker) => {
+      worker.onmessage = (event) => {
+        if (event.data.length) {
+          DataPageActions.update(event.data, this.isFirstNewDataPayload);
+          if (this.isFirstNewDataPayload) this.isFirstNewDataPayload = false;
+        }
+      };
+    });
+  }
+  fetchDataUsingWorkers = (start, options) => {
+    const hourParts = options.timeInterval / options.numberOfWorkers;
+    for (let i = 0; i < options.numberOfWorkers; i++) {
+      const startTime = start + hourParts * i * this.hour;
+      const endTime = start + hourParts * (i + 1) * this.hour;
       const worker = new Worker;
-      const startTime = unixTime + timeIntervals * i * this.hour;
-      const endTime = unixTime + timeIntervals * (i + 1) * this.hour;
-      const url = `http://${window.location.host}/api/social/twdata/?start=${startTime}&end=${endTime}`;
+      const url = `${options.api}start=${startTime}&end=${endTime}`;
       worker.postMessage(url);
-      this.onNewDataMessage(worker, workerData);
+      options.callback(worker);
     }
   }
 
-  initalDataFetch(numberOfWorkers) {
+  initalDataFetch = (numberOfWorkers) => {
     // let n = numberOfWorkers;
     const now = new Date();
     if (now.getHours() < 3) {
       // TODO not working as intended
       now.setHours(new Date().getHours() - 3);
     }
-    // now.setHours(new Date().getHours() - 630);
+    // TODO hack
+    now.setHours(new Date().getHours() - 650);
     console.log(`now : ${now}`);
-    const hoursPast = now.getHours() + (now.getMinutes() / 60);
-    console.log(`hours past ${hoursPast}`);
-    const start = now.getTime() - (hoursPast * this.hour);
-    const hourParts = hoursPast / numberOfWorkers;
-    // .log(`number of workers to use: ${n}`);
-    for (let i = 0; i < numberOfWorkers; i++) {
-      const startTime = start + hourParts * i * this.hour;
-      const endTime = start + hourParts * (i + 1) * this.hour;
-      const worker = new Worker;
-      const url = `http://${window.location.host}/api/social/twdata/all/?start=${startTime}&end=${endTime}`;
-      worker.postMessage(url);
-      this.onInitialDataReceived(worker, i);
-    }
+    // higlight time
+    const upperEndHour = this.rangeOfHoursToFetch(now);
+    now.setHours(upperEndHour);
+    this.currentDate = now;
+    const unixStartTime = now.getTime() - (this.timeInterval * this.hour);
+    const api = `http://${window.location.host}/api/social/twdata/all/?`;
+    this.fetchDataUsingWorkers(unixStartTime, {
+      timeInterval: this.timeInterval,
+      numberOfWorkers,
+      api,
+      callback: this.onInitialDataReceived });
   }
+
+  initialTimeNode(endHour) {
+    const startHour = endHour - 4;
+    const nodeName = `${startHour}-${endHour}`;
+    console.log(nodeName);
+    const node = document.getElementById(nodeName);
+    return node;
+  }
+
+  rangeOfHoursToFetch = (now) => {
+    let endHour = new Date(now).getHours();
+    let node = this.initialTimeNode(endHour);
+    let hasSteppedDown = false;
+    while (!node) {
+      endHour -= 1;
+      node = this.initialTimeNode(endHour);
+      hasSteppedDown = true;
+    }
+    // partiallly color next element if exists
+    if (hasSteppedDown) {
+      const nodeParent = node.parentNode;
+      const nextElmParent = nodeParent.nextElementSibling;
+      if (nextElmParent) nextElmParent.firstChild.className += ' partial';
+    }
+    node.className += ' active';
+    return endHour;
+  }
+
   createDcCharts = (data) => {
     // chart container ids and callbacks
     const chartOptions = {
@@ -146,7 +199,7 @@ export default class DataCenterPage extends Component {
       table: 'table',
       composite: 'composite',
       range: 'range',
-      getNewData: this.getNewData,
+      getNewData: this.getNewDateData,
       postRedraw: () => { $('#loader').hide(); },
       postRender: () => {
         $('.' + s.chart).css('opacity', 1);
@@ -159,10 +212,6 @@ export default class DataCenterPage extends Component {
 
   _onChange = () => {
     this.setState(getStateFromStores());
-  }
-
-  onTimeClick(range) {
-    console.log(range);
   }
 
   computeMapDivWidth() {
@@ -217,6 +266,12 @@ export default class DataCenterPage extends Component {
                 <hr></hr>
               </article>
               <section className ={cx(s.charts, 'charts-dashboard')}>
+                <div className={cx('row', 'spacing-sm', s.chart)}>
+                   <div className="col-md-8 col-md-offset-2">
+                     <h4>Select a time range for whose data you would like to fetch </h4>
+                     <TimeRange clickHandler = {this.onTimeClick} />
+                   </div>
+                 </div>
                <div className={cx('row', 'spacing-sm', s.chart)}>
                   <div className="col-md-6">
                     <h4>Total volume of tweets For particular dates</h4>
@@ -226,7 +281,7 @@ export default class DataCenterPage extends Component {
                     </div>
                   </div>
                  <div className= "col-md-6" >
-                    <h4> Identifying tweet sentiments  </h4>
+                    <h4>Identifying tweet sentiments</h4>
                     <div id ="emotions"></div>
                   </div>
                 </div>

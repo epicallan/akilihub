@@ -46,6 +46,11 @@
   margin-left: 5em;
 }
 /**utility classes**/
+.partial{
+  color: #333;
+  background-color: rgba(204, 204, 204, 0.36);
+  border-color: rgba(173, 173, 173, 0.18);
+}
 
 .box {
   -webkit-border-radius: 3.5px;

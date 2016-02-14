@@ -5,8 +5,6 @@ import moment from 'moment';
 import c3 from 'c3';
 import './svgPathPolyfil';
 
-// import './dtplugin';
-
 export default class DcCharts {
 
   constructor(data, aggregate, options) {

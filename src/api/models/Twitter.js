@@ -19,6 +19,7 @@ const TwitterSchema = new Schema({
   is_reply: Boolean,
   is_retweet: Boolean,
   emotions: { type: [String], default: null },
+  tracked_names: { type: [String], default: null },
   approximated_geo: { type: Boolean, default: false },
   geo_enabled: { type: Boolean, default: false },
   has_hashtags: Boolean,

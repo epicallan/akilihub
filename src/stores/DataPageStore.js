@@ -11,7 +11,7 @@ class DataPageStore extends EventEmitter {
     super();
     this.data = [];
     this.newData = [];
-    this.isInitialUpdate = true;
+    this.isInitialNewDataUpdate = true;
   }
 
   emitChange() {
@@ -27,12 +27,13 @@ class DataPageStore extends EventEmitter {
   }
   update(newData, updateType) {
     this.newData = newData;
-    this.isInitialUpdate = updateType;
+    this.isInitialNewDataUpdate = updateType;
   }
 
   getIntialData(raw) {
     // console.log('intial data');
     this.data = raw.data;
+    // console.log('fetched initial');
     // there is a possibility that this can be undefined
     // incases where we use update data as initial data
     if (raw.aggregate !== undefined) this.aggregate = raw.aggregate;

@@ -1,11 +1,11 @@
 import redis from 'redis';
 import Twitter from '../models/Twitter';
 import _async from 'async';
-import _ from 'lodash';
 import { REDIS_PORT, REDIS_ADDR } from '../../config';
 
 const client = redis.createClient(REDIS_PORT, REDIS_ADDR);
-const mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika', 'mabirizi', 'biraro'];
+// const mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika', 'mabirizi', 'biraro'];
+const mentions = ['museveni', 'besigye', 'mbabazi'];
 let exludedFields = '-_id -__v -has_user_mentions -geo_enabled -time_zone -approximated_geo ';
 exludedFields += '-favorite_count -user_id -retweet_count -has_hashtags -is_retweet -is_reply';
 let saved = 0;
@@ -23,13 +23,13 @@ export function getFromRedis() {
 function _addNamesToTweet(tweet) {
   // mutates the tweet by adding new fields
   mentions.forEach((mention) => {
-    const bool = tweet.user_mentions.some(name => name.toLowerCase().includes(mention));
+    const bool = tweet.tracked_names.some(name => name.toLowerCase().includes(mention));
     tweet[mention] = bool ? 1 : 0;
   });
   return tweet;
 }
 
-function _excludeNamesInTerms(tweet) {
+/* function _excludeNamesInTerms(tweet) {
   mentions.forEach((mention) => {
     tweet.terms.forEach((term, index, arr) => {
       const isName = term.toLowerCase().includes(mention);
@@ -37,7 +37,7 @@ function _excludeNamesInTerms(tweet) {
     });
   });
   return tweet;
-}
+}*/
 export function saveTweets(data, cb) {
   _async.each(data, (d, callback) => {
     const twitter = new Twitter(d);
@@ -58,13 +58,13 @@ export function saveTweets(data, cb) {
 }
 
 export function transform(raw) {
-  return raw.map((d) => {
-    const tweet = d.toObject();
+  return raw.map((tweet) => {
+    // const tweet = d.toObject();
     tweet.text = tweet.text.toLowerCase();
     // _excludeInUserMentions(tweet);
-    tweet.sentiment = _.ceil(tweet.sentiment, 2) || tweet.sentiment;
+    // tweet.sentiment = _.ceil(tweet.sentiment, 2) || tweet.sentiment;
     _addNamesToTweet(tweet);
-    _excludeNamesInTerms(tweet);
+    // _excludeNamesInTerms(tweet);
     return tweet;
   });
 }
@@ -77,6 +77,7 @@ export async function findData(start, end) {
         $lt: parseInt(end, 10),
       },
     })
+    .lean()
     .select(exludedFields)
     .exec();
   } catch (e) {

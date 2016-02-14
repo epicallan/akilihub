@@ -74,40 +74,46 @@ module.exports =
   
   var _routes2 = _interopRequireDefault(_routes);
   
-  var _componentsHtml = __webpack_require__(85);
+  var _componentsHtml = __webpack_require__(87);
   
   var _componentsHtml2 = _interopRequireDefault(_componentsHtml);
   
-  var _assets = __webpack_require__(86);
+  var _assets = __webpack_require__(88);
   
   var _assets2 = _interopRequireDefault(_assets);
   
   var _config = __webpack_require__(14);
   
-  var _compression = __webpack_require__(87);
+  var _compression = __webpack_require__(89);
   
   var _compression2 = _interopRequireDefault(_compression);
   
-  var _bodyParser = __webpack_require__(88);
+  var _bodyParser = __webpack_require__(90);
   
   var _bodyParser2 = _interopRequireDefault(_bodyParser);
   
-  var _apiJobsTwitterJob = __webpack_require__(89);
+  var _apiJobsTwitterJob = __webpack_require__(91);
   
   var _apiJobsTwitterJob2 = _interopRequireDefault(_apiJobsTwitterJob);
   
-  var _mongoose = __webpack_require__(92);
+  var _mongoose = __webpack_require__(94);
   
   var _mongoose2 = _interopRequireDefault(_mongoose);
   
-  var _cron = __webpack_require__(94);
+  var _cron = __webpack_require__(96);
   
   var _cron2 = _interopRequireDefault(_cron);
+  
+  var _morgan = __webpack_require__(97);
+  
+  var _morgan2 = _interopRequireDefault(_morgan);
   
   var CronJob = _cron2['default'].CronJob;
   var server = global.server = (0, _express2['default'])();
   
   server.use(_bodyParser2['default'].json());
+  // logger
+  if (process.env.NODE !== 'production') server.use((0, _morgan2['default'])('combined'));
   
   server.use((0, _compression2['default'])());
   // Register Node.js middleware
@@ -116,12 +122,12 @@ module.exports =
   
   // Register Data analysis API middleware
   // -----------------------------------------------------------------------------
-  server.use('/api', __webpack_require__(95));
+  server.use('/api', __webpack_require__(98));
   
   // Register API middleware
   
   // -----------------------------------------------------------------------------
-  server.use('/api/content', __webpack_require__(100));
+  server.use('/api/content', __webpack_require__(103));
   
   function connect() {
     var options = { server: { socketOptions: { keepAlive: 1 } } };
@@ -1487,6 +1493,21 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./App.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./App.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
 /* 18 */
@@ -1497,7 +1518,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:700}dfn{font-style:italic}h1{font-size:2em;margin:.67em 0}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace;font-size:1em}button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}button{overflow:visible}button,select{text-transform:none}button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}input{line-height:normal}input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{height:auto}input[type=search]{-webkit-appearance:textfield;box-sizing:content-box}input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}textarea{overflow:auto}optgroup{font-weight:700}table{border-collapse:collapse;border-spacing:0}td,th{padding:0}//headers h1{font-size:1.35em}h2{font-size:1.2em}h3{font-size:1.1em}p{font-size:.9em}body,html{color:#222;width:100%;height:100%;font-weight:100;font-size:1em;font-family:Lato,Segoe UI,HelveticaNeue-Light,sans-serif;line-height:1.375;background-color:#5b798e}.App_wrapper_1PG{color:#fff;line-height:1.2}::-moz-selection{background:#b3d4fc;text-shadow:none}::selection{background:#b3d4fc;text-shadow:none}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}audio,canvas,iframe,img,svg,video{vertical-align:middle}fieldset{border:0;margin:0;padding:0}textarea{resize:vertical}.App_browserupgrade_1t4{margin:.2em 0;background:#ccc;color:#000;padding:.2em 0}@media print{*,:after,:before{background:transparent!important;color:#000!important;box-shadow:none!important;text-shadow:none!important}a,a:visited{text-decoration:underline}a[href]:after{content:\" (\" attr(href) \")\"}abbr[title]:after{content:\" (\" attr(title) \")\"}a[href^=\"#\"]:after,a[href^=\"javascript:\"]:after{content:\"\"}blockquote,pre{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}img,tr{page-break-inside:avoid}img{max-width:100%!important}h2,h3,p{orphans:3;widows:3}h2,h3{page-break-after:avoid}}", ""]);
+  exports.push([module.id, "/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */\n\n/**\n * 1. Set default font family to sans-serif.\n * 2. Prevent iOS and IE text size adjust after device orientation change,\n *    without disabling user zoom.\n */\n\nhtml {\n  font-family: sans-serif; /* 1 */\n  -ms-text-size-adjust: 100%; /* 2 */\n  -webkit-text-size-adjust: 100%; /* 2 */\n}\n\n/**\n * Remove default margin.\n */\n\nbody {\n  margin: 0;\n}\n\n/* HTML5 display definitions\n   ========================================================================== */\n\n/**\n * Correct `block` display not defined for any HTML5 element in IE 8/9.\n * Correct `block` display not defined for `details` or `summary` in IE 10/11\n * and Firefox.\n * Correct `block` display not defined for `main` in IE 11.\n */\n\narticle, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {\n  display: block;\n}\n\n/**\n * 1. Correct `inline-block` display not defined in IE 8/9.\n * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.\n */\n\naudio, canvas, progress, video {\n  display: inline-block; /* 1 */\n  vertical-align: baseline; /* 2 */\n}\n\n/**\n * Prevent modern browsers from displaying `audio` without controls.\n * Remove excess height in iOS 5 devices.\n */\n\naudio:not([controls]) {\n  display: none;\n  height: 0;\n}\n\n/**\n * Address `[hidden]` styling not present in IE 8/9/10.\n * Hide the `template` element in IE 8/9/10/11, Safari, and Firefox < 22.\n */\n\n[hidden], template {\n  display: none;\n}\n\n/* Links\n   ========================================================================== */\n\n/**\n * Remove the gray background color from active links in IE 10.\n */\n\na {\n  background-color: transparent;\n}\n\n/**\n * Improve readability of focused elements when they are also in an\n * active/hover state.\n */\n\na:active, a:hover {\n  outline: 0;\n}\n\n/* Text-level semantics\n   ========================================================================== */\n\n/**\n * Address styling not present in IE 8/9/10/11, Safari, and Chrome.\n */\n\nabbr[title] {\n  border-bottom: 1px dotted;\n}\n\n/**\n * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.\n */\n\nb, strong {\n  font-weight: bold;\n}\n\n/**\n * Address styling not present in Safari and Chrome.\n */\n\ndfn {\n  font-style: italic;\n}\n\n/**\n * Address variable `h1` font-size and margin within `section` and `article`\n * contexts in Firefox 4+, Safari, and Chrome.\n */\n\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n\n/**\n * Address styling not present in IE 8/9.\n */\n\nmark {\n  background: #ff0;\n  color: #000;\n}\n\n/**\n * Address inconsistent and variable font size in all browsers.\n */\n\nsmall {\n  font-size: 80%;\n}\n\n/**\n * Prevent `sub` and `sup` affecting `line-height` in all browsers.\n */\n\nsub, sup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsup {\n  top: -0.5em;\n}\n\nsub {\n  bottom: -0.25em;\n}\n\n/* Embedded content\n   ========================================================================== */\n\n/**\n * Remove border when inside `a` element in IE 8/9/10.\n */\n\nimg {\n  border: 0;\n}\n\n/**\n * Correct overflow not hidden in IE 9/10/11.\n */\n\nsvg:not(:root) {\n  overflow: hidden;\n}\n\n/* Grouping content\n   ========================================================================== */\n\n/**\n * Address margin not present in IE 8/9 and Safari.\n */\n\nfigure {\n  margin: 1em 40px;\n}\n\n/**\n * Address differences between Firefox and other browsers.\n */\n\nhr {\n  -webkit-box-sizing: content-box;\n          box-sizing: content-box;\n  height: 0;\n}\n\n/**\n * Contain overflow in all browsers.\n */\n\npre {\n  overflow: auto;\n}\n\n/**\n * Address odd `em`-unit font size rendering in all browsers.\n */\n\ncode, kbd, pre, samp {\n  font-family: monospace, monospace;\n  font-size: 1em;\n}\n\n/* Forms\n   ========================================================================== */\n\n/**\n * Known limitation: by default, Chrome and Safari on OS X allow very limited\n * styling of `select`, unless a `border` property is set.\n */\n\n/**\n * 1. Correct color not being inherited.\n *    Known issue: affects color of disabled elements.\n * 2. Correct font properties not being inherited.\n * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.\n */\n\nbutton, input, optgroup, select, textarea {\n  color: inherit; /* 1 */\n  font: inherit; /* 2 */\n  margin: 0; /* 3 */\n}\n\n/**\n * Address `overflow` set to `hidden` in IE 8/9/10/11.\n */\n\nbutton {\n  overflow: visible;\n}\n\n/**\n * Address inconsistent `text-transform` inheritance for `button` and `select`.\n * All other form control elements do not inherit `text-transform` values.\n * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.\n * Correct `select` style inheritance in Firefox.\n */\n\nbutton, select {\n  text-transform: none;\n}\n\n/**\n * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`\n *    and `video` controls.\n * 2. Correct inability to style clickable `input` types in iOS.\n * 3. Improve usability and consistency of cursor style between image-type\n *    `input` and others.\n */\n\nbutton, html input[type=\"button\"], input[type=\"reset\"], input[type=\"submit\"] {\n  -webkit-appearance: button; /* 2 */\n  cursor: pointer; /* 3 */\n}\n\n/**\n * Re-set default cursor for disabled elements.\n */\n\nbutton[disabled], html input[disabled] {\n  cursor: default;\n}\n\n/**\n * Remove inner padding and border in Firefox 4+.\n */\n\nbutton::-moz-focus-inner, input::-moz-focus-inner {\n  border: 0;\n  padding: 0;\n}\n\n/**\n * Address Firefox 4+ setting `line-height` on `input` using `!important` in\n * the UA stylesheet.\n */\n\ninput {\n  line-height: normal;\n}\n\n/**\n * It's recommended that you don't attempt to style these elements.\n * Firefox's implementation doesn't respect box-sizing, padding, or width.\n *\n * 1. Address box sizing set to `content-box` in IE 8/9/10.\n * 2. Remove excess padding in IE 8/9/10.\n */\n\ninput[type=\"checkbox\"], input[type=\"radio\"] {\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Fix the cursor style for Chrome's increment/decrement buttons. For certain\n * `font-size` values of the `input`, it causes the cursor style of the\n * decrement button to change from `default` to `text`.\n */\n\ninput[type=\"number\"]::-webkit-inner-spin-button, input[type=\"number\"]::-webkit-outer-spin-button {\n  height: auto;\n}\n\n/**\n * 1. Address `appearance` set to `searchfield` in Safari and Chrome.\n * 2. Address `box-sizing` set to `border-box` in Safari and Chrome.\n */\n\ninput[type=\"search\"] {\n  -webkit-appearance: textfield; /* 1 */\n  -webkit-box-sizing: content-box;\n          box-sizing: content-box; /* 2 */\n}\n\n/**\n * Remove inner padding and search cancel button in Safari and Chrome on OS X.\n * Safari (but not Chrome) clips the cancel button when the search input has\n * padding (and `textfield` appearance).\n */\n\ninput[type=\"search\"]::-webkit-search-cancel-button, input[type=\"search\"]::-webkit-search-decoration {\n  -webkit-appearance: none;\n}\n\n/**\n * Define consistent border, margin, and padding.\n */\n\nfieldset {\n  border: 1px solid #c0c0c0;\n  margin: 0 2px;\n  padding: 0.35em 0.625em 0.75em;\n}\n\n/**\n * 1. Correct `color` not being inherited in IE 8/9/10/11.\n * 2. Remove padding so people aren't caught out if they zero out fieldsets.\n */\n\nlegend {\n  border: 0; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Remove default vertical scrollbar in IE 8/9/10/11.\n */\n\ntextarea {\n  overflow: auto;\n}\n\n/**\n * Don't inherit the `font-weight` (applied by a rule above).\n * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.\n */\n\noptgroup {\n  font-weight: bold;\n}\n\n/* Tables\n   ========================================================================== */\n\n/**\n * Remove most spacing between table cells.\n */\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\n\ntd, th {\n  padding: 0;\n}\n\n/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n/*\n * Base styles\n * ========================================================================== */\n\nhtml, body {\n  color: #222;\n  width: 100%;\n  height: 100%;\n  font-weight: 100;\n  font-size: 1em; /* ~16px; */\n  font-family: 'Lato','Segoe UI','HelveticaNeue-Light',sans-serif;\n  line-height: 1.375; /* ~22px */\n  background-color: #5B798E;\n}\n.App_wrapper_1PG {\n  color: white;\n  line-height: 1.2;\n}\n\n/*\n * Remove text-shadow in selection highlight:\n * https://twitter.com/miketaylr/status/12228805301\n *\n * These selection rule sets have to be separate.\n * Customize the background color to match your design.\n */\n\n::-moz-selection {\n  background: #b3d4fc;\n  text-shadow: none;\n}\n\n::selection {\n  background: #b3d4fc;\n  text-shadow: none;\n}\n\n/*\n * A better looking default horizontal rule\n */\n\nhr {\n  display: block;\n  height: 1px;\n  border: 0;\n  border-top: 1px solid #ccc;\n  margin: 1em 0;\n  padding: 0;\n}\n\n/*\n * Remove the gap between audio, canvas, iframes,\n * images, videos and the bottom of their containers:\n * https://github.com/h5bp/html5-boilerplate/issues/440\n */\n\naudio, canvas, iframe, img, svg, video {\n  vertical-align: middle;\n}\n\n/*\n * Remove default fieldset styles.\n */\n\nfieldset {\n  border: 0;\n  margin: 0;\n  padding: 0;\n}\n\n/*\n * Allow only vertical resizing of textareas.\n */\n\ntextarea {\n  resize: vertical;\n}\n\n/*\n * Browser upgrade prompt\n * ========================================================================== */\n\n.App_browserupgrade_1t4 {\n  margin: 0.2em 0;\n  background: #ccc;\n  color: #000;\n  padding: 0.2em 0;\n}\n\n/*\n * Print styles\n * Inlined to avoid the additional HTTP request:\n * http://www.phpied.com/delay-loading-your-print-css/\n * ========================================================================== */\n\n@media print {\n  *, *:before, *:after {\n    background: transparent !important;\n    color: #000 !important; /* Black prints faster: http://www.sanbeiji.com/archives/953 */\n    -webkit-box-shadow: none !important;\n            box-shadow: none !important;\n    text-shadow: none !important;\n  }\n\n  a, a:visited {\n    text-decoration: underline;\n  }\n\n  a[href]:after {\n    content: \" (\" attr(href) \")\";\n  }\n\n  abbr[title]:after {\n    content: \" (\" attr(title) \")\";\n  }\n\n  /*\n   * Don't show links that are fragment identifiers,\n   * or use the `javascript:` pseudo protocol\n   */\n\n  a[href^=\"#\"]:after, a[href^=\"javascript:\"]:after {\n    content: \"\";\n  }\n\n  pre, blockquote {\n    border: 1px solid #999;\n    page-break-inside: avoid;\n  }\n\n  /*\n   * Printing Tables:\n   * http://css-discuss.incutio.com/wiki/Printing_Tables\n   */\n\n  thead {\n    display: table-header-group;\n  }\n\n  tr, img {\n    page-break-inside: avoid;\n  }\n\n  img {\n    max-width: 100% !important;\n  }\n\n  p, h2, h3 {\n    orphans: 3;\n    widows: 3;\n  }\n\n  h2, h3 {\n    page-break-after: avoid;\n  }\n}\n", ""]);
   
   // exports
   exports.locals = {
@@ -1820,6 +1841,21 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Header.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Header.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
 /* 24 */
@@ -1830,7 +1866,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "//headers h1{font-size:1.35em}h2{font-size:1.2em}h3{font-size:1.1em}p{font-size:.9em}.Header_container_izf{margin:0 auto;padding:20px 0;max-width:1000px}", ""]);
+  exports.push([module.id, "\n/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n.Header_root_14I {\n}\n\n.Header_container_izf {\n  margin: 0 auto;\n  padding: 20px 0;\n  max-width: 1000px;\n}\n", ""]);
   
   // exports
   exports.locals = {
@@ -2071,6 +2107,21 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Navigation.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Navigation.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
 /* 28 */
@@ -2081,7 +2132,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "//headers h1{font-size:1.35em}h2{font-size:1.2em}h3{font-size:1.1em}p{font-size:.9em}.Navigation_nav-scroll_1Bv{background-color:hsla(0,0%,96%,.5)}.Navigation_navbar_20N .Navigation_link_12k{color:#fff}.Navigation_link_12k{display:inline-block;padding:3px 8px;text-decoration:none;font-size:1.125em}.Navigation_link_12k,.Navigation_link_12k:active,.Navigation_link_12k:visited{color:hsla(0,0%,100%,.6)}.Navigation_link_12k:hover{color:#fff}.Navigation_navbar_20N .Navigation_link_12k:focus,.Navigation_navbar_20N .Navigation_link_12k:hover{color:#243442;background-color:transparent}.Navigation_collapse_22x{margin-top:.5em}.Navigation_highlight_2cu{margin-right:8px;margin-left:8px;border-radius:3px;background:rgba(0,0,0,.15);color:#fff}.Navigation_highlight_2cu:hover{background:rgba(0,0,0,.3)}.Navigation_spacer_2MV{color:hsla(0,0%,100%,.3)}", ""]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.Navigation_root_2Gx {}\n\n.Navigation_nav-scroll_1Bv {\n  background-color: rgba(245,245,245,0.5);\n};\n.Navigation_navbar_20N .Navigation_link_12k {\n  color: #ffffff;\n};\n.Navigation_link_12k {\n  display: inline-block;\n  padding: 3px 8px;\n  text-decoration: none;\n  font-size: 1.125em;\n  /* ~18px */\n};\n.Navigation_link_12k, .Navigation_link_12k:active, .Navigation_link_12k:visited {\n  color: rgba(255, 255, 255, .6);\n};\n.Navigation_link_12k:hover {\n  color: rgba(255, 255, 255, 1);\n};\n.Navigation_navbar_20N .Navigation_link_12k:focus, .Navigation_navbar_20N .Navigation_link_12k:hover {\n  color: #243442;\n  background-color: transparent;\n};\n.Navigation_collapse_22x {\n  margin-top: 0.5em;\n}\n.Navigation_highlight_2cu {\n  margin-right: 8px;\n  margin-left: 8px;\n  border-radius: 3px;\n  background: rgba(0, 0, 0, .15);\n  color: #fff;\n}\n.Navigation_highlight_2cu:hover {\n  background: rgba(0, 0, 0, .3);\n}\n.Navigation_spacer_2MV {\n  color: rgba(255, 255, 255, .3);\n}\n", ""]);
   
   // exports
   exports.locals = {
@@ -2480,6 +2531,21 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Feedback.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Feedback.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
 /* 39 */
@@ -2490,7 +2556,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "//headers h1{font-size:1.35em}h2{font-size:1.2em}h3{font-size:1.1em}p{font-size:.9em}.Feedback_container_3dV{margin:0 auto;max-width:1000px;text-align:center}.Feedback_link_17l,.Feedback_link_17l:active,.Feedback_link_17l:hover,.Feedback_link_17l:visited{color:#333;text-decoration:none}.Feedback_btn_2h9,.Feedback_fgroup_2Xx{margin-left:1em}.Feedback_link_17l:hover{text-decoration:underline}.Feedback_spacer_Iut{padding-right:15px;padding-left:15px}", ""]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n.Feedback_root_LW7 {\n}\n\n.Feedback_container_3dV {\n  margin: 0 auto;\n  max-width: 1000px;\n  text-align: center;\n}\n\n.Feedback_link_17l, .Feedback_link_17l:active, .Feedback_link_17l:hover, .Feedback_link_17l:visited {\n  color: #333;\n  text-decoration: none;\n}\n.Feedback_fgroup_2Xx{\n  margin-left: 1em;\n}\n.Feedback_btn_2h9{\n  margin-left: 1em;\n}\n.Feedback_link_17l:hover {\n  text-decoration: underline;\n}\n\n.Feedback_spacer_Iut {\n  padding-right: 15px;\n  padding-left: 15px;\n}\n", ""]);
   
   // exports
   exports.locals = {
@@ -2600,6 +2666,21 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Footer.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Footer.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
 /* 42 */
@@ -2610,7 +2691,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "//headers h1{font-size:1.35em}h2{font-size:1.2em}h3{font-size:1.1em}p{font-size:.9em}.Footer_root_3dP{background:rgba(0,0,0,.5);color:#fff;height:3em;padding-top:-2em;border-radius:1em}.Footer_container_26p{margin:0 auto;padding:20px 15px;max-width:1000px;text-align:center}.Footer_container_26p .Footer_form-group_1r6{margin-left:1em}.Footer_text_tTp{color:hsla(0,0%,100%,.5)}.Footer_spacer_3n7,.Footer_textMuted_1h3{color:hsla(0,0%,100%,.3)}.Footer_link_NoJ,.Footer_text_tTp{padding:2px 5px;font-size:1em}.Footer_link_NoJ,.Footer_link_NoJ:active,.Footer_link_NoJ:visited{color:hsla(0,0%,100%,.6);text-decoration:none}.Footer_link_NoJ:hover{color:#fff}", ""]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n.Footer_root_3dP {\n  background: rgba(0,0,0,.5);\n  color: #fff;\n  height: 3em;\n  padding-top: -2em;\n  border-radius: 1em;\n}\n\n.Footer_container_26p {\n  margin: 0 auto;\n  padding: 20px 15px;\n  max-width: 1000px;\n  text-align: center;\n}\n\n.Footer_container_26p .Footer_form-group_1r6{margin-left: 1em;}\n\n.Footer_text_tTp {\n  color: rgba(255, 255, 255, .5);\n}\n\n.Footer_textMuted_1h3 {\n  color: rgba(255, 255, 255, .3);\n}\n\n.Footer_spacer_3n7 {\n  color: rgba(255, 255, 255, .3);\n}\n\n.Footer_text_tTp, .Footer_link_NoJ {\n  padding: 2px 5px;\n  font-size: 1em;\n}\n\n.Footer_link_NoJ, .Footer_link_NoJ:active, .Footer_link_NoJ:visited {\n  color: rgba(255, 255, 255, .6);\n  text-decoration: none;\n}\n\n.Footer_link_NoJ:hover {\n  color: rgba(255, 255, 255, 1);\n}\n", ""]);
   
   // exports
   exports.locals = {
@@ -2727,6 +2808,21 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./ContentPage.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./ContentPage.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
 /* 45 */
@@ -2737,7 +2833,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "//headers h1{font-size:1.35em}h2{font-size:1.2em}h3{font-size:1.1em}p{font-size:.9em}.ContentPage_icon-cover_2i4{border:solid;border-radius:6em;height:14em}.ContentPage_fa-5x_341{font-size:13em}.ContentPage_home-main_3Fs{margin-top:9em}.ContentPage_products_227{margin-top:24em}.ContentPage_products_227 p{line-height:2em}.ContentPage_footer-nav_2gg{background-color:#fff;border-radius:1em;height:50px}.ContentPage_footer-nav_2gg li{display:inline;padding:4em}.ContentPage_footer-nav_2gg a{color:#fff;font-size:1.1em}.ContentPage_social_1ok{margin-top:-1em}.ContentPage_social_1ok a{color:#fff;font-size:2em}.ContentPage_btn_1uZ{background-color:#b76565;color:#fff}.ContentPage_btn-default_AF6.ContentPage_active_ju8,.ContentPage_btn-default_AF6.ContentPage_focus_2X4,.ContentPage_btn-default_AF6:active,.ContentPage_btn-default_AF6:focus,.ContentPage_btn-default_AF6:hover,.ContentPage_open_2rC>.ContentPage_dropdown-toggle_Qa3.ContentPage_btn-default_AF6{color:#b76565}", ""]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n.ContentPage_root_1Kg {\n\n}\n\n.ContentPage_container_1JT {\n}\n\n.ContentPage_icon-cover_2i4{\n    border: solid;\n    border-radius: 6em;\n    height: 14em;\n  }\n.ContentPage_fa-5x_341 {\n    font-size: 13em;\n}\n\n.ContentPage_home-main_3Fs{margin-top:9em}\n\n.ContentPage_products_227{\n    margin-top:24em;\n}\n\n.ContentPage_products_227 p{line-height:2em}\n.ContentPage_footer-nav_2gg{\n  background-color:white;\n    border-radius: 1em;\n    height: 50px;;\n\n\n}\n.ContentPage_footer-nav_2gg li{display: inline;padding:4em}\n.ContentPage_footer-nav_2gg a{color:white;font-size:1.1em}\n.ContentPage_social_1ok {\n  margin-top: -1em;;\n}\n.ContentPage_social_1ok a{color:white;font-size:2.0em}\n\n.ContentPage_btn_1uZ {\n  background-color: #B76565;\n  color: white\n}\n.ContentPage_btn-default_AF6.ContentPage_active_ju8, .ContentPage_btn-default_AF6.ContentPage_focus_2X4, .ContentPage_btn-default_AF6:active, .ContentPage_btn-default_AF6:focus, .ContentPage_btn-default_AF6:hover, .ContentPage_open_2rC>.ContentPage_dropdown-toggle_Qa3.ContentPage_btn-default_AF6 {\n    color:#B76565;\n}\n", ""]);
   
   // exports
   exports.locals = {
@@ -2864,6 +2960,21 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./ContactPage.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./ContactPage.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
 /* 48 */
@@ -2874,7 +2985,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "//headers h1{font-size:1.35em}h2{font-size:1.2em}h3{font-size:1.1em}p{font-size:.9em}.ContactPage_container_2pQ{margin:0 auto;padding:0 0 40px;max-width:1000px}", ""]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n\n.ContactPage_root_c4z {\n\n}\n\n.ContactPage_container_2pQ {\n  margin: 0 auto;\n  padding: 0 0 40px;\n  max-width: 1000px;\n}\n", ""]);
   
   // exports
   exports.locals = {
@@ -3055,6 +3166,21 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./BlogPage.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./BlogPage.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
 /* 51 */
@@ -3065,7 +3191,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "//headers h1{font-size:1.35em}h2{font-size:1.2em}h3{font-size:1.1em}p{font-size:.9em}.BlogPage_root_1ob{margin-top:2em;color:#777;background-color:#fff;box-shadow:0 4px 8px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)}.BlogPage_root_1ob h2{color:#6b6969}.BlogPage_logo_TR7{padding-left:4em;padding-bottom:2em;padding-top:2em}.BlogPage_main_255{margin-right:solid 1px;background-color:#fff}.BlogPage_main_255 hr{color:#777}.BlogPage_main_255 h3{color:#374048;padding-bottom:2em}.BlogPage_spacing_2OA{margin-top:5em;margin-bottom:1em}.BlogPage_sidebar_2tQ a,.BlogPage_sidebar_2tQ h3{padding-left:1em}", ""]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.BlogPage_root_1ob {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n}\n.BlogPage_root_1ob h2 {color: #6B6969;}\n.BlogPage_logo_TR7 {\n  padding-left: 4em;\n  padding-bottom: 2em;\n  padding-top: 2em;\n}\n\n.BlogPage_main_255 {\n  margin-right: solid 1px;\n  background-color: white;;\n}\n\n.BlogPage_main_255 hr {color: #777;}\n\n.BlogPage_main_255 h3 {color: #374048;padding-bottom: 2em;}\n.BlogPage_spacing_2OA {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.BlogPage_sidebar_2tQ h3, .BlogPage_sidebar_2tQ a {\n  padding-left: 1em;\n}\n", ""]);
   
   // exports
   exports.locals = {
@@ -3176,6 +3302,21 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./NotFoundPage.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./NotFoundPage.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
 /* 54 */
@@ -3186,7 +3327,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "*{margin:0;line-height:1.2}html{display:table;width:100%;height:100%;color:#888;text-align:center;font-family:sans-serif}body{display:table-cell;margin:2em auto;vertical-align:middle}h1{color:#555;font-weight:400;font-size:2em}p{margin:0 auto;width:280px}@media only screen and (max-width:280px){body,p{width:95%}h1{font-size:1.5em;margin:0 0 .3em}}", ""]);
+  exports.push([module.id, "\n* {\n  margin: 0;\n  line-height: 1.2;\n}\n\nhtml {\n  display: table;\n  width: 100%;\n  height: 100%;\n  color: #888;\n  text-align: center;\n  font-family: sans-serif;\n}\n\nbody {\n  display: table-cell;\n  margin: 2em auto;\n  vertical-align: middle;\n}\n\nh1 {\n  color: #555;\n  font-weight: 400;\n  font-size: 2em;\n}\n\np {\n  margin: 0 auto;\n  width: 280px;\n}\n\n@media only screen and (max-width: 280px) {\n\n  body, p {\n    width: 95%;\n  }\n\n  h1 {\n    font-size: 1.5em;\n    margin: 0 0 0.3em;\n  }\n\n}\n", ""]);
   
   // exports
 
@@ -3290,6 +3431,21 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./ErrorPage.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./ErrorPage.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
 /* 57 */
@@ -3300,7 +3456,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "*{margin:0;line-height:1.2}html{display:table;width:100%;height:100%;color:#888;text-align:center;font-family:sans-serif}body{display:table-cell;margin:2em auto;vertical-align:middle}h1{color:#555;font-weight:400;font-size:2em}p{margin:0 auto;width:280px}@media only screen and (max-width:280px){body,p{width:95%}h1{font-size:1.5em;margin:0 0 .3em}}", ""]);
+  exports.push([module.id, "\n* {\n  margin: 0;\n  line-height: 1.2;\n}\n\nhtml {\n  display: table;\n  width: 100%;\n  height: 100%;\n  color: #888;\n  text-align: center;\n  font-family: sans-serif;\n}\n\nbody {\n  display: table-cell;\n  margin: 2em auto;\n  vertical-align: middle;\n}\n\nh1 {\n  color: #555;\n  font-weight: 400;\n  font-size: 2em;\n}\n\np {\n  margin: 0 auto;\n  width: 280px;\n}\n\n@media only screen and (max-width: 280px) {\n\n  body, p {\n    width: 95%;\n  }\n\n  h1 {\n    font-size: 1.5em;\n    margin: 0 0 0.3em;\n\n  }\n\n}\n", ""]);
   
   // exports
 
@@ -3314,6 +3470,8 @@ module.exports =
   Object.defineProperty(exports, '__esModule', {
     value: true
   });
+  
+  var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
   
   var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
   
@@ -3361,9 +3519,12 @@ module.exports =
   
   var _Loader2 = _interopRequireDefault(_Loader);
   
-  // import TimeRange from './TimeRange';
+  var _TimeRange = __webpack_require__(72);
+  
+  var _TimeRange2 = _interopRequireDefault(_TimeRange);
+  
   var isBrowser = typeof window !== 'undefined';
-  var Charts = isBrowser ? __webpack_require__(72) : undefined;
+  var Charts = isBrowser ? __webpack_require__(74) : undefined;
   // import $ from 'jquery';
   // import testData from './data';
   
@@ -3398,29 +3559,121 @@ module.exports =
   
       _get(Object.getPrototypeOf(_DataCenterPage.prototype), 'constructor', this).call(this, props);
   
-      this.onNewDataMessage = function (worker) {
+      this.onInitialDataReceived = function (worker) {
         worker.onmessage = function (event) {
-          if (event.data.length) {
-            _actionsDataPageActions2['default'].update(event.data, _this.isFirstPayload);
-            if (_this.isFirstPayload) _this.isFirstPayload = false;
-          }
+          console.log(event);
+          /* eslint-disable no-unused-expressions*/
+          _this.isInitialData ? _actionsDataPageActions2['default'].getData(event.data) : _actionsDataPageActions2['default'].update(event.data.data, false);
+          _this.isInitialData = false;
         };
       };
   
-      this.getNewData = function (unixTime) {
-        var workerData = [];
-        var numberOfWorkers = 5;
-        _this.isFirstPayload = true;
-        var timeIntervals = 24 / numberOfWorkers;
+      this.onTimeClick = function (range) {
+        var _range$split = range.split('-');
+  
+        var _range$split2 = _slicedToArray(_range$split, 1);
+  
+        var start = _range$split2[0];
+  
+        var now = new Date(_this.currentDate);
+        _this.isFirstNewDataPayload = true;
+        // console.log(start);
+        now.setHours(parseInt(start, 10));
+        now.setMinutes(0);
+        // console.log(now);
+        _this.getNewData(now.getTime(), function (worker) {
+          worker.onmessage = function (event) {
+            console.log(event);
+            if (event.data.length) {
+              _actionsDataPageActions2['default'].update(event.data, _this.isFirstNewDataPayload);
+              if (_this.isFirstNewDataPayload) _this.isFirstNewDataPayload = false;
+            }
+          };
+        });
+      };
+  
+      this.getNewData = function (unixStartTime, callback) {
+        var numberOfWorkers = 4;
+        // this.isFirstPayload = true;
+        // const hourParts = 24 / numberOfWorkers;
+        var api = 'http://' + window.location.host + '/api/social/twdata/?';
         $('#loader').show();
-        for (var i = 0; i < numberOfWorkers; i++) {
+        _this.fetchDataUsingWorkers(unixStartTime, {
+          timeInterval: _this.timeInterval,
+          numberOfWorkers: numberOfWorkers,
+          api: api,
+          callback: callback });
+      };
+  
+      this.getNewDateData = function (unixDate) {
+        var now = new Date(unixDate);
+        now.setHours(20);
+        _this.currentDate = now;
+        _this.isFirstNewDataPayload = true;
+        var unixStartTime = now.getTime() - _this.timeInterval * _this.hour;
+        _this.rangeOfHoursToFetch(now);
+        _this.getNewData(unixStartTime, function (worker) {
+          worker.onmessage = function (event) {
+            if (event.data.length) {
+              _actionsDataPageActions2['default'].update(event.data, _this.isFirstNewDataPayload);
+              if (_this.isFirstNewDataPayload) _this.isFirstNewDataPayload = false;
+            }
+          };
+        });
+      };
+  
+      this.fetchDataUsingWorkers = function (start, options) {
+        var hourParts = options.timeInterval / options.numberOfWorkers;
+        for (var i = 0; i < options.numberOfWorkers; i++) {
+          var startTime = start + hourParts * i * _this.hour;
+          var endTime = start + hourParts * (i + 1) * _this.hour;
           var worker = new _workerWorker2['default']();
-          var startTime = unixTime + timeIntervals * i * _this.hour;
-          var endTime = unixTime + timeIntervals * (i + 1) * _this.hour;
-          var url = 'http://' + window.location.host + '/api/social/twdata/?start=' + startTime + '&end=' + endTime;
+          var url = options.api + 'start=' + startTime + '&end=' + endTime;
           worker.postMessage(url);
-          _this.onNewDataMessage(worker, workerData);
+          options.callback(worker);
         }
+      };
+  
+      this.initalDataFetch = function (numberOfWorkers) {
+        // let n = numberOfWorkers;
+        var now = new Date();
+        if (now.getHours() < 3) {
+          // TODO not working as intended
+          now.setHours(new Date().getHours() - 3);
+        }
+        // TODO hack
+        now.setHours(new Date().getHours() - 650);
+        console.log('now : ' + now);
+        // higlight time
+        var upperEndHour = _this.rangeOfHoursToFetch(now);
+        now.setHours(upperEndHour);
+        _this.currentDate = now;
+        var unixStartTime = now.getTime() - _this.timeInterval * _this.hour;
+        var api = 'http://' + window.location.host + '/api/social/twdata/all/?';
+        _this.fetchDataUsingWorkers(unixStartTime, {
+          timeInterval: _this.timeInterval,
+          numberOfWorkers: numberOfWorkers,
+          api: api,
+          callback: _this.onInitialDataReceived });
+      };
+  
+      this.rangeOfHoursToFetch = function (now) {
+        var endHour = new Date(now).getHours();
+        var node = _this.initialTimeNode(endHour);
+        var hasSteppedDown = false;
+        while (!node) {
+          endHour -= 1;
+          node = _this.initialTimeNode(endHour);
+          hasSteppedDown = true;
+        }
+        // partiallly color next element if exists
+        if (hasSteppedDown) {
+          var nodeParent = node.parentNode;
+          var nextElmParent = nodeParent.nextElementSibling;
+          if (nextElmParent) nextElmParent.firstChild.className += ' partial';
+        }
+        node.className += ' active';
+        return endHour;
       };
   
       this.createDcCharts = function (data) {
@@ -3432,7 +3685,7 @@ module.exports =
           table: 'table',
           composite: 'composite',
           range: 'range',
-          getNewData: _this.getNewData,
+          getNewData: _this.getNewDateData,
           postRedraw: function postRedraw() {
             $('#loader').hide();
           },
@@ -3510,6 +3763,20 @@ module.exports =
                     { className: (0, _classnames2['default'])('row', 'spacing-sm', _DataPageScss2['default'].chart) },
                     _react2['default'].createElement(
                       'div',
+                      { className: 'col-md-8 col-md-offset-2' },
+                      _react2['default'].createElement(
+                        'h4',
+                        null,
+                        'Select a time range for whose data you would like to fetch '
+                      ),
+                      _react2['default'].createElement(_TimeRange2['default'], { clickHandler: _this.onTimeClick })
+                    )
+                  ),
+                  _react2['default'].createElement(
+                    'div',
+                    { className: (0, _classnames2['default'])('row', 'spacing-sm', _DataPageScss2['default'].chart) },
+                    _react2['default'].createElement(
+                      'div',
                       { className: 'col-md-6' },
                       _react2['default'].createElement(
                         'h4',
@@ -3539,7 +3806,7 @@ module.exports =
                       _react2['default'].createElement(
                         'h4',
                         null,
-                        ' Identifying tweet sentiments  '
+                        'Identifying tweet sentiments'
                       ),
                       _react2['default'].createElement('div', { id: 'emotions' })
                     )
@@ -3705,7 +3972,9 @@ module.exports =
       this.hour = 60000 * 60;
       this.state = getStateFromStores();
       this.path = props.path;
-      this.lastDate = null;
+      this.isInitialData = true;
+      this.timeInterval = 4;
+      this.currentDate = null;
       this.getNewData = this.getNewData;
       this.isAlldata = false;
     }
@@ -3719,14 +3988,14 @@ module.exports =
       key: 'componentDidMount',
       value: function componentDidMount() {
         _storesDataPageStore2['default'].addChangeListener(this._onChange);
-        this.initalDataFetch(6);
+        this.initalDataFetch(3);
       }
     }, {
       key: 'shouldComponentUpdate',
       value: function shouldComponentUpdate(nextProps, nextState) {
         this.renderCharts();
         if (this.charts && nextState.newData.length) {
-          this.charts.updateData(nextState.newData, nextState.isInitialUpdate);
+          this.charts.updateData(nextState.newData, nextState.isInitialNewDataUpdate);
           this.charts.reRender();
         }
         return false;
@@ -3739,60 +4008,13 @@ module.exports =
         this.charts.dcMap.map().remove();
       }
     }, {
-      key: 'onTimeClick',
-      value: function onTimeClick(range) {
-        // TODO
-        console.log(range);
-      }
-    }, {
-      key: 'onInitialDataReceived',
-      value: function onInitialDataReceived(worker, index) {
-        var _this2 = this;
-  
-        worker.onmessage = function (event) {
-          console.log(event);
-          if (index > 0) {
-            if (_this2.state.data.length) {
-              // only make data available for upadate if we have an initial payload
-              _actionsDataPageActions2['default'].update(event.data.data, false);
-            } else {
-              // use this new update data as initial data
-              _actionsDataPageActions2['default'].getData(event.data);
-            }
-          } else {
-            _actionsDataPageActions2['default'].getData(event.data);
-          }
-        };
-      }
-    }, {
-      key: 'initalDataFetch',
-      value: function initalDataFetch(numberOfWorkers) {
-        // let n = numberOfWorkers;
-        var now = new Date();
-        if (now.getHours() < 3) {
-          // TODO not working as intended
-          now.setHours(new Date().getHours() - 3);
-        }
-        // now.setHours(new Date().getHours() - 630);
-        console.log('now : ' + now);
-        var hoursPast = now.getHours() + now.getMinutes() / 60;
-        console.log('hours past ' + hoursPast);
-        var start = now.getTime() - hoursPast * this.hour;
-        var hourParts = hoursPast / numberOfWorkers;
-        // .log(`number of workers to use: ${n}`);
-        for (var i = 0; i < numberOfWorkers; i++) {
-          var startTime = start + hourParts * i * this.hour;
-          var endTime = start + hourParts * (i + 1) * this.hour;
-          var worker = new _workerWorker2['default']();
-          var url = 'http://' + window.location.host + '/api/social/twdata/all/?start=' + startTime + '&end=' + endTime;
-          worker.postMessage(url);
-          this.onInitialDataReceived(worker, i);
-        }
-      }
-    }, {
-      key: 'onTimeClick',
-      value: function onTimeClick(range) {
-        console.log(range);
+      key: 'initialTimeNode',
+      value: function initialTimeNode(endHour) {
+        var startHour = endHour - 4;
+        var nodeName = startHour + '-' + endHour;
+        console.log(nodeName);
+        var node = document.getElementById(nodeName);
+        return node;
       }
     }, {
       key: 'computeMapDivWidth',
@@ -3850,6 +4072,21 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./DataPage.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./DataPage.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
 /* 60 */
@@ -3860,7 +4097,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "//headers h1{font-size:1.35em}h2{font-size:1.2em}h3{font-size:1.1em}p{font-size:.9em}.DataPage_root_1Bn{margin-top:2em;color:#777;background-color:#fff;box-shadow:0 4px 8px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)}.DataPage_root_1Bn table{margin:0 auto}.DataPage_root_1Bn h2{color:#6b6969}.DataPage_chart_2dW{opacity:0}.DataPage_timeRange_1i6{padding-left:3em}.DataPage_main_1GV{margin-right:solid 1px;background-color:#fff}.DataPage_main_1GV hr{color:#777}.DataPage_main_1GV h3{color:#374048;padding-bottom:2em}.DataPage_spacing_pJZ{margin-top:5em;margin-bottom:1em}.DataPage_sidebar_2cr a,.DataPage_sidebar_2cr h3{padding-left:1em}table{font-size:.9em}table span{display:none}.DataPage_legend_2e1{padding-left:2em}.DataPage_legend_2e1 small{text-align:right}.DataPage_legend_2e1 i{width:4em;height:1px;margin-left:2em;border:solid;text-align:center;display:inline-block}.DataPage_yellow_30z i{color:#ff0}.DataPage_blue_1Bj i{color:blue}.DataPage_orange_36J i{color:orange}", ""]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.DataPage_root_1Bn {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n}\n.DataPage_root_1Bn table {margin: 0 auto;}\n.DataPage_root_1Bn h2 {color: #6B6969;}\n.DataPage_chart_2dW{\n  opacity: 0;\n}\n.DataPage_timeRange_1i6{ padding-left: 3em}\n.DataPage_main_1GV {\n  margin-right: solid 1px;\n  background-color: white;;\n}\n.DataPage_main_1GV hr {color: #777;}\n.DataPage_main_1GV h3 {color: #374048;padding-bottom: 2em;}\n.DataPage_spacing_pJZ {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.DataPage_sidebar_2cr h3, .DataPage_sidebar_2cr a {\n  padding-left: 1em;\n}\n\ntable{\n  font-size: 0.9em;\n}\n\ntable span{display: none}\n.DataPage_legend_2e1 {\n  padding-left: 2em;\n}\n.DataPage_legend_2e1 small{\n  text-align: right;\n}\n.DataPage_legend_2e1 i{\n  width: 4em;\n  height: 1px;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.DataPage_yellow_30z i{\n  color: yellow;\n}\n.DataPage_blue_1Bj i{\n  color: blue;\n}\n.DataPage_orange_36J i{\n  color: orange;\n}\n", ""]);
   
   // exports
   exports.locals = {
@@ -3917,7 +4154,7 @@ module.exports =
       _get(Object.getPrototypeOf(DataPageStore.prototype), 'constructor', this).call(this);
       this.data = [];
       this.newData = [];
-      this.isInitialUpdate = true;
+      this.isInitialNewDataUpdate = true;
     }
   
     _createClass(DataPageStore, [{
@@ -3939,13 +4176,14 @@ module.exports =
       key: 'update',
       value: function update(newData, updateType) {
         this.newData = newData;
-        this.isInitialUpdate = updateType;
+        this.isInitialNewDataUpdate = updateType;
       }
     }, {
       key: 'getIntialData',
       value: function getIntialData(raw) {
         // console.log('intial data');
         this.data = raw.data;
+        // console.log('fetched initial');
         // there is a possibility that this can be undefined
         // incases where we use update data as initial data
         if (raw.aggregate !== undefined) this.aggregate = raw.aggregate;
@@ -4203,6 +4441,21 @@ module.exports =
       module.exports._getCss = function() { return content.toString(); };
       module.exports._insertCss = insertCss.bind(null, content);
     
+      var removeCss = function() {};
+  
+      // Hot Module Replacement
+      // https://webpack.github.io/docs/hot-module-replacement
+      if (false) {
+        module.hot.accept("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Loader.scss", function() {
+          var newContent = require("!!./../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!./../../../node_modules/postcss-loader/index.js!./Loader.scss");
+          if (typeof newContent === 'string') {
+            newContent = [[module.id, content, '']];
+          }
+          removeCss = insertCss(newContent, { replace: true });
+        });
+        module.hot.dispose(function() { removeCss(); });
+      }
+    
 
 /***/ },
 /* 71 */
@@ -4213,7 +4466,7 @@ module.exports =
   
   
   // module
-  exports.push([module.id, ".Loader_ouro_2h9{position:relative;display:inline-block;height:46px;width:46px;margin:1em;border-radius:50%;background:none repeat scroll 0 0 #ddd;overflow:hidden;box-shadow:0 0 10px rgba(0,0,0,.1) inset,0 0 25px rgba(0,0,255,.075)}.Loader_ouro_2h9:after{content:\"\";position:absolute;top:9px;left:9px;display:block;height:28px;width:28px;background:none repeat scroll 0 0 #f2f2f2;border-radius:50%;box-shadow:0 0 10px rgba(0,0,0,.1)}.Loader_ouro_2h9>span{position:absolute;height:100%;width:50%;overflow:hidden}.Loader_left_Occ{left:0}.Loader_right_2CJ{left:50%}.Loader_anim_2a7{position:absolute;left:100%;top:0;height:100%;width:100%;border-radius:999px;background:none repeat scroll 0 0 #508ec3;opacity:.8;-webkit-animation:Loader_ui-spinner-rotate-left_kH6 3s infinite;animation:Loader_ui-spinner-rotate-left_kH6 3s infinite;-webkit-transform-origin:0 50% 0;transform-origin:0 50% 0}.Loader_left_Occ .Loader_anim_2a7{border-bottom-left-radius:0;border-top-left-radius:0}.Loader_right_2CJ .Loader_anim_2a7{border-bottom-right-radius:0;border-top-right-radius:0;left:-100%;-webkit-transform-origin:100% 50% 0;transform-origin:100% 50% 0}.Loader_ouro2_11V .Loader_anim_2a7{-webkit-animation-delay:0;animation-delay:0}.Loader_ouro2_11V .Loader_right_2CJ .Loader_anim_2a7{-webkit-animation-delay:1.5s;animation-delay:1.5s}.Loader_round_1Tl .Loader_ouro_2h9:after{display:none}.Loader_double_2w1 .Loader_ouro_2h9:after{height:13px;width:13px;left:7px;top:7px;border:10px solid #ddd;background:transparent;box-shadow:none}@-webkit-keyframes Loader_ui-spinner-rotate-right_2-Y{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}25%,50%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}75%,to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes Loader_ui-spinner-rotate-right_2-Y{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}25%,50%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}75%,to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@-webkit-keyframes Loader_ui-spinner-rotate-left_kH6{0%,25%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}50%,75%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes Loader_ui-spinner-rotate-left_kH6{0%,25%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}50%,75%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}", ""]);
+  exports.push([module.id, "/**Spinner**/\n.Loader_ouro_2h9 {\n    position: relative;\n    display:inline-block;\n    height: 46px;\n    width: 46px;\n    margin: 1em;\n    border-radius: 50%;\n    background: none repeat scroll 0 0 #DDDDDD;\n    overflow:hidden;\n    -webkit-box-shadow: 0 0 10px rgba(0,0,0,.1) inset, 0 0 25px rgba(0,0,255,0.075);\n            box-shadow: 0 0 10px rgba(0,0,0,.1) inset, 0 0 25px rgba(0,0,255,0.075);\n}\n\n.Loader_ouro_2h9:after {\n    content: \"\";\n    position: absolute;\n    top: 9px; left: 9px;\n    display: block;\n    height: 28px; width: 28px;\n    background: none repeat scroll 0 0 #F2F2F2;\n    border-radius: 50%;\n    -webkit-box-shadow: 0 0 10px rgba(0,0,0,.1);\n            box-shadow: 0 0 10px rgba(0,0,0,.1);\n}\n.Loader_ouro_2h9 > span {\n    position: absolute;\n    height: 100%; width: 50%;\n    overflow: hidden;\n}\n.Loader_left_Occ  { left:0   }\n.Loader_right_2CJ { left:50% }\n\n.Loader_anim_2a7 {\n    position: absolute;\n    left: 100%; top: 0;\n    height: 100%; width: 100%;\n    border-radius: 999px;\n    background: none repeat scroll 0 0 #508EC3;\n    opacity: 0.8;\n    -webkit-animation: Loader_ui-spinner-rotate-left_kH6 3s infinite;\n    -o-animation: Loader_ui-spinner-rotate-left_kH6 3s infinite;\n       animation: Loader_ui-spinner-rotate-left_kH6 3s infinite;\n    -webkit-transform-origin: 0 50% 0;\n    -ms-transform-origin: 0 50% 0;\n     -o-transform-origin: 0 50% 0;\n        transform-origin: 0 50% 0;\n}\n.Loader_left_Occ .Loader_anim_2a7 {\n    border-bottom-left-radius: 0;\n    border-top-left-radius: 0;\n}\n.Loader_right_2CJ .Loader_anim_2a7 {\n    border-bottom-right-radius: 0;\n    border-top-right-radius: 0;\n    left: -100%;\n    -webkit-transform-origin: 100% 50% 0;\n    -ms-transform-origin: 100% 50% 0;\n     -o-transform-origin: 100% 50% 0;\n        transform-origin: 100% 50% 0;\n}\n\n/* v2 */\n.Loader_ouro2_11V .Loader_anim_2a7 {\n   -webkit-animation-delay:0;\n   -o-animation-delay:0;\n      animation-delay:0;\n}\n.Loader_ouro2_11V .Loader_right_2CJ .Loader_anim_2a7{\n   -webkit-animation-delay: 1.5s;\n   -o-animation-delay: 1.5s;\n      animation-delay: 1.5s;\n}\n\n\n/* round variation */\n.Loader_round_1Tl .Loader_ouro_2h9:after {display:none }\n\n/* double variation */\n.Loader_double_2w1 .Loader_ouro_2h9:after {\n  height: 13px; width: 13px;\n  left: 7px; top: 7px;\n  border: 10px solid #ddd;\n  background: transparent;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n}\n\n@-webkit-keyframes Loader_ui-spinner-rotate-right_2-Y{\n  0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}\n  50%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}\n  100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}\n}\n\n@-o-keyframes Loader_ui-spinner-rotate-right_2-Y{\n  0%{-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  50%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-o-transform:rotate(360deg);transform:rotate(360deg)}\n  100%{-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n\n@keyframes Loader_ui-spinner-rotate-right_2-Y{\n  0%{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  50%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}\n  100%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n@-webkit-keyframes Loader_ui-spinner-rotate-left_kH6{\n  0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}\n  50%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}\n  100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}\n}\n@-o-keyframes Loader_ui-spinner-rotate-left_kH6{\n  0%{-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-o-transform:rotate(0deg);transform:rotate(0deg)}\n  50%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-o-transform:rotate(180deg);transform:rotate(180deg)}\n  100%{-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n@keyframes Loader_ui-spinner-rotate-left_kH6{\n  0%{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}\n  25%{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}\n  50%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  75%{-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}\n  100%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}\n}\n", ""]);
   
   // exports
   exports.locals = {
@@ -4240,31 +4493,166 @@ module.exports =
   
   var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
   
+  var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+  
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
   
-  var _dc = __webpack_require__(73);
+  function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+  
+  var _react = __webpack_require__(4);
+  
+  var _react2 = _interopRequireDefault(_react);
+  
+  var _Item = __webpack_require__(73);
+  
+  var _Item2 = _interopRequireDefault(_Item);
+  
+  var TimeRange = (function (_Component) {
+    _inherits(TimeRange, _Component);
+  
+    _createClass(TimeRange, null, [{
+      key: 'propTypes',
+      value: {
+        clickHandler: _react.PropTypes.func.isRequired
+      },
+      enumerable: true
+    }]);
+  
+    function TimeRange(props) {
+      _classCallCheck(this, TimeRange);
+  
+      _get(Object.getPrototypeOf(TimeRange.prototype), 'constructor', this).call(this, props);
+      this.clickHandler = this.props.clickHandler;
+    }
+  
+    _createClass(TimeRange, [{
+      key: 'render',
+      value: function render() {
+        var items = [];
+        for (var i = 0; i < 6; i++) {
+          var start = i * 4;
+          var end = start + 4;
+          var range = start + ' - ' + end;
+          items.push(_react2['default'].createElement(_Item2['default'], { key: end, range: range, clickHandler: this.clickHandler }));
+        }
+        return _react2['default'].createElement(
+          'div',
+          { className: 'btn-toolbar', role: 'toolbar' },
+          items
+        );
+      }
+    }]);
+  
+    return TimeRange;
+  })(_react.Component);
+  
+  exports['default'] = TimeRange;
+  module.exports = exports['default'];
+
+/***/ },
+/* 73 */
+/***/ function(module, exports, __webpack_require__) {
+
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+  
+  var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+  
+  function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+  
+  var _react = __webpack_require__(4);
+  
+  var _react2 = _interopRequireDefault(_react);
+  
+  var Item = (function (_Component) {
+    _inherits(Item, _Component);
+  
+    _createClass(Item, null, [{
+      key: 'propTypes',
+      value: {
+        range: _react.PropTypes.string,
+        clickHandler: _react.PropTypes.func.isRequired
+      },
+      enumerable: true
+    }]);
+  
+    function Item(props) {
+      var _this = this;
+  
+      _classCallCheck(this, Item);
+  
+      _get(Object.getPrototypeOf(Item.prototype), 'constructor', this).call(this, props);
+  
+      this.render = function () {
+        return _react2['default'].createElement(
+          'div',
+          { className: 'btn-group btn-group-sm', role: 'group' },
+          _react2['default'].createElement(
+            'button',
+            { type: 'button', className: 'btn btn-default', id: _this.nodeName, onClick: _this.clickHandler.bind(_this, _this.range) },
+            _this.range,
+            'hrs'
+          )
+        );
+      };
+  
+      this.range = props.range;
+      this.nodeName = props.range.replace(/\s/g, '');
+      this.clickHandler = props.clickHandler;
+    }
+  
+    return Item;
+  })(_react.Component);
+  
+  exports['default'] = Item;
+  module.exports = exports['default'];
+
+/***/ },
+/* 74 */
+/***/ function(module, exports, __webpack_require__) {
+
+  'use strict';
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+  
+  var _dc = __webpack_require__(75);
   
   var _dc2 = _interopRequireDefault(_dc);
   
-  var _coreCfHelper = __webpack_require__(78);
+  var _coreCfHelper = __webpack_require__(80);
   
   var _coreCfHelper2 = _interopRequireDefault(_coreCfHelper);
   
-  __webpack_require__(81);
+  __webpack_require__(83);
   
-  var _moment = __webpack_require__(82);
+  var _moment = __webpack_require__(84);
   
   var _moment2 = _interopRequireDefault(_moment);
   
-  var _c3 = __webpack_require__(83);
+  var _c3 = __webpack_require__(85);
   
   var _c32 = _interopRequireDefault(_c3);
   
-  __webpack_require__(84);
-  
-  // import './dtplugin';
+  __webpack_require__(86);
   
   var DcCharts = (function () {
     function DcCharts(data, aggregate, options) {
@@ -4601,7 +4989,7 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 73 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -4612,17 +5000,17 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _dc2 = __webpack_require__(74);
+  var _dc2 = __webpack_require__(76);
   
   var _dc3 = _interopRequireDefault(_dc2);
   
-  var _leaflet = __webpack_require__(75);
+  var _leaflet = __webpack_require__(77);
   
   var _leaflet2 = _interopRequireDefault(_leaflet);
   
-  __webpack_require__(76);
+  __webpack_require__(78);
   
-  var _dcAddons = __webpack_require__(77);
+  var _dcAddons = __webpack_require__(79);
   
   var _dcAddons2 = _interopRequireDefault(_dcAddons);
   
@@ -4631,31 +5019,31 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 74 */
+/* 76 */
 /***/ function(module, exports) {
 
   module.exports = require("dc");
 
 /***/ },
-/* 75 */
+/* 77 */
 /***/ function(module, exports) {
 
   module.exports = require("leaflet");
 
 /***/ },
-/* 76 */
+/* 78 */
 /***/ function(module, exports) {
 
   module.exports = require("leaflet.markercluster");
 
 /***/ },
-/* 77 */
+/* 79 */
 /***/ function(module, exports) {
 
   module.exports = require("dc-addons");
 
 /***/ },
-/* 78 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -4673,11 +5061,11 @@ module.exports =
   
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
   
-  var _crossfilter2 = __webpack_require__(79);
+  var _crossfilter2 = __webpack_require__(81);
   
   var _crossfilter22 = _interopRequireDefault(_crossfilter2);
   
-  var _lodash = __webpack_require__(80);
+  var _lodash = __webpack_require__(82);
   
   var _lodash2 = _interopRequireDefault(_lodash);
   
@@ -4835,7 +5223,7 @@ module.exports =
         var max = _lodash2['default'].max(values);
         var transformedGrp = {};
         _lodash2['default'].forOwn(group, function (value, key) {
-          if (value > Math.floor(max / 6.5)) transformedGrp[key] = value;
+          if (value > Math.floor(max / 5)) transformedGrp[key] = value;
         });
         return transformedGrp;
       }
@@ -4868,37 +5256,37 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 79 */
+/* 81 */
 /***/ function(module, exports) {
 
   module.exports = require("crossfilter2");
 
 /***/ },
-/* 80 */
+/* 82 */
 /***/ function(module, exports) {
 
   module.exports = require("lodash");
 
 /***/ },
-/* 81 */
+/* 83 */
 /***/ function(module, exports) {
 
   module.exports = require("datatables");
 
 /***/ },
-/* 82 */
+/* 84 */
 /***/ function(module, exports) {
 
   module.exports = require("moment");
 
 /***/ },
-/* 83 */
+/* 85 */
 /***/ function(module, exports) {
 
   module.exports = require("c3");
 
 /***/ },
-/* 84 */
+/* 86 */
 /***/ function(module, exports) {
 
   // SVGPathSeg API polyfill
@@ -6076,7 +6464,7 @@ module.exports =
   })();
 
 /***/ },
-/* 85 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -6181,25 +6569,25 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 86 */
+/* 88 */
 /***/ function(module, exports) {
 
   module.exports = require("./assets");
 
 /***/ },
-/* 87 */
+/* 89 */
 /***/ function(module, exports) {
 
   module.exports = require("compression");
 
 /***/ },
-/* 88 */
+/* 90 */
 /***/ function(module, exports) {
 
   module.exports = require("body-parser");
 
 /***/ },
-/* 89 */
+/* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -6213,19 +6601,19 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _redis = __webpack_require__(90);
+  var _redis = __webpack_require__(92);
   
   var _redis2 = _interopRequireDefault(_redis);
   
-  var _modelsTwitter = __webpack_require__(91);
+  var _modelsTwitter = __webpack_require__(93);
   
   var _modelsTwitter2 = _interopRequireDefault(_modelsTwitter);
   
-  var _crossfilter2 = __webpack_require__(79);
+  var _crossfilter2 = __webpack_require__(81);
   
   var _crossfilter22 = _interopRequireDefault(_crossfilter2);
   
-  var _moment = __webpack_require__(82);
+  var _moment = __webpack_require__(84);
   
   var _moment2 = _interopRequireDefault(_moment);
   
@@ -6320,13 +6708,13 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 90 */
+/* 92 */
 /***/ function(module, exports) {
 
   module.exports = require("redis");
 
 /***/ },
-/* 91 */
+/* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -6337,11 +6725,11 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _mongoose = __webpack_require__(92);
+  var _mongoose = __webpack_require__(94);
   
   var _mongoose2 = _interopRequireDefault(_mongoose);
   
-  var _mongooseUniqueValidator = __webpack_require__(93);
+  var _mongooseUniqueValidator = __webpack_require__(95);
   
   var _mongooseUniqueValidator2 = _interopRequireDefault(_mongooseUniqueValidator);
   
@@ -6364,6 +6752,7 @@ module.exports =
     is_reply: Boolean,
     is_retweet: Boolean,
     emotions: { type: [String], 'default': null },
+    tracked_names: { type: [String], 'default': null },
     approximated_geo: { type: Boolean, 'default': false },
     geo_enabled: { type: Boolean, 'default': false },
     has_hashtags: Boolean,
@@ -6385,25 +6774,31 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 92 */
+/* 94 */
 /***/ function(module, exports) {
 
   module.exports = require("mongoose");
 
 /***/ },
-/* 93 */
+/* 95 */
 /***/ function(module, exports) {
 
   module.exports = require("mongoose-unique-validator");
 
 /***/ },
-/* 94 */
+/* 96 */
 /***/ function(module, exports) {
 
   module.exports = require("cron");
 
 /***/ },
-/* 95 */
+/* 97 */
+/***/ function(module, exports) {
+
+  module.exports = require("morgan");
+
+/***/ },
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -6422,11 +6817,11 @@ module.exports =
   
   var _express2 = _interopRequireDefault(_express);
   
-  var _controllersTwitters = __webpack_require__(96);
+  var _controllersTwitters = __webpack_require__(99);
   
   var twitters = _interopRequireWildcard(_controllersTwitters);
   
-  var _controllersInquiries = __webpack_require__(98);
+  var _controllersInquiries = __webpack_require__(101);
   
   var inquiries = _interopRequireWildcard(_controllersInquiries);
   
@@ -6480,21 +6875,22 @@ module.exports =
           raw = context$1$0.sent;
           data = twitters.transform(raw);
   
+          console.log('data count is ' + data.length);
           res.status(200).json(data);
-          context$1$0.next = 11;
+          context$1$0.next = 12;
           break;
   
-        case 8:
-          context$1$0.prev = 8;
+        case 9:
+          context$1$0.prev = 9;
           context$1$0.t0 = context$1$0['catch'](0);
   
           next(context$1$0.t0);
   
-        case 11:
+        case 12:
         case 'end':
           return context$1$0.stop();
       }
-    }, null, _this, [[0, 8]]);
+    }, null, _this, [[0, 9]]);
   });
   
   router.post('/inquiries', function callee$0$0(req, res, next) {
@@ -6572,7 +6968,7 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 96 */
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -6587,26 +6983,23 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _redis = __webpack_require__(90);
+  var _redis = __webpack_require__(92);
   
   var _redis2 = _interopRequireDefault(_redis);
   
-  var _modelsTwitter = __webpack_require__(91);
+  var _modelsTwitter = __webpack_require__(93);
   
   var _modelsTwitter2 = _interopRequireDefault(_modelsTwitter);
   
-  var _async2 = __webpack_require__(97);
+  var _async2 = __webpack_require__(100);
   
   var _async3 = _interopRequireDefault(_async2);
-  
-  var _lodash = __webpack_require__(80);
-  
-  var _lodash2 = _interopRequireDefault(_lodash);
   
   var _config = __webpack_require__(14);
   
   var client = _redis2['default'].createClient(_config.REDIS_PORT, _config.REDIS_ADDR);
-  var mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika', 'mabirizi', 'biraro'];
+  // const mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika', 'mabirizi', 'biraro'];
+  var mentions = ['museveni', 'besigye', 'mbabazi'];
   var exludedFields = '-_id -__v -has_user_mentions -geo_enabled -time_zone -approximated_geo ';
   exludedFields += '-favorite_count -user_id -retweet_count -has_hashtags -is_retweet -is_reply';
   var saved = 0;
@@ -6624,7 +7017,7 @@ module.exports =
   function _addNamesToTweet(tweet) {
     // mutates the tweet by adding new fields
     mentions.forEach(function (mention) {
-      var bool = tweet.user_mentions.some(function (name) {
+      var bool = tweet.tracked_names.some(function (name) {
         return name.toLowerCase().includes(mention);
       });
       tweet[mention] = bool ? 1 : 0;
@@ -6632,15 +7025,15 @@ module.exports =
     return tweet;
   }
   
-  function _excludeNamesInTerms(tweet) {
-    mentions.forEach(function (mention) {
-      tweet.terms.forEach(function (term, index, arr) {
-        var isName = term.toLowerCase().includes(mention);
+  /* function _excludeNamesInTerms(tweet) {
+    mentions.forEach((mention) => {
+      tweet.terms.forEach((term, index, arr) => {
+        const isName = term.toLowerCase().includes(mention);
         if (isName) arr.splice(index, 1);
       });
     });
     return tweet;
-  }
+  }*/
   
   function saveTweets(data, cb) {
     _async3['default'].each(data, function (d, callback) {
@@ -6662,13 +7055,13 @@ module.exports =
   }
   
   function transform(raw) {
-    return raw.map(function (d) {
-      var tweet = d.toObject();
+    return raw.map(function (tweet) {
+      // const tweet = d.toObject();
       tweet.text = tweet.text.toLowerCase();
       // _excludeInUserMentions(tweet);
-      tweet.sentiment = _lodash2['default'].ceil(tweet.sentiment, 2) || tweet.sentiment;
+      // tweet.sentiment = _.ceil(tweet.sentiment, 2) || tweet.sentiment;
       _addNamesToTweet(tweet);
-      _excludeNamesInTerms(tweet);
+      // _excludeNamesInTerms(tweet);
       return tweet;
     });
   }
@@ -6684,7 +7077,7 @@ module.exports =
               $gt: parseInt(start, 10),
               $lt: parseInt(end, 10)
             }
-          }).select(exludedFields).exec());
+          }).lean().select(exludedFields).exec());
   
         case 4:
           context$1$0.prev = 4;
@@ -6699,13 +7092,13 @@ module.exports =
   }
 
 /***/ },
-/* 97 */
+/* 100 */
 /***/ function(module, exports) {
 
   module.exports = require("async");
 
 /***/ },
-/* 98 */
+/* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -6718,7 +7111,7 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _modelsInquiry = __webpack_require__(99);
+  var _modelsInquiry = __webpack_require__(102);
   
   var _modelsInquiry2 = _interopRequireDefault(_modelsInquiry);
   
@@ -6750,7 +7143,7 @@ module.exports =
   }
 
 /***/ },
-/* 99 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -6761,11 +7154,11 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _mongoose = __webpack_require__(92);
+  var _mongoose = __webpack_require__(94);
   
   var _mongoose2 = _interopRequireDefault(_mongoose);
   
-  var _mongooseUniqueValidator = __webpack_require__(93);
+  var _mongooseUniqueValidator = __webpack_require__(95);
   
   var _mongooseUniqueValidator2 = _interopRequireDefault(_mongooseUniqueValidator);
   
@@ -6790,7 +7183,7 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 100 */
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
   
@@ -6813,7 +7206,7 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _fs = __webpack_require__(101);
+  var _fs = __webpack_require__(104);
   
   var _fs2 = _interopRequireDefault(_fs);
   
@@ -6821,15 +7214,15 @@ module.exports =
   
   var _express = __webpack_require__(3);
   
-  var _bluebird = __webpack_require__(102);
+  var _bluebird = __webpack_require__(105);
   
   var _bluebird2 = _interopRequireDefault(_bluebird);
   
-  var _jade = __webpack_require__(103);
+  var _jade = __webpack_require__(106);
   
   var _jade2 = _interopRequireDefault(_jade);
   
-  var _frontMatter = __webpack_require__(104);
+  var _frontMatter = __webpack_require__(107);
   
   var _frontMatter2 = _interopRequireDefault(_frontMatter);
   
@@ -6933,25 +7326,25 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 101 */
+/* 104 */
 /***/ function(module, exports) {
 
   module.exports = require("fs");
 
 /***/ },
-/* 102 */
+/* 105 */
 /***/ function(module, exports) {
 
   module.exports = require("bluebird");
 
 /***/ },
-/* 103 */
+/* 106 */
 /***/ function(module, exports) {
 
   module.exports = require("jade");
 
 /***/ },
-/* 104 */
+/* 107 */
 /***/ function(module, exports) {
 
   module.exports = require("front-matter");
