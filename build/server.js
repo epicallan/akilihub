@@ -3561,10 +3561,20 @@ module.exports =
   
       this.onInitialDataReceived = function (worker) {
         worker.onmessage = function (event) {
-          console.log(event);
+          // console.log(event);
           /* eslint-disable no-unused-expressions*/
           _this.isInitialData ? _actionsDataPageActions2['default'].getData(event.data) : _actionsDataPageActions2['default'].update(event.data.data, false);
           _this.isInitialData = false;
+        };
+      };
+  
+      this.onNewUpdateDate = function (worker) {
+        worker.onmessage = function (event) {
+          // console.log(event);
+          if (event.data.length) {
+            _actionsDataPageActions2['default'].update(event.data, _this.isFirstNewDataPayload);
+            if (_this.isFirstNewDataPayload) _this.isFirstNewDataPayload = false;
+          }
         };
       };
   
@@ -3581,19 +3591,11 @@ module.exports =
         now.setHours(parseInt(start, 10));
         now.setMinutes(0);
         // console.log(now);
-        _this.getNewData(now.getTime(), function (worker) {
-          worker.onmessage = function (event) {
-            console.log(event);
-            if (event.data.length) {
-              _actionsDataPageActions2['default'].update(event.data, _this.isFirstNewDataPayload);
-              if (_this.isFirstNewDataPayload) _this.isFirstNewDataPayload = false;
-            }
-          };
-        });
+        _this.getNewData(now.getTime());
       };
   
-      this.getNewData = function (unixStartTime, callback) {
-        var numberOfWorkers = 4;
+      this.getNewData = function (unixStartTime) {
+        var numberOfWorkers = _this.timeInterval;
         // this.isFirstPayload = true;
         // const hourParts = 24 / numberOfWorkers;
         var api = 'http://' + window.location.host + '/api/social/twdata/?';
@@ -3602,24 +3604,18 @@ module.exports =
           timeInterval: _this.timeInterval,
           numberOfWorkers: numberOfWorkers,
           api: api,
-          callback: callback });
+          callback: _this.onNewUpdateDate });
       };
   
       this.getNewDateData = function (unixDate) {
         var now = new Date(unixDate);
-        now.setHours(20);
+        // setting upper limit hour to 22hr
+        now.setHours(12);
         _this.currentDate = now;
         _this.isFirstNewDataPayload = true;
         var unixStartTime = now.getTime() - _this.timeInterval * _this.hour;
         _this.rangeOfHoursToFetch(now);
-        _this.getNewData(unixStartTime, function (worker) {
-          worker.onmessage = function (event) {
-            if (event.data.length) {
-              _actionsDataPageActions2['default'].update(event.data, _this.isFirstNewDataPayload);
-              if (_this.isFirstNewDataPayload) _this.isFirstNewDataPayload = false;
-            }
-          };
-        });
+        _this.getNewData(unixStartTime);
       };
   
       this.fetchDataUsingWorkers = function (start, options) {
@@ -3642,7 +3638,7 @@ module.exports =
           now.setHours(new Date().getHours() - 3);
         }
         // TODO hack
-        now.setHours(new Date().getHours() - 650);
+        now.setHours(new Date().getHours() - 670);
         console.log('now : ' + now);
         // higlight time
         var upperEndHour = _this.rangeOfHoursToFetch(now);
@@ -3763,10 +3759,10 @@ module.exports =
                     { className: (0, _classnames2['default'])('row', 'spacing-sm', _DataPageScss2['default'].chart) },
                     _react2['default'].createElement(
                       'div',
-                      { className: 'col-md-8 col-md-offset-2' },
+                      { className: 'col-md-10 col-md-offset-1' },
                       _react2['default'].createElement(
                         'h4',
-                        null,
+                        { className: 'text-center' },
                         'Select a time range for whose data you would like to fetch '
                       ),
                       _react2['default'].createElement(_TimeRange2['default'], { clickHandler: _this.onTimeClick })
@@ -3973,7 +3969,7 @@ module.exports =
       this.state = getStateFromStores();
       this.path = props.path;
       this.isInitialData = true;
-      this.timeInterval = 4;
+      this.timeInterval = 2;
       this.currentDate = null;
       this.getNewData = this.getNewData;
       this.isAlldata = false;
@@ -4010,7 +4006,7 @@ module.exports =
     }, {
       key: 'initialTimeNode',
       value: function initialTimeNode(endHour) {
-        var startHour = endHour - 4;
+        var startHour = endHour - this.timeInterval;
         var nodeName = startHour + '-' + endHour;
         console.log(nodeName);
         var node = document.getElementById(nodeName);
@@ -4195,7 +4191,7 @@ module.exports =
           data: this.data,
           newData: this.newData,
           aggregate: this.aggregate,
-          isInitialUpdate: this.isInitialUpdate
+          isInitialNewDataUpdate: this.isInitialNewDataUpdate
         };
       }
     }]);
@@ -4531,9 +4527,9 @@ module.exports =
       key: 'render',
       value: function render() {
         var items = [];
-        for (var i = 0; i < 6; i++) {
-          var start = i * 4;
-          var end = start + 4;
+        for (var i = 0; i < 12; i++) {
+          var start = i * 2;
+          var end = start + 2;
           var range = start + ' - ' + end;
           items.push(_react2['default'].createElement(_Item2['default'], { key: end, range: range, clickHandler: this.clickHandler }));
         }
@@ -4715,7 +4711,7 @@ module.exports =
       key: 'updateData',
       value: function updateData(raw, isFirstNewDateUpdate) {
         var newData = this._dataTransform(raw);
-        // console.log('should update isInitialUpdate: ' + isInitialUpdate);
+        console.log('should update isInitialUpdate: ' + isFirstNewDateUpdate);
         if (isFirstNewDateUpdate) this.data.remove();
         this.data.add(newData);
         this.drawRowCharts(true);

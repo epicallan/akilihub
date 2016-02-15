@@ -36,7 +36,7 @@ export default class DataCenterPage extends Component {
     this.state = getStateFromStores();
     this.path = props.path;
     this.isInitialData = true;
-    this.timeInterval = 4;
+    this.timeInterval = 2;
     this.currentDate = null;
     this.getNewData = this.getNewData;
     this.isAlldata = false;
@@ -68,14 +68,22 @@ export default class DataCenterPage extends Component {
 
   onInitialDataReceived = (worker) => {
     worker.onmessage = (event) => {
-      console.log(event);
+      // console.log(event);
       /* eslint-disable no-unused-expressions*/
       this.isInitialData ? DataPageActions.getData(event.data) :
         DataPageActions.update(event.data.data, false);
       this.isInitialData = false;
     };
   }
-
+  onNewUpdateDate = (worker) => {
+    worker.onmessage = (event) => {
+      // console.log(event);
+      if (event.data.length) {
+        DataPageActions.update(event.data, this.isFirstNewDataPayload);
+        if (this.isFirstNewDataPayload) this.isFirstNewDataPayload = false;
+      }
+    };
+  }
   onTimeClick = (range) => {
     const [start] = range.split('-');
     const now = new Date(this.currentDate);
@@ -84,19 +92,11 @@ export default class DataCenterPage extends Component {
     now.setHours(parseInt(start, 10));
     now.setMinutes(0);
     // console.log(now);
-    this.getNewData(now.getTime(), (worker) => {
-      worker.onmessage = (event) => {
-        console.log(event);
-        if (event.data.length) {
-          DataPageActions.update(event.data, this.isFirstNewDataPayload);
-          if (this.isFirstNewDataPayload) this.isFirstNewDataPayload = false;
-        }
-      };
-    });
+    this.getNewData(now.getTime());
   }
 
-  getNewData = (unixStartTime, callback) => {
-    const numberOfWorkers = 4;
+  getNewData = (unixStartTime) => {
+    const numberOfWorkers = this.timeInterval;
     // this.isFirstPayload = true;
     // const hourParts = 24 / numberOfWorkers;
     const api = `http://${window.location.host}/api/social/twdata/?`;
@@ -105,25 +105,20 @@ export default class DataCenterPage extends Component {
       timeInterval: this.timeInterval,
       numberOfWorkers,
       api,
-      callback });
+      callback: this.onNewUpdateDate });
   }
 
   getNewDateData = (unixDate) => {
     const now = new Date(unixDate);
-    now.setHours(20);
+    // setting upper limit hour to 22hr
+    now.setHours(12);
     this.currentDate = now;
     this.isFirstNewDataPayload = true;
     const unixStartTime = now.getTime() - (this.timeInterval * this.hour);
     this.rangeOfHoursToFetch(now);
-    this.getNewData(unixStartTime, (worker) => {
-      worker.onmessage = (event) => {
-        if (event.data.length) {
-          DataPageActions.update(event.data, this.isFirstNewDataPayload);
-          if (this.isFirstNewDataPayload) this.isFirstNewDataPayload = false;
-        }
-      };
-    });
+    this.getNewData(unixStartTime);
   }
+
   fetchDataUsingWorkers = (start, options) => {
     const hourParts = options.timeInterval / options.numberOfWorkers;
     for (let i = 0; i < options.numberOfWorkers; i++) {
@@ -144,7 +139,7 @@ export default class DataCenterPage extends Component {
       now.setHours(new Date().getHours() - 3);
     }
     // TODO hack
-    now.setHours(new Date().getHours() - 650);
+    now.setHours(new Date().getHours() - 670);
     console.log(`now : ${now}`);
     // higlight time
     const upperEndHour = this.rangeOfHoursToFetch(now);
@@ -160,7 +155,7 @@ export default class DataCenterPage extends Component {
   }
 
   initialTimeNode(endHour) {
-    const startHour = endHour - 4;
+    const startHour = endHour - this.timeInterval;
     const nodeName = `${startHour}-${endHour}`;
     console.log(nodeName);
     const node = document.getElementById(nodeName);
@@ -267,8 +262,8 @@ export default class DataCenterPage extends Component {
               </article>
               <section className ={cx(s.charts, 'charts-dashboard')}>
                 <div className={cx('row', 'spacing-sm', s.chart)}>
-                   <div className="col-md-8 col-md-offset-2">
-                     <h4>Select a time range for whose data you would like to fetch </h4>
+                   <div className="col-md-10 col-md-offset-1">
+                     <h4 className = 'text-center'>Select a time range for whose data you would like to fetch </h4>
                      <TimeRange clickHandler = {this.onTimeClick} />
                    </div>
                  </div>

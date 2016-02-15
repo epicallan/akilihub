@@ -2,12 +2,12 @@ FROM node:latest
 
 RUN mkdir /src
 
-RUN npm install nodemon -g
+RUN npm install forever -g
 
 WORKDIR /src
 ADD . /src
 RUN npm install --production
 
-EXPOSE 3000
+EXPOSE 5000
 
-CMD npm run start-server
+CMD NODE_ENV=production forever start build/server.js

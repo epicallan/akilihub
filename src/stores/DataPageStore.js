@@ -44,7 +44,7 @@ class DataPageStore extends EventEmitter {
       data: this.data,
       newData: this.newData,
       aggregate: this.aggregate,
-      isInitialUpdate: this.isInitialUpdate,
+      isInitialNewDataUpdate: this.isInitialNewDataUpdate,
     };
   }
 }

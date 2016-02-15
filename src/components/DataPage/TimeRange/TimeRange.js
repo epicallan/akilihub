@@ -14,9 +14,9 @@ export default class TimeRange extends Component {
 
   render() {
     const items = [];
-    for (let i = 0; i < 6; i++) {
-      const start = i * 4;
-      const end = start + 4;
+    for (let i = 0; i < 12; i++) {
+      const start = i * 2;
+      const end = start + 2;
       const range = start + ' - ' + end;
       items.push(< Item key = {end} range = {range} clickHandler = {this.clickHandler} />);
     }
