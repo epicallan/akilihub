@@ -31,7 +31,7 @@ export default class DcCharts {
 
   updateData(raw, isFirstNewDateUpdate) {
     const newData = this._dataTransform(raw);
-    console.log('should update isInitialUpdate: ' + isFirstNewDateUpdate);
+    // console.log('should update isInitialUpdate: ' + isFirstNewDateUpdate);
     if (isFirstNewDateUpdate) this.data.remove();
     this.data.add(newData);
     this.drawRowCharts(true);

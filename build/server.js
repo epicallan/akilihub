@@ -3471,8 +3471,6 @@ module.exports =
     value: true
   });
   
-  var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
-  
   var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
   
   var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
@@ -3574,30 +3572,27 @@ module.exports =
           if (event.data.length) {
             _actionsDataPageActions2['default'].update(event.data, _this.isFirstNewDataPayload);
             if (_this.isFirstNewDataPayload) _this.isFirstNewDataPayload = false;
+          } else {
+            $('#loader').show();
+            // TODO alert('we are missing data for that date or time range');
           }
         };
       };
   
       this.onTimeClick = function (range) {
-        var _range$split = range.split('-');
-  
-        var _range$split2 = _slicedToArray(_range$split, 1);
-  
-        var start = _range$split2[0];
-  
+        var end = range.split('-')[1];
         var now = new Date(_this.currentDate);
         _this.isFirstNewDataPayload = true;
-        // console.log(start);
-        now.setHours(parseInt(start, 10));
+        now.setHours(parseInt(end, 10));
         now.setMinutes(0);
-        // console.log(now);
+        $('.active').removeClass('active');
+        // this.rangeOfHoursToFetch(now);
         _this.getNewData(now.getTime());
       };
   
       this.getNewData = function (unixStartTime) {
+        // highling currenly selected time node
         var numberOfWorkers = _this.timeInterval;
-        // this.isFirstPayload = true;
-        // const hourParts = 24 / numberOfWorkers;
         var api = 'http://' + window.location.host + '/api/social/twdata/?';
         $('#loader').show();
         _this.fetchDataUsingWorkers(unixStartTime, {
@@ -3609,13 +3604,14 @@ module.exports =
   
       this.getNewDateData = function (unixDate) {
         var now = new Date(unixDate);
+        // this.timeInterval = 2;
         // setting upper limit hour to 22hr
         now.setHours(12);
         _this.currentDate = now;
         _this.isFirstNewDataPayload = true;
-        var unixStartTime = now.getTime() - _this.timeInterval * _this.hour;
         _this.rangeOfHoursToFetch(now);
-        _this.getNewData(unixStartTime);
+        // const unixStartTime = now.getTime() - (this.timeInterval * this.hour);
+        _this.getNewData(now.getTime());
       };
   
       this.fetchDataUsingWorkers = function (start, options) {
@@ -3638,11 +3634,11 @@ module.exports =
           now.setHours(new Date().getHours() - 3);
         }
         // TODO hack
-        now.setHours(new Date().getHours() - 670);
-        console.log('now : ' + now);
+        // now.setHours(new Date().getHours() - 690);
         // higlight time
         var upperEndHour = _this.rangeOfHoursToFetch(now);
         now.setHours(upperEndHour);
+        // console.log(`now : ${now}`);
         _this.currentDate = now;
         var unixStartTime = now.getTime() - _this.timeInterval * _this.hour;
         var api = 'http://' + window.location.host + '/api/social/twdata/all/?';
@@ -3656,18 +3652,11 @@ module.exports =
       this.rangeOfHoursToFetch = function (now) {
         var endHour = new Date(now).getHours();
         var node = _this.initialTimeNode(endHour);
-        var hasSteppedDown = false;
         while (!node) {
           endHour -= 1;
           node = _this.initialTimeNode(endHour);
-          hasSteppedDown = true;
         }
-        // partiallly color next element if exists
-        if (hasSteppedDown) {
-          var nodeParent = node.parentNode;
-          var nextElmParent = nodeParent.nextElementSibling;
-          if (nextElmParent) nextElmParent.firstChild.className += ' partial';
-        }
+        _this.currentSelectedTimeNode = node;
         node.className += ' active';
         return endHour;
       };
@@ -3756,21 +3745,21 @@ module.exports =
                   { className: (0, _classnames2['default'])(_DataPageScss2['default'].charts, 'charts-dashboard') },
                   _react2['default'].createElement(
                     'div',
-                    { className: (0, _classnames2['default'])('row', 'spacing-sm', _DataPageScss2['default'].chart) },
+                    { className: (0, _classnames2['default'])('row', _DataPageScss2['default'].timeRangeWidget, 'spacing-xsm', _DataPageScss2['default'].chart) },
                     _react2['default'].createElement(
                       'div',
-                      { className: 'col-md-10 col-md-offset-1' },
+                      { className: 'col-md-6 col-md-offset-3' },
                       _react2['default'].createElement(
                         'h4',
-                        { className: 'text-center' },
+                        null,
                         'Select a time range for whose data you would like to fetch '
                       ),
-                      _react2['default'].createElement(_TimeRange2['default'], { clickHandler: _this.onTimeClick })
+                      _react2['default'].createElement(_TimeRange2['default'], { clickHandler: _this.onTimeClick, timeInterval: _this.timeInterval })
                     )
                   ),
                   _react2['default'].createElement(
                     'div',
-                    { className: (0, _classnames2['default'])('row', 'spacing-sm', _DataPageScss2['default'].chart) },
+                    { className: (0, _classnames2['default'])('row', 'spacing-xsm', _DataPageScss2['default'].chart) },
                     _react2['default'].createElement(
                       'div',
                       { className: 'col-md-6' },
@@ -3818,7 +3807,7 @@ module.exports =
                   ),
                   _react2['default'].createElement(
                     'div',
-                    { className: (0, _classnames2['default'])('row', 'spacing-sm', _DataPageScss2['default'].chart) },
+                    { className: (0, _classnames2['default'])('row', 'spacing-xsm', _DataPageScss2['default'].chart) },
                     _react2['default'].createElement(
                       'div',
                       { className: 'col-md-4' },
@@ -3887,7 +3876,7 @@ module.exports =
                   ),
                   _react2['default'].createElement(
                     'div',
-                    { className: (0, _classnames2['default'])('row', 'spacing-sm', _DataPageScss2['default'].chart) },
+                    { className: (0, _classnames2['default'])('row', 'spacing-xsm', _DataPageScss2['default'].chart) },
                     _react2['default'].createElement(
                       'div',
                       { className: 'col-md-8', ref: 'mapCont', id: 'mapCont' },
@@ -3915,7 +3904,7 @@ module.exports =
                   ),
                   _react2['default'].createElement(
                     'div',
-                    { className: (0, _classnames2['default'])('row', 'spacing-sm', _DataPageScss2['default'].chart) },
+                    { className: (0, _classnames2['default'])('row', 'spacing-xsm', _DataPageScss2['default'].chart) },
                     _react2['default'].createElement(
                       'div',
                       { className: 'col-md-11 table-cont' },
@@ -3969,7 +3958,7 @@ module.exports =
       this.state = getStateFromStores();
       this.path = props.path;
       this.isInitialData = true;
-      this.timeInterval = 2;
+      this.timeInterval = 4;
       this.currentDate = null;
       this.getNewData = this.getNewData;
       this.isAlldata = false;
@@ -4006,7 +3995,8 @@ module.exports =
     }, {
       key: 'initialTimeNode',
       value: function initialTimeNode(endHour) {
-        var startHour = endHour - this.timeInterval;
+        console.log(endHour);
+        var startHour = endHour < this.timeInterval ? endHour + this.timeInterval : endHour - this.timeInterval;
         var nodeName = startHour + '-' + endHour;
         console.log(nodeName);
         var node = document.getElementById(nodeName);
@@ -4093,13 +4083,14 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.DataPage_root_1Bn {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n}\n.DataPage_root_1Bn table {margin: 0 auto;}\n.DataPage_root_1Bn h2 {color: #6B6969;}\n.DataPage_chart_2dW{\n  opacity: 0;\n}\n.DataPage_timeRange_1i6{ padding-left: 3em}\n.DataPage_main_1GV {\n  margin-right: solid 1px;\n  background-color: white;;\n}\n.DataPage_main_1GV hr {color: #777;}\n.DataPage_main_1GV h3 {color: #374048;padding-bottom: 2em;}\n.DataPage_spacing_pJZ {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.DataPage_sidebar_2cr h3, .DataPage_sidebar_2cr a {\n  padding-left: 1em;\n}\n\ntable{\n  font-size: 0.9em;\n}\n\ntable span{display: none}\n.DataPage_legend_2e1 {\n  padding-left: 2em;\n}\n.DataPage_legend_2e1 small{\n  text-align: right;\n}\n.DataPage_legend_2e1 i{\n  width: 4em;\n  height: 1px;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.DataPage_yellow_30z i{\n  color: yellow;\n}\n.DataPage_blue_1Bj i{\n  color: blue;\n}\n.DataPage_orange_36J i{\n  color: orange;\n}\n", ""]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.DataPage_root_1Bn {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n}\n.DataPage_root_1Bn table {margin: 0 auto;}\n.DataPage_root_1Bn h2 {color: #6B6969;}\n.DataPage_chart_2dW{\n  opacity: 0;\n}\n.DataPage_timeRange_1i6{ padding-left: 3em}\n.DataPage_timeRangeWidget_3ft h4 {margin-bottom: 1em}\n.DataPage_main_1GV {\n  margin-right: solid 1px;\n  background-color: white;;\n}\n.DataPage_main_1GV hr {color: #777;}\n.DataPage_main_1GV h3 {color: #374048;padding-bottom: 2em;}\n.DataPage_spacing_pJZ {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.DataPage_sidebar_2cr h3, .DataPage_sidebar_2cr a {\n  padding-left: 1em;\n}\n\ntable{\n  font-size: 0.9em;\n}\n\ntable span{display: none}\n.DataPage_legend_2e1 {\n  padding-left: 2em;\n}\n.DataPage_legend_2e1 small{\n  text-align: right;\n}\n.DataPage_legend_2e1 i{\n  width: 4em;\n  height: 1px;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.DataPage_yellow_30z i{\n  color: yellow;\n}\n.DataPage_blue_1Bj i{\n  color: blue;\n}\n.DataPage_orange_36J i{\n  color: orange;\n}\n", ""]);
   
   // exports
   exports.locals = {
   	"root": "DataPage_root_1Bn",
   	"chart": "DataPage_chart_2dW",
   	"timeRange": "DataPage_timeRange_1i6",
+  	"timeRangeWidget": "DataPage_timeRangeWidget_3ft",
   	"main": "DataPage_main_1GV",
   	"spacing": "DataPage_spacing_pJZ",
   	"sidebar": "DataPage_sidebar_2cr",
@@ -4511,7 +4502,8 @@ module.exports =
     _createClass(TimeRange, null, [{
       key: 'propTypes',
       value: {
-        clickHandler: _react.PropTypes.func.isRequired
+        clickHandler: _react.PropTypes.func.isRequired,
+        timeInterval: _react.PropTypes.number
       },
       enumerable: true
     }]);
@@ -4521,15 +4513,17 @@ module.exports =
   
       _get(Object.getPrototypeOf(TimeRange.prototype), 'constructor', this).call(this, props);
       this.clickHandler = this.props.clickHandler;
+      this.timeInterval = this.props.timeInterval;
     }
   
     _createClass(TimeRange, [{
       key: 'render',
       value: function render() {
         var items = [];
-        for (var i = 0; i < 12; i++) {
-          var start = i * 2;
-          var end = start + 2;
+        var timeSpan = 24 / this.timeInterval;
+        for (var i = 0; i < timeSpan; i++) {
+          var start = i * this.timeInterval;
+          var end = start + this.timeInterval;
           var range = start + ' - ' + end;
           items.push(_react2['default'].createElement(_Item2['default'], { key: end, range: range, clickHandler: this.clickHandler }));
         }
@@ -4711,7 +4705,7 @@ module.exports =
       key: 'updateData',
       value: function updateData(raw, isFirstNewDateUpdate) {
         var newData = this._dataTransform(raw);
-        console.log('should update isInitialUpdate: ' + isFirstNewDateUpdate);
+        // console.log('should update isInitialUpdate: ' + isFirstNewDateUpdate);
         if (isFirstNewDateUpdate) this.data.remove();
         this.data.add(newData);
         this.drawRowCharts(true);
@@ -5218,8 +5212,12 @@ module.exports =
         var values = _lodash2['default'].values(group);
         var max = _lodash2['default'].max(values);
         var transformedGrp = {};
+        var count = 0;
         _lodash2['default'].forOwn(group, function (value, key) {
-          if (value > Math.floor(max / 5)) transformedGrp[key] = value;
+          if (value > Math.floor(max / 7) && count < 6) {
+            transformedGrp[key] = value;
+            count++;
+          }
         });
         return transformedGrp;
       }

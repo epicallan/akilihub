@@ -36,7 +36,7 @@ export default class DataCenterPage extends Component {
     this.state = getStateFromStores();
     this.path = props.path;
     this.isInitialData = true;
-    this.timeInterval = 2;
+    this.timeInterval = 4;
     this.currentDate = null;
     this.getNewData = this.getNewData;
     this.isAlldata = false;
@@ -81,24 +81,26 @@ export default class DataCenterPage extends Component {
       if (event.data.length) {
         DataPageActions.update(event.data, this.isFirstNewDataPayload);
         if (this.isFirstNewDataPayload) this.isFirstNewDataPayload = false;
+      } else {
+        $('#loader').show();
+        // TODO alert('we are missing data for that date or time range');
       }
     };
   }
   onTimeClick = (range) => {
-    const [start] = range.split('-');
+    const end = range.split('-')[1];
     const now = new Date(this.currentDate);
     this.isFirstNewDataPayload = true;
-    // console.log(start);
-    now.setHours(parseInt(start, 10));
+    now.setHours(parseInt(end, 10));
     now.setMinutes(0);
-    // console.log(now);
+    $('.active').removeClass('active');
+    // this.rangeOfHoursToFetch(now);
     this.getNewData(now.getTime());
   }
 
   getNewData = (unixStartTime) => {
+    // highling currenly selected time node
     const numberOfWorkers = this.timeInterval;
-    // this.isFirstPayload = true;
-    // const hourParts = 24 / numberOfWorkers;
     const api = `http://${window.location.host}/api/social/twdata/?`;
     $('#loader').show();
     this.fetchDataUsingWorkers(unixStartTime, {
@@ -110,13 +112,14 @@ export default class DataCenterPage extends Component {
 
   getNewDateData = (unixDate) => {
     const now = new Date(unixDate);
+    // this.timeInterval = 2;
     // setting upper limit hour to 22hr
     now.setHours(12);
     this.currentDate = now;
     this.isFirstNewDataPayload = true;
-    const unixStartTime = now.getTime() - (this.timeInterval * this.hour);
     this.rangeOfHoursToFetch(now);
-    this.getNewData(unixStartTime);
+    // const unixStartTime = now.getTime() - (this.timeInterval * this.hour);
+    this.getNewData(now.getTime());
   }
 
   fetchDataUsingWorkers = (start, options) => {
@@ -139,11 +142,11 @@ export default class DataCenterPage extends Component {
       now.setHours(new Date().getHours() - 3);
     }
     // TODO hack
-    now.setHours(new Date().getHours() - 670);
-    console.log(`now : ${now}`);
+    // now.setHours(new Date().getHours() - 690);
     // higlight time
     const upperEndHour = this.rangeOfHoursToFetch(now);
     now.setHours(upperEndHour);
+    // console.log(`now : ${now}`);
     this.currentDate = now;
     const unixStartTime = now.getTime() - (this.timeInterval * this.hour);
     const api = `http://${window.location.host}/api/social/twdata/all/?`;
@@ -155,7 +158,8 @@ export default class DataCenterPage extends Component {
   }
 
   initialTimeNode(endHour) {
-    const startHour = endHour - this.timeInterval;
+    console.log(endHour);
+    const startHour = endHour < this.timeInterval ? endHour + this.timeInterval : endHour - this.timeInterval;
     const nodeName = `${startHour}-${endHour}`;
     console.log(nodeName);
     const node = document.getElementById(nodeName);
@@ -165,18 +169,11 @@ export default class DataCenterPage extends Component {
   rangeOfHoursToFetch = (now) => {
     let endHour = new Date(now).getHours();
     let node = this.initialTimeNode(endHour);
-    let hasSteppedDown = false;
     while (!node) {
       endHour -= 1;
       node = this.initialTimeNode(endHour);
-      hasSteppedDown = true;
     }
-    // partiallly color next element if exists
-    if (hasSteppedDown) {
-      const nodeParent = node.parentNode;
-      const nextElmParent = nodeParent.nextElementSibling;
-      if (nextElmParent) nextElmParent.firstChild.className += ' partial';
-    }
+    this.currentSelectedTimeNode = node;
     node.className += ' active';
     return endHour;
   }
@@ -261,13 +258,13 @@ export default class DataCenterPage extends Component {
                 <hr></hr>
               </article>
               <section className ={cx(s.charts, 'charts-dashboard')}>
-                <div className={cx('row', 'spacing-sm', s.chart)}>
-                   <div className="col-md-10 col-md-offset-1">
-                     <h4 className = 'text-center'>Select a time range for whose data you would like to fetch </h4>
-                     <TimeRange clickHandler = {this.onTimeClick} />
+                <div className={cx('row', s.timeRangeWidget, 'spacing-xsm', s.chart)}>
+                   <div className="col-md-6 col-md-offset-3">
+                     <h4>Select a time range for whose data you would like to fetch </h4>
+                     <TimeRange clickHandler = {this.onTimeClick} timeInterval = {this.timeInterval} />
                    </div>
                  </div>
-               <div className={cx('row', 'spacing-sm', s.chart)}>
+               <div className={cx('row', 'spacing-xsm', s.chart)}>
                   <div className="col-md-6">
                     <h4>Total volume of tweets For particular dates</h4>
                     <div id ="range"></div>
@@ -285,7 +282,7 @@ export default class DataCenterPage extends Component {
                     <Loader />
                   </div>
                 </div>
-                <div className={cx('row', 'spacing-sm', s.chart)}>
+                <div className={cx('row', 'spacing-xsm', s.chart)}>
                   <div className="col-md-4">
                       <h4 >Twitter Mentions Per Hour</h4>
                       <div id ="composite" className ="row"></div>
@@ -304,7 +301,7 @@ export default class DataCenterPage extends Component {
                     <div id ="terms"></div>
                   </div>
                 </div>
-                <div className={cx('row', 'spacing-sm', s.chart)}>
+                <div className={cx('row', 'spacing-xsm', s.chart)}>
                   <div className = "col-md-8" ref="mapCont" id="mapCont">
                     <h4> Geolocating possible source of tweets</h4>
                     <div id ="map" className = {s.chart} ref="map" style={divStyle} > </div>
@@ -314,7 +311,7 @@ export default class DataCenterPage extends Component {
                       <div id= "pie"></div>
                   </div>
                 </div>
-               <div className={cx('row', 'spacing-sm', s.chart)}>
+               <div className={cx('row', 'spacing-xsm', s.chart)}>
                   <div className = "col-md-11 table-cont">
                     <h3> Twitter data tables</h3>
                       <table id ="table" className = {cx('table', 'table-hover', 'table-bordered', 'rt', 'cf')}>

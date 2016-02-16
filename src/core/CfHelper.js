@@ -120,8 +120,12 @@ class CfHelper {
     const values = _.values(group);
     const max = _.max(values);
     const transformedGrp = {};
+    let count = 0;
     _.forOwn(group, function (value, key) {
-      if (value > Math.floor(max / 5)) transformedGrp[key] = value;
+      if (value > Math.floor(max / 7) && count < 6) {
+        transformedGrp[key] = value;
+        count ++;
+      }
     });
     return transformedGrp;
   }
