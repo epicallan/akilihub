@@ -3512,7 +3512,7 @@ module.exports =
           now.setHours(new Date().getHours() - 3);
         }
         // TODO hack
-        now.setHours(new Date().getHours() - 710);
+        // now.setHours(new Date().getHours() - 710);
         // higlight time
         var upperEndHour = _this.rangeOfHoursToFetch(now);
         if (upperEndHour) now.setHours(upperEndHour);
