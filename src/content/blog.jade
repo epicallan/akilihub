@@ -2,14 +2,41 @@
 title: Blog
 component: ContentPage
 ---
-p.
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean consequat
-  tortor fermentum mi fermentum dignissim. Nullam vel ipsum ut ligula elementum
-  lobortis. Maecenas aliquam, massa laoreet lacinia pretium, nisi urna venenatis
-p.
-  tortor, nec imperdiet tellus libero efficitur metus. Fusce semper posuere
-  ligula, et facilisis metus bibendum interdum. Mauris at mauris sit amet sem
-  pharetra commodo a eu leo. Nam at est non risus cursus maximus. Nam feugiat
-p.
-  augue libero, id consectetur tortor bibendum non. Quisque nec fringilla lorem.
-  Nullam efficitur vulputate mauris, nec maximus leo dignissim id.
+article.spacing-xsm
+  P.
+    Creating the twitter data Visualisation dashboard on the presidential race in Uganda
+    has been a two pronged process.
+    One Part invloved getting the twitter data (data mining), tranforming and cleaning it up and
+    visualising it on a web app.
+  P.
+    For data mining the twitter data we made use of the twitter streaming api and for the curious 
+    the code is available on.
+  a(href='https://github.com/epicallan/data-mining') github 
+  h5.spacing-xsm
+    | Identifying Tweet Sentiments and Terms
+  P.  
+    Inorder to identify what was the most common sentiment expressed with in the tweets we decided to
+    take a look at the most common adjectives people were using to convey the messages with in their 
+    tweets, and then we would plot the top 5.
+  P.
+    Simillar steps were taken for Identifying the most used terms in all the tweets of a particular
+    time range and date. For terms we would look out for the most common nouns with in the tweets while 
+    excluding name of people.
+  h5.spacing-xsm
+    | Identifying Possible geospatial location of tweets
+  P.
+    Its common knowledge that alot of twitter users dont turn on geotagging on their tweets. Therefore
+    in order to approximate the geospatial location of most tweets, we would use the user provided location
+    of the twitter user which they provid in their profile information.
+  P.
+    In some cases we would use the time zone information provided in tweets to approximate the possible geospatial
+    location of the tweets.
+  h5.spacing-xsm
+    | Putting it all together.
+  P.
+    The twitter dashboard and the website on which its hosted as been an interesting web develpment 
+    data mining and data analytics challeng that allowed us to explore new clever ways of solving 
+    certain tasks in software develpment.
+  P.
+    Our hope is people get to play with the dashboard and gain some insight into the twitter data on the 
+    uganda presidential election process.

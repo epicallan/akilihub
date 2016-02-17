@@ -36,8 +36,14 @@ async function aggregateData() {
 
 export default async function job() {
   const data = await aggregateData();
-  // console.log(data);
-  client.set('tw', JSON.stringify(data), (err, res) => {
+  const aggregate = data.map(d => {
+    return {
+      tweets: d.value,
+      date: d.key,
+    };
+  });
+  // console.log(aggregate);
+  client.set('tw', JSON.stringify(aggregate), (err, res) => {
     if (err) throw new Error(err);
     /* eslint-disable no-console*/
     console.log(`completed job ${new Date()} ${res}`);

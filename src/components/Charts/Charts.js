@@ -301,8 +301,8 @@ export default class DcCharts {
       data: {
         json: data,
         keys: {
-          x: 'key',
-          value: ['value'],
+          x: 'date',
+          value: ['tweets'],
         },
         type: 'bar',
         onclick: (d, element) => {
@@ -322,6 +322,10 @@ export default class DcCharts {
           type: 'timeseries',
           tick: {
             format: '%m-%d',
+          },
+          label: {
+            text: 'Dates',
+            position: 'outer-middle',
           },
         },
         y: {

@@ -437,10 +437,6 @@ module.exports =
   exports['default'] = router;
   module.exports = exports['default'];
 
-  // const response = await fetch('/api/social/twdata');
-  // const data = await response.json();
-  // initalDataFetch(3);
-
 /***/ },
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
@@ -3092,7 +3088,7 @@ module.exports =
                 _react2['default'].createElement(
                   _Link2['default'],
                   { className: _BlogPageScss2['default'].link, to: '/blog' },
-                  'Future Blog Category'
+                  'Data Visualisation'
                 )
               )
             )
@@ -3103,37 +3099,64 @@ module.exports =
             { className: (0, _classnames2['default'])(_BlogPageScss2['default'].container) },
             _react2['default'].createElement(
               'div',
-              { className: (0, _classnames2['default'])('col-md-9', _BlogPageScss2['default'].main) },
+              { className: (0, _classnames2['default'])(_BlogPageScss2['default'].main) },
               _react2['default'].createElement(
                 'div',
                 { className: 'row spacing' },
                 _react2['default'].createElement(
-                  'article',
-                  { className: (0, _classnames2['default'])('articles') },
+                  'div',
+                  { className: 'col-md-9' },
+                  _react2['default'].createElement(
+                    'article',
+                    { className: (0, _classnames2['default'])('articles') },
+                    _react2['default'].createElement(
+                      'header',
+                      null,
+                      _react2['default'].createElement(
+                        'h2',
+                        null,
+                        ' Twitter data Visualisation Dashboard: The hows and whats '
+                      )
+                    ),
+                    _react2['default'].createElement(
+                      'div',
+                      { className: 'text-justify' },
+                      _react2['default'].createElement('div', { className: 'text-justify', dangerouslySetInnerHTML: { __html: this.props.content || '' } })
+                    ),
+                    _react2['default'].createElement('hr', null)
+                  )
+                ),
+                _react2['default'].createElement(
+                  'div',
+                  { className: (0, _classnames2['default'])('col-md-3', _BlogPageScss2['default'].sidebar) },
                   _react2['default'].createElement(
                     'header',
-                    null,
+                    { className: 'row' },
                     _react2['default'].createElement(
                       'h3',
                       null,
-                      ' Future Title For A Cool Blog'
-                    )
+                      'Top Articles'
+                    ),
+                    _react2['default'].createElement('hr', null)
                   ),
                   _react2['default'].createElement(
-                    'div',
-                    { className: 'text-justify' },
+                    'section',
+                    null,
                     _react2['default'].createElement(
-                      'p',
-                      null,
-                      'Coming soon.........'
+                      'div',
+                      { className: 'row spacing' },
+                      _react2['default'].createElement(
+                        'header',
+                        null,
+                        _react2['default'].createElement(
+                          _Link2['default'],
+                          { className: _BlogPageScss2['default'].link, to: '/blog' },
+                          ' Twitter data Visualisation Dashboard'
+                        )
+                      ),
+                      _react2['default'].createElement('hr', null)
                     )
-                  ),
-                  _react2['default'].createElement(
-                    'a',
-                    { href: '#' },
-                    ' Read more'
-                  ),
-                  _react2['default'].createElement('hr', null)
+                  )
                 )
               )
             )
@@ -3521,8 +3544,13 @@ module.exports =
   
   var _TimeRange2 = _interopRequireDefault(_TimeRange);
   
+  var _moment = __webpack_require__(74);
+  
+  var _moment2 = _interopRequireDefault(_moment);
+  
   var isBrowser = typeof window !== 'undefined';
-  var Charts = isBrowser ? __webpack_require__(74) : undefined;
+  
+  var Charts = isBrowser ? __webpack_require__(75) : undefined;
   // import $ from 'jquery';
   // import testData from './data';
   
@@ -3573,8 +3601,8 @@ module.exports =
             _actionsDataPageActions2['default'].update(event.data, _this.isFirstNewDataPayload);
             if (_this.isFirstNewDataPayload) _this.isFirstNewDataPayload = false;
           } else {
-            $('#loader').show();
-            // TODO alert('we are missing data for that date or time range');
+            $('#loader').hide();
+            // alert('we may not be having some or all the date for this time range or date');
           }
         };
       };
@@ -3634,11 +3662,11 @@ module.exports =
           now.setHours(new Date().getHours() - 3);
         }
         // TODO hack
-        // now.setHours(new Date().getHours() - 690);
+        now.setHours(new Date().getHours() - 710);
         // higlight time
         var upperEndHour = _this.rangeOfHoursToFetch(now);
-        now.setHours(upperEndHour);
-        // console.log(`now : ${now}`);
+        if (upperEndHour) now.setHours(upperEndHour);
+        console.log('now : ' + now);
         _this.currentDate = now;
         var unixStartTime = now.getTime() - _this.timeInterval * _this.hour;
         var api = 'http://' + window.location.host + '/api/social/twdata/all/?';
@@ -3654,10 +3682,16 @@ module.exports =
         var node = _this.initialTimeNode(endHour);
         while (!node) {
           endHour -= 1;
+          _this.nodeNameCounter++;
+          // arbitrary set our node time to avoid a stack overflow issue
           node = _this.initialTimeNode(endHour);
+          if (_this.nodeNameCounter > _this.timeInterval) {
+            endHour = null;
+            break;
+          }
         }
-        _this.currentSelectedTimeNode = node;
-        node.className += ' active';
+        _this.nodeNameCounter = 0;
+        if (endHour && node) node.className += ' active';
         return endHour;
       };
   
@@ -3754,6 +3788,12 @@ module.exports =
                         null,
                         'Select a time range for whose data you would like to fetch '
                       ),
+                      _react2['default'].createElement(
+                        'p',
+                        null,
+                        'Viewing Data for : ',
+                        _this.currentMomentDate()
+                      ),
                       _react2['default'].createElement(_TimeRange2['default'], { clickHandler: _this.onTimeClick, timeInterval: _this.timeInterval })
                     )
                   ),
@@ -3771,17 +3811,16 @@ module.exports =
                       _react2['default'].createElement('div', { id: 'range' }),
                       _react2['default'].createElement(
                         'div',
-                        { className: _DataPageScss2['default'].timeRange },
+                        { className: _DataPageScss2['default'].description },
                         _react2['default'].createElement(
                           'small',
                           null,
-                          ' ',
-                          _react2['default'].createElement(
-                            'i',
-                            null,
-                            'click on a bar to fetch in data for that date '
-                          ),
-                          ' '
+                          ' This chart reperesents total number of mined tweets for particular dates '
+                        ),
+                        _react2['default'].createElement(
+                          'small',
+                          null,
+                          'click on a bar to fetch in data for that date '
                         )
                       )
                     ),
@@ -3791,9 +3830,18 @@ module.exports =
                       _react2['default'].createElement(
                         'h4',
                         null,
-                        'Identifying tweet sentiments'
+                        'Identifying twitter data sentiments'
                       ),
-                      _react2['default'].createElement('div', { id: 'emotions' })
+                      _react2['default'].createElement('div', { id: 'emotions' }),
+                      _react2['default'].createElement(
+                        'div',
+                        { className: _DataPageScss2['default'].description },
+                        _react2['default'].createElement(
+                          'small',
+                          null,
+                          ' words that are used in conveying emotions are extracted from each tweet and the most common top 5 words are plotted with their frequency'
+                        )
+                      )
                     )
                   ),
                   _react2['default'].createElement(
@@ -3959,7 +4007,9 @@ module.exports =
       this.path = props.path;
       this.isInitialData = true;
       this.timeInterval = 4;
+      this.nodeNameCounter = 0;
       this.currentDate = null;
+      this.momentDate = null;
       this.getNewData = this.getNewData;
       this.isAlldata = false;
     }
@@ -3983,7 +4033,7 @@ module.exports =
           this.charts.updateData(nextState.newData, nextState.isInitialNewDataUpdate);
           this.charts.reRender();
         }
-        return false;
+        return true;
       }
     }, {
       key: 'componentWillUnmount',
@@ -3995,10 +4045,8 @@ module.exports =
     }, {
       key: 'initialTimeNode',
       value: function initialTimeNode(endHour) {
-        console.log(endHour);
         var startHour = endHour < this.timeInterval ? endHour + this.timeInterval : endHour - this.timeInterval;
         var nodeName = startHour + '-' + endHour;
-        console.log(nodeName);
         var node = document.getElementById(nodeName);
         return node;
       }
@@ -4015,6 +4063,16 @@ module.exports =
           width: width + 'px',
           height: height + 'px'
         };
+      }
+    }, {
+      key: 'currentMomentDate',
+      value: function currentMomentDate() {
+        var date = null;
+        if (this.currentDate) {
+          var momentDate = (0, _moment2['default'])(new Date(this.currentDate));
+          date = momentDate.format('ddd MMM Do');
+        }
+        return date;
       }
     }, {
       key: 'renderCharts',
@@ -4083,13 +4141,13 @@ module.exports =
   
   
   // module
-  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.DataPage_root_1Bn {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n}\n.DataPage_root_1Bn table {margin: 0 auto;}\n.DataPage_root_1Bn h2 {color: #6B6969;}\n.DataPage_chart_2dW{\n  opacity: 0;\n}\n.DataPage_timeRange_1i6{ padding-left: 3em}\n.DataPage_timeRangeWidget_3ft h4 {margin-bottom: 1em}\n.DataPage_main_1GV {\n  margin-right: solid 1px;\n  background-color: white;;\n}\n.DataPage_main_1GV hr {color: #777;}\n.DataPage_main_1GV h3 {color: #374048;padding-bottom: 2em;}\n.DataPage_spacing_pJZ {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.DataPage_sidebar_2cr h3, .DataPage_sidebar_2cr a {\n  padding-left: 1em;\n}\n\ntable{\n  font-size: 0.9em;\n}\n\ntable span{display: none}\n.DataPage_legend_2e1 {\n  padding-left: 2em;\n}\n.DataPage_legend_2e1 small{\n  text-align: right;\n}\n.DataPage_legend_2e1 i{\n  width: 4em;\n  height: 1px;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.DataPage_yellow_30z i{\n  color: yellow;\n}\n.DataPage_blue_1Bj i{\n  color: blue;\n}\n.DataPage_orange_36J i{\n  color: orange;\n}\n", ""]);
+  exports.push([module.id, "/**variables*/\n\n//headers\nh1{font-size:1.35em}\nh2{font-size:1.2em}\nh3{font-size:1.1em}\np{font-size: 0.9em}\n/*\n * Colors\n * ========================================================================== */ /* #222 */   /* #404040 */ /* #555 */ /* #777 */ /* #eee */\n\n/*\n * Typography\n * ========================================================================== */\n\n/*\n * Layout\n * ========================================================================== */\n\n/*\n * Media queries breakpoints\n * ========================================================================== */  /* Extra small screen / phone */  /* Small screen / tablet */  /* Medium screen / desktop */ /* Large screen / wide desktop */\n\n/*\n * Animations\n * ========================================================================== */\n.DataPage_root_1Bn {\n  margin-top: 2em;\n  color: #777;\n  background-color: white;\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n}\n.DataPage_root_1Bn table {margin: 0 auto;}\n.DataPage_root_1Bn h2 {color: #6B6969;}\n.DataPage_chart_2dW{\n  opacity: 0;\n}\n.DataPage_description_3oi{ padding-left: 3em; float: left;}\n.DataPage_timeRangeWidget_3ft h4 {margin-bottom: 1em}\n.DataPage_main_1GV {\n  margin-right: solid 1px;\n  background-color: white;;\n}\n.DataPage_main_1GV hr {color: #777;}\n.DataPage_main_1GV h3 {color: #374048;padding-bottom: 2em;}\n.DataPage_spacing_pJZ {\n  margin-top: 5em;\n  margin-bottom: 1em;\n}\n.DataPage_sidebar_2cr h3, .DataPage_sidebar_2cr a {\n  padding-left: 1em;\n}\n\ntable{\n  font-size: 0.9em;\n}\n\ntable span{display: none}\n.DataPage_legend_2e1 {\n  padding-left: 2em;\n}\n.DataPage_legend_2e1 small{\n  text-align: right;\n}\n.DataPage_legend_2e1 i{\n  width: 4em;\n  height: 1px;\n  margin-left: 2em;\n  border: solid;\n  text-align: center;\n  display: inline-block;\n}\n.DataPage_yellow_30z i{\n  color: yellow;\n}\n.DataPage_blue_1Bj i{\n  color: blue;\n}\n.DataPage_orange_36J i{\n  color: orange;\n}\n", ""]);
   
   // exports
   exports.locals = {
   	"root": "DataPage_root_1Bn",
   	"chart": "DataPage_chart_2dW",
-  	"timeRange": "DataPage_timeRange_1i6",
+  	"description": "DataPage_description_3oi",
   	"timeRangeWidget": "DataPage_timeRangeWidget_3ft",
   	"main": "DataPage_main_1GV",
   	"spacing": "DataPage_spacing_pJZ",
@@ -4610,6 +4668,12 @@ module.exports =
 
 /***/ },
 /* 74 */
+/***/ function(module, exports) {
+
+  module.exports = require("moment");
+
+/***/ },
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -4624,17 +4688,17 @@ module.exports =
   
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
   
-  var _dc = __webpack_require__(75);
+  var _dc = __webpack_require__(76);
   
   var _dc2 = _interopRequireDefault(_dc);
   
-  var _coreCfHelper = __webpack_require__(80);
+  var _coreCfHelper = __webpack_require__(81);
   
   var _coreCfHelper2 = _interopRequireDefault(_coreCfHelper);
   
-  __webpack_require__(83);
+  __webpack_require__(84);
   
-  var _moment = __webpack_require__(84);
+  var _moment = __webpack_require__(74);
   
   var _moment2 = _interopRequireDefault(_moment);
   
@@ -4938,8 +5002,8 @@ module.exports =
           data: {
             json: data,
             keys: {
-              x: 'key',
-              value: ['value']
+              x: 'date',
+              value: ['tweets']
             },
             type: 'bar',
             onclick: function onclick(d, element) {
@@ -4959,6 +5023,10 @@ module.exports =
               type: 'timeseries',
               tick: {
                 format: '%m-%d'
+              },
+              label: {
+                text: 'Dates',
+                position: 'outer-middle'
               }
             },
             y: {
@@ -4979,7 +5047,7 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 75 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -4990,17 +5058,17 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _dc2 = __webpack_require__(76);
+  var _dc2 = __webpack_require__(77);
   
   var _dc3 = _interopRequireDefault(_dc2);
   
-  var _leaflet = __webpack_require__(77);
+  var _leaflet = __webpack_require__(78);
   
   var _leaflet2 = _interopRequireDefault(_leaflet);
   
-  __webpack_require__(78);
+  __webpack_require__(79);
   
-  var _dcAddons = __webpack_require__(79);
+  var _dcAddons = __webpack_require__(80);
   
   var _dcAddons2 = _interopRequireDefault(_dcAddons);
   
@@ -5009,31 +5077,31 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 76 */
+/* 77 */
 /***/ function(module, exports) {
 
   module.exports = require("dc");
 
 /***/ },
-/* 77 */
+/* 78 */
 /***/ function(module, exports) {
 
   module.exports = require("leaflet");
 
 /***/ },
-/* 78 */
+/* 79 */
 /***/ function(module, exports) {
 
   module.exports = require("leaflet.markercluster");
 
 /***/ },
-/* 79 */
+/* 80 */
 /***/ function(module, exports) {
 
   module.exports = require("dc-addons");
 
 /***/ },
-/* 80 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
   /**
@@ -5051,11 +5119,11 @@ module.exports =
   
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
   
-  var _crossfilter2 = __webpack_require__(81);
+  var _crossfilter2 = __webpack_require__(82);
   
   var _crossfilter22 = _interopRequireDefault(_crossfilter2);
   
-  var _lodash = __webpack_require__(82);
+  var _lodash = __webpack_require__(83);
   
   var _lodash2 = _interopRequireDefault(_lodash);
   
@@ -5214,7 +5282,7 @@ module.exports =
         var transformedGrp = {};
         var count = 0;
         _lodash2['default'].forOwn(group, function (value, key) {
-          if (value > Math.floor(max / 7) && count < 6) {
+          if (value > Math.floor(max / 8) && count < 6) {
             transformedGrp[key] = value;
             count++;
           }
@@ -5250,28 +5318,22 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 81 */
+/* 82 */
 /***/ function(module, exports) {
 
   module.exports = require("crossfilter2");
 
 /***/ },
-/* 82 */
+/* 83 */
 /***/ function(module, exports) {
 
   module.exports = require("lodash");
 
 /***/ },
-/* 83 */
-/***/ function(module, exports) {
-
-  module.exports = require("datatables");
-
-/***/ },
 /* 84 */
 /***/ function(module, exports) {
 
-  module.exports = require("moment");
+  module.exports = require("datatables");
 
 /***/ },
 /* 85 */
@@ -6603,11 +6665,11 @@ module.exports =
   
   var _modelsTwitter2 = _interopRequireDefault(_modelsTwitter);
   
-  var _crossfilter2 = __webpack_require__(81);
+  var _crossfilter2 = __webpack_require__(82);
   
   var _crossfilter22 = _interopRequireDefault(_crossfilter2);
   
-  var _moment = __webpack_require__(84);
+  var _moment = __webpack_require__(74);
   
   var _moment2 = _interopRequireDefault(_moment);
   
@@ -6675,7 +6737,7 @@ module.exports =
   }
   
   exports['default'] = function job() {
-    var data;
+    var data, aggregate;
     return regeneratorRuntime.async(function job$(context$1$0) {
       while (1) switch (context$1$0.prev = context$1$0.next) {
         case 0:
@@ -6684,15 +6746,21 @@ module.exports =
   
         case 2:
           data = context$1$0.sent;
+          aggregate = data.map(function (d) {
+            return {
+              tweets: d.value,
+              date: d.key
+            };
+          });
   
-          // console.log(data);
-          client.set('tw', JSON.stringify(data), function (err, res) {
+          // console.log(aggregate);
+          client.set('tw', JSON.stringify(aggregate), function (err, res) {
             if (err) throw new Error(err);
             /* eslint-disable no-console*/
             console.log('completed job ' + new Date() + ' ' + res);
           });
   
-        case 4:
+        case 5:
         case 'end':
           return context$1$0.stop();
       }

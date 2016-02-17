@@ -122,7 +122,7 @@ class CfHelper {
     const transformedGrp = {};
     let count = 0;
     _.forOwn(group, function (value, key) {
-      if (value > Math.floor(max / 7) && count < 6) {
+      if (value > Math.floor(max / 8) && count < 6) {
         transformedGrp[key] = value;
         count ++;
       }

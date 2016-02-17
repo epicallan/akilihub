@@ -21,9 +21,6 @@ const router = new Router(on => {
   on('/data', async(state) => {
     const res = await fetch(`/api/content?path=${state.path}`);
     const html = await res.json();
-    // const response = await fetch('/api/social/twdata');
-    // const data = await response.json();
-    // initalDataFetch(3);
     return <DataPage {...html} />;
   });
 

@@ -9,6 +9,7 @@ import Worker from 'worker!../../worker';
 import Loader from '../Loader';
 import TimeRange from './TimeRange';
 const isBrowser = typeof window !== 'undefined';
+import moment from 'moment';
 const Charts = isBrowser ? require('../Charts') : undefined;
 // import $ from 'jquery';
 // import testData from './data';
@@ -37,7 +38,9 @@ export default class DataCenterPage extends Component {
     this.path = props.path;
     this.isInitialData = true;
     this.timeInterval = 4;
+    this.nodeNameCounter = 0;
     this.currentDate = null;
+    this.momentDate = null;
     this.getNewData = this.getNewData;
     this.isAlldata = false;
   }
@@ -57,7 +60,7 @@ export default class DataCenterPage extends Component {
       this.charts.updateData(nextState.newData, nextState.isInitialNewDataUpdate);
       this.charts.reRender();
     }
-    return false;
+    return true;
   }
 
   componentWillUnmount() {
@@ -82,8 +85,8 @@ export default class DataCenterPage extends Component {
         DataPageActions.update(event.data, this.isFirstNewDataPayload);
         if (this.isFirstNewDataPayload) this.isFirstNewDataPayload = false;
       } else {
-        $('#loader').show();
-        // TODO alert('we are missing data for that date or time range');
+        $('#loader').hide();
+        // alert('we may not be having some or all the date for this time range or date');
       }
     };
   }
@@ -142,11 +145,11 @@ export default class DataCenterPage extends Component {
       now.setHours(new Date().getHours() - 3);
     }
     // TODO hack
-    // now.setHours(new Date().getHours() - 690);
+    now.setHours(new Date().getHours() - 710);
     // higlight time
     const upperEndHour = this.rangeOfHoursToFetch(now);
-    now.setHours(upperEndHour);
-    // console.log(`now : ${now}`);
+    if (upperEndHour) now.setHours(upperEndHour);
+    console.log(`now : ${now}`);
     this.currentDate = now;
     const unixStartTime = now.getTime() - (this.timeInterval * this.hour);
     const api = `http://${window.location.host}/api/social/twdata/all/?`;
@@ -158,10 +161,8 @@ export default class DataCenterPage extends Component {
   }
 
   initialTimeNode(endHour) {
-    console.log(endHour);
     const startHour = endHour < this.timeInterval ? endHour + this.timeInterval : endHour - this.timeInterval;
     const nodeName = `${startHour}-${endHour}`;
-    console.log(nodeName);
     const node = document.getElementById(nodeName);
     return node;
   }
@@ -171,10 +172,16 @@ export default class DataCenterPage extends Component {
     let node = this.initialTimeNode(endHour);
     while (!node) {
       endHour -= 1;
+      this.nodeNameCounter ++;
+      // arbitrary set our node time to avoid a stack overflow issue
       node = this.initialTimeNode(endHour);
+      if (this.nodeNameCounter > this.timeInterval) {
+        endHour = null;
+        break;
+      }
     }
-    this.currentSelectedTimeNode = node;
-    node.className += ' active';
+    this.nodeNameCounter = 0;
+    if (endHour && node) node.className += ' active';
     return endHour;
   }
 
@@ -218,7 +225,14 @@ export default class DataCenterPage extends Component {
       height: `${height}px`,
     };
   }
-
+  currentMomentDate() {
+    let date = null;
+    if (this.currentDate) {
+      const momentDate = moment(new Date(this.currentDate));
+      date = momentDate.format('ddd MMM Do');
+    }
+    return date;
+  }
   renderCharts() {
     // TODO fall back incase the first batch of received ata is empty
     if (this.state.data.length && !this.charts) {
@@ -261,6 +275,7 @@ export default class DataCenterPage extends Component {
                 <div className={cx('row', s.timeRangeWidget, 'spacing-xsm', s.chart)}>
                    <div className="col-md-6 col-md-offset-3">
                      <h4>Select a time range for whose data you would like to fetch </h4>
+                     <p>Viewing Data for : {this.currentMomentDate()}</p>
                      <TimeRange clickHandler = {this.onTimeClick} timeInterval = {this.timeInterval} />
                    </div>
                  </div>
@@ -268,13 +283,19 @@ export default class DataCenterPage extends Component {
                   <div className="col-md-6">
                     <h4>Total volume of tweets For particular dates</h4>
                     <div id ="range"></div>
-                    <div className ={s.timeRange}>
-                      <small> <i>click on a bar to fetch in data for that date </i> </small>
+                    <div className ={s.description}>
+                      <small> This chart reperesents total number of mined tweets for particular dates </small>
+                      <small>click on a bar to fetch in data for that date </small>
                     </div>
                   </div>
                  <div className= "col-md-6" >
-                    <h4>Identifying tweet sentiments</h4>
+                    <h4>Identifying twitter data sentiments</h4>
                     <div id ="emotions"></div>
+                    <div className ={s.description}>
+                      <small> words that are used in conveying emotions are extracted from each tweet and the most
+                        common top 5 words are plotted with their frequency
+                      </small>
+                    </div>
                   </div>
                 </div>
                 <div className= "row">

@@ -37,24 +37,39 @@ export default class AboutPage extends Component {
         <header className = "row">
             <ul id = "sub-menu-override" className={cx('nav', 'navbar-nav', 'navbar-center', 'sub-menu', s.nav)}>
               <li>
-                  <Link className={s.link} to="/blog">Future Blog Category</Link>
+                  <Link className={s.link} to="/blog">Data Visualisation</Link>
               </li>
             </ul>
         </header>
         <hr></hr>
         <section className= {cx(s.container)}>
-          <div className= {cx('col-md-9', s.main)}>
+          <div className= {cx(s.main)}>
             <div className ="row spacing">
-              <article className={cx('articles')}>
-                <header>
-                  <h3> Future Title For A Cool Blog</h3>
+              <div className = "col-md-9">
+                <article className={cx('articles')}>
+                  <header>
+                    <h2> Twitter data Visualisation Dashboard: The hows and whats </h2>
+                  </header>
+                  <div className="text-justify">
+                    <div className="text-justify" dangerouslySetInnerHTML={{ __html: this.props.content || '' }}></div>
+                  </div>
+                  <hr></hr>
+                </article>
+              </div>
+              <div className= {cx('col-md-3', s.sidebar)}>
+                <header className= "row">
+                  <h3>Top Articles</h3>
+                  <hr></hr>
                 </header>
-                <div className="text-justify">
-                  <p>Coming soon.........</p>
-                </div>
-                <a href="#"> Read more</a>
-                <hr></hr>
-              </article>
+                <section>
+                  <div className = "row spacing">
+                    <header>
+                      <Link className={s.link} to="/blog"> Twitter data Visualisation Dashboard</Link>
+                    </header>
+                    <hr></hr>
+                  </div>
+                </section>
+              </div>
             </div>
           </div>
         </section>
