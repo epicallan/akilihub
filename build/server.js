@@ -3517,7 +3517,7 @@ module.exports =
           now.setHours(new Date().getHours() - 3);
         }
         // TODO hack
-        // now.setHours(new Date().getHours() - 730);
+        // now.setHours(new Date().getHours() - 8);
         // higlight time
         _this.rangeOfHoursToFetch(now);
         // if (upperEndHour) now.setHours(upperEndHour);
@@ -6904,8 +6904,8 @@ module.exports =
   var _config = __webpack_require__(14);
   
   var client = _redis2['default'].createClient(_config.REDIS_PORT, _config.REDIS_ADDR);
-  // const mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika', 'mabirizi', 'biraro'];
-  var mentions = ['museveni', 'besigye', 'mbabazi'];
+  var mentions = ['museveni', 'besigye', 'mbabazi', 'baryamureeba', 'bwanika', 'mabirizi', 'biraaro', 'jpam', 'abed'];
+  // const mentions = ['museveni', 'besigye', 'mbabazi'];
   var exludedFields = '-_id -__v -has_user_mentions -geo_enabled -time_zone -approximated_geo ';
   exludedFields += '-favorite_count -user_id -retweet_count -has_hashtags -is_retweet -is_reply';
   var saved = 0;
@@ -6931,15 +6931,15 @@ module.exports =
     return tweet;
   }
   
-  /* function _excludeNamesInTerms(tweet) {
-    mentions.forEach((mention) => {
-      tweet.terms.forEach((term, index, arr) => {
-        const isName = term.toLowerCase().includes(mention);
+  function _excludeNamesInTerms(tweet) {
+    mentions.forEach(function (mention) {
+      tweet.terms.forEach(function (term, index, arr) {
+        var isName = term.toLowerCase().includes(mention);
         if (isName) arr.splice(index, 1);
       });
     });
     return tweet;
-  }*/
+  }
   
   function saveTweets(data, cb) {
     _async3['default'].each(data, function (d, callback) {
@@ -6964,10 +6964,9 @@ module.exports =
     return raw.map(function (tweet) {
       // const tweet = d.toObject();
       tweet.text = tweet.text.toLowerCase();
-      // _excludeInUserMentions(tweet);
       // tweet.sentiment = _.ceil(tweet.sentiment, 2) || tweet.sentiment;
       _addNamesToTweet(tweet);
-      // _excludeNamesInTerms(tweet);
+      _excludeNamesInTerms(tweet);
       return tweet;
     });
   }

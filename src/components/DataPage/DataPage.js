@@ -172,7 +172,7 @@ export default class DataCenterPage extends Component {
       now.setHours(new Date().getHours() - 3);
     }
     // TODO hack
-    // now.setHours(new Date().getHours() - 730);
+    // now.setHours(new Date().getHours() - 8);
     // higlight time
     this.rangeOfHoursToFetch(now);
     // if (upperEndHour) now.setHours(upperEndHour);
