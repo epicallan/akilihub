@@ -6428,7 +6428,6 @@ module.exports =
             _react2['default'].createElement('meta', { name: 'description', content: this.props.description }),
             _react2['default'].createElement('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' }),
             _react2['default'].createElement('link', { href: 'https://fonts.googleapis.com/css?family=Lato\' rel=\'stylesheet\' type=\'text/css' }),
-            _react2['default'].createElement('link', { rel: 'apple-touch-icon', href: 'apple-touch-icon.png' }),
             _react2['default'].createElement('link', { rel: 'stylesheet', href: 'screen.css' }),
             _react2['default'].createElement('link', { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' }),
             _react2['default'].createElement('link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.min.css' }),

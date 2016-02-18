@@ -36,7 +36,6 @@ class Html extends Component {
         <meta name="description" content={this.props.description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link href="https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css" />
-        <link rel="apple-touch-icon" href="apple-touch-icon.png" />
         <link rel="stylesheet" href= "screen.css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.min.css" />
