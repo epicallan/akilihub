@@ -6,11 +6,12 @@ article.spacing-xsm
   P.
     Creating the twitter data Visualisation dashboard on the presidential race in Uganda
     has been a two pronged process.
-    One Part invloved getting the twitter data (data mining), tranforming and cleaning it up and
-    visualising it on a web app.
+    One Part invloving getting the twitter data (data mining), cleaning up, tranforming, analysing and
+    eventually visualising it on a web application.
   P.
-    For data mining the twitter data we made use of the twitter streaming api and for the curious 
-    the code is available on.
+    For data mining the twitter data we made use of the twitter streaming api, and put together keywords
+    that would represent the kind of tweets we would like to obtain from twitter. 
+    for the curious the code is available on.
   a(href='https://github.com/epicallan/data-mining') github 
   h5.spacing-xsm
     | Identifying Tweet Sentiments and Terms
@@ -19,24 +20,25 @@ article.spacing-xsm
     take a look at the most common adjectives people were using to convey the messages with in their 
     tweets, and then we would plot the top 5.
   P.
-    Simillar steps were taken for Identifying the most used terms in all the tweets of a particular
-    time range and date. For terms we would look out for the most common nouns with in the tweets while 
-    excluding name of people.
+    Simillar steps were taken in Identifying the most common used terms in all the tweets of a particular
+    time range and date. 
+    This involved looking out for the most common nouns with in tweets while excluding name of people.
   h5.spacing-xsm
     | Identifying Possible geospatial location of tweets
   P.
-    Its common knowledge that alot of twitter users dont turn on geotagging on their tweets. Therefore
-    in order to approximate the geospatial location of most tweets, we would use the user provided location
-    of the twitter user which they provid in their profile information.
+    Its common knowledge that alot of twitter users dont turn on geotagging on their tweets making it hard
+    to geo tag their tweets. 
+    Therefore in order to approximate the geospatial location of most tweets, we would use a twitter user's
+    provided location in their profile information in geo tagging the tweets that lacked geotagging.
   P.
     In some cases we would use the time zone information provided in tweets to approximate the possible geospatial
     location of the tweets.
   h5.spacing-xsm
     | Putting it all together.
   P.
-    The twitter dashboard and the website on which its hosted as been an interesting web develpment 
-    data mining and data analytics challeng that allowed us to explore new clever ways of solving 
+    The twitter dashboard and the website on which its hosted as been an interesting web develpment, 
+    data mining and data analytics challenge that allowed us to explore new clever ways of solving 
     certain tasks in software develpment.
   P.
-    Our hope is people get to play with the dashboard and gain some insight into the twitter data on the 
+    Our hope is that people get to play with the dashboard and gain some insight into the twitter data on the 
     uganda presidential election process.

@@ -51,14 +51,16 @@ export default class DataCenterPage extends Component {
 
   componentDidMount() {
     DataPageStore.addChangeListener(this._onChange);
-    this.initalDataFetch(3);
+    this.initalDataFetch();
+    this.dataIntervalUpdates();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    this.renderCharts();
     if (this.charts && nextState.newData.length) {
       this.charts.updateData(nextState.newData, nextState.isInitialNewDataUpdate);
       this.charts.reRender();
+    } else {
+      this.createDcCharts(nextState);
     }
     return true;
   }
@@ -71,11 +73,15 @@ export default class DataCenterPage extends Component {
 
   onInitialDataReceived = (worker) => {
     worker.onmessage = (event) => {
-      // console.log(event);
+      console.log(event);
       /* eslint-disable no-unused-expressions*/
-      this.isInitialData ? DataPageActions.getData(event.data) :
+      if (!this.state.aggregate) {
+        DataPageActions.getData(event.data);
+        // console.log('initialized');
+      } else {
         DataPageActions.update(event.data.data, false);
-      this.isInitialData = false;
+        // console.log('updating');
+      }
     };
   }
   onNewUpdateDate = (worker) => {
@@ -90,6 +96,7 @@ export default class DataCenterPage extends Component {
       }
     };
   }
+
   onTimeClick = (range) => {
     const end = range.split('-')[1];
     const now = new Date(this.currentDate);
@@ -125,19 +132,39 @@ export default class DataCenterPage extends Component {
     this.getNewData(now.getTime());
   }
 
+  dataIntervalUpdates() {
+    this.dataUpdateTimeInteval = setInterval(() => {
+      const endDate = new Date();
+      const endTime = endDate.getTime();
+      const startTime = this.currentDate.getTime();
+      // only update if we are viewing todays data
+      if (this.currentDate.getDate() !== endDate.getDate()) return;
+      this.isFirstNewDataPayload = false;
+      const api = `http://${window.location.host}/api/social/twdata/?`;
+      const url = `${api}start=${startTime}&end=${endTime}`;
+      const worker = new Worker;
+      worker.postMessage(url);
+      this.onNewUpdateDate(worker);
+      console.log('preiodic update');
+      this.currentDate = endDate;
+    }, 60000 * 3);
+  }
+
   fetchDataUsingWorkers = (start, options) => {
     const hourParts = options.timeInterval / options.numberOfWorkers;
+    // console.log(`hour parts ${hourParts}`);
     for (let i = 0; i < options.numberOfWorkers; i++) {
       const startTime = start + hourParts * i * this.hour;
       const endTime = start + hourParts * (i + 1) * this.hour;
       const worker = new Worker;
       const url = `${options.api}start=${startTime}&end=${endTime}`;
+      console.log(url);
       worker.postMessage(url);
       options.callback(worker);
     }
   }
 
-  initalDataFetch = (numberOfWorkers) => {
+  initalDataFetch = () => {
     // let n = numberOfWorkers;
     const now = new Date();
     if (now.getHours() < 3) {
@@ -145,17 +172,17 @@ export default class DataCenterPage extends Component {
       now.setHours(new Date().getHours() - 3);
     }
     // TODO hack
-    // now.setHours(new Date().getHours() - 710);
+    // now.setHours(new Date().getHours() - 730);
     // higlight time
-    const upperEndHour = this.rangeOfHoursToFetch(now);
-    if (upperEndHour) now.setHours(upperEndHour);
+    this.rangeOfHoursToFetch(now);
+    // if (upperEndHour) now.setHours(upperEndHour);
     console.log(`now : ${now}`);
     this.currentDate = now;
     const unixStartTime = now.getTime() - (this.timeInterval * this.hour);
     const api = `http://${window.location.host}/api/social/twdata/all/?`;
     this.fetchDataUsingWorkers(unixStartTime, {
       timeInterval: this.timeInterval,
-      numberOfWorkers,
+      numberOfWorkers: this.timeInterval,
       api,
       callback: this.onInitialDataReceived });
   }
@@ -185,7 +212,9 @@ export default class DataCenterPage extends Component {
     return endHour;
   }
 
-  createDcCharts = (data) => {
+  createDcCharts = (store) => {
+    const chartData = store.data.length ? store.data : store.newData;
+    if (!chartData.length) return;
     // chart container ids and callbacks
     const chartOptions = {
       row: [
@@ -205,7 +234,7 @@ export default class DataCenterPage extends Component {
         $('#loader').hide();
       },
     };
-    this.charts = new Charts(data, this.state.aggregate, chartOptions);
+    this.charts = new Charts(chartData, store.aggregate, chartOptions);
     this.charts.init();
   }
 
@@ -235,10 +264,9 @@ export default class DataCenterPage extends Component {
   }
   renderCharts() {
     // TODO fall back incase the first batch of received ata is empty
-    if (this.state.data.length && !this.charts) {
+    if (this.state.aggregate && !this.charts) {
       try {
-        // console.log('initial render');
-        this.createDcCharts(this.state.data);
+        this.createDcCharts(this.state);
       } catch (e) {
         // TODO hack just reload the page this is an error to do with leaflet.js
         if (!e) window.location.assign(this.path);
@@ -285,7 +313,7 @@ export default class DataCenterPage extends Component {
                     <div id ="range"></div>
                     <div className ={s.description}>
                       <small> This chart reperesents total number of mined tweets for particular dates </small>
-                      <small>click on a bar to fetch in data for that date </small>
+                      <small>click on a bar to fetch data for that date </small>
                     </div>
                   </div>
                  <div className= "col-md-6" >

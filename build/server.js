@@ -104,16 +104,14 @@ module.exports =
   
   var _cron2 = _interopRequireDefault(_cron);
   
-  var _morgan = __webpack_require__(97);
-  
-  var _morgan2 = _interopRequireDefault(_morgan);
+  // import morgan from 'morgan';
   
   var CronJob = _cron2['default'].CronJob;
   var server = global.server = (0, _express2['default'])();
   
   server.use(_bodyParser2['default'].json());
   // logger
-  if (process.env.NODE !== 'production') server.use((0, _morgan2['default'])('combined'));
+  // if (process.env.NODE !== 'production') server.use(morgan('combined'));
   
   server.use((0, _compression2['default'])());
   // Register Node.js middleware
@@ -122,12 +120,12 @@ module.exports =
   
   // Register Data analysis API middleware
   // -----------------------------------------------------------------------------
-  server.use('/api', __webpack_require__(98));
+  server.use('/api', __webpack_require__(97));
   
   // Register API middleware
   
   // -----------------------------------------------------------------------------
-  server.use('/api/content', __webpack_require__(103));
+  server.use('/api/content', __webpack_require__(102));
   
   function connect() {
     var options = { server: { socketOptions: { keepAlive: 1 } } };
@@ -3437,10 +3435,15 @@ module.exports =
   
       this.onInitialDataReceived = function (worker) {
         worker.onmessage = function (event) {
-          // console.log(event);
+          console.log(event);
           /* eslint-disable no-unused-expressions*/
-          _this.isInitialData ? _actionsDataPageActions2['default'].getData(event.data) : _actionsDataPageActions2['default'].update(event.data.data, false);
-          _this.isInitialData = false;
+          if (!_this.state.aggregate) {
+            _actionsDataPageActions2['default'].getData(event.data);
+            // console.log('initialized');
+          } else {
+              _actionsDataPageActions2['default'].update(event.data.data, false);
+              // console.log('updating');
+            }
         };
       };
   
@@ -3494,17 +3497,19 @@ module.exports =
   
       this.fetchDataUsingWorkers = function (start, options) {
         var hourParts = options.timeInterval / options.numberOfWorkers;
+        // console.log(`hour parts ${hourParts}`);
         for (var i = 0; i < options.numberOfWorkers; i++) {
           var startTime = start + hourParts * i * _this.hour;
           var endTime = start + hourParts * (i + 1) * _this.hour;
           var worker = new _workerWorker2['default']();
           var url = options.api + 'start=' + startTime + '&end=' + endTime;
+          console.log(url);
           worker.postMessage(url);
           options.callback(worker);
         }
       };
   
-      this.initalDataFetch = function (numberOfWorkers) {
+      this.initalDataFetch = function () {
         // let n = numberOfWorkers;
         var now = new Date();
         if (now.getHours() < 3) {
@@ -3512,17 +3517,17 @@ module.exports =
           now.setHours(new Date().getHours() - 3);
         }
         // TODO hack
-        // now.setHours(new Date().getHours() - 710);
+        // now.setHours(new Date().getHours() - 730);
         // higlight time
-        var upperEndHour = _this.rangeOfHoursToFetch(now);
-        if (upperEndHour) now.setHours(upperEndHour);
+        _this.rangeOfHoursToFetch(now);
+        // if (upperEndHour) now.setHours(upperEndHour);
         console.log('now : ' + now);
         _this.currentDate = now;
         var unixStartTime = now.getTime() - _this.timeInterval * _this.hour;
         var api = 'http://' + window.location.host + '/api/social/twdata/all/?';
         _this.fetchDataUsingWorkers(unixStartTime, {
           timeInterval: _this.timeInterval,
-          numberOfWorkers: numberOfWorkers,
+          numberOfWorkers: _this.timeInterval,
           api: api,
           callback: _this.onInitialDataReceived });
       };
@@ -3545,7 +3550,9 @@ module.exports =
         return endHour;
       };
   
-      this.createDcCharts = function (data) {
+      this.createDcCharts = function (store) {
+        var chartData = store.data.length ? store.data : store.newData;
+        if (!chartData.length) return;
         // chart container ids and callbacks
         var chartOptions = {
           row: [{ id: 'hashtags', field: 'hashtags' }, { id: 'terms', field: 'terms' }, { id: 'emotions', field: 'emotions' }],
@@ -3563,7 +3570,7 @@ module.exports =
             $('#loader').hide();
           }
         };
-        _this.charts = new Charts(data, _this.state.aggregate, chartOptions);
+        _this.charts = new Charts(chartData, store.aggregate, chartOptions);
         _this.charts.init();
       };
   
@@ -3670,7 +3677,7 @@ module.exports =
                         _react2['default'].createElement(
                           'small',
                           null,
-                          'click on a bar to fetch in data for that date '
+                          'click on a bar to fetch data for that date '
                         )
                       )
                     ),
@@ -3873,15 +3880,17 @@ module.exports =
       key: 'componentDidMount',
       value: function componentDidMount() {
         _storesDataPageStore2['default'].addChangeListener(this._onChange);
-        this.initalDataFetch(3);
+        this.initalDataFetch();
+        this.dataIntervalUpdates();
       }
     }, {
       key: 'shouldComponentUpdate',
       value: function shouldComponentUpdate(nextProps, nextState) {
-        this.renderCharts();
         if (this.charts && nextState.newData.length) {
           this.charts.updateData(nextState.newData, nextState.isInitialNewDataUpdate);
           this.charts.reRender();
+        } else {
+          this.createDcCharts(nextState);
         }
         return true;
       }
@@ -3891,6 +3900,27 @@ module.exports =
         this.context.onSetTitle(title);
         _storesDataPageStore2['default'].removeChangeListener(this._onChange);
         this.charts.dcMap.map().remove();
+      }
+    }, {
+      key: 'dataIntervalUpdates',
+      value: function dataIntervalUpdates() {
+        var _this2 = this;
+  
+        this.dataUpdateTimeInteval = setInterval(function () {
+          var endDate = new Date();
+          var endTime = endDate.getTime();
+          var startTime = _this2.currentDate.getTime();
+          // only update if we are viewing todays data
+          if (_this2.currentDate.getDate() !== endDate.getDate()) return;
+          _this2.isFirstNewDataPayload = false;
+          var api = 'http://' + window.location.host + '/api/social/twdata/?';
+          var url = api + 'start=' + startTime + '&end=' + endTime;
+          var worker = new _workerWorker2['default']();
+          worker.postMessage(url);
+          _this2.onNewUpdateDate(worker);
+          console.log('preiodic update');
+          _this2.currentDate = endDate;
+        }, 60000 * 3);
       }
     }, {
       key: 'initialTimeNode',
@@ -3928,10 +3958,9 @@ module.exports =
       key: 'renderCharts',
       value: function renderCharts() {
         // TODO fall back incase the first batch of received ata is empty
-        if (this.state.data.length && !this.charts) {
+        if (this.state.aggregate && !this.charts) {
           try {
-            // console.log('initial render');
-            this.createDcCharts(this.state.data);
+            this.createDcCharts(this.state);
           } catch (e) {
             // TODO hack just reload the page this is an error to do with leaflet.js
             if (!e) window.location.assign(this.path);
@@ -6675,12 +6704,6 @@ module.exports =
 
 /***/ },
 /* 97 */
-/***/ function(module, exports) {
-
-  module.exports = require("morgan");
-
-/***/ },
-/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -6699,11 +6722,11 @@ module.exports =
   
   var _express2 = _interopRequireDefault(_express);
   
-  var _controllersTwitters = __webpack_require__(99);
+  var _controllersTwitters = __webpack_require__(98);
   
   var twitters = _interopRequireWildcard(_controllersTwitters);
   
-  var _controllersInquiries = __webpack_require__(101);
+  var _controllersInquiries = __webpack_require__(100);
   
   var inquiries = _interopRequireWildcard(_controllersInquiries);
   
@@ -6757,22 +6780,22 @@ module.exports =
           raw = context$1$0.sent;
           data = twitters.transform(raw);
   
-          console.log('data count is ' + data.length);
+          // console.log(`data count is ${data.length}`);
           res.status(200).json(data);
-          context$1$0.next = 12;
+          context$1$0.next = 11;
           break;
   
-        case 9:
-          context$1$0.prev = 9;
+        case 8:
+          context$1$0.prev = 8;
           context$1$0.t0 = context$1$0['catch'](0);
   
           next(context$1$0.t0);
   
-        case 12:
+        case 11:
         case 'end':
           return context$1$0.stop();
       }
-    }, null, _this, [[0, 9]]);
+    }, null, _this, [[0, 8]]);
   });
   
   router.post('/inquiries', function callee$0$0(req, res, next) {
@@ -6849,8 +6872,10 @@ module.exports =
   exports['default'] = router;
   module.exports = exports['default'];
 
+  // console.log(`data count initial is ${data.length}`);
+
 /***/ },
-/* 99 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -6873,7 +6898,7 @@ module.exports =
   
   var _modelsTwitter2 = _interopRequireDefault(_modelsTwitter);
   
-  var _async2 = __webpack_require__(100);
+  var _async2 = __webpack_require__(99);
   
   var _async3 = _interopRequireDefault(_async2);
   
@@ -6974,13 +6999,13 @@ module.exports =
   }
 
 /***/ },
-/* 100 */
+/* 99 */
 /***/ function(module, exports) {
 
   module.exports = require("async");
 
 /***/ },
-/* 101 */
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -6993,7 +7018,7 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _modelsInquiry = __webpack_require__(102);
+  var _modelsInquiry = __webpack_require__(101);
   
   var _modelsInquiry2 = _interopRequireDefault(_modelsInquiry);
   
@@ -7025,7 +7050,7 @@ module.exports =
   }
 
 /***/ },
-/* 102 */
+/* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -7065,7 +7090,7 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 103 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
   
@@ -7088,7 +7113,7 @@ module.exports =
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
   
-  var _fs = __webpack_require__(104);
+  var _fs = __webpack_require__(103);
   
   var _fs2 = _interopRequireDefault(_fs);
   
@@ -7096,15 +7121,15 @@ module.exports =
   
   var _express = __webpack_require__(3);
   
-  var _bluebird = __webpack_require__(105);
+  var _bluebird = __webpack_require__(104);
   
   var _bluebird2 = _interopRequireDefault(_bluebird);
   
-  var _jade = __webpack_require__(106);
+  var _jade = __webpack_require__(105);
   
   var _jade2 = _interopRequireDefault(_jade);
   
-  var _frontMatter = __webpack_require__(107);
+  var _frontMatter = __webpack_require__(106);
   
   var _frontMatter2 = _interopRequireDefault(_frontMatter);
   
@@ -7208,25 +7233,25 @@ module.exports =
   module.exports = exports['default'];
 
 /***/ },
-/* 104 */
+/* 103 */
 /***/ function(module, exports) {
 
   module.exports = require("fs");
 
 /***/ },
-/* 105 */
+/* 104 */
 /***/ function(module, exports) {
 
   module.exports = require("bluebird");
 
 /***/ },
-/* 106 */
+/* 105 */
 /***/ function(module, exports) {
 
   module.exports = require("jade");
 
 /***/ },
-/* 107 */
+/* 106 */
 /***/ function(module, exports) {
 
   module.exports = require("front-matter");
