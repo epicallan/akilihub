@@ -73,7 +73,7 @@ export default class DataCenterPage extends Component {
 
   onInitialDataReceived = (worker) => {
     worker.onmessage = (event) => {
-      console.log(event);
+      // console.log(event);
       /* eslint-disable no-unused-expressions*/
       if (!this.state.aggregate) {
         DataPageActions.getData(event.data);
@@ -145,7 +145,7 @@ export default class DataCenterPage extends Component {
       const worker = new Worker;
       worker.postMessage(url);
       this.onNewUpdateDate(worker);
-      console.log('preiodic update');
+      // console.log('preiodic update');
       this.currentDate = endDate;
     }, 60000 * 3);
   }
@@ -158,7 +158,7 @@ export default class DataCenterPage extends Component {
       const endTime = start + hourParts * (i + 1) * this.hour;
       const worker = new Worker;
       const url = `${options.api}start=${startTime}&end=${endTime}`;
-      console.log(url);
+      // console.log(url);
       worker.postMessage(url);
       options.callback(worker);
     }
@@ -176,7 +176,7 @@ export default class DataCenterPage extends Component {
     // higlight time
     this.rangeOfHoursToFetch(now);
     // if (upperEndHour) now.setHours(upperEndHour);
-    console.log(`now : ${now}`);
+    // console.log(`now : ${now}`);
     this.currentDate = now;
     const unixStartTime = now.getTime() - (this.timeInterval * this.hour);
     const api = `http://${window.location.host}/api/social/twdata/all/?`;
