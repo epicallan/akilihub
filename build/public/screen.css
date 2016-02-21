@@ -1,0 +1,199 @@
+/***dom high level***/
+
+.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/***nav****/
+
+#navbar-override {
+  background-color: #5B798E;
+  border-color: #5B798E;
+}
+#navbar-override .nav-scroll {
+  background-color: rgba(245, 245, 245, 0.5);
+}
+#navbar-override a {
+  color: #ffffff;
+}
+#navbar-override .navbar-collapse {
+  margin-top: 0.5em;
+}
+#navbar-override a:hover,#navbar-override a:active, #navbar-override a:focus{
+  color: #CFD9FF;
+}
+#sub-menu-override a:hover,#sub-menu-override a:active,#sub-menu-override a:focus{
+  background-color: none;
+  color:#a94442;
+}
+/**universal**/
+.page-title{
+  font-size: 1.35em;
+  margin-left: 4em;
+  padding-top: 1em;
+}
+.articles{
+  padding-left: 5em;
+  padding-right: 4em;
+}
+.charts-dashboard {
+  padding-left: 4em;
+}
+.sub-menu li{
+  list-style: none;
+  padding-top: 0.5em;
+  margin-left: 5em;
+}
+/**utility classes**/
+.partial{
+  color: #333;
+  background-color: rgba(204, 204, 204, 0.36);
+  border-color: rgba(173, 173, 173, 0.18);
+}
+
+.box {
+  -webkit-border-radius: 3.5px;
+  -moz-border-radius: 3.5px;
+  -ms-border-radius: 3.5px;
+  border-radius: 0.5em;
+}
+.show {
+  display: block;
+}
+.spacing, .copy {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+.spacing-md {
+  margin-top: 6em;
+  margin-bottom: 6em;
+}
+.spacing-sm {
+  margin-top: 5em;
+  margin-bottom: 3em;
+}
+.spacing-xsm {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+/***home page***/
+
+.icon-cover {
+  border: solid;
+  border-radius: 6em;
+  height: 14em;
+}
+.fa-5x {
+  font-size: 13em;
+}
+.main {
+  padding-bottom: 7em;
+  padding-top: 7em;
+}
+.products{background-color: #C78685;}
+.products a {color: #dff0d8}
+.services{background-color: #68B569}
+.section p {
+  line-height: 2em;
+}
+.footer-nav {
+  background-color: white;
+  border-radius: 1em;
+  height: 50px;
+}
+.footer-nav li {
+  display: inline;
+  padding: 4em;
+}
+.footer-nav a {
+  color: white;
+  font-size: 1.1em;
+}
+.social {
+  margin-top: 0.2em;
+}
+.social a {
+  color: white;
+  font-size: 2.0em;
+  padding: 0.2em;
+}
+.btn {
+  background-color: #B76565;
+  color: white;
+}
+#data-link{
+  color: #dff0d8;
+  background-color: #5B798E;
+}
+.btn-default.active, .btn-default.focus, .btn-default:active, .btn-default:focus, .btn-default:hover, .open > .dropdown-toggle.btn-default {
+  color: #B76565;
+}
+.modal-content {
+  color: #5B798E;
+}
+.clicked{
+  fill: #00ff00;
+}
+/*dashboard */
+.charts{
+  padding-left: 3em;
+}
+/* Handheld. Handles both portrait and landscape. */
+@media (min-width: 320px) and (max-width: 568px) {
+  .page-title {
+    margin-left: 1em;
+  }
+  .charts{
+    padding-left: 0em;
+  }
+  .sub-menu li{
+    list-style: none;
+    padding-top: 0.5em;
+    margin-left: 2em;
+  }
+  .articles, .charts-dashboard{
+    padding-left: 0em;
+    padding-right: 0em;
+  }
+  .main {
+    padding-bottom: 4em;
+    padding-top: 4em;
+  }
+  /*tables */
+		#table { display: block; position: relative; width: 100%; }
+		#table thead { display: block; float: left; }
+		#table tbody { display: -webkit-box; overflow-x: auto; }
+		#table th,
+		#table tr,
+		#table td { display: block; }
+
+		/* sort out borders */
+
+		.rt th { border-bottom: 0; }
+		.rt td { border-left: 0; border-right: 0; border-bottom: 0; }
+		.rt tbody tr { border-right: 1px solid #babcbf; }
+		.rt th:last-child,
+		.rt td:last-child { border-bottom: 1px solid #babcbf; }
+
+}
+
+/* Tablet. Handles both portrait and landscape. */
+@media (min-width: 600px) and (max-width: 800px) {
+  .charts{
+    padding-left: 0.5em;
+  }
+  .page-title {
+    margin-left: 2em;
+  }
+  .articles, .charts-dashboard{
+    padding-left: 0em;
+    padding-right: 0em;
+  }
+  .sub-menu li{
+    list-style: none;
+    padding-top: 0.5em;
+    margin-left: 2em;
+  }
+}

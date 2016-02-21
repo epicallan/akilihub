@@ -1,0 +1,44 @@
+---
+title: Blog
+component: ContentPage
+---
+article.spacing-xsm
+  P.
+    Creating the twitter data Visualisation dashboard on the presidential race in Uganda
+    has been a two pronged process.
+    One Part invloving getting the twitter data (data mining), cleaning up, tranforming, analysing and
+    eventually visualising it on a web application.
+  P.
+    For data mining the twitter data we made use of the twitter streaming api, and put together keywords
+    that would represent the kind of tweets we would like to obtain from twitter. 
+    for the curious the code is available on.
+  a(href='https://github.com/epicallan/data-mining') github 
+  h5.spacing-xsm
+    | Identifying Tweet Sentiments and Terms
+  P.  
+    Inorder to identify what was the most common sentiment expressed with in the tweets we decided to
+    take a look at the most common adjectives people were using to convey the messages with in their 
+    tweets, and then we would plot the top 5.
+  P.
+    Simillar steps were taken in Identifying the most common used terms in all the tweets of a particular
+    time range and date. 
+    This involved looking out for the most common nouns with in tweets while excluding name of people.
+  h5.spacing-xsm
+    | Identifying Possible geospatial location of tweets
+  P.
+    Its common knowledge that alot of twitter users dont turn on geotagging on their tweets making it hard
+    to geo tag their tweets. 
+    Therefore in order to approximate the geospatial location of most tweets, we use a twitter user's
+    provided location found in their profile information.
+  P.
+    In some cases we use the time zone information provided in tweets to approximate the possible geospatial
+    location of the tweets.
+  h5.spacing-xsm
+    | Putting it all together.
+  P.
+    The twitter dashboard and the website on which its hosted as been an interesting web develpment, 
+    data mining and data analytics challenge that allowed us to explore new clever ways of solving 
+    certain tasks in software develpment.
+  P.
+    Our hope is that people get to play with the dashboard and gain some insight into the twitter data on the 
+    uganda presidential election process.
