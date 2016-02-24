@@ -11,8 +11,6 @@ import TimeRange from './TimeRange';
 const isBrowser = typeof window !== 'undefined';
 import moment from 'moment';
 const Charts = isBrowser ? require('../Charts') : undefined;
-// import $ from 'jquery';
-// import testData from './data';
 
 function getStateFromStores() {
   return DataPageStore.getStoreState();
@@ -73,7 +71,7 @@ export default class DataCenterPage extends Component {
 
   onInitialDataReceived = (worker) => {
     worker.onmessage = (event) => {
-      // console.log(event);
+      console.log(event);
       /* eslint-disable no-unused-expressions*/
       if (!this.state.aggregate) {
         DataPageActions.getData(event.data);
@@ -165,20 +163,17 @@ export default class DataCenterPage extends Component {
   }
 
   initalDataFetch = () => {
-    // let n = numberOfWorkers;
-    const now = new Date();
-    if (now.getHours() < 3) {
+    // arbitrary fetching data for a specific data
+    const date = new Date('2016-02-24 12:00');
+    if (date.getHours() < 3) {
       // TODO not working as intended
-      now.setHours(new Date().getHours() - 3);
+      date.setHours(new Date().getHours() - 3);
     }
-    // TODO hack
-    // now.setHours(new Date().getHours() - 8);
-    // higlight time
-    this.rangeOfHoursToFetch(now);
-    // if (upperEndHour) now.setHours(upperEndHour);
-    // console.log(`now : ${now}`);
-    this.currentDate = now;
-    const unixStartTime = now.getTime() - (this.timeInterval * this.hour);
+    // console.log(date);
+    // selects a time range to highlight
+    this.rangeOfHoursToFetch(date);
+    this.currentDate = date;
+    const unixStartTime = date.getTime() - (this.timeInterval * this.hour);
     const api = `http://${window.location.host}/api/social/twdata/all/?`;
     this.fetchDataUsingWorkers(unixStartTime, {
       timeInterval: this.timeInterval,
@@ -188,7 +183,8 @@ export default class DataCenterPage extends Component {
   }
 
   initialTimeNode(endHour) {
-    const startHour = endHour < this.timeInterval ? endHour + this.timeInterval : endHour - this.timeInterval;
+    const startHour = endHour < this.timeInterval ? endHour + this.timeInterval
+                      : endHour - this.timeInterval;
     const nodeName = `${startHour}-${endHour}`;
     const node = document.getElementById(nodeName);
     return node;
@@ -242,18 +238,6 @@ export default class DataCenterPage extends Component {
     this.setState(getStateFromStores());
   }
 
-  computeMapDivWidth() {
-    let width = 500;
-    let height = 400;
-    if (window.innerWidth < 500) {
-      width = window.innerWidth - window.innerWidth * 0.2;
-      height = width * 0.9;
-    }
-    return {
-      width: `${width}px`,
-      height: `${height}px`,
-    };
-  }
   currentMomentDate() {
     let date = null;
     if (this.currentDate) {
@@ -276,7 +260,6 @@ export default class DataCenterPage extends Component {
     }
   }
   render = () => {
-    const divStyle = isBrowser ? this.computeMapDivWidth() : null;
     return (
       <div className={cx(s.root, 'container-fluid')}>
         <h1 className="page-title"> AKILIHUB Data Innovation Center</h1>
@@ -353,7 +336,7 @@ export default class DataCenterPage extends Component {
                 <div className={cx('row', 'spacing-xsm', s.chart)}>
                   <div className = "col-md-8" ref="mapCont" id="mapCont">
                     <h4> Geolocating possible source of tweets</h4>
-                    <div id ="map" className = {s.chart} ref="map" style={divStyle} > </div>
+                    <div id ="map" className = {cx(s.chart, s.map)} ref="map" > </div>
                   </div>
                   <div className = "col-md-4">
                       <h4> Most Active Twitter users </h4>
