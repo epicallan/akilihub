@@ -50,7 +50,7 @@ export default class DataCenterPage extends Component {
   componentDidMount() {
     DataPageStore.addChangeListener(this._onChange);
     this.initalDataFetch();
-    this.dataIntervalUpdates();
+    // this.realTimeUpdates();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -130,7 +130,8 @@ export default class DataCenterPage extends Component {
     this.getNewData(now.getTime());
   }
 
-  dataIntervalUpdates() {
+  realTimeUpdates() {
+    // real time data updates
     this.dataUpdateTimeInteval = setInterval(() => {
       const endDate = new Date();
       const endTime = endDate.getTime();
